@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+	background-color: rgb(54, 59, 66);
+	margin: 0px;
+	padding: 0px;
+	box-sizing: border-box;
+	font-family: 'Roboto Mono', monospace;
+    color:white;
+}
+
+input {
+	color: black;
+	border-radius:6px;
+	border: 1px solid gray;
+	padding-left: 2px;
+}
+
+middle {
+	width:100%;
+	display: flex;
+	justify-content: center;
+}
+
+h6 {
+	font-size: 1.25rem/* 20px */;
+    line-height: 1.75rem/* 28px */;
+	font-weight: 700;
+}
+
+.box{
+    background-color: rgb(31 41 55);
+	/* background-image: linear-gradient(rgb(43, 43, 43), rgb(0, 29, 76)); */
+	border-radius: 0.5rem;
+    border-color: rgb(255 255 255);
+	border-width: 1px;
+	padding: 0.75rem/* 12px */;
+	--tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+button {
+	border: 1px solid rgb(21, 128, 61);
+	border-radius:8px;
+	padding-left: 6px;
+	padding-right: 6px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
+
+.submit {
+	background-image: linear-gradient(to bottom right, rgb(21, 128, 61), rgb(74, 222, 128));
+	border-color: rgb(21, 128, 61);
+}
+
+button:hover {
+	border-color: white;
+}
