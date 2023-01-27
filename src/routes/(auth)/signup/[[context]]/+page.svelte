@@ -4,14 +4,14 @@
     const title = "Sign Up";
 
     export let data:any;
-    export let form:any = data?.form ?? {};
+    export let form:any;
 </script>
 <svelte:head>
     <title>{title}</title>
 </svelte:head>
 
 <middle>
-    <Form {title} {form} action="signup" inputs={[
+    <Form {title} {data} {form} action="signup" inputs={[
         {label:"Email",    placeholder:"Enter Email",      type:"text",     name:"email", cols:6},
         {label:"First",    placeholder:"First Name",       type:"text",     name:"fname", cols:3},
         {label:"Last",     placeholder:"Last Name",        type:"text",     name:"lname", cols:3},

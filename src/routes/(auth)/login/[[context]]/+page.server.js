@@ -5,6 +5,14 @@ import crypto from 'node:crypto';
 
 const client = new MongoClient(MONGODB);
 
+export function load({ params }) {
+    let data = {};
+    switch(params?.context){
+        case 'n': data.success = "Your account has been successfully created! Log in to get started.";break;
+    }
+    return data;
+}
+
 export const actions = {
     login: async ({ request }) => {
         //Receive data from form
@@ -41,7 +49,7 @@ export const actions = {
         }
 
         //Redirect unverified accounts
-        if(user.flags?.verification_key) throw redirect(307, `/verify-${user.username}/l`);
+        if(user.flags?.verification_key) throw redirect(307, `/verify/${user.username}/l`);
 
         data.success="Works";
         return data;

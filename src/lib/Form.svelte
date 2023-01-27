@@ -7,6 +7,7 @@
     import { enhance } from '$app/forms';
 
     export let form:any;
+    export let data:any = {};
 
     //export let enhance:Function;
     export let action:string;
@@ -36,11 +37,14 @@
     <center class="col-span-6"><h6>{title}</h6></center>
 
     <div class="grid grid-cols-1">
-        {#if form?.success}
-            <p transition:slide class="success" style="width:200px">{form.success}</p>
+        {#if data?.success}
+            <p transition:slide class="success" style="width:200px">{data.success}</p>
         {/if}
-        {#if form?.alert}
-            <p transition:slide class="alert" style="width:200px">{form.alert}</p>
+        {#if data?.alert}
+            <p transition:slide class="alert" style="width:200px">{data.alert}</p>
+        {/if}
+        {#if data?.error}
+            <p transition:slide class="error" style="width:200px">{data.error}</p>
         {/if}
     </div>
 
@@ -58,11 +62,17 @@
         </label>
     {/each}
 
-    <div>
+    <div class="grid grid-cols-1">
+        {#if form?.success}
+            <p transition:slide class="success" style="width:200px">{form.success}</p>
+        {/if}
+        {#if form?.alert}
+            <p transition:slide class="alert" style="width:200px">{form.alert}</p>
+        {/if}
         {#if form?.error}
             <p transition:slide class="error" style="width:200px">{form.error}</p>
         {/if}
     </div>
 
-    <center class="col-span-6 bg-green mt-2"><button class="submit" disabled={loading}>Submit</button></center>
+    <center class="col-span-6 bg-green mt-2"><button class="submit" disabled={loading}>{loading ? "Loading..." : "Submit"}</button></center>
 </form>

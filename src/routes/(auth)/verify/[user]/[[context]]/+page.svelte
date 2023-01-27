@@ -1,17 +1,19 @@
 <script lang="ts">
     import Form from '$lib/Form.svelte';
+    import { onMount } from 'svelte';
 
-    const title = "Verify email";
+    const title = "Verify Email";
 
     export let data:any;
-    export let form:any = data?.form ?? {};
+    export let form:any;
+
 </script>
 <svelte:head>
     <title>{title}</title>
 </svelte:head>
 
 <middle>
-    <Form {title} {form} action="verify" inputs={[
+    <Form {title} {data} {form} action="verify" inputs={[
         {label:"Verification Code", placeholder:"", type:"text", name:"key", cols:6}
     ]}/>
 </middle>

@@ -9,7 +9,7 @@ const client = new MongoClient(MONGODB);
 export function load({ params }){
     let data = {};
     switch(params?.context){
-        case 'verify-timeout': data.form.alert = "Your verification code timed out, so you will need to restart the account creation process."
+        case 'verify-timeout': data.alert = "Your verification code timed out, so you will need to restart the account creation process.";break;
     }
     return data;
 }
@@ -89,8 +89,7 @@ export const actions = {
             }
         } else data.error = "Something went wrong!";
 
-
-        if(data?.success) throw redirect(307, `/verify-${data.uname}/s`);
+        if(data?.success) throw redirect(307, `/verify/${data.uname}/s`);
         else return fail(500, data);
     }
 }
@@ -121,6 +120,7 @@ async function create(client, data) {
         permissions: [],
         flags: { verification_key: key }
     });
+    console.log(result);
     if(result) return key;
     else return false;
 }
