@@ -38,7 +38,7 @@ export const actions = {
         const user = await client.db("main").collection("users").findOne({ username:params.user });
         
         if(key == user?.flags?.verification_key){
-            await client.db("main").collection("users").updateOne({ username:params.user }, { $unset:{ flags.verification_key:"" } });
+            await client.db("main").collection("users").updateOne({ username:params.user }, { $unset:{ "flags.verification_key":"" } });
             throw redirect(307, '/login/n');
         }else{
             return fail(401, {
