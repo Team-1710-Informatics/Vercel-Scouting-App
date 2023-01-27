@@ -4,7 +4,7 @@ import { fail, redirect } from '@sveltejs/kit';
 
 const client = new MongoClient(MONGODB);
 
-export function load({ params }) {
+export async function load({ params }) {
     // Verify that account exists and is unverified
     await client.connect();
 
