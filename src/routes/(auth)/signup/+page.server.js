@@ -119,8 +119,8 @@ async function create(client, data) {
 async function email(email, key, fname){
     let transporter = nodemailer.createTransport({
         host: EMAIL_HOST,
-        port: 587,
-        secure: false, // true for 465, false for other ports
+        port: 465,
+        secure: true, // true for 465, false for other ports
         tls: {
             rejectUnauthorized: false
         },
