@@ -35,6 +35,15 @@
 }}>
     <center class="col-span-6"><h6>{title}</h6></center>
 
+    <div class="grid grid-cols-1">
+        {#if form?.success}
+            <p transition:slide class="success" style="width:200px">{form.success}</p>
+        {/if}
+        {#if form?.alert}
+            <p transition:slide class="alert" style="width:200px">{form.alert}</p>
+        {/if}
+    </div>
+
     {#each inputs as field}
         <label style="grid-column: span {field.cols} / span {field.cols};">
             <p hidden={field?.label == undefined}>{field?.label}</p>
@@ -49,13 +58,7 @@
         </label>
     {/each}
 
-    <div class="grid grid-cols-1">
-        {#if form?.success}
-            <p transition:slide class="success" style="width:200px">{form.success}</p>
-        {/if}
-        {#if form?.alert}
-            <p transition:slide class="alert" style="width:200px">{form.alert}</p>
-        {/if}
+    <div>
         {#if form?.error}
             <p transition:slide class="error" style="width:200px">{form.error}</p>
         {/if}

@@ -1,13 +1,18 @@
 import { MongoClient } from 'mongodb';
-import { MONGODB } from '$env/static/private';
-import { fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import crypto from 'node:crypto';
 import nodemailer from 'nodemailer';
-import { EMAIL_HOST } from '$env/static/private';
-import { EMAIL } from '$env/static/private';
-import { EMAIL_PASSWORD } from '$env/static/private';
+import { MONGODB, EMAIL_HOST, EMAIL, EMAIL_PASSWORD } from '$env/static/private';
 
 const client = new MongoClient(MONGODB);
+
+export function load({ params }){
+    let data = {};
+    switch(params?.context){
+        case 'verify-timeout': data.form.alert = "Your verification code timed out, so you will need to restart the account creation process."
+    }
+    return data;
+}
 
 export const actions = {
     signup: async ({ request }) => {
@@ -70,8 +75,10 @@ export const actions = {
             return fail(400, data);
         }
 
+        //Create account
         const key = await create(client, data);
 
+        //Send verification email
         if(key) {
             const state = await email(data.email, key, data.fname).catch(console.error);
             if(state) data.success = "Success!";
@@ -82,7 +89,9 @@ export const actions = {
             }
         } else data.error = "Something went wrong!";
 
-        return data;
+
+        if(data?.success) throw redirect(307, `/verify-${data.uname}/s`);
+        else return fail(500, data);
     }
 }
 

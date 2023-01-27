@@ -1,6 +1,6 @@
 import { MongoClient } from 'mongodb';
 import { MONGODB } from '$env/static/private';
-import { fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import crypto from 'node:crypto';
 
 const client = new MongoClient(MONGODB);
@@ -39,6 +39,10 @@ export const actions = {
             data.error = "Invalid username or password!";
             return fail(401, data);
         }
+
+        //Redirect unverified accounts
+        if(user.flags?.verification_key) throw redirect(307, `/verify-${user.username}/l`);
+
         data.success="Works";
         return data;
     }

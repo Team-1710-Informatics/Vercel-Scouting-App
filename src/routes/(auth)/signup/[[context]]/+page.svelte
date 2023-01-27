@@ -3,7 +3,8 @@
 
     const title = "Sign Up";
 
-    export let form:any;
+    export let data:any;
+    export let form:any = data?.form ?? {};
 </script>
 <svelte:head>
     <title>{title}</title>
