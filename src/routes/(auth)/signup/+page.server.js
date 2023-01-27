@@ -122,7 +122,7 @@ async function email(email, key, fname){
         port: 465,
         secure: true, // true for 465, false for other ports
         tls: {
-            rejectUnauthorized: false
+            rejectUnauthorized: true
         },
         auth: {
             user: EMAIL,
