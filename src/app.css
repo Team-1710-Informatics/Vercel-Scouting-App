@@ -3,6 +3,8 @@
 @tailwind utilities;
 
 body {
+	width:100%;
+	min-height:100vh;
 	background-color: rgb(54, 59, 66);
 	margin: 0px;
 	padding: 0px;
@@ -19,9 +21,12 @@ input {
 }
 
 middle {
-	width:100%;
-	display: flex;
+	display:flex;
+	flex: 0 auto;
+	flex-direction:column;
 	justify-content: center;
+    align-items: center;
+    align-content: center;
 }
 
 h6 {
@@ -43,7 +48,8 @@ h6 {
 }
 
 button {
-	border: 1px solid rgb(21, 128, 61);
+	border: 1px solid rgb(29, 78, 216);
+	background-image: linear-gradient(to bottom right, rgb(37, 99, 235), rgb(96, 165, 250));
 	border-radius:8px;
 	padding-left: 6px;
 	padding-right: 6px;
@@ -58,4 +64,32 @@ button {
 
 button:hover {
 	border-color: white;
+}
+
+button:disabled {
+	opacity:50%
+}
+
+.error {
+	background-color: rgb(252, 165, 165);
+	color: rgb(239, 68, 68);
+	border: 1px solid rgb(239, 68, 68);
+	border-radius: 8px;
+	padding: 4px;
+}
+
+.alert {
+	background-color: rgb(253, 230, 138);
+	color: rgb(251, 191, 36);
+	border: 1px solid rgb(251, 191, 36);
+	border-radius: 8px;
+	padding: 4px;
+}
+
+.success {
+	background-color: rgb(134, 239, 172);
+	color: rgb(34, 197, 94);
+	border: 1px solid rgb(34, 197, 94);
+	border-radius: 8px;
+	padding: 4px;
 }
