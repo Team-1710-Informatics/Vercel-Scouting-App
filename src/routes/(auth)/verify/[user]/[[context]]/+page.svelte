@@ -1,6 +1,5 @@
 <script lang="ts">
-    import Form from '$lib/Form.svelte';
-    import { onMount } from 'svelte';
+    import Form from '$lib/components/Form.svelte';
 
     const title = "Verify Email";
 

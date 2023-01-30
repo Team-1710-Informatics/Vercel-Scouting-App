@@ -14,7 +14,7 @@ export function load({ params }) {
 }
 
 export const actions = {
-    login: async ({ request }) => {
+    login: async ({ request, cookies }) => {
         //Receive data from form
         const input = await request.formData();
         const data = {};
@@ -51,8 +51,17 @@ export const actions = {
         //Redirect unverified accounts
         if(user.flags?.verification_key) throw redirect(307, `/verify/${user.username}/l`);
 
-        data.success="Works";
-        return data;
+        //Establish session
+        let token = crypto.randomUUID();
+        await client.db("main").collection("users").updateOne({ username:user.username }, { $set:{ token:token } });
+
+        cookies.set('session', token, {
+            path: '/',
+            sameSite: 'strict',
+            maxAge: 60 * 60 * 24
+        });
+
+        throw redirect(302, '/hub');
     }
 }
 

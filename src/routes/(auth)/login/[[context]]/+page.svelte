@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Form from '$lib/Form.svelte';
+    import Form from '$lib/components/Form.svelte';
 
     const title = "Login";
 
