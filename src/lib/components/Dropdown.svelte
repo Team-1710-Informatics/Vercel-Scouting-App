@@ -40,7 +40,7 @@
 
 <div on:focusout={()=>{show=false}}>
     <button class="flex flex-row py-0" on:click={()=>{show=!show}} bind:offsetHeight={h} bind:offsetWidth={w} bind:this={button}>
-        <img alt="caret-symbol" class="mr-1" style="transform:rotate(-{$caretAngle}deg)" src={caret}>{name}
+        <p class="flex flex-row"><img alt="caret-symbol" class="mr-1" style="transform:rotate(-{$caretAngle}deg)" src={caret}>{name}</p>
     </button>
 
     {#if show}

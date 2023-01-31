@@ -24,7 +24,6 @@ export const actions = {
             data.error = "Something went wrong!";
         }
         return data;
-
     }
 }
 
