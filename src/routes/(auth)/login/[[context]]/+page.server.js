@@ -49,6 +49,7 @@ export const actions = {
             }else{
                 client.db("main").collection("users").updateOne({email:user.email}, {$set:{"flags.reset":key}});
                 data.alert = `Due to a change in infrastructure you will need to set a new password. We have sent an email contaning instructions to ${user.email}.`;
+                return data;
             }
         }
 
