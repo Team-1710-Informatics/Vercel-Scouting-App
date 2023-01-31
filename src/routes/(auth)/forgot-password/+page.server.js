@@ -17,8 +17,14 @@ export const actions = {
         }
 
         const key = crypto.randomUUID();
+        if(await email(user.email, key)){
+            await client.db("main").collection("users").updateOne({ email: data.email }, {$set: {"flags.reset": key}});
+            data.success = "You have been sent an email containing instructions to reset your password.";
+        }else{
+            data.error = "Something went wrong!";
+        }
+        return data;
 
-        await client.db("main").collection("users").updateOne({ email: data.email }, {$set: {"flags.reset": key}});
     }
 }
 

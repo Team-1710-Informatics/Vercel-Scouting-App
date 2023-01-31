@@ -24,12 +24,12 @@ export const actions = {
         const input = await request.formData();
         const data = { pass1:input.get("pass1"), pass2:input.get("pass2") };
 
-        if(pass1 != pass2){
+        if(data.pass1 != data.pass2){
             data.error = "Passwords do not match!";
             return fail(400, data);
         }
 
-        if(pass1.length < 8){
+        if(data.pass1.length < 8){
             data.error = "Password must be at least 8 characters in length";
             return fail(400, data);
         }
