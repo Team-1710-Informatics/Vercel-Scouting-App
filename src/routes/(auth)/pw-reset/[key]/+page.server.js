@@ -5,7 +5,7 @@ import { fail, redirect } from "@sveltejs/kit";
 
 const client = new MongoClient(MONGODB);
 
-export function load({ params }) {
+export async function load({ params }) {
     await client.connect();
 
     const key = params.key;
