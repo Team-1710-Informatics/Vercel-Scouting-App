@@ -1,5 +1,6 @@
 import { MongoClient } from "mongodb";
 import { MONGODB, EMAIL, EMAIL_HOST, EMAIL_PASSWORD } from "$env/static/private";
+import nodemailer from 'nodemailer';
 
 const client = new MongoClient(MONGODB);
 

@@ -1,7 +1,8 @@
 import { MongoClient } from 'mongodb';
-import { MONGODB } from '$env/static/private';
+import { MONGODB, EMAIL, EMAIL_HOST, EMAIL_PASSWORD } from '$env/static/private';
 import { fail, redirect } from '@sveltejs/kit';
 import crypto from 'node:crypto';
+import nodemailer from 'nodemailer';
 
 const client = new MongoClient(MONGODB);
 
@@ -43,12 +44,13 @@ export const actions = {
         //Password migration
         if(user.password.hash == "unset"){
             const key = crypto.randomUUID();
-            if(!email(user.email, key)) {
+            const state = await email(user.email, key);
+            if(!state) {
                 data.error = "Something went wrong!";
                 return data;
             }else{
                 client.db("main").collection("users").updateOne({email:user.email}, {$set:{"flags.reset":key}});
-                data.alert = `Due to a change in infrastructure you will need to set a new password. We have sent an email contaning instructions to ${user.email}.`;
+                data.alert = `Due to a change in infrastructure you will need to set a new password. We have sent an email containing instructions to ${user.email}.`;
                 return data;
             }
         }
