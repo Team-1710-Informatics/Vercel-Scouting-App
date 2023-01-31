@@ -47,8 +47,7 @@ async function email(email, key){
                     from: `"Team 1710 Scouting" <${EMAIL}>`,
                     to: `${email}`,
                     subject: "Scouting Password Reset",
-                    text: `You may reset your scouting password at https://team1710scouting.vercel.app/pw-reset/${key}.\n\nIf this was not you, please ignore this email.`,
-                    html: `<b>Reset Password</b><br><br>You may reset your password <a href="https://team1710scouting.vercel.app/pw-reset/${key}>here</a>.<br><br>If this was not you, please ignore this email.`
+                    text: `You may reset your scouting password at https://team1710scouting.vercel.app/pw-reset/${key}.\n\nIf this was not you, please ignore this email.`
                 }).then((res)=>{
                     console.log(res);
                     resolve(true);

@@ -150,9 +150,7 @@ async function email(email, key, fname){
                     from: `"Team 1710 Scouting" <${EMAIL}>`,
                     to: `${email}`,
                     subject: "Verify Scouting Account",
-                    text: `Hello, ${fname}!\n\nThank you for signing up for Team 1710's Scouting App!\nYour verification code is ${key}`,
-                    html: `<b>Hello, ${fname}!</b><br><br>Thank you for signing up for Team 1710's Scouting App!<br>Your verification code is <b>${key}</b>`
-                }).then((res)=>{
+                    text: `Hello, ${fname}!\n\nThank you for signing up for Team 1710's Scouting App!\nYour verification code is ${key}`                }).then((res)=>{
                     console.log(res);
                     resolve(true);
                 }).catch((err)=>{
