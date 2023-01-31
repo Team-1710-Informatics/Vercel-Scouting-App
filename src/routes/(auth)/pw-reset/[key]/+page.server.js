@@ -1,5 +1,5 @@
 import { MongoClient } from "mongodb";
-import { MONGODB, EMAIL, EMAIL_HOST, EMAIL_PASSWORD } from "$env/static/private";
+import { MONGODB } from "$env/static/private";
 import crypto from "node:crypto";
 import { fail, redirect } from "@sveltejs/kit";
 
@@ -21,7 +21,7 @@ export const actions = {
     reset: async ({ request, params }) => {
         await client.connect();
         const key = params.key;
-        const input = request.formData();
+        const input = await request.formData();
         const data = { pass1:input.get("pass1"), pass2:input.get("pass2") };
 
         if(pass1 != pass2){
@@ -38,7 +38,7 @@ export const actions = {
         let hash = salt + data.pass1;
         for(let i = 0; i < 1145; i++) hash = crypto.createHash("sha512").update(hash).digest('hex');
 
-        const user = await client.db("main").collection("users").updateOne({ "flags.reset":key }, {
+        await client.db("main").collection("users").updateOne({ "flags.reset":key }, {
             $set:{ password:{hash:hash,salt:salt} },
             $unset:{"flags.reset":""}
         });
