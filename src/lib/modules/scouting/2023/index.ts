@@ -48,5 +48,5 @@ type IntakeAction = {
     actionName: "intake";
     type:Piece;
     substation:boolean;
-    method:"shelf" | "chute" | "floor" | "grid";
+    method: "shelf" | "chute" | "floor" | "grid";
 }

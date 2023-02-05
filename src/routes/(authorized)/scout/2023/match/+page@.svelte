@@ -3,7 +3,25 @@
     import Timer from './Timer.svelte';
     import Inventory from './Inventory.svelte';
     import Grid from './Grid.svelte';
-    import { setContext } from 'svelte';
+
+    type InventoryItem = {
+        time:number,
+        type:"cone"|"cube",
+        substation:boolean,
+        method:"shelf"|"chute"|"floor"|{x:number,y:number}
+    }
+
+    let state:{
+        time:number,
+        started:boolean,
+        inventory:InventoryItem[],
+        actions:any[]
+    } = {
+        time:0,
+        started:false,
+        inventory:[],
+        actions:[]
+    }
 
     /**
      * To-do:
@@ -19,10 +37,8 @@
 
 <center>
     <div class="mt-10">
-        <Timer/>
-
-        <Inventory/>
-
-        <Grid/>
+        <Timer bind:state={state}/>
+        <br>
+        <Inventory bind:state={state}/>
     </div> 
 </center>
