@@ -6,12 +6,16 @@
     //@ts-ignore
     import slide from 'svelte-slidediag-transition';
     import { getIntake, deleteIntake } from './Inventory.svelte';
+    //@ts-ignore
+    import clickOutside from 'svelte-outside-click';
 
     const imgs = {
         cube:cube,
         cone:cone,
         none:""
     }
+
+    let L = 1;
 
     export let state:any;
     export let pos:{x:number, y:number};
@@ -82,6 +86,8 @@
 
     let currentPiece:"cube"|"cone"|"none" = "none";
     $: if(state.actions){currentPiece = hasPiece()}
+
+    let selecting = false;
 </script>
 <div class="w-12 h-12 relative">
     {#key state.inventory && state.actions}
@@ -107,14 +113,24 @@
                 {#if getIntake()?.type}
                     <button class="w-7 hover:bg-white/20 opacity-95" on:click={()=>{intakeStep2({x:pos.x, y:pos.y})}}><img alt="Take" class="w-7" src={output}></button>
                 {:else}
-                    <button disabled={!state.started} class="hover:bg-white/20 w-7 opacity-50" class:opacity-95={available()}><img class="bg-none" alt="V" width=28px src={input}></button>
+                    <button disabled={!state.started} on:click={()=>{selecting=true}} class="hover:bg-white/20 w-7 opacity-50" class:opacity-95={available()}><img class="bg-none" alt="V" width=28px src={input}></button>
                 {/if}
             </div>
         {/if}
-        {#if currentPiece != "none"}
-            <img transition:slide|local style="position:absolute; left:4px; top:36px; width:12px; height:12px;" src={imgs[currentPiece]} alt={currentPiece}/>
-        {/if}
     {/key}
+    {#if currentPiece != "none"}
+        <img transition:slide|local style="position:absolute; left:4px; top:36px; width:12px; height:12px;" src={imgs[currentPiece]} alt={currentPiece}/>
+    {/if}
+    {#if selecting}
+        <div class="absolute box border-none flex flex-row w-16 h-11 top-1 z-10 -left-2" use:clickOutside={()=>{
+            if(L % 2 == 0)
+                selecting=false;
+            L++;
+        }}>
+            <button class="p-0 bg-none border-none w-7 h-7 mt-0" on:click={()=>{place("cube");selecting=false}}><img width=28px height=28px src={cube} alt="c"/></button>
+            <button class="p-0 bg-none border-none w-7 h-7 mt-0" on:click={()=>{place("cone");selecting=false}}><img width=28px height=28px src={cone} alt="^"/></button>
+        </div>
+    {/if}
 </div>
 
 <style>
@@ -126,5 +142,14 @@
         padding-bottom:2px;
         border-radius:0px;
         margin-top:5px;
+    }
+
+    .box {
+        padding-bottom:2px;
+        padding-top:2px;
+        padding-left:4px;
+        padding-right:4px;
+	    background-color: rgba(54, 59, 66, 0.95);
+
     }
 </style>
