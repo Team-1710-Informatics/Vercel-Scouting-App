@@ -34,13 +34,13 @@
 
 <div class="flex flex-row justify-center mt-10">
     {#if !state.started}
-        <button style="width:125px; height:{h}px" on:click={start} class="bg-orange-400 bg-gradient-to-br from-orange-600 to-orange-400 text-lg border rounded border-orange-600 p-1 text-white">Start Match</button>
+        <button style="width:150px; height:{h}px" on:click={start} class="bg-orange-400 bg-gradient-to-br from-orange-600 to-orange-400 text-lg border rounded border-orange-600 p-1 text-white">Start Match</button>
     {:else if state.time > 138}
-        <div style="width:125px; height:{h}px" class="text-center text-lg bg-yellow-400 align-middle border rounded border-yellow-600 p-1"><p class="text-black font-bold">Auto</p></div>
+        <div style="width:150px; height:{h}px" class="text-center text-lg bg-yellow-400 align-middle border rounded border-yellow-600 p-1"><p class="text-black font-bold">Auto</p></div>
     {:else if state.time > 135}
-        <div style="width:125px; height:{h}px" class="text-center text-lg bg-red-400 align-middle border rounded border-red-600 p-1 text-white"><p class="text-black font-bold">Pause</p></div>
+        <div style="width:150px; height:{h}px" class="text-center text-lg bg-red-400 align-middle border rounded border-red-600 p-1 text-white"><p class="text-black font-bold">Pause</p></div>
     {:else}
-        <div style="width:125px; height:{h}px" class="text-center text-lg bg-green-500 align-middle border rounded border-green-700 p-1"><p class="font-bold">TeleOp</p></div>
+        <div style="width:150px; height:{h}px" class="text-center text-lg bg-green-500 align-middle border rounded border-green-700 p-1"><p class="font-bold">TeleOp</p></div>
     {/if}
-    <p class = "bg-white border border-black rounded p-1 text-black font-extrabold text-xl" bind:offsetHeight={h}>{toTimer(state.time)}</p>
+    <p class = "bg-white border border-black rounded p-1 text-black font-extrabold text-xl px-1" bind:offsetHeight={h}>{toTimer(state.time)}</p>
 </div>
