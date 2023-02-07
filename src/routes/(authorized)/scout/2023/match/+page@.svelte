@@ -46,19 +46,18 @@
         <Timer bind:state={state}/>
         <br>
         <Inventory bind:state={state}/>
-        <div class="h-10">
+        <div class="h-12">
             <div class="flex flex-row w-fit">
                 {#each state.inventory as item, i (item.id)}
                     {#if item.type == "cone"}
-                        <button class="bg-none border-none p-0" on:click={()=>{drop(i)}}><img alt="^" src={cone} width=24px transition:slide></button>
+                        <button class="bg-none border-none p-0" on:click={()=>{drop(i)}}><img alt="^" src={cone} width=32px transition:slide></button>
                     {:else if item.type == "cube"}
-                        <button class="bg-none border-none p-0" on:click={()=>{drop(i)}}><img alt="C" src={cube} width=24px transition:slide></button>
+                        <button class="bg-none border-none p-0" on:click={()=>{drop(i)}}><img alt="C" src={cube} width=32px transition:slide></button>
                     {/if}
                 {/each}
             </div>
             {#if state.inventory.length > 0}<p class="opacity-50 text-xs" transition:slide>Click to drop on floor</p>{/if}
         </div>
-        <br>
         <Grid bind:state={state}/>
     </div>
     <!-- {#each state.actions as a}
