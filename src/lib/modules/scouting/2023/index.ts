@@ -36,17 +36,21 @@ type Post = {
 type Piece = "cone" | "cube";
 
 type PlaceAction = {
+    action: "place"
     time:number;
-    actionName: "place";
     type:Piece;
-    region: "grid" | "floor";
-    node?: { x:number, y:number };
+    node: { x:number, y:number };
+}
+
+type DropAction = {
+    action: "drop"
+    time:number;
+    type:Piece;
 }
 
 type IntakeAction = {
+    action:"intake"
     time:number;
-    actionName: "intake";
     type:Piece;
-    substation:boolean;
-    method: "shelf" | "chute" | "floor" | "grid";
+    location:"zone"|"midfield"|{x:number,y:number};
 }
