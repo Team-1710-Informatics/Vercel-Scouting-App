@@ -72,7 +72,7 @@
             </div>
         </div>
     {/if}
-    {#key intake?.type}
+    {#key intake}
         {#if intake?.type != undefined}
             <div class="grid grid-cols-1 h-fit" transition:slide>
                 <p>Select location</p>
