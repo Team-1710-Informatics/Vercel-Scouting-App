@@ -61,9 +61,9 @@
         <br>
         <Grid bind:state={state}/>
     </div>
-    {#each state.actions as a}
+    <!-- {#each state.actions as a}
         {a.action}
-    {/each}
+    {/each} -->
 </center>
 
 <button on:click={()=>{
