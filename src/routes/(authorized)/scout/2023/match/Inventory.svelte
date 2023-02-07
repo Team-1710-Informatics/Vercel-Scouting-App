@@ -1,4 +1,4 @@
-<script lang=ts context="module">
+<script lang=ts context="module" type="module">
     let nid = 0;
     let intake:{time?:number, type?:string, location?:"zone"|"midfield"|{x:number,y:number}, id?:number} = {};
 
