@@ -1,5 +1,14 @@
-<script context="module">
+<script lang=ts context="module">
     let nid = 0;
+    let intake:{time?:number, type?:string, location?:"zone"|"midfield"|{x:number,y:number}, id?:number} = {};
+
+    export function getIntake(){
+        return intake;
+    }
+
+    export function deleteIntake(){
+        intake = {};
+    }
 
     export function getNextID(){
         return nid++;
@@ -27,8 +36,6 @@
         actions:any[]
     };
 
-    let intake:{time?:number, type?:string, location?:"zone"|"midfield"|{x:number,y:number}, id?:number} = {};
-
     function initializeIntake(piece:string) {
         intake.time = state.time;
         intake.type = piece;
@@ -38,13 +45,13 @@
 
     function intakeStep2(location:"zone"|"midfield"|{x:number,y:number}){
         intake.location=location;
-        state.inventory.push(<InventoryItem>intake);
+        state.inventory.push(intake);
         state.inventory=state.inventory;
         
         let foo:any = {action:"intake", ...intake}
         delete foo.id;
         state.actions.push(foo);
-        intake = {}
+        deleteIntake();
     }
 </script>
 
