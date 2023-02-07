@@ -116,7 +116,7 @@
                 {/if}
             </div>
         {:else if type === "cone"}
-            <div class="w-full h-full border-y border-y-gray-500 relative z-10" class:bg-black={pos.x >= 3 && pos.x <= 5} class:bg-blue-700={!(pos.x >= 3 && pos.x <= 5) && state.alliance=="blue"} class:bg-red-600={!(pos.x >= 3 && pos.x <= 5) && state.alliance=="red"}>
+            <div class="w-full h-full border-y border-y-gray-500 relative z-30" class:bg-black={pos.x >= 3 && pos.x <= 5} class:bg-blue-700={!(pos.x >= 3 && pos.x <= 5) && state.alliance=="blue"} class:bg-red-600={!(pos.x >= 3 && pos.x <= 5) && state.alliance=="red"}>
                 <div class="bg-gray-600 absolute" style="top:20px; left:20px; width:8px; height:8px; border-radius:50%;"></div>
                 {#if getIntake()?.type == "cone"}
                     <button class="w-7 hover:bg-white/20 opacity-95" on:click={()=>{intakeStep2({x:pos.x, y:pos.y})}} style="margin-left:0.8px;"><img alt="Take" class="w-7" src={output}></button>
