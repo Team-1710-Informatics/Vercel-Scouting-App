@@ -108,7 +108,7 @@
 <div class="w-12 h-12 relative">
     {#key state.inventory && state.actions}
         {#if type === "cube"}
-            <div class="bg-gray-400 h-full w-full border-x-4 border-white z-30">
+            <div class="bg-gray-400 h-full w-full border-x-4 border-white z-50">
                 {#if getIntake()?.type == "cube"}
                     <button class="w-7 hover:bg-white/20 opacity-95" on:click={()=>{intakeStep2({x:pos.x, y:pos.y})}}><img alt="Take" class="w-7" src={output}></button>
                 {:else}
