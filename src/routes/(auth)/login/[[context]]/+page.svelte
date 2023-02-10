@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Form from '$lib/Form.svelte';
+    import Form from '$lib/components/Form.svelte';
 
     const title = "Login";
 
@@ -18,4 +18,5 @@
         {label:"Password", placeholder:"Password",          type:"password", name:"password", cols:6},
     ]}/>
     <a class="my-2" href="signup"><button>Create an account</button></a>
+    <a class="my-2" href="forgot-password"><button>Forgot Password?</button></a>
 </middle>
