@@ -4,6 +4,7 @@
     import Timer from './Timer.svelte';
     import Inventory, { getNextID } from './Inventory.svelte';
     import Grid from './Grid.svelte';
+    import Questions from './Questions.svelte';
     import cube from "$lib/assets/scout/2023/cube.png";
     import cone from "$lib/assets/scout/2023/cone.png";
 
@@ -59,6 +60,8 @@
             {#if state.inventory.length > 0}<p class="opacity-50 text-xs" transition:slide>Click to drop on floor</p>{/if}
         </div>
         <Grid bind:state={state}/>
+        <br>
+        <Questions bind:state={state}/>
     </div>
     <!-- {#each state.actions as a}
         {a.action}

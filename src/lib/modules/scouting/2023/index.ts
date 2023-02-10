@@ -1,19 +1,23 @@
-import GeneralEntry from "../Entry";
+import Entry from "../Entry";
 
 /**
  * Scouting Entry for 2023's game,
  * CHARGED UP
  */
 
-export default class Entry extends GeneralEntry{
-    pregame:Pre;
-    game:During;
-    postgame:Post;
+export default class extends Entry{
+    pregame?:Pre;
+    game?:During;
+    postgame?:Post;
+
+    constructor(matchKey:string, team:number, alliance:"red"|"blue", scout:string){
+        super(matchKey, team, alliance, scout);
+    }
 }
 
 //Main types
 type Pre = {
-    startPosition:{ x:number, y:number },
+    coordinates:{ x:number, y:number },
     preload:Piece|null
 }
 
@@ -24,6 +28,7 @@ type During = {
      */
     startTime:number;
     actions:(PlaceAction|IntakeAction)[];
+    untimed:any;
 }
 
 type Post = {

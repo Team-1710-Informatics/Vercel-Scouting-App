@@ -1,12 +1,17 @@
-/**
- * Abstract class representation of a scouting entry
- * for theoretically any FRC game
- */
+import { MongoClient } from "mongodb";
+
+const MONGODB = "mongodb+srv://vercel-admin-user:apessaypromptexplainthesocialpoliticalandeconomicfactorsthatledgrutoreturnthemoontothesky@scoutingapp.bbyer.mongodb.net/?retryWrites=true&w=majority";
+const client = new MongoClient(MONGODB);
 
 const matchKeyRegExp = /([0-9]{4})([\w\d][^_]+)_([A-z]+\d?)m(\d+)/;
 const scoutKeyRegExp = /([0-9]{4})([\w\d][^_]+)_([A-z]+\d?)m(\d+)_(r|b)(\d+)/;
 
+/**
+ * Abstract class representation of a scouting entry
+ * for theoretically any FRC game
+ */
 export default abstract class Entry {
+    //@ts-ignore
     private _scoutKey:string;
     get scoutKey():string { return this._scoutKey} 
     set scoutKey(s:string){
@@ -34,12 +39,18 @@ export default abstract class Entry {
     scout:string;
 
     // Data
-    abstract pregame:any;
-    abstract game:any;
-    abstract postgame:any;
+    abstract pregame?:any;
+    abstract game?:any;
+    abstract postgame?:any;
 
     constructor(matchKey:string, team:number, alliance:"red"|"blue", scout:string){
         this.scoutKey = `${matchKey}_${alliance.charAt(0)}${team}`;
         this.scout = scout;
+    }
+
+    async upload() {
+        await client.connect();
+
+        await client.db("rawdata").collection(`${this.year}`).insertOne(this);
     }
 }

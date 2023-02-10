@@ -112,7 +112,7 @@
                 {#if getIntake()?.type == "cube"}
                     <button class="w-7 hover:bg-white/20 opacity-95" on:click={()=>{intakeStep2({x:pos.x, y:pos.y})}}><img alt="Take" class="w-7" src={output}></button>
                 {:else}
-                    <button on:click={()=>{place("cube")}} disabled={!state.started} class="hover:bg-white/20 w-7 opacity-50" class:opacity-95={available()}><img alt="V" style="filter:invert(100%)" width=28px src={input}></button>
+                    <button on:click={()=>{place("cube")}} disabled={!state.started} class="hover:bg-white/20 w-7" class:opacity-10={!available()} class:opacity-95={available()}><img alt="V" style="filter:invert(100%)" width=28px src={input}></button>
                 {/if}
             </div>
         {:else if type === "cone"}
@@ -121,7 +121,7 @@
                 {#if getIntake()?.type == "cone"}
                     <button class="w-7 hover:bg-white/20 opacity-95" on:click={()=>{intakeStep2({x:pos.x, y:pos.y})}} style="margin-left:0.8px;"><img alt="Take" class="w-7" src={output}></button>
                 {:else}
-                    <button on:click={()=>{place("cone")}} disabled={!state.started} class="hover:bg-white/20 w-7 opacity-50" class:opacity-95={available()} style="margin-left:0.8px;"><img alt="V" width=28px src={input}></button>
+                    <button on:click={()=>{place("cone")}} disabled={!state.started} class="hover:bg-white/20 w-7" class:opacity-10={!available()} class:opacity-95={available()} style="margin-left:0.8px;"><img alt="V" width=28px src={input}></button>
                 {/if}
             </div>
         {:else}
@@ -129,7 +129,7 @@
                 {#if getIntake()?.type}
                     <button class="w-7 hover:bg-white/20 opacity-95" on:click={()=>{intakeStep2({x:pos.x, y:pos.y})}}><img alt="Take" class="w-7" src={output}></button>
                 {:else}
-                    <button disabled={!state.started} on:click={()=>{selecting=true}} class="hover:bg-white/20 w-7 opacity-50" class:opacity-95={available()}><img class="bg-none" alt="V" width=28px src={input}></button>
+                    <button disabled={!state.started} on:click={()=>{selecting=true}} class="hover:bg-white/20 w-7" class:opacity-10={!available()} class:opacity-95={available()}><img class="bg-none" alt="V" width=28px src={input}></button>
                 {/if}
             </div>
         {/if}

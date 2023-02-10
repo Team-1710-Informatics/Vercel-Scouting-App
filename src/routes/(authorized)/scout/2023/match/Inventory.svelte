@@ -36,12 +36,14 @@
         actions:any[]
     };
 
+    let step = 1;
+
     function initializeIntake(piece:string) {
-        console.log("beans")
         intake.time = state.time;
         intake.type = piece;
         intake.id = nid;
         nid++;
+        step = 2;
     }
 
     function intakeStep2(location:"zone"|"midfield"|{x:number,y:number}){
@@ -53,6 +55,7 @@
         delete foo.id;
         state.actions.push(foo);
         deleteIntake();
+        step = 1;
     }
 </script>
 
@@ -72,19 +75,17 @@
             </div>
         </div>
     {/if}
-    {#key intake}
-        {#if intake?.type != undefined}
-            <div class="grid grid-cols-1 h-fit" transition:slide>
-                <p>Select location</p>
-                <div class="flex flex-row">
-                    <button class="mr-1 px-2 h-fit output" on:click={()=>{intakeStep2("zone")}}><img alt="Take" class="w-6" src={output}></button><span class="mt-1 text-lg font-bold">Loading Zone</span>
-                </div>
-                <div class="flex flex-row">
-                    <button class="mr-1 px-2 mt-0.5 h-fit output" on:click={()=>{intakeStep2("midfield")}}><img alt="Take" class="w-6" src={output}></button><span class="mt-1 text-lg font-bold">Midfield</span>
-                </div>
+    {#if step == 2}
+        <div class="grid grid-cols-1 h-fit" transition:slide>
+            <p>Select location</p>
+            <div class="flex flex-row">
+                <button class="mr-1 px-2 h-fit output" on:click={()=>{intakeStep2("zone")}}><img alt="Take" class="w-6" src={output}></button><span class="mt-1 text-lg font-bold">Loading Zone</span>
             </div>
-        {/if}
-    {/key}
+            <div class="flex flex-row">
+                <button class="mr-1 px-2 mt-0.5 h-fit output" on:click={()=>{intakeStep2("midfield")}}><img alt="Take" class="w-6" src={output}></button><span class="mt-1 text-lg font-bold">Midfield</span>
+            </div>
+        </div>
+    {/if}
 </div>
 
 <style>
