@@ -1,7 +1,7 @@
 <script>
     import { slide } from "svelte/transition";
     import check from "$lib/assets/icons/check.svg";
-    import x from "$lib/assets/icons/x.svg";
+    import x from "$lib/assets/icons/x-lg.svg";
 
     export let state;
 

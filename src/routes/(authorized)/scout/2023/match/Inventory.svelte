@@ -59,6 +59,8 @@
     }
 </script>
 
+<img src={output} hidden />
+
 <div class="box flex flex-row w-fit">
     {#if true}
         <div class="grid grid-cols-1 h-fit" transition:slide>

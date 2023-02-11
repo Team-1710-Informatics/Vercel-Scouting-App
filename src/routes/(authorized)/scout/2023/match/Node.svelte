@@ -105,6 +105,9 @@
 
     let selecting = false;
 </script>
+
+<img src={output} hidden />
+
 <div class="w-12 h-12 relative">
     {#key state.inventory && state.actions}
         {#if type === "cube"}
@@ -112,7 +115,7 @@
                 {#if getIntake()?.type == "cube"}
                     <button class="w-7 hover:bg-white/20 opacity-95" on:click={()=>{intakeStep2({x:pos.x, y:pos.y})}}><img alt="Take" class="w-7" src={output}></button>
                 {:else}
-                    <button on:click={()=>{place("cube")}} disabled={!state.started} class="hover:bg-white/20 w-7" class:opacity-10={!available()} class:opacity-95={available()}><img alt="V" style="filter:invert(100%)" width=28px src={input}></button>
+                    <button on:click={()=>{place("cube")}} disabled={!state.started} class="hover:bg-white/20 w-7" style="filter: brightness(0) saturate(100%) invert(23%) sepia(68%) saturate(1410%) hue-rotate(227deg) brightness(86%) contrast(93%);" class:opacity-10={!available()} class:opacity-95={available()}><img alt="V" style="filter:invert(100%)" width=28px src={input}></button>
                 {/if}
             </div>
         {:else if type === "cone"}
@@ -121,7 +124,7 @@
                 {#if getIntake()?.type == "cone"}
                     <button class="w-7 hover:bg-white/20 opacity-95" on:click={()=>{intakeStep2({x:pos.x, y:pos.y})}} style="margin-left:0.8px;"><img alt="Take" class="w-7" src={output}></button>
                 {:else}
-                    <button on:click={()=>{place("cone")}} disabled={!state.started} class="hover:bg-white/20 w-7" class:opacity-10={!available()} class:opacity-95={available()} style="margin-left:0.8px;"><img alt="V" width=28px src={input}></button>
+                    <button on:click={()=>{place("cone")}} disabled={!state.started} class="hover:bg-white/20 w-7" class:opacity-10={!available()} class:opacity-95={available()} style="margin-left:0.8px; filter: brightness(0) saturate(100%) invert(67%) sepia(87%) saturate(681%) hue-rotate(349deg) brightness(103%) contrast(98%);"><img alt="V" width=28px src={input}></button>
                 {/if}
             </div>
         {:else}
