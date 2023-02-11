@@ -52,6 +52,7 @@
     });
 
     export let data;
+    console.log(data.competition);
 </script>
 
 <img src={red} alt="" class="opacity-25 bg-blue-600 bg-red-600" hidden/>
