@@ -15,7 +15,6 @@
     let caretAngle = tweened(90, {
         duration:100
     });
-
     
     const widest = ()=>{
         let c=0;
@@ -48,11 +47,11 @@
             {#each options as option, i}
                 {#if option?.action}
                     <form transition:slide method="POST" action={option.action}>
-                        <button class="min-w-full text-left py-0" bind:offsetWidth={options[i].width}>{option.name}</button>
+                        <button class="box min-w-full text-left py-0" bind:offsetWidth={options[i].width}>{option.name}</button>
                     </form>
                 {:else if option?.href}
                     <a transition:slide href={option.href}>
-                        <button class="min-w-full text-left py-0" bind:offsetWidth={options[i].width}>{option.name}</button>
+                        <button class="box min-w-full text-left py-0" bind:offsetWidth={options[i].width}>{option.name}</button>
                     </a>
                 {/if}
             {/each}
@@ -65,9 +64,18 @@
         background-image: none;
         background-color: none;
         border: none;
+        box-shadow: none;
+    }
+
+    button.box {
+        box-shadow: none;
+        border: none;
+        background-color: none;
+        padding-top:0px;
+        padding-bottom:0px;
     }
 
     button:hover {
-        background-color: rgba(255, 255, 255, 0.2);
+        background-color: rgba(0, 0, 0, 0.2);
     }
 </style>

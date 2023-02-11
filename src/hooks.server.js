@@ -18,7 +18,9 @@ export async function handle({ event, resolve }) {
             name: user.name,
             email: user.email,
             team: user.team,
-            stats: user.stats
+            stats: user.stats,
+            preferences: user.preferences,
+            permissions: user.permissions
         }
     }
 

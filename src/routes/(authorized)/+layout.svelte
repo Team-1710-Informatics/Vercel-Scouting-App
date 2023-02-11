@@ -4,7 +4,7 @@
     export let data;
 </script>
 
-<div class="w-full bg-slate-900 text-3xl grid grid-cols-4 p-4 font-extrabold">
+<div class="header w-full text-3xl grid grid-cols-4 p-4 font-extrabold">
     <div class="col-span-3">
         1710 Scouting
     </div>
@@ -15,6 +15,6 @@
     </div>
 </div>
 
-<div class="mt-20">
+<div>
     <slot />
 </div>

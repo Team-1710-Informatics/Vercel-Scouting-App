@@ -1,10 +1,13 @@
 <script lang="ts">
     //@ts-nocheck
-    import { onMount } from "svelte";
     import { slide } from "svelte/transition";
 
     import red from "$lib/assets/scout/2023/red_community.png";
     import blue from "$lib/assets/scout/2023/blue_community.png";
+
+    import cone from "$lib/assets/scout/2023/cone.png";
+    import cube from "$lib/assets/scout/2023/cube.png";
+    import x from "$lib/assets/icons/x.svg";
 
     const imgs = {
         red:red,
@@ -30,8 +33,22 @@
         coordinates.y = event.clientY - rect.top;
         coordinates.sx = event.clientX;
         coordinates.sy = event.clientY;
+
+        coordinates = coordinates;
+    }
+
+    let preload:"cube"|"cone"|null;
+
+    $: data = {
+        coordinates,
+        preload
     }
 </script>
+
+<img src={red} alt="" class="opacity-25" hidden/>
+<img src={blue} alt="" hidden/>
+
+<svelte:body style="margin-top:0px"/>
 
 <center>
     <div class="box w-fit mt-10">
@@ -51,12 +68,25 @@
             <input name="alliance" type="radio" bind:group={alliance} value="blue">
             Blue Alliance
         </div>
+        <br>
         {#if team && match && alliance}
             <div transition:slide class="w-fit">
+                Select starting position
                 <img alt="community" bind:this={comm} class="bg-red-500 bg-blue-500" on:click={setStartingPosition} src={imgs[alliance]}/>
-                {#if coordinates.y != NaN}<div class="rounded-full w-5 h-5 bg-{alliance}-500" style="position:absolute; top:{+coordinates.sy-10}px; left:{coordinates.sx-10}px;"/>{/if}
+                {#if coordinates.y != NaN}<div class="rounded-full w-5 h-5 bg-{alliance}-500 border-4 border-black" style="position:absolute; top:{+coordinates.sy-10}px; left:{coordinates.sx-10}px;"/>{/if}
             </div>
         {/if}
+        <br>
+
+        <center>
+            <div class="flex flex-row items-center w-fit">
+                <p>Preload:</p>
+                <button class="bg-none border-none bg-opacity-50 opacity-50" class:opacity-100={preload=="cube"} class:bg-white={preload=="cube"} on:click={()=>{preload="cube"}}><img width=28px height=28px src={cube} alt=""></button>
+                <button class="bg-none border-none bg-opacity-50 opacity-50" class:opacity-100={preload=="cone"} class:bg-white={preload=="cone"} on:click={()=>{preload="cone"}}><img width=28px height=28px src={cone} alt=""></button>
+                <button class="bg-none border-none bg-opacity-50 opacity-50" class:opacity-100={preload== null } class:bg-white={preload== null } on:click={()=>{preload= null }}><img width=28px height=28px style="filter: brightness(0) saturate(100%) invert(22%) sepia(99%) saturate(6156%) hue-rotate(356deg) brightness(96%) contrast(117%);" src={x} alt=""></button>
+            </div>
+        </center>
+
         {#if team && match && alliance && coordinates.x}
             <br>
             <button transition:slide class="submit-button">
