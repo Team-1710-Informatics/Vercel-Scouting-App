@@ -33,8 +33,8 @@ export async function handle({ event, resolve }) {
             permissions: user.permissions
         }
 
-        event.locals.competition = c.key;
-        event.locals.nextCompetition = n.key;
+        event.locals.competition = c;
+        event.locals.nextCompetition = n;
     }
     
     return await resolve(event);

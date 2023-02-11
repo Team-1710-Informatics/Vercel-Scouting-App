@@ -50,6 +50,8 @@
         },
         preload
     });
+
+    export let data;
 </script>
 
 <img src={red} alt="" class="opacity-25 bg-blue-600 bg-red-600" hidden/>
@@ -59,6 +61,10 @@
 
 <center>
     <div class="box w-fit mt-10">
+        <div class="grid grid-cols-2">
+            <div>Event:</div>
+            <input class="justify-self-end w-24" type="text" bind:value={data.competition}>
+        </div>
         <div class="grid grid-cols-2">
             <div>Team Number:</div>
             <input class="justify-self-end w-24" type="number" bind:value={team}>
