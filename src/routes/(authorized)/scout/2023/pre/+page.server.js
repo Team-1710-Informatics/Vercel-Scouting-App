@@ -1,7 +1,9 @@
+import { redirect } from '@sveltejs/kit';
+
 export function load({ locals }) {
-    console.log(locals.competition);
     return {
-        competition:locals.competition
+        competition:locals.competition,
+        nextCompetition:locals.nextCompetition
     }
 }
 
@@ -11,10 +13,24 @@ export const actions = {
         const input = await request.formData();
         const data = JSON.parse(input.get("data"));
 
-        // cookies.set('scout', JSON.stringify("out"), {
-        //     path: '/',
-        //     sameSite: 'strict',
-        //     maxAge: 60 * 60 * 24
-        // });
+        const out = {
+            event:data.event,
+            match:data.match,
+            alliance:data.alliance,
+            team:data.team,
+            scout:locals.user.username,
+            pregame:{
+                start:data.start,
+                preload:data.preload
+            }
+        }
+
+        cookies.set('scout', JSON.stringify(out), {
+            path: '/',
+            sameSite: 'strict',
+            maxAge: 60 * 60 * 24
+        });
+
+        throw redirect(307, "./match");
     }
 }

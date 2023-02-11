@@ -15,9 +15,12 @@
         blue:blue
     }
 
+    export let data;
+    let event = data.competition?.key ?? "";
+
     let team:number;
     let match:number;
-    let alliance:string = "";
+    let alliance:string="";
 
     let coordinates:{x:number,y:number} = {
         x: NaN,
@@ -40,7 +43,8 @@
 
     let preload:"cube"|"cone"|null;
 
-    $: data = JSON.stringify({
+    $: out = JSON.stringify({
+        event,
         team,
         match,
         alliance,
@@ -51,8 +55,7 @@
         preload
     });
 
-    export let data;
-    console.log(data.competition);
+    let loading = false;
 </script>
 
 <img src={red} alt="" class="opacity-25 bg-blue-600 bg-red-600" hidden/>
@@ -63,16 +66,16 @@
 <center>
     <div class="box w-fit mt-10">
         <div class="grid grid-cols-2">
-            <div>Event:</div>
-            <input class="justify-self-end w-24" type="text" bind:value={data.competition}>
-        </div>
-        <div class="grid grid-cols-2">
-            <div>Team Number:</div>
-            <input class="justify-self-end w-24" type="number" bind:value={team}>
+            <div>Event Key:</div>
+            <input class="justify-self-end w-24" type="text" bind:value={event}>
         </div>
         <div class="grid grid-cols-2">
             <div>Match Number:</div>
             <input class="justify-self-end w-24" type="number" bind:value={match}>
+        </div>
+        <div class="grid grid-cols-2">
+            <div>Team Number:</div>
+            <input class="justify-self-end w-24" type="number" bind:value={team}>
         </div>
         <div>
             <input name="alliance" type="radio" bind:group={alliance} value="red">
@@ -101,12 +104,19 @@
             </div>
         </center>
 
-        {#if team && match && alliance && coordinates.x}
+        {#if event && team && match && alliance && coordinates.x}
             <br>
-            <form method="POST" use:enhance>
-                <input hidden type="text" name="data" bind:value={data} />
-                <button transition:slide class="submit-button">
-                    Next
+            <form method="POST" use:enhance={() => {
+                loading = true;
+                //@ts-ignore
+                return async ({ update }) => {
+                    await update();
+                    loading = false;
+                };
+            }}>
+                <input hidden type="text" name="data" bind:value={out} />
+                <button transition:slide class="submit" disabled={loading}>
+                    {loading?"Loading...":"Next"}
                 </button>
             </form>
         {/if}

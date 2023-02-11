@@ -14,15 +14,14 @@
         {q:"Robot PARKED in COMMUNITY at end of MATCH?", name:"parked", answer:null, time:0, exclusive:"docked-match"},
     ]
 
-    let output = {};
     $: {
         questions.forEach(query=>{
             if(query?.exclusive){
-                if(output[query?.exclusive]===true){
-                    query.answer = false;
+                if(state.answers[query?.exclusive]===true){
+                    query.answer = false; 
                 }
             }
-            output[query.name] = query.answer;
+            state.answers[query.name] = query.answer;
         })
     }
 
@@ -38,7 +37,7 @@
         </label>
     </div>
     {#each questions as query (query.name)}
-        {#if (query.answer === null || showAnswered) && state.time <= query.time && output[query?.exclusive] != true}
+        {#if (query.answer === null || showAnswered) && state.time <= query.time && state.answers[query?.exclusive] != true}
             <div class="grid grid-cols-4 p-1" transition:slide class:opacity-50={!state.started}>
                 <p class="col-span-3 px-1 text-start text-sm h-10">{query.q}</p>
                 <div class="flex flex-row gap-0 justify-items-start">

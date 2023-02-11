@@ -1,12 +1,15 @@
 <script lang="ts">
     //@ts-ignore
     import slide from 'svelte-slidediag-transition';
+    import { enhance } from '$app/forms';
     import Timer from './Timer.svelte';
     import Inventory, { getNextID } from './Inventory.svelte';
     import Grid from './Grid.svelte';
     import Questions from './Questions.svelte';
     import cube from "$lib/assets/scout/2023/cube.png";
     import cone from "$lib/assets/scout/2023/cone.png";
+
+    export let data:any;
 
     type InventoryItem = {
         time:number,
@@ -21,13 +24,15 @@
         time:number,
         started:boolean,
         inventory:InventoryItem[],
-        actions:any[]
+        actions:any[],
+        answers:any
     } = {
-        alliance:"blue",
+        alliance:data.predata.alliance,
         time:0,
         started:false,
         inventory:[],
-        actions:[]
+        actions:[],
+        answers:{}
     }
 
     function drop(i:number){ 
@@ -40,10 +45,18 @@
             type:dropped.type
         })
     }
+
+    $: out = JSON.stringify({
+        actions: state.actions,
+        untimed: state.answers
+    })
+
+    let loading = false;
 </script>
 
 <center>
     <div class="mt-10">
+        <p class="text-3xl">Scouting <b>{data.predata.team}</b></p>
         <Timer bind:state={state}/>
         <br>
         <Inventory bind:state={state}/>
@@ -66,6 +79,21 @@
     <!-- {#each state.actions as a}
         {a.action}
     {/each} -->
+
+    <form method="POST" use:enhance={() => {
+        loading = true;
+        //@ts-ignore
+        return async ({ update }) => {
+            await update();
+            loading = false;
+        };
+    }}>
+        <br>
+        <input hidden type="text" name="data" bind:value={out} />
+        <button transition:slide class="submit mb-2" disabled={loading || !(state.started&&state.time==0)}>
+            {loading?"Loading...":(state.started&&state.time==0)?"Next":(state.started)?state.time:"Next"}
+        </button>
+    </form>
 </center>
 
 <button on:click={()=>{
