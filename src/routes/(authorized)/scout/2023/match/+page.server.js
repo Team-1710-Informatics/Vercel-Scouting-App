@@ -1,7 +1,10 @@
 import { redirect } from "@sveltejs/kit";
 
 export function load({ cookies }){
-    const predata = JSON.parse(cookies.get("scout"))
+    let predata;
+    try{
+        predata = JSON.parse(cookies.get("scout"))
+    }catch{ throw redirect(307, "./pre"); }
     
     return {
         predata

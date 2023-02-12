@@ -1,6 +1,7 @@
 import { redirect } from '@sveltejs/kit';
 
 export function load({ locals }) {
+    if(!locals.user) throw redirect(307, "/login");
     return {
         competition:locals.competition,
         nextCompetition:locals.nextCompetition

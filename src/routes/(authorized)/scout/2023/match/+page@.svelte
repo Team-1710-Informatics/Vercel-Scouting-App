@@ -54,8 +54,8 @@
     let loading = false;
 </script>
 
-<center>
-    <div class="mt-10">
+<center class="pt-10">
+    <div>
         <p class="text-3xl">Scouting <b>{data.predata.team}</b></p>
         <Timer bind:state={state}/>
         <br>

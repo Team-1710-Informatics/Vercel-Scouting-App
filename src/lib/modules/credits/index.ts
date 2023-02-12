@@ -13,7 +13,7 @@ export default {
     transaction: async (username:string, amount:number, reason:string)=>{
         await client.connect();
         const user = await client.db("main").collection("users").findOne({ username:username });
-        if(!user) return null;
+        if(!user) { await client.close(); return null }
 
         let credits = user.credits + amount;
 
@@ -24,5 +24,8 @@ export default {
             amount:amount,
             reason:reason
         });
+
+        await client.close();
     }
+    
 }

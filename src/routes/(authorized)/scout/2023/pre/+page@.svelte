@@ -63,8 +63,8 @@
 
 <svelte:body style="margin-top:0px"/>
 
-<center>
-    <div class="box w-fit mt-10">
+<center class="pt-10">
+    <div class="box w-fit">
         <div class="grid grid-cols-2">
             <div>Event Key:</div>
             <input class="justify-self-end w-24" type="text" bind:value={event}>

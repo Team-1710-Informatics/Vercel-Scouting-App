@@ -1,19 +1,23 @@
 import { MongoClient } from 'mongodb';
 import { MONGODB } from '$env/static/private';
 
+import { redirect } from "@sveltejs/kit";
+
 import { X_TBA_AUTHKEY } from '$env/static/private';
 import { DateTime } from 'luxon';
 
 const client = new MongoClient(MONGODB);
 
 export async function handle({ event, resolve }) {
+    const token = event.cookies.get("session");
+
+    if(!token || event.url.pathname == "/logout") return await resolve(event);
+
     await client.connect();
 
-    const token = event.cookies.get("session");
-    
-    if(!token) return await resolve(event);
-
     const user = await client.db("main").collection("users").findOne({ token:token });
+
+    if(token && !user) {await client.close(); throw redirect(307, "/logout");}
 
     let res = await fetch(`https://thebluealliance.com/api/v3/team/frc${user.team}/events/${new Date().getFullYear()}`, {
         headers: { "X-TBA-Auth-Key": X_TBA_AUTHKEY }
@@ -37,6 +41,7 @@ export async function handle({ event, resolve }) {
         event.locals.nextCompetition = n;
     }
     
+    await client.close();
     return await resolve(event);
 }
 
