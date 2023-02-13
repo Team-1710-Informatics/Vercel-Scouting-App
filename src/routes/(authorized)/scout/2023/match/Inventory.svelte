@@ -29,7 +29,7 @@
     type InventoryItem = {
         time:number,
         type:"cone"|"cube",
-        location:"zone"|"midfield"|{x:number,y:number},
+        location:"zone"|"midfield"|{x:number,y:number}|"preload",
         id:number
     }
 

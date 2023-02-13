@@ -14,8 +14,7 @@
     type InventoryItem = {
         time:number,
         type:"cone"|"cube",
-        substation:boolean,
-        method:"shelf"|"chute"|"floor"|{x:number,y:number},
+        location:"zone"|"midfield"|{x:number,y:number}|"preload",
         id:number
     }
 
@@ -33,6 +32,15 @@
         inventory:[],
         actions:[],
         answers:{}
+    }
+
+    if(data.predata.pregame.preload != null){
+        state.inventory.push({
+            time:153,
+            type:data.predata.pregame.preload,
+            location:"preload",
+            id:-1
+        })
     }
 
     function drop(i:number){ 
@@ -64,9 +72,9 @@
             <div class="flex flex-row w-fit">
                 {#each state.inventory as item, i (item.id)}
                     {#if item.type == "cone"}
-                        <button class="bg-none border-none p-0" on:click={()=>{drop(i)}}><img alt="^" src={cone} width=32px transition:slide></button>
+                        <button class="bg-none border-none p-0" on:click={()=>{drop(i)}} disabled={!state.started}><img alt="^" src={cone} width=32px transition:slide></button>
                     {:else if item.type == "cube"}
-                        <button class="bg-none border-none p-0" on:click={()=>{drop(i)}}><img alt="C" src={cube} width=32px transition:slide></button>
+                        <button class="bg-none border-none p-0" on:click={()=>{drop(i)}} disabled={!state.started}><img alt="C" src={cube} width=32px transition:slide></button>
                     {/if}
                 {/each}
             </div>

@@ -1,5 +1,8 @@
 import { MongoClient } from 'mongodb';
 import { MONGODB } from '$env/static/private';
+import { MONGODB_MAIN } from '$env/static/private';
+
+import mongoose from 'mongoose';
 
 import { redirect } from "@sveltejs/kit";
 
@@ -13,6 +16,7 @@ export async function handle({ event, resolve }) {
 
     if(!token || event.url.pathname == "/logout") return await resolve(event);
 
+    // await mongoose.connect(MONGODB_MAIN);
     await client.connect();
 
     const user = await client.db("main").collection("users").findOne({ token:token });
@@ -42,7 +46,9 @@ export async function handle({ event, resolve }) {
     }
     
     await client.close();
-    return await resolve(event);
+    const resolved = await resolve(event);
+    // mongoose.connection.close();
+    return resolved;
 }
 
 function nextComp(res) {

@@ -141,12 +141,12 @@
         <img transition:slide|local style="position:absolute; left:4px; top:36px; width:12px; height:12px;" src={imgs[currentPiece]} alt={currentPiece}/>
     {/if}
     {#if selecting}
-        <div class="absolute box border-none flex flex-row w-16 h-11 top-1 z-10 -left-2" use:clickOutside={()=>{
+        <div class="absolute box border-none flex flex-row w-20 h-11 top-1 z-10 -left-4 divide-y divide-white" use:clickOutside={()=>{
             if(L % 2 == 0)
                 selecting=false;
             L++;
         }}>
-            <button class="p-0 bg-none border-none w-7 h-7 mt-0" on:click={()=>{place("cube");selecting=false}}><img width=28px height=28px src={cube} alt="c"/></button>
+            <button class="p-0 bg-none border-none w-7 h-7 mt-0 mr-4" on:click={()=>{place("cube");selecting=false}}><img width=28px height=28px src={cube} alt="c"/></button>
             <button class="p-0 bg-none border-none w-7 h-7 mt-0" on:click={()=>{place("cone");selecting=false}}><img width=28px height=28px src={cone} alt="^"/></button>
         </div>
     {/if}
