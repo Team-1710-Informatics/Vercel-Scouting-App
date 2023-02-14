@@ -16,7 +16,7 @@
     }
 
     export let data;
-    let event = data.competition?.key ?? "";
+    let event = data.competition?.key ?? "practice2023";
 
     let team:number;
     let match:number;
@@ -64,6 +64,7 @@
 <svelte:body style="margin-top:0px"/>
 
 <center class="pt-10">
+    <h5 class="mb-2">Scout Match</h5>
     <div class="box w-fit">
         <div class="grid grid-cols-2">
             <div>Event Key:</div>
@@ -121,4 +122,6 @@
             </form>
         {/if}
     </div>
+    <br>
+    <a class="py-4" href="/hub"><button>Back to Hub</button></a>
 </center>

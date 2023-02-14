@@ -18,10 +18,7 @@ export const actions = {
 
         let previous = JSON.parse(cookies.get("scout"));
 
-        previous.game = game;
-        console.log(previous);
-
-        cookies.set("scout", JSON.stringify(previous), {
+        cookies.set("scout", JSON.stringify({...previous,game:game}), {
             path: '/',
             sameSite: 'strict',
             maxAge: 60 * 60 * 24

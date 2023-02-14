@@ -14,16 +14,22 @@
     <div class="grid" style="grid-template-columns: repeat({stars}, minmax(0, 1fr));">
         {#each [...Array(5).keys()] as i}
             {#if rating - i*2 >= 2}
-                <img src={full} class="invert w-full" alt="full">
+                <img src={full} class="invert star w-9 h-9" alt="full">
             {:else if rating - i*2 == 1}
-                <img src={half} class="invert w-full" alt="half">
+                <img src={half} class="invert star w-9 h-9" alt="half">
             {:else}
-                <img src={star} class="invert w-full" alt="null">
+                <img src={star} class="invert star w-9 h-9" alt="null">
             {/if}
         {/each}
     </div>
 
     {#if editable}
-        <input type="range" max={stars*2} bind:value={rating}/>
+        <input class="h-9 -mt-9 z-10 opacity-0" type="range" max={stars*2} bind:value={rating}/>
     {/if}
 </div>
+
+<style>
+    .star {
+        filter: brightness(0) saturate(100%) invert(92%) sepia(61%) saturate(420%) hue-rotate(155deg) brightness(105%) contrast(104%);
+    }
+</style>

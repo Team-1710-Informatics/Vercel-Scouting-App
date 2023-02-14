@@ -41,6 +41,12 @@
             location:"preload",
             id:-1
         })
+        state.actions.push({
+            time:153,
+            action:"intake",
+            type:data.predata.pregame.preload,
+            location:"preload",
+        })
     }
 
     function drop(i:number){ 
@@ -121,7 +127,19 @@
                 break;
             }
         }
+    }else if(res.action == "drop"){
+        for(let i = state.actions.length-1; i >= 0; i--){
+            if(state.actions[i].action == "intake" && state.actions[i].type == res.type){
+                let n = JSON.parse(JSON.stringify(state.actions[i]));
+                delete n.action;
+                n.id = getNextID();
+                state.inventory.push(n);
+                break;
+            }
+        }
     }
     state.actions = state.actions;
     state.inventory = state.inventory;
 }} class="fixed top-1 right-1 bg-gradient-to-br from-red-500 to-red-400 border-red-600">Undo</button>
+
+<button on:click={()=>{state.time = 0}}></button>

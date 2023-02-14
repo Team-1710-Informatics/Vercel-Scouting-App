@@ -16,7 +16,8 @@ export async function handle({ event, resolve }) {
 
     if(!token || event.url.pathname == "/logout") return await resolve(event);
 
-    // await mongoose.connect(MONGODB_MAIN);
+    await mongoose.connect(MONGODB_MAIN);
+    console.log(mongoose.connection.readyState);
     await client.connect();
 
     const user = await client.db("main").collection("users").findOne({ token:token });
@@ -47,7 +48,7 @@ export async function handle({ event, resolve }) {
     
     await client.close();
     const resolved = await resolve(event);
-    // mongoose.connection.close();
+    mongoose.connection.close();
     return resolved;
 }
 
