@@ -13,7 +13,7 @@ body {
 	color: white;
 }
 
-input {
+input, select, textarea {
 	color: black;
 	border-radius: 6px;
 	border: 1px solid gray;
