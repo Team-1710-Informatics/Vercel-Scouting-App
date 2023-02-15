@@ -26,7 +26,7 @@
         let curr = null;
         let now = Date.now();
         events.forEach(e=>{
-            if(e.date <= now && e.end > now)
+            if(e.date <= now && e.end + 86400000 > now)
                 curr = e;
         });
 

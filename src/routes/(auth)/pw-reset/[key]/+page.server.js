@@ -11,6 +11,7 @@ export async function load({ params }) {
     const key = params.key;
 
     const user = await client.db("main").collection("users").findOne({ "flags.reset":key });
+    await client.close();
 
     if(!user) {
         throw redirect(307, '/login');
@@ -26,11 +27,13 @@ export const actions = {
 
         if(data.pass1 != data.pass2){
             data.error = "Passwords do not match!";
+            await client.close();
             return fail(400, data);
         }
 
         if(data.pass1.length < 8){
             data.error = "Password must be at least 8 characters in length";
+            await client.close();
             return fail(400, data);
         }
 
@@ -43,6 +46,7 @@ export const actions = {
             $unset:{"flags.reset":""}
         });
 
+        await client.close();
         throw redirect(307, "/login/r");
     }
 }
