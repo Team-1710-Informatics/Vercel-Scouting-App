@@ -38,6 +38,7 @@ export const actions = {
         //Throw error if user does not exist
         if(user == null){
             data.error = "Invalid username or password!";
+            await client.close();
             return fail(401, data);
         }
 
@@ -47,10 +48,12 @@ export const actions = {
             const state = await email(user.email, key);
             if(!state) {
                 data.error = "Something went wrong!";
+                await client.close();
                 return data;
             }else{
                 client.db("main").collection("users").updateOne({email:user.email}, {$set:{"flags.reset":key}});
                 data.alert = `Due to a change in infrastructure you will need to set a new password. We have sent an email containing instructions to ${user.email}.`;
+                await client.close();
                 return data;
             }
         }
@@ -61,11 +64,12 @@ export const actions = {
 
         if(hash != user.password.hash){
             data.error = "Invalid username or password!";
+            await client.close();
             return fail(401, data);
         }
 
         //Redirect unverified accounts
-        if(user.flags?.verification_key) throw redirect(307, `/verify/${user.username}/l`);
+        if(user.flags?.verification_key) { await client.close(); throw redirect(307, `/verify/${user.username}/l`); }
 
         //Establish session
         let token = crypto.randomUUID();
@@ -77,6 +81,7 @@ export const actions = {
             maxAge: 60 * 60 * 24
         });
 
+        await client.close();
         throw redirect(302, '/hub');
     }
 }

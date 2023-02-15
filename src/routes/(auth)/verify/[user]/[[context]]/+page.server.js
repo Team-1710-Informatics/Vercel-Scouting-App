@@ -11,12 +11,13 @@ export async function load({ params }) {
 
     const user = await client.db("main").collection("users").findOne({ username:params.user });
 
-    if(!user?.flags?.verification_key) throw redirect(308, "/login");
+    if(!user?.flags?.verification_key) { await client.close(); throw redirect(308, "/login"); }
 
     let elapsed = Math.floor(Date.now()/1000) - user.stats.joined;
 
     if(elapsed > 1800){
         await client.db("main").collection("users").deleteOne({ username:params.user });
+        await client.close();
         throw redirect(308, '/signup/verify-timeout');
     }
 
@@ -26,6 +27,8 @@ export async function load({ params }) {
         case 's': data.success = "Success! You have been sent an email containing a verification code.";break;
         case 'l': data.alert = `Please verify your email with the code that was sent to ${user.email}`;break;
     }
+
+    await client.close();
     return data;
 }
 
@@ -39,8 +42,10 @@ export const actions = {
         
         if(key == user?.flags?.verification_key){
             await client.db("main").collection("users").updateOne({ username:params.user }, { $unset:{ "flags.verification_key":"" } });
+            await client.close();
             throw redirect(307, '/login/n');
         }else{
+            await client.close();
             return fail(401, {
                 key:key,
                 error:"Invalid code!"

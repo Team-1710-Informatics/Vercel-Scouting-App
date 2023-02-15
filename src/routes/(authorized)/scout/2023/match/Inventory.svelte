@@ -1,6 +1,9 @@
 <script lang=ts context="module" type="module">
+    import { writable } from "svelte/store";
+
     let nid = 0;
     let intake:{time?:number, type?:string, location?:"zone"|"midfield"|{x:number,y:number}, id?:number} = {};
+    let step = writable(1);
 
     export function getIntake(){
         return intake;
@@ -8,6 +11,7 @@
 
     export function deleteIntake(){
         intake = {};
+        step.set(1);
     }
 
     export function getNextID(){
@@ -25,7 +29,7 @@
     type InventoryItem = {
         time:number,
         type:"cone"|"cube",
-        location:"zone"|"midfield"|{x:number,y:number},
+        location:"zone"|"midfield"|{x:number,y:number}|"preload",
         id:number
     }
 
@@ -37,11 +41,11 @@
     };
 
     function initializeIntake(piece:string) {
-        console.log("beans")
         intake.time = state.time;
         intake.type = piece;
         intake.id = nid;
         nid++;
+        step.set(2);
     }
 
     function intakeStep2(location:"zone"|"midfield"|{x:number,y:number}){
@@ -55,6 +59,8 @@
         deleteIntake();
     }
 </script>
+
+<img src={output} hidden />
 
 <div class="box flex flex-row w-fit">
     {#if true}
@@ -72,19 +78,17 @@
             </div>
         </div>
     {/if}
-    {#key intake}
-        {#if intake?.type != undefined}
-            <div class="grid grid-cols-1 h-fit" transition:slide>
-                <p>Select location</p>
-                <div class="flex flex-row">
-                    <button class="mr-1 px-2 h-fit output" on:click={()=>{intakeStep2("zone")}}><img alt="Take" class="w-6" src={output}></button><span class="mt-1 text-lg font-bold">Loading Zone</span>
-                </div>
-                <div class="flex flex-row">
-                    <button class="mr-1 px-2 mt-0.5 h-fit output" on:click={()=>{intakeStep2("midfield")}}><img alt="Take" class="w-6" src={output}></button><span class="mt-1 text-lg font-bold">Midfield</span>
-                </div>
+    {#if $step == 2}
+        <div class="grid grid-cols-1 h-fit" transition:slide>
+            <p>Select location</p>
+            <div class="flex flex-row">
+                <button class="mr-1 px-2 h-fit output" on:click={()=>{intakeStep2("zone")}}><img alt="Take" class="w-6" src={output}></button><span class="mt-1 text-lg font-bold">Loading Zone</span>
             </div>
-        {/if}
-    {/key}
+            <div class="flex flex-row">
+                <button class="mr-1 px-2 mt-0.5 h-fit output" on:click={()=>{intakeStep2("midfield")}}><img alt="Take" class="w-6" src={output}></button><span class="mt-1 text-lg font-bold">Midfield</span>
+            </div>
+        </div>
+    {/if}
 </div>
 
 <style>

@@ -1,17 +1,20 @@
 <script lang="ts">
     //@ts-ignore
     import slide from 'svelte-slidediag-transition';
+    import { enhance } from '$app/forms';
     import Timer from './Timer.svelte';
     import Inventory, { getNextID } from './Inventory.svelte';
     import Grid from './Grid.svelte';
+    import Questions from './Questions.svelte';
     import cube from "$lib/assets/scout/2023/cube.png";
     import cone from "$lib/assets/scout/2023/cone.png";
+
+    export let data:any;
 
     type InventoryItem = {
         time:number,
         type:"cone"|"cube",
-        substation:boolean,
-        method:"shelf"|"chute"|"floor"|{x:number,y:number},
+        location:"zone"|"midfield"|{x:number,y:number}|"preload",
         id:number
     }
 
@@ -20,13 +23,30 @@
         time:number,
         started:boolean,
         inventory:InventoryItem[],
-        actions:any[]
+        actions:any[],
+        answers:any
     } = {
-        alliance:"blue",
+        alliance:data.predata.alliance,
         time:0,
         started:false,
         inventory:[],
-        actions:[]
+        actions:[],
+        answers:{}
+    }
+
+    if(data.predata.pregame.preload != null){
+        state.inventory.push({
+            time:153,
+            type:data.predata.pregame.preload,
+            location:"preload",
+            id:-1
+        })
+        state.actions.push({
+            time:153,
+            action:"intake",
+            type:data.predata.pregame.preload,
+            location:"preload",
+        })
     }
 
     function drop(i:number){ 
@@ -39,10 +59,18 @@
             type:dropped.type
         })
     }
+
+    $: out = JSON.stringify({
+        actions: state.actions,
+        untimed: state.answers
+    })
+
+    let loading = false;
 </script>
 
-<center>
-    <div class="mt-10">
+<center class="pt-10">
+    <div>
+        <p class="text-3xl">Scouting <b>{data.predata.team}</b></p>
         <Timer bind:state={state}/>
         <br>
         <Inventory bind:state={state}/>
@@ -50,19 +78,36 @@
             <div class="flex flex-row w-fit">
                 {#each state.inventory as item, i (item.id)}
                     {#if item.type == "cone"}
-                        <button class="bg-none border-none p-0" on:click={()=>{drop(i)}}><img alt="^" src={cone} width=32px transition:slide></button>
+                        <button class="bg-none border-none p-0" on:click={()=>{drop(i)}} disabled={!state.started}><img alt="^" src={cone} width=32px transition:slide></button>
                     {:else if item.type == "cube"}
-                        <button class="bg-none border-none p-0" on:click={()=>{drop(i)}}><img alt="C" src={cube} width=32px transition:slide></button>
+                        <button class="bg-none border-none p-0" on:click={()=>{drop(i)}} disabled={!state.started}><img alt="C" src={cube} width=32px transition:slide></button>
                     {/if}
                 {/each}
             </div>
             {#if state.inventory.length > 0}<p class="opacity-50 text-xs" transition:slide>Click to drop on floor</p>{/if}
         </div>
         <Grid bind:state={state}/>
+        <br>
+        <Questions bind:state={state}/>
     </div>
     <!-- {#each state.actions as a}
         {a.action}
     {/each} -->
+
+    <form method="POST" use:enhance={() => {
+        loading = true;
+        //@ts-ignore
+        return async ({ update }) => {
+            await update();
+            loading = false;
+        };
+    }}>
+        <br>
+        <input hidden type="text" name="data" bind:value={out} />
+        <button transition:slide class="submit mb-2" disabled={loading || !(state.started&&state.time==0)}>
+            {loading?"Loading...":(state.started&&state.time==0)?"Next":(state.started)?state.time:"Next"}
+        </button>
+    </form>
 </center>
 
 <button on:click={()=>{
@@ -82,7 +127,19 @@
                 break;
             }
         }
+    }else if(res.action == "drop"){
+        for(let i = state.actions.length-1; i >= 0; i--){
+            if(state.actions[i].action == "intake" && state.actions[i].type == res.type){
+                let n = JSON.parse(JSON.stringify(state.actions[i]));
+                delete n.action;
+                n.id = getNextID();
+                state.inventory.push(n);
+                break;
+            }
+        }
     }
     state.actions = state.actions;
     state.inventory = state.inventory;
 }} class="fixed top-1 right-1 bg-gradient-to-br from-red-500 to-red-400 border-red-600">Undo</button>
+
+<button on:click={()=>{state.time = 0}}></button>

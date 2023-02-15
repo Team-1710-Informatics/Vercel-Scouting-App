@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 body {
 	width: 100%;
 	min-height: 100vh;
@@ -10,10 +22,11 @@ body {
 	box-sizing: border-box;
 	font-family: 'Roboto Mono', monospace;
 	background-color: rgb(54, 59, 66);
+	background-image: linear-gradient(to bottom, rgb(54, 59, 66), rgb(41, 46, 54));
 	color: white;
 }
 
-input {
+input, select, textarea {
 	color: black;
 	border-radius: 6px;
 	border: 1px solid gray;
@@ -30,13 +43,15 @@ middle {
 }
 
 h6 {
-	font-size: 1.25rem
-		/* 20px */
-	;
-	line-height: 1.75rem
-		/* 28px */
-	;
+	font-size: 1.25rem;
+	line-height: 1.75rem;
 	font-weight: 700;
+}
+
+h5 {
+	font-size: 1.5rem;
+    line-height: 2rem;
+	font-weight: 800;
 }
 
 button {
@@ -59,6 +74,7 @@ button:disabled {
 
 .box {
 	background-color: rgb(31 41 55);
+	background-image: linear-gradient(to bottom, rgb(31 41 55), rgb(12, 25, 45));
 	border-color: rgb(255 255 255);
 	color: white;
 	border-radius: 0.5rem;
@@ -69,6 +85,7 @@ button:disabled {
 
 .header {
 	background-color: rgb(15 23 42);
+	background-image: linear-gradient(to bottom, rgb(28, 38, 52), rgb(12, 25, 45));
 }
 
 .submit {
