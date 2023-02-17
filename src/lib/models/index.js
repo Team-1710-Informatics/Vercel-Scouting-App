@@ -37,6 +37,20 @@ const scoutEntry2023 = new Schema({
     },
     game:{
         actions: Array,
-        
+        untimed: {
+            mobile: Boolean,
+            dockedAuto: Boolean,
+            engageAuto: Boolean,
+            dockedMatch: Boolean,
+            engageMatch: Boolean,
+            parked: Boolean
+        }
+    },
+    postgame:{
+        strategy:Array,
+        rating: {type: Number, min: 0, max: 10},
+        thoughts: String
     }
 })
+
+export const ScoutData = mongoose.model("2023entry", scoutEntry2023);
