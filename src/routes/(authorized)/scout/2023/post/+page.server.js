@@ -16,7 +16,7 @@ export const actions = {
         const data = JSON.parse(input.get("data"));
 
         let entry = {...JSON.parse(cookies.get("scout")), postgame:data};
-        console.log(entry);
+        console.log(JSON.stringify(entry));
 
         cookies.set('scout', '', {
             path: '/',

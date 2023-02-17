@@ -16,7 +16,7 @@
     }
 
     export let data;
-    let event = data.competition?.key ?? "practice2023";
+    let event = data.competition?.key ?? "2023practice";
 
     let team:number;
     let match:number;
@@ -41,7 +41,7 @@
         coordinates = coordinates;
     }
 
-    let preload:"cube"|"cone"|null;
+    let preload:"cube"|"cone"|"none";
 
     $: out = JSON.stringify({
         event,
@@ -101,7 +101,7 @@
                 <p>Preload:</p>
                 <button class="bg-none border-none bg-opacity-50 opacity-50" class:opacity-100={preload=="cube"} class:bg-white={preload=="cube"} on:click={()=>{preload="cube"}}><img width=28px height=28px src={cube} alt=""></button>
                 <button class="bg-none border-none bg-opacity-50 opacity-50" class:opacity-100={preload=="cone"} class:bg-white={preload=="cone"} on:click={()=>{preload="cone"}}><img width=28px height=28px src={cone} alt=""></button>
-                <button class="bg-none border-none bg-opacity-50 opacity-50" class:opacity-100={preload== null } class:bg-white={preload== null } on:click={()=>{preload= null }}><img width=28px height=28px style="filter: brightness(0) saturate(100%) invert(22%) sepia(99%) saturate(6156%) hue-rotate(356deg) brightness(96%) contrast(117%);" src={x} alt=""></button>
+                <button class="bg-none border-none bg-opacity-50 opacity-50" class:opacity-100={preload=="none"} class:bg-white={preload=="none"} on:click={()=>{preload="none"}}><img width=28px height=28px style="filter: brightness(0) saturate(100%) invert(22%) sepia(99%) saturate(6156%) hue-rotate(356deg) brightness(96%) contrast(117%);" src={x} alt=""></button>
             </div>
         </center>
 
