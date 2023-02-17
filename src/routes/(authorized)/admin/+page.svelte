@@ -29,6 +29,18 @@
             reason:function(){ return "Screenshots for Credits" }
         },
         {
+            name:"Secret, more sinister option",
+            fields:[
+                {name:"Amount", type:"number"},
+                {name:"Reason", type:"text"}
+            ],
+            calculate:function(){
+                //@ts-ignore
+                return this.fields[0]?.answer;
+            },
+            reason:function(){ return "Secret, more sinister option"}
+        },
+        {
             name:"Other",
             fields:[
                 {name:"Amount", type:"number"},

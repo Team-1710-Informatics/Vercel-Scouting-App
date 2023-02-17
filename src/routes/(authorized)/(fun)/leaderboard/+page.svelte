@@ -13,9 +13,17 @@
         {#each data.list as u,i}
             <div>{i+1}</div>
             <div>{u.user}</div>
-            <div class="text-teal-500">{u.credits}</div>
+            <div class="text-teal-500 lcd">{u.credits}</div>
         {/each}
     </div>
     <br>
     <a href="/hub"><button>Back to Hub</button></a>
 </center>
+
+<style>
+    @import url('https://fonts.cdnfonts.com/css/lcd');
+
+    .lcd {
+        font-family: 'LCDMono', sans-serif;
+    }
+</style>

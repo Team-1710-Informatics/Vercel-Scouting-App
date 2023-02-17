@@ -11,7 +11,7 @@
         {q:"CHARGING STATION ENGAGED at end of AUTO?", name:"engageAuto", answer:null, time:138},
         {q:"Robot DOCKED at end of MATCH?", name:"dockedMatch", answer:null, time:0},
         {q:"CHARGING STATION ENGAGED at end of MATCH?", name:"engageMatch", answer:null, time:0},
-        {q:"Robot PARKED in COMMUNITY at end of MATCH?", name:"parked", answer:null, time:0, exclusive:"docked-match"},
+        {q:"Robot PARKED in COMMUNITY at end of MATCH?", name:"parked", answer:null, time:0, exclusive:"dockedMatch"},
     ]
 
     $: {
