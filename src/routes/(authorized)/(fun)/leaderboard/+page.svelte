@@ -29,7 +29,7 @@
     <h5>Leaderboard</h5>
     <br>
     <FaceMouse> 
-        <div class="flex flex-col w-fit box">
+        <div class="flex flex-col w-fit box shadow-lg">
             <table class="divide-y">
                 <tr class="text-xl mb-2 font-bold">
                     <th>Rank</th>
