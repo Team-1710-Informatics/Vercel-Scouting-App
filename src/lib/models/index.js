@@ -58,7 +58,7 @@ scoutEntry2023.methods.getIndividualScore=function(){
     let score=0;
     this.game.actions.forEach(action=>{
         if(action.type=="place"){
-            if((action.time - this.game.start) < 18){
+            if((action.time - this.game?.start??0) < 18){
                 switch(action.node.y){
                     case 0: score += 6;
                     case 1: score += 4;
