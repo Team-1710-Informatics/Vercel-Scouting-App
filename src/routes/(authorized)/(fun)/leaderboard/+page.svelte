@@ -2,6 +2,13 @@
     import FaceMouse from "$lib/components/visual/FaceMouse.svelte";
 
     export let data;
+
+    function funny(u){
+        u.credits--;
+        data.list.forEach(user=>{
+            if(user.user == data.user) data.user.credits++;
+        })
+    }
 </script>
 
 <center>
@@ -27,7 +34,7 @@
                     }()}">
                         <th>{i+1}.</th>
                         <td class="pr-3">{u.user}</td>
-                        <td class="text-teal-500 lcd text-right">{u.credits}</td>
+                        <td class="text-teal-500 lcd text-right" on:click={function(){funny(u)}}>{u.credits}</td>
                     </tr>
                 {/each}
             </table>

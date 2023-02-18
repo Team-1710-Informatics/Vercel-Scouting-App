@@ -9,7 +9,7 @@
 <center>
     {#each data.list as robot}
         <br>
-        <div class="box grid grid-cols-2 divide-x divide-y">
+        <div class="box grid grid-cols-2">
             <h6>Team: {robot.team}</h6>
             <h6>Match: {robot.match}</h6>
             <p class="mr-1"><span class="text-gray-400 text-sm">Direct score:</span>{robot.score}</p>
