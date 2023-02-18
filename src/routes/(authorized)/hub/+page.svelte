@@ -5,6 +5,7 @@
 
     const links:[string, string, number, string?][] = [
         ["Leaderboard", '/leaderboard', 3, ''],
+        ["Data", '/data/rankings', 3, 'submit'],
         ["Scout", '/scout/2023/pre', 6, 'submit']
     ]
 
