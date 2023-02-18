@@ -1,25 +1,27 @@
 <script>
     import FaceMouse from "$lib/components/visual/FaceMouse.svelte";
+    import { flip } from "svelte/animate";
 
     export let data;
 
-    function funny(){
-        data.list.forEach(user=>{
-            if(user.user == data.user) {
-                user.credits++;
-            }
-        })
-        let newl = [];
-        data.list.forEach(user=>{
-            let n = 0
-            for(let i = 0; i < newl.length; i++){
-                if(newl[i].credits < user.credits){
-                    n = i;
-                }
-            }
-            newl.splice(i,0,user);
-        })
-    }
+    // function funny(){
+    //     data.list.forEach(user=>{
+    //         if(user.user == data.user) {
+    //             user.credits+=10;
+    //         }
+    //     })
+    //     let newl = [];
+    //     data.list.forEach(user=>{
+    //         let n = 0
+    //         for(let i = 0; i < newl.length; i++){
+    //             if(newl[i].credits < user.credits){
+    //                 n = i;
+    //             }
+    //         }
+    //         newl.splice(i,0,user);
+    //     })
+    //     data.list = newl;
+    // }
 </script>
 
 <center>
@@ -35,21 +37,21 @@
                     <th>Credits</th>
                 </tr>
                 {#each data.list as u,i (u.user)}
-                    {#if u.user == data.user || i < 10}
-                        <tr class="{function(){
-                            switch(i){
-                                case 0: return "text-teal-200  text-xl";
-                                case 1: return "text-amber-400 text-xl";
-                                case 2: return "text-slate-300 text-xl";
-                                case 3: return "text-amber-600 text-xl";
-                                case 10: return "text-gray-300";
-                            }
-                        }()}">
+                    <tr animate:flip class="{function(){
+                        switch(i){
+                            case 0: return "text-teal-200  text-xl";
+                            case 1: return "text-amber-400 text-xl";
+                            case 2: return "text-slate-300 text-xl";
+                            case 3: return "text-amber-600 text-xl";
+                            case 10: return "text-gray-300";
+                        }
+                    }()}">
+                        {#if u.user == data.user || i < 10}
                             <th>{i<10?i+1:".."}.</th>
                             <td class="pr-3">{u.user==data.user?"You":u.user}</td>
-                            <td class="text-teal-500 lcd text-right" on:click={()=>{u.credits--;funny()}}>{u.credits}</td>
-                        </tr>
-                    {/if}
+                            <td class="text-teal-500 lcd text-right">{u.credits}</td>
+                        {/if}
+                    </tr>
                 {/each}
             </table>
         </div>
