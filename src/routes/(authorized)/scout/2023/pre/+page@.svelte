@@ -16,7 +16,7 @@
     }
 
     export let data;
-    let event = data.competition?.key ?? "2023practice";
+    let event = data.competition?.key ?? "2023lswz";
 
     let team:number;
     let match:number;

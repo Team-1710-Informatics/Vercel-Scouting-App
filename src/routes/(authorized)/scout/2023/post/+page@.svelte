@@ -9,7 +9,8 @@ import StarRating from "$lib/components/StarRating.svelte";
         ["🤝 RECIEVE & PLACE", "place", false, "#33cc33"],
         ["🚚 TRANSPORTER", "transport", false, "#f03a17"],
         ["🧱 DEFENSE", "defense", false, "#f7894a"],
-        ["🍞 toast bread", "bread", false]
+        ["🍞 toast bread", "bread", false],
+        ["💔 brokedown", "breakdown", false],
     ]
 
     let thoughts;

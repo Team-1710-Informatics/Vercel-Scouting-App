@@ -53,4 +53,37 @@ const scoutEntry2023 = new Schema({
     }
 })
 
+scoutEntry2023.methods.getIndividualScore=function(){
+    let score=0;
+    this.game.actions.forEach(action=>{
+        if(action.type=="place"){
+            if(action.time > 135){
+                switch(action.node.y){
+                    case 0: score += 6;
+                    case 1: score += 4;
+                    case 2: score += 3;
+                }
+            }else{
+                switch(action.node.y){
+                    case 0: score += 5;
+                    case 1: score += 3;
+                    case 2: score += 2;
+                }
+            }
+        }
+    })
+    if(this.game.untimed.mobile) score += 3;
+    if(this.game.untimed.dockedAuto){
+        score += 8;
+        if(this.game.untimed.engageAuto) score += 4;
+    }
+    if(this.game.untimed.dockedMatch){
+        score += 6
+        if(this.game.untimed.engageMatch) score += 4;
+    }
+    else if(this.game.untimed.parked) score += 2;
+
+    return score;
+};
+
 export const ScoutData = mongoose.model("2023entry", scoutEntry2023);
