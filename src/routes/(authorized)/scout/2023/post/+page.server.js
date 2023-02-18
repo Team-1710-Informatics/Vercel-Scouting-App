@@ -1,3 +1,4 @@
+import { ScoutData } from "$lib/models";
 import { redirect } from "@sveltejs/kit";
 
 export function load({ cookies }) {
@@ -16,7 +17,10 @@ export const actions = {
         const data = JSON.parse(input.get("data"));
 
         let entry = {...JSON.parse(cookies.get("scout")), postgame:data};
-        console.log(entry);
+        console.log(JSON.stringify(entry));
+
+        const db = new ScoutData(entry);
+        await db.save();
 
         cookies.set('scout', '', {
             path: '/',

@@ -34,7 +34,7 @@
         answers:{}
     }
 
-    if(data.predata.pregame.preload != null){
+    if(data.predata.pregame.preload != "none"){
         state.inventory.push({
             time:153,
             type:data.predata.pregame.preload,

@@ -4,6 +4,7 @@
     export let data:any;
 
     const links:[string, string, number, string?][] = [
+        ["Leaderboard", '/leaderboard', 3, ''],
         ["Scout", '/scout/2023/pre', 6, 'submit']
     ]
 
