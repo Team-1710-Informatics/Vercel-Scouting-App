@@ -9,6 +9,16 @@
                 user.credits++;
             }
         })
+        let newl = [];
+        data.list.forEach(user=>{
+            let n = 0
+            for(let i = 0; i < newl.length; i++){
+                if(newl[i].credits < user.credits){
+                    n = i;
+                }
+            }
+            newl.splice(i,0,user);
+        })
     }
 </script>
 
@@ -25,18 +35,21 @@
                     <th>Credits</th>
                 </tr>
                 {#each data.list as u,i (u.user)}
-                    <tr class="{function(){
-                        switch(i){
-                            case 0: return "text-teal-200  text-xl";
-                            case 1: return "text-amber-400 text-xl";
-                            case 2: return "text-slate-300 text-xl";
-                            case 3: return "text-amber-600 text-xl";
-                        }
-                    }()}">
-                        <th>{i+1}.</th>
-                        <td class="pr-3">{u.user}</td>
-                        <td class="text-teal-500 lcd text-right" on:click={()=>{u.credits--;funny()}}>{u.credits}</td>
-                    </tr>
+                    {#if u.user == data.user || i < 10}
+                        <tr class="{function(){
+                            switch(i){
+                                case 0: return "text-teal-200  text-xl";
+                                case 1: return "text-amber-400 text-xl";
+                                case 2: return "text-slate-300 text-xl";
+                                case 3: return "text-amber-600 text-xl";
+                                case 10: return "text-gray-300";
+                            }
+                        }()}">
+                            <th>{i<10?i+1:".."}.</th>
+                            <td class="pr-3">{u.user==data.user?"You":u.user}</td>
+                            <td class="text-teal-500 lcd text-right" on:click={()=>{u.credits--;funny()}}>{u.credits}</td>
+                        </tr>
+                    {/if}
                 {/each}
             </table>
         </div>

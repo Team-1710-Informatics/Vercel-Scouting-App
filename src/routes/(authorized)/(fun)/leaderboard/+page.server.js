@@ -14,10 +14,10 @@ export async function load({ locals }){
     })
 
     if(!b){
-        const user = await User.find({username:locals.user.username});
+        const user = (await User.find({username:locals.user.username}))[0];
         final.push({
-            user: user.name.first + " " + user.name.last,
-            credits: item.credits
+            user: user?.name?.first + " " + user?.name?.last,
+            credits: user?.credits
         });
     }
 
