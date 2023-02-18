@@ -21,6 +21,7 @@
     let state:{
         alliance:"red"|"blue",
         time:number,
+        start:number,
         started:boolean,
         inventory:InventoryItem[],
         actions:any[],
@@ -28,6 +29,7 @@
     } = {
         alliance:data.predata.alliance,
         time:0,
+        start:0,
         started:false,
         inventory:[],
         actions:[],
@@ -55,12 +57,13 @@
 
         state.actions.push({
             action:"drop",
-            time:state.time,
+            time:Date.now(),
             type:dropped.type
         })
     }
 
     $: out = JSON.stringify({
+        start:state.start,
         actions: state.actions,
         untimed: state.answers
     })

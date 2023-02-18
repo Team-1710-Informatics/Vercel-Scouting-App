@@ -16,7 +16,7 @@
     <br>
     <h5>Leaderboard</h5>
     <br>
-    <FaceMouse>
+    <FaceMouse> 
         <div class="flex flex-col w-fit box">
             <table class="divide-y">
                 <tr class="text-xl mb-2 font-bold">
