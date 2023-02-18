@@ -4,9 +4,10 @@
     export let data;
 
     function funny(){
-        alert('devious');
         data.list.forEach(user=>{
-            if(user.user == data.user) data.user.credits++;
+            if(user.user == data.user) {
+                user.credits++;
+            }
         })
     }
 </script>
