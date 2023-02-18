@@ -36,6 +36,7 @@ const scoutEntry2023 = new Schema({
         preload: {type:String, match:/cube|cone|none/}
     },
     game:{
+        start:Number,
         actions: Array,
         untimed: {
             mobile: Boolean,
@@ -57,7 +58,7 @@ scoutEntry2023.methods.getIndividualScore=function(){
     let score=0;
     this.game.actions.forEach(action=>{
         if(action.type=="place"){
-            if(action.time > 135){
+            if((action.time - this.game.start) < 18){
                 switch(action.node.y){
                     case 0: score += 6;
                     case 1: score += 4;
