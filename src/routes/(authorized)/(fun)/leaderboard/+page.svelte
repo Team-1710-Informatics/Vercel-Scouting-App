@@ -3,8 +3,8 @@
 
     export let data;
 
-    function funny(u){
-        u.credits--;
+    function funny(){
+        alert('devious');
         data.list.forEach(user=>{
             if(user.user == data.user) data.user.credits++;
         })
@@ -34,7 +34,7 @@
                     }()}">
                         <th>{i+1}.</th>
                         <td class="pr-3">{u.user}</td>
-                        <td class="text-teal-500 lcd text-right" on:click={function(){funny(u)}}>{u.credits}</td>
+                        <td class="text-teal-500 lcd text-right" on:click={()=>{u.credits--;funny()}}>{u.credits}</td>
                     </tr>
                 {/each}
             </table>
