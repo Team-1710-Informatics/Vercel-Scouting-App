@@ -1,6 +1,6 @@
 <script lang=ts>
     import { slide } from "svelte/transition";
-    import { onMount } from "svelte/types/runtime/internal/lifecycle";
+    import { onMount } from "svelte";
     import CompetitionTracker from "./CompetitionTracker.svelte";
 
     export let data:any;
