@@ -6,7 +6,8 @@
     const links:[string, string, number, string?][] = [
         ["Leaderboard", '/leaderboard', 4, ''],
         ["Data", '/data', 2, 'border-orange-600 bg-gradient-to-bl from-orange-500 to-yellow-300'],
-        ["Scout", '/scout/2023/pre', 6, 'submit']
+        ["Scout", '/scout/2023/pre', 6, 'submit'],
+        ["Simon Cowell", '/simon', 6, ''],
     ]
 
     if(data.permissions.includes("admin") || data.user == "Brooks"){

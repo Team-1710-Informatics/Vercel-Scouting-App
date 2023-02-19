@@ -3,7 +3,7 @@
   "short_name": "Scouting",
   "start_url": "/login",
   "display": "standalone",
-  "theme_color": "#0f172a",
+  "theme_color": "#1c2634",
   "background_color": "#363b42",
   "icons": [
     {
