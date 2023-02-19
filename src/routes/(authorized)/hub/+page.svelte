@@ -40,7 +40,7 @@
             <a href={link[1]} class="w-full font-bold" style="grid-column: span {link[2]} / span {link[2]};"><button class={link?.[3]+" w-full py-3"}>{link[0]}</button></a>
         {/each}
     </div>
-    {#if deferredPrompt}
-        <button class="my-5" transition:slide on:click={deferredPrompt?.prompt}>Install App</button>
-    {/if}
+    <!-- {#if deferredPrompt}
+        <button class="my-5" transition:slide on:click={deferredPrompt.prompt}>Install App</button>
+    {/if} -->
 </middle>
