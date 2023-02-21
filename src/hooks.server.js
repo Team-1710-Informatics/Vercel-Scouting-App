@@ -17,7 +17,7 @@ export async function handle({ event, resolve }) {
 
     await mongoose.connect(MONGODB_MAIN);
 
-    const user = (await User.findOne({ token:token })).toJSON();
+    const user = (await User.findOne({ token:token }))?.toJSON();
 
     if(token && !user) {
         mongoose.connection.close(); 
