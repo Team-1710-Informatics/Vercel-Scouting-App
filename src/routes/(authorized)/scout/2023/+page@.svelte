@@ -37,6 +37,10 @@
         startPosition:{x:NaN,y:NaN},
         preload:null
     }
+
+    let game:any={};
+
+    let postgame:any={}
 </script>
 
 <center class="pt-10">
@@ -46,11 +50,11 @@
         </div>
     {:else if step===1}
         <div in:fly={{duration:500, delay:500}} out:fly={{duration:500}}>
-            <Match {meta} />
+            <Match {meta} {pregame} bind:game={game} on:advance={()=>{step++}}/>
         </div>
     {:else if step===2}
         <div in:fly={{duration:500, delay:500}} out:fly={{duration:500}}>
-            <Post />
+            <Post bind:meta={meta} bind:pregame={pregame} bind:game={game} bind:postgame={postgame} />
         </div>
     {/if}
 </center>

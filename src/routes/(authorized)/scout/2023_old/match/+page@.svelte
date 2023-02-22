@@ -63,7 +63,7 @@
     }
 
     $: out = JSON.stringify({
-        start:state.start,
+        start: state.start,
         actions: state.actions,
         untimed: state.answers
     })
