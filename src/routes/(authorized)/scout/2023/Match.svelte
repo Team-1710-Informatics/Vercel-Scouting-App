@@ -64,7 +64,7 @@
 <Inventory bind:log={log} bind:state={state} />
 <Grid bind:log={log} {meta} bind:state={state}/> <br>
 <Questions bind:state={state} bind:answers={untimed} />
-
+<div class="py-2"/>
 <button on:click={()=>{
         log.forEach(l=>{
             delete l.id
@@ -91,7 +91,7 @@
         }
         dispatch("advance");
     }} 
-    class="submit mb-2" disabled={!(state.started&&state.time==0)||!answered}
+    class="submit my-2" disabled={!(state.started&&state.time==0)||!answered}
 >
     {(state.started&&state.time==0)?"Next":(state.started)?state.time:"Next"}
 </button>
