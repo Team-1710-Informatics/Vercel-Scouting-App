@@ -22,7 +22,7 @@ body {
 	box-sizing: border-box;
 	font-family: 'Roboto Mono', monospace;
 	background-color: rgb(54, 59, 66);
-	background-image: linear-gradient(to bottom, rgb(54, 59, 66), rgb(41, 46, 54));
+	background-image: linear-gradient(to top, rgb(54, 59, 66), rgb(41, 46, 54));
 	color: white;
 }
 
@@ -59,7 +59,7 @@ button {
 	padding-right: 6px;
 	padding-top: 4px;
 	padding-bottom: 4px;
-	border: 1px solid rgb(29, 78, 216);
+	border: 2px solid rgb(29, 78, 216);
 	background-image: linear-gradient(to bottom right, rgb(37, 99, 235), rgb(96, 165, 250));
 	border-radius: 8px;
 }

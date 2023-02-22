@@ -90,7 +90,7 @@
         {#if team && match && alliance}
             <div transition:slide class="w-fit">
                 Select starting position
-                <img alt="community" bind:this={comm} class="bg-red-500 bg-blue-500" on:click={setStartingPosition} src={imgs[alliance]}/>
+                <img alt="community" bind:this={comm} on:click={setStartingPosition} src={imgs[alliance]}/>
                 {#if coordinates.y != NaN}<div class="rounded-full w-5 h-5 bg-{alliance}-600 border-2 border-black" style="position:absolute; top:{+coordinates.sy-10}px; left:{coordinates.sx-10}px;"/>{/if}
             </div>
         {/if}

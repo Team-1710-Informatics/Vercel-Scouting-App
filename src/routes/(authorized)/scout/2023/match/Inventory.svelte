@@ -41,7 +41,7 @@
     };
 
     function initializeIntake(piece:string) {
-        intake.time = state.time;
+        intake.time = Date.now();
         intake.type = piece;
         intake.id = nid;
         nid++;

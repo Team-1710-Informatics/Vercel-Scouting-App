@@ -78,7 +78,7 @@ export const actions = {
         cookies.set('session', token, {
             path: '/',
             sameSite: 'strict',
-            maxAge: 60 * 60 * 24
+            maxAge: 60 * 60 * 24 * 7
         });
 
         await client.close();

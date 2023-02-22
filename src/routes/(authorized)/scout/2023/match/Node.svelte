@@ -60,7 +60,7 @@
     function place(type:"cone"|"cube") {
         state.actions.push({
             action:"place",
-            time:state.time,
+            time:Date.now(),
             type:type,
             node:{x:pos.x,y:pos.y}
         })

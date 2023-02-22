@@ -1,23 +1,27 @@
 <script>
-    import { X_TBA_AUTHKEY } from "$env/static/private";
-
+    /**
+     * The selected event
+     */
     export let event = null;
 
-    const year = new Date().getFullYear();
+    /**
+     * An array recieved from https://thebluealliance.com/api/v3/events/{year}
+     */
+    export let events = null;
 
-    let events = null;
-    async function load(){
-        const res = await fetch(`https://thebluealliance.com/events/${year}/simple`);
-        events = await res.json();
-    }
+    export let disabled = false;
 </script>
 
-{#if events == null}
-    Loading...
+{#if events === null}
+    <input type="text" bind:value={event} {disabled}/>
 {:else}
-    <select bind:value={event}>
-        {#each events as event}
-            <option value={event.key}>{event.name}</option>
-        {/each}
-    </select>
+    <div>
+        <select class="text-sm" style="max-width:210px; text-overflow:ellipsis" bind:value={event} {disabled}>
+            <option value={null}>Select an event...</option>
+            {#each events as e}
+                <option style="text-overflow:ellipsis" value={e.key}>{e.short_name!=""?e.short_name:e.name}</option>
+            {/each}
+        </select>
+        <p class="text-xs text-gray-400">Powered by <span class="font-bold">The Blue Alliance</span></p>
+    </div>
 {/if}

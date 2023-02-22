@@ -31,14 +31,13 @@
         {
             name:"Secret, more sinister option",
             fields:[
-                {name:"Amount", type:"number"},
-                {name:"Reason", type:"text"}
+                {name:"Amount", type:"number"}
             ],
             calculate:function(){
                 //@ts-ignore
                 return this.fields[0]?.answer;
             },
-            reason:function(){ return "Secret, more sinister option"}
+            reason:function(){ return "Secret, more sinister option"; }
         },
         {
             name:"Other",
