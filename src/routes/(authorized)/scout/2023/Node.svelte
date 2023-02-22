@@ -76,6 +76,7 @@
 
     class:bg-red-700={type==="^"&&meta.alliance==="red"} 
     class:bg-blue-700={type==="^"&&meta.alliance==="blue"}
+    class:bg-slate-900={location==3||location==5||location==12||location==14}
 >
 <!-- {#if type=="^"}
     <div class="rounded-full bg-gray-500 absolute" style="top:{(size/2)-6}px; left:{(size/2)-6}px; width:8px; height:8px" />
