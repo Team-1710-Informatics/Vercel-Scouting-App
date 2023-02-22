@@ -51,7 +51,7 @@ export const actions = {
                 await client.close();
                 return data;
             }else{
-                client.db("main").collection("users").updateOne({email:user.email}, {$set:{"flags.reset":key}});
+                await client.db("main").collection("users").updateOne({email:user.email}, {$set:{"flags.reset":key}});
                 data.alert = `Due to a change in infrastructure you will need to set a new password. We have sent an email containing instructions to ${user.email}.`;
                 await client.close();
                 return data;
@@ -78,7 +78,7 @@ export const actions = {
         cookies.set('session', token, {
             path: '/',
             sameSite: 'strict',
-            maxAge: 60 * 60 * 24
+            maxAge: 60 * 60 * 24 * 7
         });
 
         await client.close();

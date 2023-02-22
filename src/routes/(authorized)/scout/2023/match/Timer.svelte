@@ -1,11 +1,13 @@
 <script lang="ts">
     export let state:any & {
         time:number,
-        started:boolean
+        started:boolean,
+        start:number
     }
 
     let interval:NodeJS.Timer;
     function start(){
+        state.start = Date.now();
         state.started = true;
         state.time = 153
         interval = setInterval(()=>{
