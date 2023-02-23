@@ -64,3 +64,5 @@
         </div>
     {/if}
 </div>
+<br>
+<a href="/hub"><button>Back to Hub</button></a>
