@@ -28,7 +28,7 @@
 <div class="box">
     <div id="metadata" class="grid grid-cols-4 gap-y-2 mb-3">
         <b class="justify-self-start">Event:</b>
-        <div class="col-span-3 justify-self-end"><CompetitionSelector {events} bind:event={meta.event} {disabled} /></div>
+        <div class="col-span-3 justify-self-end"><CompetitionSelector events={[{short_name:"Practice Scouting",key:"2023practice"},...events]} bind:event={meta.event} {disabled} /></div>
         
         <b class="justify-self-start">Match:</b>
         <div><input class="w-16" type="number" bind:value={meta.match} {disabled}></div>
@@ -64,3 +64,5 @@
         </div>
     {/if}
 </div>
+<br>
+<a href="/hub"><button>Back to Hub</button></a>

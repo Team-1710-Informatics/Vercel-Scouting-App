@@ -10,17 +10,18 @@ import { redirect } from "@sveltejs/kit";
 import { X_TBA_AUTHKEY } from '$env/static/private';
 import { DateTime } from 'luxon';
 
+await mongoose.connect(MONGODB_MAIN);
+console.log('Connected to MongoDB Atlas')
+
 export async function handle({ event, resolve }) {
     const token = event.cookies.get("session");
 
     if(!token || event.url.pathname == "/logout") return await resolve(event);
 
-    await mongoose.connect(MONGODB_MAIN);
-
     const user = (await User.findOne({ token:token }))?.toJSON();
 
     if(token && !user) {
-        mongoose.connection.close(); 
+        // mongoose.connection.close(); 
         throw redirect(307, "/logout");
     }
 
@@ -47,7 +48,7 @@ export async function handle({ event, resolve }) {
     }
     
     const resolved = await resolve(event);
-    mongoose.connection.close();
+    // mongoose.connection.close();
     return resolved;
 }
 
