@@ -1,44 +1,69 @@
 <script>
     import arrowDown from "$lib/assets/icons/arrowDown.svg";
     import arrowRight from "$lib/assets/icons/arrowRight.svg";
+    import { slide } from "svelte/transition";
     let routes = [
         {
-            name: "this",
-            desc: "test number one",
+            name: "/{match key}",
+            desc: "Displays the match statistics in order of the lineup",
             checked: false
         },
         {
-            name: "that",
-            desc: "test number two",
-            checked: true
+            name: "/{match key}/{team}",
+            desc: "Displays the team statistics for a given match in order of the lineup for that match",
+            checked: false
         }
     ]
 </script>
 
 <span>
     {#each routes as route}
-        <div class="capsulate">
-            <button class="flex flex-row" style="background-image:none; border: none;" on:click={()=>{route.checked = !route.checked;}}>
-                <img class="mr-1" style="filter:invert(100%)" src={route.checked?arrowDown:arrowRight} alt="collapse"><p>{route.name}</p>
+        <center>
+            <button class="flex flex-row text-sky-400 font-sans capsulate" style="background-image:none;" on:click={()=>{route.checked = !route.checked;}}>
+                <img class="mr-1" style="filter:invert(100%)" src={route.checked?arrowDown:arrowRight} alt="collapse"><b>{route.name}</b>
+                
             </button>
-            <br>
             {#if route.checked}
-                {route.desc}
+                
+                <div transition:slide class="description" style="color:beige;">
+                    {route.desc}
+                </div>
             {/if}
-        </div>
+        </center>
     {/each}
 </span>
 
 <style>
     .capsulate {
+        background-color: rgb(31 41 55);
         border-radius: 15px;
         border-width: 4px;
         padding-right: 10px;
         padding-left: 10px;
-        padding-top: 5px;
-        padding-bottom: 5px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        width: 80vw;
+        text-align: center;
+        margin-top: 1vh;
     }
-    div.capsulate:hover {
-        border-color: blue;
+
+    .description {
+        background-color: rgb(31 41 55);
+        border-color:rgb(29, 78, 216);;
+        border-radius: 15px;
+        border-width: 4px;
+        border-top-width: 0px;
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+        padding-right: 10px;
+        padding-left: 10px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        margin-top:0px;
+        width: calc(80vw - 30px);
+    }
+
+    button.capsulate:hover {
+        border-color: white;
     }
 </style>
