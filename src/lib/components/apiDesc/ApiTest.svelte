@@ -1,29 +1,23 @@
-<script>
+<!-- <script>
     import arrowDown from "$lib/assets/icons/arrowDown.svg";
     import arrowRight from "$lib/assets/icons/arrowRight.svg";
+    import match from "./src/api/[event=eventKey]/+server.js";
+    import matchTeam from "./src/api/[event=eventKey]/frc[team]/+server.js";
     import { slide } from "svelte/transition";
     let routes = [
-        {
-            name: "/{match key}",
-            desc: "Displays the match statistics in order of the lineup",
-            checked: false
-        },
-        {
-            name: "/{match key}/{team}",
-            desc: "Displays the team statistics for a given match in order of the lineup for that match",
-            checked: false
-        }
+        match,
+        matchTeam
     ]
 </script>
 
 <span>
     {#each routes as route}
         <center>
-            <button class="flex flex-row text-sky-400 font-sans capsulate" style="background-image:none;" on:click={()=>{route.checked = !route.checked;}}>
-                <img class="mr-1" style="filter:invert(100%)" src={route.checked?arrowDown:arrowRight} alt="collapse"><b>{route.name}</b>
+            <button class="flex flex-row text-sky-400 font-sans capsulate" style="background-image:none;" on:click={()=>{route.checked = !route?.checked;}}>
+                <img class="mr-1" style="filter:invert(100%)" src={route?.checked?arrowDown:arrowRight} alt="collapse"><b>{route.url}</b>
                 
             </button>
-            {#if route.checked}
+            {#if route?.checked}
                 
                 <div transition:slide class="description" style="color:beige;">
                     {route.desc}
@@ -66,4 +60,4 @@
     button.capsulate:hover {
         border-color: white;
     }
-</style>
+</style> -->
