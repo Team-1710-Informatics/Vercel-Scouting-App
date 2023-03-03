@@ -88,3 +88,25 @@ scoutEntry2023.methods.getIndividualScore=function(){
 };
 
 export const ScoutData = mongoose.model("2023entry", scoutEntry2023);
+
+const scheduleItem = new Schema({ 
+    //event: {type: String, match:/(\d{4})\w+/},
+    name: String,
+    time:{
+        start:Number,
+        end:Number
+    },
+    users: Array,
+    notes: String 
+})
+
+scheduleItem.methods.getIndividualStatus=function(username){
+    for (const user in this.users) {
+        if(this.users[user] === username) {
+            return(true);
+        }
+    }
+    return(false);
+}
+
+export const Schedule = mongoose.model("Schedule", scheduleItem);
