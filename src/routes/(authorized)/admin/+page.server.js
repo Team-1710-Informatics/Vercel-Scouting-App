@@ -1,6 +1,6 @@
 import { MongoClient } from "mongodb";
 import { MONGODB } from "$env/static/private";
-import credits from "$lib/modules/credits";
+import credits from "$lib/server/credits";
 
 const client = new MongoClient(MONGODB);
 

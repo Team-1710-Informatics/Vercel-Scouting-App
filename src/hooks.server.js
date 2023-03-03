@@ -3,25 +3,27 @@ import { MONGODB } from '$env/static/private';
 import { MONGODB_MAIN } from '$env/static/private';
 
 import mongoose from 'mongoose';
+import { User } from '$lib/models';
 
 import { redirect } from "@sveltejs/kit";
 
 import { X_TBA_AUTHKEY } from '$env/static/private';
 import { DateTime } from 'luxon';
 
-const client = new MongoClient(MONGODB);
+await mongoose.connect(MONGODB_MAIN);
+console.log('Connected to MongoDB Atlas')
 
 export async function handle({ event, resolve }) {
     const token = event.cookies.get("session");
 
     if(!token || event.url.pathname == "/logout") return await resolve(event);
 
-    await mongoose.connect(MONGODB_MAIN);
-    await client.connect();
+    const user = (await User.findOne({ token:token }))?.toJSON();
 
-    const user = await client.db("main").collection("users").findOne({ token:token });
-
-    if(token && !user) {await client.close(); throw redirect(307, "/logout");}
+    if(token && !user) {
+        // mongoose.connection.close(); 
+        throw redirect(307, "/logout");
+    }
 
     let res = await fetch(`https://thebluealliance.com/api/v3/team/frc${user.team}/events/${new Date().getFullYear()}`, {
         headers: { "X-TBA-Auth-Key": X_TBA_AUTHKEY }
@@ -45,9 +47,8 @@ export async function handle({ event, resolve }) {
         event.locals.nextCompetition = n;
     }
     
-    await client.close();
     const resolved = await resolve(event);
-    mongoose.connection.close();
+    // mongoose.connection.close();
     return resolved;
 }
 

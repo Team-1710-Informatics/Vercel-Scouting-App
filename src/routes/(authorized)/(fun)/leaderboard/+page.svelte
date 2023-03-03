@@ -3,25 +3,6 @@
     import { flip } from "svelte/animate";
 
     export let data;
-
-    // function funny(){
-    //     data.list.forEach(user=>{
-    //         if(user.user == data.user) {
-    //             user.credits+=10;
-    //         }
-    //     })
-    //     let newl = [];
-    //     data.list.forEach(user=>{
-    //         let n = 0
-    //         for(let i = 0; i < newl.length; i++){
-    //             if(newl[i].credits < user.credits){
-    //                 n = i;
-    //             }
-    //         }
-    //         newl.splice(i,0,user);
-    //     })
-    //     data.list = newl;
-    // }
 </script>
 
 <center>
@@ -29,26 +10,25 @@
     <h5>Leaderboard</h5>
     <br>
     <FaceMouse> 
-        <div class="flex flex-col w-fit box shadow-lg">
+        <div class="flex flex-col w-fit box shadow-lg" style="max-width:90vw">
             <table class="divide-y">
                 <tr class="text-xl mb-2 font-bold">
                     <th>Rank</th>
                     <th>User</th>
                     <th>Credits</th>
                 </tr>
-                {#each data.list as u,i (u.user)}
-                    <tr animate:flip class="{function(){
+                {#each data.list as u,i (u.uname)}
+                    <tr animate:flip class="divide-x divide-gray-600 bg-white/25 {function(){
                         switch(i){
                             case 0: return "text-teal-200  text-xl";
                             case 1: return "text-amber-400 text-xl";
                             case 2: return "text-slate-300 text-xl";
                             case 3: return "text-amber-600 text-xl";
-                            case 10: return "text-gray-300";
                         }
-                    }()}">
-                        {#if u.user == data.user || i < 10}
-                            <th>{i<10?i+1:".."}.</th>
-                            <td class="pr-3">{u.user==data.user?"You":u.user}</td>
+                    }()}" class:bg-transparent={u.uname != data.user}>
+                        {#if u.uname == data.user || i < 10}
+                            <th>{i+1}.</th>
+                            <td class="px-3">{u.user}</td>
                             <td class="text-teal-500 lcd text-right">{u.credits}</td>
                         {/if}
                     </tr>

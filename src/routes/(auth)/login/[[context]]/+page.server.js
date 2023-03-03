@@ -72,13 +72,13 @@ export const actions = {
         if(user.flags?.verification_key) { await client.close(); throw redirect(307, `/verify/${user.username}/l`); }
 
         //Establish session
-        let token = crypto.randomUUID();
+        let token = user?.token??crypto.randomUUID();
         await client.db("main").collection("users").updateOne({ username:user.username }, { $set:{ token:token } });
 
         cookies.set('session', token, {
             path: '/',
             sameSite: 'strict',
-            maxAge: 60 * 60 * 24
+            maxAge: 60 * 60 * 24 * 7
         });
 
         await client.close();
