@@ -22,7 +22,8 @@ export default {
         await client.db("main").collection("transactions").insertOne({
             user:username,
             amount:amount,
-            reason:reason
+            reason:reason,
+            time: Date.now()
         });
 
         await client.close();
