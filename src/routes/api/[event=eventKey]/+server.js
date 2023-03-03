@@ -1,12 +1,15 @@
-import { MongoClient } from 'mongodb';
-import { MONGODB } from "$env/static/private";
+import { ScoutData } from "$lib/models";
 import { json } from '@sveltejs/kit';
 
-const client = new MongoClient(MONGODB);
-
 export async function GET({ params }) {
-    await client.connect();
-    const jason = await client.db("main").collection("2023entries").find({ event:params.event }).toArray();
-    await client.close();
+    const jason = JSON.parse(JSON.stringify((await ScoutData.find({ event:params.event }))));
     return json(jason);
 }
+
+const info = {
+    url: "/{event}",
+    desc: "Displays all data from an event for each team in all matches in order of submission time for all match scouting",
+    ex: "/2023test"
+}
+
+export default info;

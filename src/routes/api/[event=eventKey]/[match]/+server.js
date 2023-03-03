@@ -7,8 +7,9 @@ export async function GET({ params }) {
 }
 
 const info = {
-    url: "/{match key}",
-    desc: "Displays the match statistics in order of the lineup"
+    url: "/{event key}/{match key}",
+    desc: "Displays the match statistics in order of the lineup",
+    ex: "/2023test/8",
 }
 
 export default info;

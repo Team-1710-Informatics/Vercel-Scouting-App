@@ -2,11 +2,15 @@
     import arrowDown from "$lib/assets/icons/arrowDown.svg";
     import arrowRight from "$lib/assets/icons/arrowRight.svg";
     import match from "../api/[event=eventKey]/[match]/+server.js";
-    import matchTeam from "../api/[event=eventKey]/frc[team]/+server.js";
+    import event from "../api/[event=eventKey]/+server.js";
+    import matchTeam from "../api/[event=eventKey]/[match]/frc[team]/+server.js";
+    import eventTeam from "../api/[event=eventKey]/frc[team]/+server.js";
     import { slide } from "svelte/transition";
     let routes = [
+        event,
         match,
-        matchTeam
+        matchTeam,
+        eventTeam,
     ]
 </script>
 
@@ -21,11 +25,14 @@
             <center>
                 <button class="flex flex-row text-sky-400 font-sans capsulate" style="background-image:none;" on:click={()=>{route.checked = !route?.checked;}}>
                     <img class="mr-1" style="filter:invert(100%)" src={route?.checked?arrowDown:arrowRight} alt="collapse"><b>{route.url}</b>
-                    
                 </button>
                 {#if route?.checked}
                     <div transition:slide class="description" style="color:beige;">
                         {route.desc}
+                        <br>
+                        <div class="routeExample">
+                            {route.ex}
+                        </div>
                     </div>
                 {/if}
             </center>
@@ -49,7 +56,7 @@
 
     .description {
         background-color: rgb(31 41 55);
-        border-color:rgb(29, 78, 216);;
+        border-color:rgb(29, 78, 216);
         border-radius: 15px;
         border-width: 4px;
         border-top-width: 0px;
@@ -65,5 +72,16 @@
 
     button.capsulate:hover {
         border-color: white;
+    }
+    
+    .routeExample {
+        border-width: 2px;
+        border-color: white;
+        padding-top: 1vh;
+        padding-bottom: 1vh;
+        padding-left: 1vw;
+        padding-right: 1vw;
+        background-color: black;
+        color: yellow;
     }
 </style>
