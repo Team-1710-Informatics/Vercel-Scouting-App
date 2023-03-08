@@ -11,8 +11,14 @@
         ["Scout", '/scout/2023', 6, 'submit']
     ]
 
+    if(data.team === 1710){
+        links.unshift(["Scamble", '/scamble/bets', 6, 
+            'text-white border-slate-800 bg-gradient-to-t from-slate-800 to-teal-300'
+        ])
+    }
+
     if(data.permissions.includes("admin") || data.user == "Brooks"){
-        links.unshift(["Admin", "/admin", 6, "border-red-600 bg-gradient-to-br from-rose-800 to-pink-600"])
+        links.unshift(["Admin", "/admin", 6, "border-red-600 bg-gradient-to-br from-rose-800 to-slate-600"])
     }
 
     let deferredPrompt:any;

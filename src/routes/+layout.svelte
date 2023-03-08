@@ -1,6 +1,6 @@
 <script>
     import "../app.css";
-    import FakeProgressBar from "$lib/components/FakeProgressBar.svelte";
+    import FakeProgressBar from "$lib/components/function/FakeProgressBar.svelte";
 
 
     import { beforeNavigate } from '$app/navigation';

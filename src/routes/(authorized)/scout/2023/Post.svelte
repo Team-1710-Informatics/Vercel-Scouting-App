@@ -1,6 +1,6 @@
 <script>
     import { enhance } from "$app/forms";
-    import StarRating from "$lib/components/StarRating.svelte";
+    import StarRating from "$lib/components/ui/StarRating.svelte";
 
     const strategies = [
         ["🔄 FULL CYCLE", "cycle", false, "#0078d7"],

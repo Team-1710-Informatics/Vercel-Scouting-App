@@ -1,8 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
 
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
@@ -68,6 +69,7 @@ button {
 
 button:hover {
 	border-color: white;
+	box-shadow: 0px 0px 3px 1px white;
 }
 
 button:disabled {
@@ -83,7 +85,25 @@ button:disabled {
 	border-width: 1px;
 	padding: 0.75rem;
 	width: fit-content;
+
+	box-shadow: 0px 0px 3px 1px white;
 }
+
+
+
+/* .box::before {
+	content:'';
+	position:absolute;
+	bottom:0px;
+	right:0px;
+	width:0px;
+	border-bottom: 80px solid rgb(18, 24, 33);
+	border-left: 80px solid transparent;
+
+	border-bottom-right-radius:0.5rem;
+
+	z-index:1;
+} */
 
 .header {
 	background-color: rgb(15 23 42);

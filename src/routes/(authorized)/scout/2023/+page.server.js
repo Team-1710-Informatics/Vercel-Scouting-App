@@ -1,6 +1,6 @@
 import { X_TBA_AUTHKEY } from "$env/static/private";
-import { ScoutData } from "$lib/models";
-import credits from "$lib/server/credits";
+import { ScoutData } from "$lib/server/models";
+import credits from "$lib/server/user/credi";
 import { redirect } from "@sveltejs/kit";
 
 export async function load({ locals }) {
@@ -27,12 +27,18 @@ export const actions = {
         const data = JSON.parse(input.get("data"));
 
         if(locals.competition == data.event) await credits.transaction(locals.user.username, 100, `Scouted ${data.event}qm${data.match}:${data.team}`);
-        else await credits.transaction(locals.user.username, 20, `Scouted ${data.event}qm${data.match}:${data.team} (extra)`);
+        else if(data.event != "2023practice") await credits.transaction(locals.user.username, 20, `Scouted ${data.event}qm${data.match}:${data.team} (extra)`);
 
         const db = new ScoutData(data);
         await db.save();
 
-        console.log(data)
+        console.log(data);
+
+        if(data.event != "2023practice"){
+            const user = await User.findOne({username:data.scout});
+            user.changeStat("matches_scouted",1);
+            await user.save();
+        }
 
         throw redirect(307, "/hub");
     }

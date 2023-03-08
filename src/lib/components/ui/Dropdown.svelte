@@ -62,7 +62,7 @@
 <style>
     button {
         background-image: none;
-        background-color: none;
+        background-color: transparent;
         border: none;
         box-shadow: none;
     }

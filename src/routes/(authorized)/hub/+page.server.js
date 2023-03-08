@@ -27,6 +27,7 @@ export async function load({ locals }){
     return {
         events: events,
         permissions: locals.user.permissions,
-        user: locals.user.name.first
+        user: locals.user.name.first,
+        team: locals.user.team
     };
 }

@@ -1,5 +1,5 @@
 <script>
-    import CompetitionSelector from "$lib/components/CompetitionSelector.svelte";
+    import CompetitionSelector from "$lib/components/search/CompetitionSelector.svelte";
     import Starting from "./Starting.svelte";
     import { slide } from "svelte/transition";
     import { createEventDispatcher } from "svelte";
