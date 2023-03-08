@@ -90,6 +90,7 @@ scoutEntry2023.methods.getIndividualScore=function(){
 
 export const ScoutData = mongoose.model("2023entry", scoutEntry2023);
 
+<<<<<<< HEAD:src/lib/server/models/index.js
 const transaction = new Schema({
     user:String,
     amount:Number,
@@ -98,3 +99,26 @@ const transaction = new Schema({
 });
 
 export const Transaction = mongoose.model("Transaction", transaction);
+=======
+const scheduleItem = new Schema({ 
+    //event: {type: String, match:/(\d{4})\w+/},
+    name: String,
+    time:{
+        start:Number,
+        end:Number
+    },
+    users: Array,
+    notes: String 
+})
+
+scheduleItem.methods.getIndividualStatus=function(username){
+    for (const user in this.users) {
+        if(this.users[user] === username) {
+            return(true);
+        }
+    }
+    return(false);
+}
+
+export const Schedule = mongoose.model("Schedule", scheduleItem);
+>>>>>>> c07a2b762552de70b2fe7c2e6aa44cc04bacb4ee:src/lib/models/index.js
