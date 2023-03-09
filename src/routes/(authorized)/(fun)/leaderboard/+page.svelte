@@ -1,4 +1,5 @@
 <script>
+    import Status from "$lib/components/function/Status.svelte";
     import FaceMouse from "$lib/components/visual/FaceMouse.svelte";
     import { flip } from "svelte/animate";
 
@@ -31,6 +32,8 @@
         return s.substring(0,1).toUpperCase() + s.substring(1);
     }
 </script>
+
+<Status value="viewing leaderboard" host={data.host}/>
 
 <center>
     <br>

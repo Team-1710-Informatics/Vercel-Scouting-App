@@ -3,7 +3,7 @@ import { ScoutData } from "$lib/server/models";
 import credits from "$lib/server/user/credi";
 import { redirect } from "@sveltejs/kit";
 
-export async function load({ locals }) {
+export async function load({ locals, url }) {
     if(!locals.user) throw redirect(307, "/login");
 
     const res = await fetch(`https://thebluealliance.com/api/v3/events/2023`,{
@@ -17,7 +17,8 @@ export async function load({ locals }) {
     return{
         events,
         competition:locals.competition,
-        scout:locals.user.username
+        scout:locals.user.username,
+        host:url.host
     }
 }
 

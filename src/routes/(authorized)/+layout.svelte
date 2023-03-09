@@ -1,10 +1,11 @@
 <script>
+    import Status from '$lib/components/function/Status.svelte';
     import Dropdown from '$lib/components/ui/Dropdown.svelte';
+    import { onDestroy } from 'svelte';
 
     export let data;
 </script>
 
-	
 <div class="header w-full text-3xl grid grid-cols-4 p-4 font-extrabold">
     <div class="col-span-3">
         1710 Scouting
