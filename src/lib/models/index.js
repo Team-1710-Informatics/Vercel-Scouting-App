@@ -60,15 +60,15 @@ scoutEntry2023.methods.getIndividualScore=function(){
         if(action.type=="place"){
             if((action.time - this.game?.start??0) < 18){
                 switch(action.node.y){
-                    case 0: score += 6;
-                    case 1: score += 4;
-                    case 2: score += 3;
+                    case 0: score += 6; break;
+                    case 1: score += 4; break;
+                    case 2: score += 3; break;
                 }
             }else{
                 switch(action.node.y){
-                    case 0: score += 5;
-                    case 1: score += 3;
-                    case 2: score += 2;
+                    case 0: score += 5; break;
+                    case 1: score += 3; break;
+                    case 2: score += 2; break;
                 }
             }
         }
@@ -81,8 +81,7 @@ scoutEntry2023.methods.getIndividualScore=function(){
     if(this.game.untimed.dockedMatch){
         score += 6
         if(this.game.untimed.engageMatch) score += 4;
-    }
-    else if(this.game.untimed.parked) score += 2;
+    }else if(this.game.untimed.parked) score += 2;
 
     return score;
 };

@@ -6,10 +6,8 @@ export async function GET({ params }) {
     return json(jason);
 }
 
-const info = {
-    url: "/{event}",
-    desc: "Displays all data from an event for each team in all matches in order of submission time for all match scouting",
+export const _info = {
+    url: "/{event key}",
+    desc: "Displays all raw data from an event for each team in all matches in order of submission time for all match scouting.",
     ex: "/2023test"
 }
-
-export default info;

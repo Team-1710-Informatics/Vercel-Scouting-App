@@ -6,10 +6,8 @@ export async function GET({ params }) {
     return json(jason);
 }
 
-const info = {
+export const _info = {
     url: "/{event key}/frc{team number}",
-    desc: "Displays the team statistics for a given match in order of the lineup for that match",
+    desc: "Displays the team raw data for a given match in order of the lineup for that match.",
     ex: "/2023test/frc1710",
 }
-
-export default info;

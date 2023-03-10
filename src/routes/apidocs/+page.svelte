@@ -1,17 +1,28 @@
 <script>
+    export let data;
+    let eventKeys = data.events;
     import arrowDown from "$lib/assets/icons/arrowDown.svg";
     import arrowRight from "$lib/assets/icons/arrowRight.svg";
-    import match from "../api/[event=eventKey]/[match]/+server.js";
-    import event from "../api/[event=eventKey]/+server.js";
-    import matchTeam from "../api/[event=eventKey]/[match]/frc[team]/+server.js";
-    import eventTeam from "../api/[event=eventKey]/frc[team]/+server.js";
+    import {_info as match}  from "../api/[event=eventKey]/[match]/+server.js";
+    import {_info as event}  from "../api/[event=eventKey]/+server.js";
+    import {_info as team} from "../api/frc[team]/+server.js";
+    import {_info as matchTeam}  from "../api/[event=eventKey]/[match]/frc[team]/+server.js";
+    import {_info as eventTeam}  from "../api/[event=eventKey]/frc[team]/+server.js";
     import { slide } from "svelte/transition";
     let routes = [
         event,
         match,
         matchTeam,
         eventTeam,
-    ]
+        team,
+    ];
+    let descriptions = [
+        {
+            name: "Event Keys",
+            desc: "below is listed all of the event keys",
+            ex: eventKeys
+        }
+    ];
 </script>
 
 <!-- <svelte:head><p class="bg-blue-500">API Routes</p></svelte:head> -->
@@ -21,6 +32,23 @@
     <p>The Team 1710 API base path is team1710scouting.vercel.app/api</p>
     <!-- each route description is a component -->
     <span>
+        {#each descriptions as description}
+            <center>
+                <button class="flex flex-row text-sky-400 font-sans capsulate" style="background-image:none;" on:click={()=>{description.checked = !description?.checked;}}>
+                    <img class="mr-1" style="filter:invert(100%)" src={description?.checked?arrowDown:arrowRight} alt="collapse"><b>{description.name}</b>
+                </button>
+                {#if description?.checked}
+                    <div transition:slide class="description" style="color:beige;">
+                        {descriptions.desc}
+                        <br>
+                        <div class="routeExample">
+                            {description.ex}
+                        </div>
+                    </div>
+                {/if}
+            </center>
+        {/each}
+            <br>
         {#each routes as route}
             <center>
                 <button class="flex flex-row text-sky-400 font-sans capsulate" style="background-image:none;" on:click={()=>{route.checked = !route?.checked;}}>
