@@ -32,7 +32,7 @@
     <p>The Team 1710 API base path is team1710scouting.vercel.app/api</p>
     <!-- each route description is a component -->
     <span>
-        {#each descriptions as description}
+        <!-- {#each descriptions as description}
             <center>
                 <button class="flex flex-row text-sky-400 font-sans capsulate" style="background-image:none;" on:click={()=>{description.checked = !description?.checked;}}>
                     <img class="mr-1" style="filter:invert(100%)" src={description?.checked?arrowDown:arrowRight} alt="collapse"><b>{description.name}</b>
@@ -48,7 +48,7 @@
                 {/if}
             </center>
         {/each}
-            <br>
+            <br> -->
         {#each routes as route}
             <center>
                 <button class="flex flex-row text-sky-400 font-sans capsulate" style="background-image:none;" on:click={()=>{route.checked = !route?.checked;}}>
