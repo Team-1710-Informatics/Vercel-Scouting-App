@@ -1,6 +1,6 @@
 import { MongoClient } from "mongodb";
 import { MONGODB } from "$env/static/private";
-import credits from "$lib/modules/credits";
+import credits from "$lib/server/user/credi";
 
 const client = new MongoClient(MONGODB);
 
@@ -27,6 +27,8 @@ export const actions = {
     default: async ({ request })=>{
         const input = await request.formData();
         const data = JSON.parse(input.get("data"));
+
+        if(typeof data.amount != "number" || (!data.amount && data.amount !== 0)) return;
 
         await credits.transaction(data.user, data.amount, data.reason);
     }
