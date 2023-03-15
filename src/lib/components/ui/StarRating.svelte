@@ -12,7 +12,7 @@
 
 <div class="flex flex-col">
     <div class="grid" style="grid-template-columns: repeat({stars}, minmax(0, 1fr));">
-        {#each [...Array(5).keys()] as i}
+        {#each [...Array(stars).keys()] as i}
             {#if rating - i*2 >= 2}
                 <img src={full} class="invert star w-9 h-9" alt="full">
             {:else if rating - i*2 == 1}

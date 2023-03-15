@@ -53,7 +53,19 @@ const scoutEntry2023 = new Schema({
         rating: {type: Number, min: 0, max: 10},
         thoughts: String
     }
-})
+},{
+    virtuals:{
+        placements:{
+            get(){
+                let med = this.game.actions.filter((i)=>{
+                    return i.action === "place";
+                });
+                return med.length;
+            }
+        }
+    },
+    toJSON: { virtuals: true }
+});
 
 scoutEntry2023.methods.getIndividualScore=function(){
     let score=0;
