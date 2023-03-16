@@ -1,6 +1,6 @@
 <script>
     import { enhance } from "$app/forms";
-    import StarRating from "$lib/components/StarRating.svelte";
+    import StarRating from "$lib/components/ui/StarRating.svelte";
 
     export let data;
 

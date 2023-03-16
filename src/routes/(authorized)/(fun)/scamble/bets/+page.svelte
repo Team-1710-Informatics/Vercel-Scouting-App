@@ -1,26 +1,17 @@
 <script>
-    import arrowDown from "$lib/assets/icons/arrowDown.svg";
-    import arrowRight from "$lib/assets/icons/arrowRight.svg";
-    import { slide } from "svelte/transition";
-    let expand=false;
-</script>
+    import MatchSelector from "$lib/components/search/MatchSelector.svelte";
+    import Matchup from "./Matchup.svelte";
 
-<center>
-    <div class="box">
-        <center>
-            <form method="POST">
-                <label>
-                    Amount Bet
-                    <input name="email" type="email">
-                  </label>
-                  <label>
-                    Competition
-                    <button on:click={()=>{expand!=expand;}}>
-                        <img style="filter:invert(100%)" src={expand?.checked?arrowDown:arrowRight} alt="collapse">
-                    </button>
-                  </label>
-                  <button>Log in</button>
-            </form>
-        </center>
+    export let data;
+
+    let match = null;
+</script>
+<middle class="pt-10">
+    <p class="font-black text-6xl">SCAMBLE</p>
+    <div class="box mb-8">
+        <p class="font-extrabold text-xl text-center">Select a Match</p>
+        <hr>
+        <MatchSelector event={data.competition} events={data.events} bind:match={match}/>
     </div>
-</center>
+    <Matchup bind:match={match}/>
+</middle>

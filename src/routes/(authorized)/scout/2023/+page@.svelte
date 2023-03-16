@@ -4,6 +4,7 @@
     import Post from "./Post.svelte";
     import { fly } from "svelte/transition";
     import { onMount } from "svelte";
+    import Status from "$lib/components/function/Status.svelte";
 
     export let data:any;
 
@@ -42,6 +43,8 @@
 
     let postgame:any={}
 </script>
+
+<Status value="scouting" host={data.host}/>
 
 <center class="pt-10">
     {#if step===0}

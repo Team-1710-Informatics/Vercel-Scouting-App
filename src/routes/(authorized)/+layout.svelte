@@ -1,5 +1,7 @@
 <script>
-    import Dropdown from '$lib/components/Dropdown.svelte';
+    import Status from '$lib/components/function/Status.svelte';
+    import Dropdown from '$lib/components/ui/Dropdown.svelte';
+    import { onDestroy } from 'svelte';
 
     export let data;
 </script>
@@ -10,6 +12,7 @@
     </div>
     <div class="text-base leading-9 justify-self-end">
         <Dropdown name={data.user.name.first} options={[
+            {name:"Hub", href:"/hub"},
             {name:"Logout", href:"/logout"},
         ]}/>
     </div>

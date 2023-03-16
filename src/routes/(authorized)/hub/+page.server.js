@@ -1,7 +1,7 @@
 import { X_TBA_AUTHKEY } from '$env/static/private';
 import { DateTime } from 'luxon';
 
-export async function load({ locals }){
+export async function load({ locals, url }){
     const res = await fetch(`https://thebluealliance.com/api/v3/team/frc${locals.user.team}/events/${new Date().getFullYear()}`, {
         headers: {
             "X-TBA-Auth-Key": X_TBA_AUTHKEY
@@ -27,6 +27,7 @@ export async function load({ locals }){
     return {
         events: events,
         permissions: locals.user.permissions,
-        user: locals.user.name.first
+        user: locals.user.name.first,
+        team: locals.user.team
     };
 }

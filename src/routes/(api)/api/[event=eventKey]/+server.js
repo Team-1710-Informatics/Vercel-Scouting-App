@@ -8,6 +8,6 @@ export async function GET({ params }) {
 
 export const _info = {
     url: "/{event key}",
-    desc: "Displays all raw data from an event for each team in all matches in order of submission time for all match scouting.",
-    ex: "/2023test"
+    desc: "Displays the raw data for a given match.",
+    ex: "/2023test",
 }

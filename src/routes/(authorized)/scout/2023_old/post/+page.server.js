@@ -1,4 +1,4 @@
-import { ScoutData } from "$lib/models";
+import { ScoutData } from "$lib/server/models";
 import { redirect } from "@sveltejs/kit";
 
 export function load({ cookies }) {
