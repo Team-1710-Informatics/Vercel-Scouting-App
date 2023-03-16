@@ -37,7 +37,7 @@ export const actions = {
         console.log(data);
 
         if(data.event != "2023practice"){
-            await stats.setStat(data.scout, "matches_scouted", stats.getStat(data.scout, "matches_scouted")+1);
+            await stats.setStat(data.scout, "matches_scouted", (await stats.getStat(data.scout, "matches_scouted"))+1);
         }
 
         throw redirect(307, "/hub");
