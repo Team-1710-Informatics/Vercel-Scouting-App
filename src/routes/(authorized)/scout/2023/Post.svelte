@@ -7,7 +7,7 @@
         ["🤝 RECIEVE & PLACE", "place", false, "#33cc33"],
         ["🚚 TRANSPORTER", "transport", false, "#f03a17"],
         ["🧱 DEFENSE", "defense", false, "#f7894a"],
-        ["🍞 toast bread", "bread", false],
+        ["💞 Moral support", "moral", false],
         ["💔 brokedown", "breakdown", false],
     ]
 

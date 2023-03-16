@@ -3,17 +3,15 @@
     import Match from "./Match.svelte";
     import Post from "./Post.svelte";
     import { fly } from "svelte/transition";
-    import { onMount } from "svelte";
     import Status from "$lib/components/function/Status.svelte";
 
     export let data:any;
 
-    onMount(()=>{
-        window.onbeforeunload = function(e){
-            e.preventDefault();
-            return "Are you sure you want to leave? Scouting data will be lost."
-        }
-    })
+    function safetynet(e:Event){
+        e.preventDefault();
+        
+        return "Are you sure you want to leave? Scouting data will be lost."
+    }
 
     let step = 0;
 
@@ -43,6 +41,8 @@
 
     let postgame:any={}
 </script>
+
+<svelte:window on:beforeunload={safetynet}></svelte:window>
 
 <Status value="scouting" host={data.host}/>
 

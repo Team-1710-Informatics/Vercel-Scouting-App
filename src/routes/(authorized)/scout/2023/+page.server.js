@@ -1,6 +1,7 @@
 import { X_TBA_AUTHKEY } from "$env/static/private";
 import { ScoutData } from "$lib/server/models";
 import credits from "$lib/server/user/credi";
+import stats from "$lib/server/user/stats";
 import { redirect } from "@sveltejs/kit";
 
 export async function load({ locals, url }) {
@@ -36,9 +37,7 @@ export const actions = {
         console.log(data);
 
         if(data.event != "2023practice"){
-            const user = await User.findOne({username:data.scout});
-            user.changeStat("matches_scouted",1);
-            await user.save();
+            await stats.setStat(data.scout, "matches_scouted", (await stats.getStat(data.scout, "matches_scouted"))+1);
         }
 
         throw redirect(307, "/hub");

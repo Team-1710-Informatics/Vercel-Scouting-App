@@ -7,8 +7,9 @@
 
     const links:[string, string, number, string?][] = [
         ["Leaderboard", '/leaderboard', 4, ''],
-        ["Data", '/data', 2, 'border-orange-600 bg-gradient-to-bl from-orange-500 to-yellow-300'],
-        ["Scout", '/scout/2023', 6, 'submit']
+        ["Data", '/data/2023', 2, 'border-orange-600 bg-gradient-to-bl from-orange-500 to-yellow-300'],
+        ["Pit Scouting", '/pit-scout/nav', 6, 'border-orange-600 bg-gradient-to-bl from-orange-500 to-yellow-300'],
+        ["Scout", '/scout/2023', 6, 'submit'],
     ]
 
     if(data.team === 1710){
@@ -17,9 +18,9 @@
         ])
     }
 
-    // if(data.permissions.includes("admin") || data.user == "Brooks"){
-    //     links.unshift(["Admin", "/admin", 6, "border-red-600 bg-gradient-to-br from-rose-800 to-slate-600"])
-    // }
+    if(data.permissions.includes("admin") || data.user == "Brooks"){
+        links.unshift(["Admin", "/admin", 6, "border-red-600 bg-gradient-to-br from-rose-800 to-slate-600"])
+    }
 
     let deferredPrompt:any;
 
