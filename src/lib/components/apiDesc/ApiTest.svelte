@@ -10,7 +10,7 @@
         {
             name: "that",
             desc: "test number two",
-            checked: true
+            checked: false
         }
     ]
 </script>
