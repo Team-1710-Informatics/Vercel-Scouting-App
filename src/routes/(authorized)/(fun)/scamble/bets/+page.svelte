@@ -12,7 +12,7 @@
     <div class="box mb-8">
         <p class="font-extrabold text-xl text-center">Select a Match</p>
         <hr>
-        <MatchSelector event={data.competition} events={data.events} bind:match={match}/>
+        <MatchSelector event={data.competition.key} events={data.events} bind:match={match}/>
     </div>
     <Matchup bind:match={match}/>
 </middle>

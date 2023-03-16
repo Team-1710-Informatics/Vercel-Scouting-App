@@ -7,7 +7,7 @@
     let match = null;
 
     let team = null;
-
+    console.log(data.competition.key)
     function getYTlink(match){
         for(let i = 0; i < match.videos.length; i++){
             if(match.videos[i].type=="youtube"){
@@ -23,7 +23,7 @@
     <p class="text-xl font-bold">Find match</p>
     <div class="box">
         <MatchSelector 
-            event={data.competition} 
+            event={data.competition.key} 
             events={data.events} 
             bind:match={match} 
         />
