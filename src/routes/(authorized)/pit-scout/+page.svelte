@@ -1,26 +1,28 @@
 <script lang=ts>
-    import { validate_each_argument } from "svelte/internal";
+    import CompetitionSelector from "$lib/components/search/CompetitionSelector.svelte";
+
+    export let data;
 
     let teamNumber="";
-    let competition="";
+    let competition=data.competition.key;
 
     let optimally="";
     let possible="";
     let incapable="";
 
     let capabilities:any = {
-        "Intake cube":undefined,
-        "Intake cone":undefined,
-        "Shelf station":undefined,
-        "Chute station":undefined,
-        "Floor station":undefined,
-        "Floor":undefined,
+        "intakeCube":undefined,
+        "intakeCone":undefined,
+        "shelfStation":undefined,
+        "chuteStation":undefined,
+        "floorStation":undefined,
+        "floor":undefined,
     }
 
     let placement:any = {
-        "High":undefined,
-        "Mid":undefined,
-        "Low":undefined,
+        "placeHigh":undefined,
+        "placeMid":undefined,
+        "placeLow":undefined,
     }
 
     let mainStrategy="";
@@ -29,9 +31,9 @@
 
     let averageScore="";
 
-    let strategy:any = {
-        "Main":undefined,
-        "Auto":undefined,
+    let chargeStation:any = {
+        "chargeStationMain":undefined,
+        "chargeStationAuto":undefined,
     }
 
     let otherThoughts="";
@@ -42,8 +44,11 @@
     <div class="box w-fit">
         <h1 class="header">Pit Scouting</h1>
         <form method="POST">
-            <label>Team Number:<input class="label" type="text" bind:value={teamNumber}></label><br>
-            <label>Competition:<input class="label" type="text" bind:value={competition}></label><br>
+            <label>Competition:<CompetitionSelector bind:event={competition} events={data.events}/></label><br>
+            <input type="text" bind:value={competition} name="event" hidden />
+
+            <label>Team Number:<input class="label" type="text" name="team" bind:value={teamNumber} required></label><br>
+
             <h1 class="header">Intake Capabilities</h1>
             <div class="grid grid-cols-5">
                 <div class="col-span-2" />
@@ -67,34 +72,24 @@
                 {/each}
             </div>
             <h1 class="header">Strategy</h1>
-            <label>Main Strategy:<input class="lable" type="text" bind:value={mainStrategy}></label><br>
-            <label>Auto Strategy:<input class="label"type="text" bind:value={autoStrategy}></label><br>
-            <label>Average Score:<input class="label"bind:value={averageScore}></label>
+            <label>Main Strategy:<input class="lable" type="text" name="mainStrategy" bind:value={mainStrategy}></label><br>
+            <label>Auto Strategy:<input class="label" type="text" name="autoStrategy" bind:value={autoStrategy}></label><br>
+            <label>Average Score:<input class="label" name="averageScore" bind:value={averageScore}></label>
             <h1 class="header">Charge Station Capability</h1>
             <div class="grid grid-cols-5">
                 <div class="col-span-2" />
-                <p class="text-xs">Yes</p>
-                <p class="text-xs">Maybe</p>
+                <p class="text-xs">Engage</p>
+                <p class="text-xs">Dock</p>
                 <p class="text-xs">No</p>
-                {#each Object.keys(strategy) as s}
+                {#each [...Object.keys(chargeStation)] as s}
                     <p class="col-span-2 text-xs">{s}:</p>
-                    <input type="radio" name={s} bind:group={strategy[s]} value="Yes">
-                    <input type="radio" name={s} bind:group={strategy[s]} value="Maybe">
-                    <input type="radio" name={s} bind:group={strategy[s]} value="No">
+                    <input type="radio" name={s} bind:group= {chargeStation[s]} value="Engage">
+                    <input type="radio" name={s} bind:group= {chargeStation[s]} value="Dock">
+                    <input type="radio" name={s} bind:group= {chargeStation[s]} value="No">
                 {/each}
             </div>
-            <h1 class="header">Drive Train Type</h1>
-            <div class="grid grid-cols-4">
-                <p class="text-xs">Swerve</p>
-                <p class="text-xs">Tank</p>
-                <p class="text-xs">Mechanum</p>
-                <p class="text-xs">Other</p>
-                <input type="radio" name="Drive Train type" value="Swerve">
-                <input type="radio" name="Drive Train Type" value="Tank">
-                <input type="radio" name="Drive Train Type" value="Mechanum">
-                <input type="radio" name="Drive Train Type" value="Other">
-                <!--if other then text box appears-->
-            </div>
+            <br>
+            <label class="pt-4">Drivetrain Type:<input class="label" type="text" name="drivetrain"></label><br>
             <h1 class="header">Game Piece Preferance</h1>
             <div class="grid grid-cols-3">
                 <p class="text-xs">Cone</p>
@@ -104,7 +99,8 @@
                 <input type="radio" name="piecePreferance" value="Cube">
                 <input type="radio" name="piecePreferance" value="Either">
             </div>
-            <h1 class="header">Other Thoughts</h1><input class="label" type="text" bind:value={otherThoughts}><br>
+            <h1 class="header">Other Thoughts</h1><input class="label" type="text" name="thoughts" bind:value={otherThoughts}><br>
+            <h1 class="header">Other Scouts</h1><input class="label" type="text" name="otherScouts" bind:value={otherThoughts}><br>
             <!--make text box bigger-->
             <button class="submit">Submit</button>
         </form>

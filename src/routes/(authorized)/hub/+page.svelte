@@ -8,7 +8,8 @@
     const links:[string, string, number, string?][] = [
         ["Leaderboard", '/leaderboard', 4, ''],
         ["Data", '/data', 2, 'border-orange-600 bg-gradient-to-bl from-orange-500 to-yellow-300'],
-        ["Scout", '/scout/2023', 6, 'submit']
+        ["Pit Scouting", '/pit-scout/nav', 6, 'border-orange-600 bg-gradient-to-bl from-orange-500 to-yellow-300'],
+        ["Scout", '/scout/2023', 6, 'submit'],
     ]
 
     if(data.team === 1710){
