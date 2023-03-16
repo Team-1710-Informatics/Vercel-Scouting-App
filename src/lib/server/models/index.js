@@ -134,3 +134,13 @@ scheduleItem.methods.getIndividualStatus=function(username){
 
 export const Schedule = mongoose.model("Schedule", scheduleItem);
 
+const pitdata2023 = new Schema({
+    event: {type: String},
+    team: Number,
+    scout: String,
+    capabilities: Array,
+    placement: Array,
+    
+});
+
+export const pitdata2023 = mongoose.model("2023pitdata", pitscout2023);
