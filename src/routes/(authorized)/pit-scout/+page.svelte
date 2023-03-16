@@ -90,7 +90,7 @@
             </div>
             <br>
             <label class="pt-4">Drivetrain Type:<input class="label" type="text" name="drivetrain"></label><br>
-            <h1 class="header">Game Piece Preferance</h1>
+            <h1 class="header">Game Piece Preference</h1>
             <div class="grid grid-cols-3">
                 <p class="text-xs">Cone</p>
                 <p class="text-xs">Cube</p>
@@ -100,7 +100,7 @@
                 <input type="radio" name="piecePreferance" value="Either">
             </div>
             <h1 class="header">Other Thoughts</h1><input class="label" type="text" name="thoughts" bind:value={otherThoughts}><br>
-            <h1 class="header">Other Scouts</h1><input class="label" type="text" name="otherScouts" bind:value={otherThoughts}><br>
+            <h1 class="header">Other Scouts</h1><input class="label" type="text" name="otherScouts"><br>
             <!--make text box bigger-->
             <button class="submit">Submit</button>
         </form>
