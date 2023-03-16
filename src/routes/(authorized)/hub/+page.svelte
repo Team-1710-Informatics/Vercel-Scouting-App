@@ -7,7 +7,7 @@
 
     const links:[string, string, number, string?][] = [
         ["Leaderboard", '/leaderboard', 4, ''],
-        ["Data", '/data', 2, 'border-orange-600 bg-gradient-to-bl from-orange-500 to-yellow-300'],
+        ["Data", '/data/2023', 2, 'border-orange-600 bg-gradient-to-bl from-orange-500 to-yellow-300'],
         ["Pit Scouting", '/pit-scout/nav', 6, 'border-orange-600 bg-gradient-to-bl from-orange-500 to-yellow-300'],
         ["Scout", '/scout/2023', 6, 'submit'],
     ]
@@ -44,7 +44,7 @@
     </div>
     <div class="grid grid-cols-6 w-60 gap-2">
         {#each links as link}
-            <a href={link[1]} class="w-full font-bold" style="grid-column: span {link[2]} / span {link[2]};"><button class={link?.[3]+" w-full py-3"} disabled={link[0]=="Scamble"||link[0]=="Data"}>{link[0]}</button></a>
+            <a href={link[1]} class="w-full font-bold" style="grid-column: span {link[2]} / span {link[2]};"><button class={link?.[3]+" w-full py-3"} disabled={link[0]=="Scamble"}>{link[0]}</button></a>
         {/each}
     </div>
     <!-- {#if deferredPrompt}
