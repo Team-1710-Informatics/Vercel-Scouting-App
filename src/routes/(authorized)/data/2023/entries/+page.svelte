@@ -61,13 +61,13 @@
                 <p>Loading...</p>
             {:then res}{#await res.json() then res}
                 {#each res.data as entry}
-                    <div class="box m-6">
+                    <middle class="box m-6">
                         <p>Scouted by <span class="font-bold">{entry.scout}</span></p>
                         <p>Approx. Scouted score: {teamScore(entry)}</p>
-                        <StarRating rating={entry.postgame.rating}/>
+                        <div class="w-fit"><StarRating rating={entry.postgame.rating}/></div>
                         {#if entry.postgame.thoughts}<p>Scout thoughts: {entry.postgame.thoughts}</p>{/if}
                         <!-- <p class="text-xs">{JSON.stringify(entry)}</p> -->
-                    </div>
+                    </middle>
                 {:else}
                     <p class="opacity-50">No entries found</p>
                 {/each}
