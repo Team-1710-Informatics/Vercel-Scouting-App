@@ -1,6 +1,7 @@
 import { MongoClient } from "mongodb";
 import { MONGODB } from "$env/static/private";
 import credits from "$lib/server/user/credi";
+import { User } from "$lib/server/models";
 
 const client = new MongoClient(MONGODB);
 
@@ -18,8 +19,11 @@ export async function load({ locals }){
         })
     })
 
+    const scouting = JSON.parse(JSON.stringify(await User.find({status:"scouting"})));
+
     return {
-        members:JSON.stringify(members)
+        members:JSON.stringify(members),
+        scouting
     }
 }
 

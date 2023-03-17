@@ -114,4 +114,9 @@
             <button class="submit" disabled={!(output.amount && output.reason && output.user) || loading}>Apply {output.amount} Credits</button>
         </form>
     </div>
+    <br>
+    <p class="font-bold">{"(Experimental) Active scouts:"}"</p>
+    {#each data.scouting as s}
+        <p>{s.username}</p>
+    {/each}
 </middle>
