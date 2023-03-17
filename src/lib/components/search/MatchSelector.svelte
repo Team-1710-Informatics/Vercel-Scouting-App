@@ -16,7 +16,7 @@
         matches = "loading";
         const results = await fetch(`https://www.thebluealliance.com/api/v3/event/${event}/matches`,{
             headers:{
-                "X-TBA-Auth-Key":"96NRE08op9grsHLgW38FVN9m7SyYAjSA6PGQ7oCEEO6V8KSJbRQt863mowzU4Il3"
+                "X-TBA-Auth-Key":"sv81TCuWAkVHl1kI7EgIbtvowzNt1JCRgTXaKIPMs4XQGWmPLsLH7mne15pXUGHJ"
             }
         });
         let out = await results.json()
