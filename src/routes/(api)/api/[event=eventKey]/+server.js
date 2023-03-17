@@ -1,17 +1,13 @@
-import { MongoClient } from 'mongodb';
-import { fail, redirect } from '@sveltejs/kit';
+import { ScoutData } from "$lib/models";
 import { json } from '@sveltejs/kit';
 
-// const client = new MongoClient(MONGODB);
-
 export async function GET({ params }) {
-    // await client.connect();
-    // const jason = await client.db("main").collection("rawdata").findOne({ event:params.event });
-    const jason = {
-        name: "Jason",
-        hairstyle: "bread",
-        outfit: "none",
-        event: "2023test"
-    }
+    const jason = JSON.parse(JSON.stringify((await ScoutData.find({ event:params.event }))));
     return json(jason);
+}
+
+export const _info = {
+    url: "/{event key}",
+    desc: "Displays the raw data for a given match.",
+    ex: "/2023test",
 }

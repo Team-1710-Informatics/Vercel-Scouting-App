@@ -9,7 +9,6 @@
     export let form:any;
     export let data:any = {};
 
-    //export let enhance:Function;
     export let action:string;
     export let title:string;
     export let inputs:{label?:string, 

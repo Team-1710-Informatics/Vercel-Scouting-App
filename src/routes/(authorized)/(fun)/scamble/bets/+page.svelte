@@ -7,7 +7,6 @@
 
     let match = null;
 </script>
-
 <middle class="pt-10">
     <p class="font-black text-6xl">SCAMBLE</p>
     <div class="box mb-8">
