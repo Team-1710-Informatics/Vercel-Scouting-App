@@ -10,7 +10,7 @@
 
     async function load(){
         const o = await fetch(`https://${$page.url.host}/internal-api/credits/${data.user}`);
-
+        
         return await o.json();
     }
 
