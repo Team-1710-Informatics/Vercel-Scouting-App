@@ -80,7 +80,7 @@
     </label>
     <br>
     <br>
-    <table class="divide-y divide-white box">
+    <table class="divide-y divide-white box overflow-scroll" style="max-width:100%">
         <tr>
             <th>#</th>
             <th>Team</th>
