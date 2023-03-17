@@ -80,31 +80,33 @@
     </label>
     <br>
     <br>
-    <table class="divide-y divide-white box overflow-scroll" style="max-width:100%">
-        <tr>
-            <th>#</th>
-            <th>Team</th>
-            {#each columns as col}
-                <th>
-                    <select bind:value={col}>
-                        {#each Object.keys(stats) as func}
-                            <option value={func}>{func}</option>
-                        {/each}
-                    </select>
-                </th>
-            {/each}
-        </tr>
-
-        {#each teams as team, i (team)}
-            <tr class="divide-x" animate:flip>
-                <td>{i+1}.</td>
-                <th>{team}</th>
+    <div class="box overflow-x-scroll max-w-full">
+        <table class="divide-y divide-white">
+            <tr>
+                <th>#</th>
+                <th>Team</th>
                 {#each columns as col}
-                    <td>{(typeof stats[col](team,data.entries)==="number")?parseFloat(stats[col](team,data.entries)).toFixed(2):stats[col](team,data.entries)}</td>
+                    <th>
+                        <select bind:value={col}>
+                            {#each Object.keys(stats) as func}
+                                <option value={func}>{func}</option>
+                            {/each}
+                        </select>
+                    </th>
                 {/each}
             </tr>
-        {/each}
-    </table>
+
+            {#each teams as team, i (team)}
+                <tr class="divide-x" animate:flip>
+                    <td>{i+1}.</td>
+                    <th>{team}</th>
+                    {#each columns as col}
+                        <td>{(typeof stats[col](team,data.entries)==="number")?parseFloat(stats[col](team,data.entries)).toFixed(2):stats[col](team,data.entries)}</td>
+                    {/each}
+                </tr>
+            {/each}
+        </table>
+    </div>
     <br>
     <button on:click={tableToCSV} class="font-bold bg-gradient-to-t from-teal-800  to-teal-400 border-black">Export sheet</button>
 </center>
