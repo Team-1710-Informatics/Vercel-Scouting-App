@@ -116,13 +116,25 @@ function teamScore(e:any){
             }
             if(a.time - e.game.start <= 18000) count++;
         }
-        // if(a.action === 'intake' && typeof a.location != "string"){
-        //     switch(a.location.node.y){
-        //         case 0: count-= 5;
-        //         case 1: count-= 3;
-        //         case 2: count-= 2;
-        //     }
-        // }
+        if(a.action === 'intake' && typeof a.location != "string"){
+            switch(a.location.y){
+                case 0: count-= 5;
+                case 1: count-= 3;
+                case 2: count-= 2;
+            }
+        }
     });
+
+    if(e.game.untimed.mobile) count += 3;
+    if(e.game.untimed.dockedAuto){
+        count += 8;
+        if(e.game.untimed.engageAuto) count += 4;
+    }
+    if(e.game.untimed.dockedMatch){
+        count += 6;
+        if(e.game.untimed.engageMatch) count += 4;
+    }
+    if(e.game.untimed.parked) count += 2;
+
     return(count);
 }
