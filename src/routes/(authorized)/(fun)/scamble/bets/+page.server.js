@@ -96,7 +96,6 @@ async function payout(t){
         if(Math.trunc(tickets[i].timestamp/1000) > res.actual_time)
             continue;
 
-        console.log(JSON.stringify(other));
         sums[tickets[i].alliance]+=tickets[i].amount;
         pot+=tickets[i].amount;
     };
