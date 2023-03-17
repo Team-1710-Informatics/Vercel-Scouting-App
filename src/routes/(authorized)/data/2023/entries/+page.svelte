@@ -3,6 +3,8 @@
     import { page } from "$app/stores";
     import Timeline from "$lib/components/data/2023/Timeline.svelte";
     import AutoAnalysis from "$lib/components/data/2023/AutoAnalysis.svelte";
+    import stats, {teamScore} from "../spreadsheet/[event]/statistics";
+    import StarRating from "$lib/components/ui/StarRating.svelte";
 
     export let data;
     
@@ -61,7 +63,10 @@
                 {#each res.data as entry}
                     <div class="box m-6">
                         <p>Scouted by <span class="font-bold">{entry.scout}</span></p>
-                        <p class="text-xs">{JSON.stringify(entry)}</p>
+                        <p>Approx. Scouted score: {teamScore(entry)}</p>
+                        <StarRating rating={entry.postgame.rating}/>
+                        {#if entry.postgame.thoughts}<p>Scout thoughts: {entry.postgame.thoughts}</p>{/if}
+                        <!-- <p class="text-xs">{JSON.stringify(entry)}</p> -->
                     </div>
                 {:else}
                     <p class="opacity-50">No entries found</p>
