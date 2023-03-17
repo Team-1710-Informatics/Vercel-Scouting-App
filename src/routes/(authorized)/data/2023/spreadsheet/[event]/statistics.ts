@@ -43,20 +43,63 @@ export default {
         });
         return(mobileCount/count);
     },
-    // Alliance_engaged_auto_rate(team:number, data:any[]){
-        
-    //     data.forEach(e=>{
-    //         if(e.team != team) return;
-    //         let match = e.match;
-    //         let alliance = e.alliance;
-    //     });
-    //     data.forEach(e=>{
-    //         if(e.alliance==alliance)
-    //     })
-    // },
-    // Alliance_dock_auto_rate(){
+    Alliance_engaged_auto_rate(team:number, data:any[]){
+        let matches:any[] = [];
+        let cache:any[];
+        let count = 0;
+        data.forEach(e=>{    //data = all scouting data
+            if(e.team != team) return;
+            let event = e.event;
+            let match = e.match;
+            let alliance = e.alliance;
+            matches.push({event, match, alliance}); //matches = event, match, and alliance of team in ever
+        });
+        data.forEach(e=>{ //iterate through scouting data (e)
+            matches.forEach(a=>{ //iterate through possible matches (a)
+                if(a.event==e.event && a.match==e.match && a.alliance == e.alliance){
+                    let event = a.event;
+                    let match = a.match;
+                    let alliance = a.alliance;
+                    let found = cache.find(element => element == a);
+                    if(found != undefined && e.game.untimed.engageAuto){ 
+                        count++;
+                        cache.push({event, match, alliance});
+                    }
+                }
+            });
+        });
 
-    // },
+        return(count/(matches.length));
+
+    },
+    Alliance_dock_auto_rate(team:number, data:any[]){
+        let matches:any[] = [];
+        let cache:any[];
+        let count = 0;
+        data.forEach(e=>{    //data = all scouting data
+            if(e.team != team) return;
+            let event = e.event;
+            let match = e.match;
+            let alliance = e.alliance;
+            matches.push({event, match, alliance}); //matches = event, match, and alliance of team in ever
+        });
+        data.forEach(e=>{ //iterate through scouting data (e)
+            matches.forEach(a=>{ //iterate through possible matches (a)
+                if(a.event==e.event && a.match==e.match && a.alliance == e.alliance){
+                    let event = a.event;
+                    let match = a.match;
+                    let alliance = a.alliance;
+                    let found = cache.find(element => element == a);
+                    if(found != undefined && e.game.untimed.dockedAuto){ 
+                        count++;
+                        cache.push({event, match, alliance});
+                    }
+                }
+            });
+        });
+
+        return(count/(matches.length));
+    },
     Dock_match_rate(team:number, data:any[]){
         let count = 0;
         let mobileCount = 0;
@@ -102,10 +145,34 @@ export default {
         });
         return(cubeNum/count);
     },
-    Avg_cycle_time(team:number, data:any[]){
-        data.forEach(e=>{
+    // Avg_cycle_time(team:number, data:any[]){
+    //     let inTime:any[]=[];
+    //     let outTime:any[]=[];
+    //     let compiled:any[]=[];
+    //     data.forEach(e=>{
+    //         if(e.team != team) return;
+    //         e.game.actions.forEach(a=>{
+    //             if(a.action=="intake") inTime.push(a.time);
+    //             if(a.action=="place") outTime.push(a.time);
+    //         });
+    //     });
+    //     for(let i=0; i<=inTime.length-1; i++){
+    //         compiled.push(outTime[i]-inTime[i]);
+    //     }
 
-        })
+    // },
+    Midfield_intake_rate(team:number, data:any[]){
+        let midField=0;
+        let total=0;
+        data.forEach(e=>{
+            if(e.team!=team) return;
+            e.game.actions.forEach(a=>{
+                if(a.action=="intake"){
+                    if(a.location=="midfield") midField++;
+                total++;
+                }
+            });
+        });
     }
 }
 export function teamScore(e:any){
