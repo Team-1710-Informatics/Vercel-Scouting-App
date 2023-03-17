@@ -8,10 +8,10 @@
 
     let questions = [
         {q:"Completely left starting area during AUTO?", name:"mobile", answer:null, time:153},
-        {q:"Robot fully on CHARGING STATION at end of AUTO?", name:"dockedAuto", answer:null, time:138},
-        {q:"CHARGING STATION balanced at the end of AUTO?", name:"engageAuto", answer:null, time:138},
-        {q:"Robot fully on CHARGING STATION at end of MATCH?", name:"dockedMatch", answer:null, time:0},
-        {q:"CHARGING STATION balanced at end of MATCH?", name:"engageMatch", answer:null, time:0},
+        {q:"Was your robot fully on CHARGING STATION at end of AUTO?", name:"dockedAuto", answer:null, time:138},
+        {q:"Was the CHARGING STATION balanced at the end of AUTO?", name:"engageAuto", answer:null, time:138},
+        {q:"Was your robot fully on CHARGING STATION at end of MATCH?", name:"dockedMatch", answer:null, time:0},
+        {q:"Was the CHARGING STATION balanced at end of MATCH?", name:"engageMatch", answer:null, time:0},
         {q:"Robot parked in starting area at end of MATCH?", name:"parked", answer:null, time:0, exclusive:"dockedMatch"},
     ]
 

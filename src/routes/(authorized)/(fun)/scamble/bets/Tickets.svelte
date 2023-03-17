@@ -1,15 +1,21 @@
 <script>
+    import { fly, slide } from "svelte/transition";
+    import Ticket from "./Ticket.svelte";
+
+    export let tickets;
 
     let show = false;
 </script>
 
 {#if show}
-<div class="fixed top-0 left-0 flex flex-row">
-    <div class="bg-white opacity-0 m-0 "></div>
-    <div>
-
+    <div class="fixed top-0 left-0 flex flex-row w-full z-10">
+        <div on:click={()=>{show=false}} class="bg-white opacity-50 m-0 flex-grow" style="height:100vh;"/>
+        <div class="bg-slate-800" transition:fly={{x:200}}>
+            {#each tickets as ticket}
+                <Ticket {ticket}/>
+            {/each}
+        </div>
     </div>
-</div>
 {/if}
 
 <button on:click={()=>{show=true}}>My bets</button>
