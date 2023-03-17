@@ -3,6 +3,7 @@
     import Credits from "$lib/components/visual/Credits.svelte";
     import Bet from "./Bet.svelte";
     import Matchup from "./Matchup.svelte";
+    import Tickets from "./Tickets.svelte";
 
     export let data;
     export let form;
@@ -19,6 +20,7 @@
         return o;
     }
 </script>
+<Tickets/>
 <middle class="pt-10">
     <p class="font-black text-6xl">SCAMBLE</p>
     <div class="box mb-8">

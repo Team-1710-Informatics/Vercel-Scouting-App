@@ -7,12 +7,12 @@
     export let answers={};
 
     let questions = [
-        {q:"Completely left COMMUNITY during AUTO?", name:"mobile", answer:null, time:153},
-        {q:"Robot DOCKED at end of AUTO?", name:"dockedAuto", answer:null, time:138},
-        {q:"CHARGING STATION ENGAGED at end of AUTO?", name:"engageAuto", answer:null, time:138},
-        {q:"Robot DOCKED at end of MATCH?", name:"dockedMatch", answer:null, time:0},
-        {q:"CHARGING STATION ENGAGED at end of MATCH?", name:"engageMatch", answer:null, time:0},
-        {q:"Robot PARKED in COMMUNITY at end of MATCH?", name:"parked", answer:null, time:0, exclusive:"dockedMatch"},
+        {q:"Completely left starting area during AUTO?", name:"mobile", answer:null, time:153},
+        {q:"Robot fully on CHARGING STATION at end of AUTO?", name:"dockedAuto", answer:null, time:138},
+        {q:"CHARGING STATION balanced at the end of AUTO?", name:"engageAuto", answer:null, time:138},
+        {q:"Robot fully on CHARGING STATION at end of MATCH?", name:"dockedMatch", answer:null, time:0},
+        {q:"CHARGING STATION balanced at end of MATCH?", name:"engageMatch", answer:null, time:0},
+        {q:"Robot parked in starting area at end of MATCH?", name:"parked", answer:null, time:0, exclusive:"dockedMatch"},
     ]
 
     $: {
