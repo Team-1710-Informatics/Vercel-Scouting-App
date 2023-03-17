@@ -1,4 +1,4 @@
-import { ScoutData } from "$lib/models";
+import { ScoutData } from "$lib/server/models";
 import { json } from '@sveltejs/kit';
 
 export async function GET({ params }) {
