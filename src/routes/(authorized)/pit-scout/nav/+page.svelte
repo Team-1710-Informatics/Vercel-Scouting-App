@@ -2,10 +2,10 @@
     export let data;
 </script>
 
-<center class="pt-10">
+<center class="py-10">
     <p>Already scouted:</p>
     {#each data.scouted as team}
-        <p>{team}</p>
+        <div><a href="../data/2023/team/2023ksla/{team}" class="text-blue-500 underline hover:text-white">{team}</a></div>
     {/each}
 
     <a href="./" class="pt-5"><button class="submit">Pit Scout!</button></a>

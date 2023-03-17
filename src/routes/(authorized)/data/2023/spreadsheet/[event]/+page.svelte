@@ -99,7 +99,7 @@
                 <tr class="divide-x" animate:flip>
                     <td>{i+1}.</td>
                     {#each columns as col}
-                        <td>{(typeof stats[col](team,data.entries)==="number")?parseFloat(stats[col](team,data.entries)).toFixed(2):stats[col](team,data.entries)}</td>
+                        <td>{(typeof stats[col](team,data.entries)==="number" && stats[col](team,data.entries) != Math.trunc(stats[col](team,data.entries)))?parseFloat(stats[col](team,data.entries)).toFixed(2):stats[col](team,data.entries)}</td>
                     {/each}
                 </tr>
             {/each}
