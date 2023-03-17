@@ -138,3 +138,13 @@ export function teamScore(e:any){
 
     return(count);
 }
+export function gridLayout(e:any){
+    let out = [Array(9),Array(9),Array(9)]
+    e.game.actions.forEach((a:any)=>{
+        if(a.action === "place"){
+            out[a.node.y][a.node.x-1] = a.type;
+        }
+    })
+
+    return out;
+}

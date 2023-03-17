@@ -3,8 +3,10 @@
     import { page } from "$app/stores";
     import Timeline from "$lib/components/data/2023/Timeline.svelte";
     import AutoAnalysis from "$lib/components/data/2023/AutoAnalysis.svelte";
-    import stats, {teamScore} from "../spreadsheet/[event]/statistics";
+    import stats, {teamScore, gridLayout} from "../spreadsheet/[event]/statistics";
     import StarRating from "$lib/components/ui/StarRating.svelte";
+    import cube from "$lib/assets/scout/2023/cube.png";
+    import cone from "$lib/assets/scout/2023/cone.png";
 
     export let data;
     
@@ -66,6 +68,19 @@
                         <p>Approx. Scouted score: {teamScore(entry)}</p>
                         <div class="w-fit"><StarRating rating={entry.postgame.rating}/></div>
                         {#if entry.postgame.thoughts}<p>Scout thoughts: {entry.postgame.thoughts}</p>{/if}
+                        <div class="grid grid-cols-9 divide-y divide-x divide-white">
+                            {#each gridLayout(entry) as row}
+                                {#each row as node}
+                                    <div class="w-8 h-8">
+                                        {#if node==="cube"}
+                                            <img src={cube}/>
+                                        {:else if node==="cone"}
+                                            <img src={cone}/>
+                                        {/if}
+                                    </div>
+                                {/each}
+                            {/each}
+                        </div>
                         <!-- <p class="text-xs">{JSON.stringify(entry)}</p> -->
                     </middle>
                 {:else}
