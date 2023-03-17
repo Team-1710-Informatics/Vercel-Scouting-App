@@ -20,7 +20,6 @@
             }
         });
         let out = await results.json()
-        console.log(out);
 
         matches = out;
     }

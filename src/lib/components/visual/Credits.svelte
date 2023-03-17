@@ -4,12 +4,12 @@
     export {classes as class}
 </script>
 
-<span {style} class={classes}><slot /></span>
+<span {style} class={"lcd "+classes}><slot /></span>
 
 <style>
     @import url('https://fonts.cdnfonts.com/css/lcd');
 
-    span {
+    .lcd {
         font-family: 'LCDMono', sans-serif;
         color: rgb(20 184 166);
     }

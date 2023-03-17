@@ -4,6 +4,6 @@
     export let data;
 </script>
 
-<Status value="scambling" host={data.host}/>
+<!-- <Status value="scambling" host={data.host}/> -->
 
 <slot />

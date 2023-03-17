@@ -44,7 +44,7 @@
     </div>
     <div class="grid grid-cols-6 w-60 gap-2">
         {#each links as link}
-            <a href={link[1]} class="w-full font-bold" style="grid-column: span {link[2]} / span {link[2]};"><button class={link?.[3]+" w-full py-3"} disabled={link[0]=="Scamble"}>{link[0]}</button></a>
+            <a href={link[1]} class="w-full font-bold" style="grid-column: span {link[2]} / span {link[2]};"><button class={link?.[3]+" w-full py-3"}>{link[0]}</button></a>
         {/each}
     </div>
     <!-- {#if deferredPrompt}

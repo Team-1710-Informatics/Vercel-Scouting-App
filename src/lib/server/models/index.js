@@ -158,3 +158,14 @@ const pitscout2023 = new Schema({
 });
 
 export const pitdata2023 = mongoose.model("2023pitdata", pitscout2023);
+
+const ticket = new Schema({
+    user:String,
+    match:String,
+    amount:Number,
+    alliance:String,
+    timestamp:Number,
+    resolved:Boolean
+})
+
+export const ScambleTicket = mongoose.model("ticket",ticket);
