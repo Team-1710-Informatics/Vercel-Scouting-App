@@ -71,7 +71,7 @@
                         <div class="grid grid-cols-9 divide-y divide-x divide-white">
                             {#each gridLayout(entry) as row}
                                 {#each row as node}
-                                    <div class="w-8 h-8">
+                                    <div class="w-8 h-8 border-white">
                                         {#if node==="cube"}
                                             <img src={cube}/>
                                         {:else if node==="cone"}
