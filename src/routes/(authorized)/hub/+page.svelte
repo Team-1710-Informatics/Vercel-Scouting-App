@@ -7,9 +7,9 @@
 
     const links:[string, string, number, string?][] = [
         ["Leaderboard", '/leaderboard', 4, ''],
-        ["Data", '/data/2023', 2, 'border-orange-600 bg-gradient-to-bl from-orange-500 to-yellow-300'],
-        ["Pit Scouting", '/pit-scout/nav', 6, 'border-orange-600 bg-gradient-to-bl from-orange-500 to-yellow-300'],
-        ["Scout", '/scout/2023', 6, 'submit'],
+        ["Data", '/data/2023/spreadsheet/2023ksla', 2, 'border-rose-600 bg-gradient-to-bl from-rose-600 to-red-300'],
+        ["Pit Scouting", '/pit-scout/nav', 6, 'border-orange-600 bg-gradient-to-b from-orange-500 to-yellow-300'],
+        ["Scout Match", '/scout/2023', 6, 'submit'],
     ]
 
     if(data.team === 1710){

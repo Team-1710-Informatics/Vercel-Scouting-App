@@ -1,5 +1,5 @@
 export default {
-    Avg_score(team:number, data:any[]){
+    Average_score(team:number, data:any[]){
         let count = 0;
         let score = 0;
         data.forEach(e=>{
@@ -17,8 +17,8 @@ export default {
             if(score > max){
                 max = score;
             }
-            return(max);
         });
+        return(max);
     },
     Mobility_rate(team:number, data:any[]){
         let count = 0;

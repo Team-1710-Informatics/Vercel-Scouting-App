@@ -1,6 +1,6 @@
 <script>
     import { flip } from "svelte/animate";
-    import stats from "./statistics";
+    import stats from "./statistics"
 
     let teams = [];
 
@@ -12,6 +12,7 @@
 
     let columns = ["Average_score"];
     let sortFunction = "Average_score";
+    let ascending = false;
 
     let output;
 
@@ -51,14 +52,14 @@
     }
 
     $: teams = teams.sort((a,b)=>{
-        return (+stats[sortFunction](b))-(+stats[sortFunction](a));
+        return (+stats[sortFunction](b,data.entries))-(+stats[sortFunction](a,data.entries))*(ascending?-1:1);
     })
 </script>
 
 <center class="pt-10">
-    <div class="flex flex-row w-fit gap-1">
-        <button on:click={()=>{columns.push("Average_score");columns=columns}}>Add column</button>
-        <button class="bg-red-500" on:click={()=>{columns.pop ("Average_score");columns=columns}}>Remove column</button>
+    <div class="grid grid-cols-2 w-fit gap-1">
+        <button class="font-bold bg-gradient-to-t from-green-800 to-green-400 border-green-900" on:click={()=>{columns.push("Average_score");columns=columns}}>Add column</button>
+        <button class="font-bold bg-gradient-to-t from-red-800 to-red-400 border-red-900" on:click={()=>{columns.pop ("Average_score");columns=columns}}>Remove column</button>
     </div>
     <br>
     <div class="flex flex-row w-fit gap-1">
@@ -69,9 +70,19 @@
             {/each}
         </select>
     </div>
+    <label>
+        <input type="radio" name="sort" bind:group={ascending} value={false}>
+        Descending
+    </label>
+    <label>
+        <input type="radio" name="sort" bind:group={ascending} value={true}>
+        Ascending
+    </label>
     <br>
-    <table class="divide-y divide-white">
+    <br>
+    <table class="divide-y divide-white box">
         <tr>
+            <th>#</th>
             <th>Team</th>
             {#each columns as col}
                 <th>
@@ -84,17 +95,18 @@
             {/each}
         </tr>
 
-        {#each teams as team (team)}
+        {#each teams as team, i (team)}
             <tr class="divide-x" animate:flip>
+                <td>{i+1}.</td>
                 <th>{team}</th>
                 {#each columns as col}
-                    <td>{(typeof stats[col](team)==="number")?parseFloat(stats[col](team)).toFixed(2):stats[col](team,data.entries)}</td>
+                    <td>{(typeof stats[col](team,data.entries)==="number")?parseFloat(stats[col](team,data.entries)).toFixed(2):stats[col](team,data.entries)}</td>
                 {/each}
             </tr>
         {/each}
     </table>
     <br>
-    <button on:click={tableToCSV}>Export table</button>
+    <button on:click={tableToCSV} class="font-bold bg-gradient-to-t from-teal-800  to-teal-400 border-black">Export sheet</button>
 </center>
 
 <table bind:this={output} hidden>
@@ -111,16 +123,18 @@
         <tr class="divide-x">
             <th>{team}</th>
             {#each columns as col}
-                <td>{(typeof stats[col](team)==="number")?parseFloat(stats[col](team)).toFixed(2):stats[col](team,data.entries)}</td>
+                <td>{stats[col](team,data.entries)}</td>
             {/each}
         </tr>
     {/each}
 </table>
 
 <style>
-    th, td {
+    th, td, table {
         padding:4px;
         text-align:center;
+        border-radius:4px;
+
     }
 
     select {
