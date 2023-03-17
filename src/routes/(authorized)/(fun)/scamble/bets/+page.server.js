@@ -11,7 +11,11 @@ export async function load({ locals }){
 
     const events = await res.json();
 
-    const tickets = JSON.parse(JSON.stringify(await ScambleTicket.find({user:locals.user.username})));
+    const tickets = JSON.parse(JSON.stringify(await ScambleTicket.find({user:locals.user.username,resolved:false})));
+
+    for(let i = 0; i < tickets.length; i++){
+        tickets[i].payout = await payout(tickets[i]);
+    }
 
     return{
         events,
@@ -44,8 +48,72 @@ export const actions = {
         await credits.transaction(user.username, -wager, `Scamble: Place bet on ${match}`)
         await ticket.save();
 
-        const tickets = JSON.parse(JSON.stringify(await ScambleTicket.find({user:user.username})));
+        const tickets = JSON.parse(JSON.stringify(await ScambleTicket.find({user:user.username,resolved:false})));
+
+        for(let i = 0; i < tickets.length; i++){
+            tickets[i].payout = await payout(tickets[i]);
+        }
 
         return { tickets };
+    },
+
+    resolve: async function({ request }){
+        const input = await request.formData();
+        const user = input.get("user");
+        const match = input.get("match");
+
+        const winner = input.get("winner");
+        const time = input.get("time");
+
+        const ticket = await ScambleTicket.findOne({user,match});
+
+        if(Math.trunc(ticket.timestamp/1000) > time){
+            await credits.transaction(user, ticket.amount, `Late Scamble refund`);
+        }else if(ticket.alliance === winner){
+            await credits.transaction(user, await payout(ticket), `Scamble winnings`);
+        }
+
+        ticket.resolved = true;
+        await ticket.save();
+
+        const tickets = JSON.parse(JSON.stringify(await ScambleTicket.find({user,resolved:false})));
+        return {tickets};
     }
+}
+
+async function payout(t){
+    const tickets = await ScambleTicket.find({match:t.match});
+
+    let sums={
+        red:0,
+        blue:0
+    }
+
+    let pot=0;
+
+    for(let i=0;i<tickets.length;i++){
+        const res = await results(tickets[i].match);
+        if(Math.trunc(tickets[i].timestamp/1000) > res.actual_time)
+            continue;
+
+        console.log(JSON.stringify(other));
+        sums[tickets[i].alliance]+=tickets[i].amount;
+        pot+=tickets[i].amount;
+    };
+
+    let portion = t.amount/sums[t.alliance];
+
+    pot *= 1.2;
+
+    return Math.trunc(portion * pot);
+}
+
+async function results(key){
+    const results = await fetch(`https://www.thebluealliance.com/api/v3/match/${key}/simple`,{
+        headers:{
+            "X-TBA-Auth-Key":X_TBA_AUTHKEY
+        }
+    });
+
+    return (await results.json());
 }
