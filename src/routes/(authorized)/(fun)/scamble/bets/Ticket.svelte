@@ -26,10 +26,10 @@
         <p class="text-black">Wager: {ticket.amount}</p>
         
         {#await results(ticket.match) then r}
-            {#if r.winning_alliance == ""}
+            {#if r.winning_alliance === "" && r.actual_time === null}
                 <p class="text-black">Predicted payout: {ticket.payout}</p>
-            {:else if Math.trunc(ticket.timestamp/1000) > r.actual_time}
-                <p class="text-black opacity-50 text-xs">Bet was placed after match started.</p>
+            {:else if Math.trunc(ticket.timestamp/1000) > r.actual_time || r.winning_alliance === ""}
+                <!-- <p class="text-black opacity-50 text-xs">Bet was placed after match started.</p> -->
                 <form method=POST action=?/resolve use:enhance={() => {
                     loading = true;
                     //@ts-ignore
