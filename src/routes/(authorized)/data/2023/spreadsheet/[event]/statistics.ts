@@ -1,4 +1,7 @@
 export default {
+    Team_number(team:number, data:any[]){
+        return team;
+    },
     Average_score(team:number, data:any[]){
         let count = 0;
         let score = 0;

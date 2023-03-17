@@ -10,7 +10,7 @@
             teams.push(e.team);
     })
 
-    let columns = ["Average_score"];
+    let columns = ["Team_number"];
     let sortFunction = "Average_score";
     let ascending = false;
 
@@ -84,7 +84,6 @@
         <table class="divide-y divide-white">
             <tr>
                 <th>#</th>
-                <th>Team</th>
                 {#each columns as col}
                     <th>
                         <select bind:value={col}>
@@ -99,7 +98,6 @@
             {#each teams as team, i (team)}
                 <tr class="divide-x" animate:flip>
                     <td>{i+1}.</td>
-                    <th>{team}</th>
                     {#each columns as col}
                         <td>{(typeof stats[col](team,data.entries)==="number")?parseFloat(stats[col](team,data.entries)).toFixed(2):stats[col](team,data.entries)}</td>
                     {/each}
@@ -113,7 +111,6 @@
 
 <table bind:this={output} hidden>
     <tr>
-        <th>Team</th>
         {#each columns as col}
                 <th>
                     {col}
@@ -123,7 +120,6 @@
 
     {#each teams as team}
         <tr class="divide-x">
-            <th>{team}</th>
             {#each columns as col}
                 <td>{stats[col](team,data.entries)}</td>
             {/each}
