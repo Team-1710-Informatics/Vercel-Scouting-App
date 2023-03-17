@@ -68,7 +68,7 @@
                         <p>Approx. Scouted score: {teamScore(entry)}</p>
                         <div class="w-fit"><StarRating rating={entry.postgame.rating}/></div>
                         {#if entry.postgame.thoughts}<p>Scout thoughts: {entry.postgame.thoughts}</p>{/if}
-                        <div class="grid grid-cols-9 divide-y divide-x divide-white">
+                        <div class="grid grid-cols-9">
                             {#each gridLayout(entry) as row}
                                 {#each row as node}
                                     <div class="w-8 h-8 border-white">
