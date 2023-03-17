@@ -1,6 +1,8 @@
 <script>
     import MatchSelector from "$lib/components/search/MatchSelector.svelte";
     import { page } from "$app/stores";
+    import Timeline from "$lib/components/data/2023/Timeline.svelte";
+    import AutoAnalysis from "$lib/components/data/2023/AutoAnalysis.svelte";
 
     export let data;
     
@@ -59,12 +61,9 @@
                 {#each res.data as entry}
                     <div class="box m-6">
                         <p>Scouted by <span class="font-bold">{entry.scout}</span></p>
-                        <div class="grid grid-cols-4">
-                            {#each ["mobile", "dockedAuto", "engageAuto", "dockedMatch", "engageMatch"] as i}
-                                <p class="col-span-3">{i}:</p>
-                                <p>{entry.game.untimed[i]}</p>
-                            {/each}
-                        </div>
+                        <Timeline {entry}/>
+                        <p>{entry.postgame.thoughts}</p>
+                        <p class="text-xs">{JSON.stringify(entry.game.actions)}</p>
                     </div>
                 {:else}
                     <p class="opacity-50">No entries found</p>

@@ -12,6 +12,6 @@ export async function load({ locals }){
     return{
         events,
         competition:locals.competition,
-        scout:locals.user.username
+        user:locals.user.username
     }
 }

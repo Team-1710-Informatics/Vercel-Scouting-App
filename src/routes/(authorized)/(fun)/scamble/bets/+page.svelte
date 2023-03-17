@@ -1,5 +1,6 @@
 <script>
     import MatchSelector from "$lib/components/search/MatchSelector.svelte";
+    import Bet from "./Bet.svelte";
     import Matchup from "./Matchup.svelte";
 
     export let data;
@@ -15,4 +16,5 @@
         <MatchSelector event={data.competition.key} events={data.events} bind:match={match}/>
     </div>
     <Matchup bind:match={match}/>
+    <Bet {data} />
 </middle>
