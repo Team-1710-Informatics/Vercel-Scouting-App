@@ -67,8 +67,8 @@ export const actions = {
 
         const ticket = await ScambleTicket.findOne({user,match});
 
-        if(Math.trunc(ticket.timestamp/1000) > time){
-            await credits.transaction(user, ticket.amount, `Late Scamble refund`);
+        if(Math.trunc(ticket.timestamp/1000) > time || (time != null && winner==="")){
+            await credits.transaction(user, ticket.amount, `Scamble refund`);
         }else if(ticket.alliance === winner){
             await credits.transaction(user, await payout(ticket), `Scamble winnings`);
         }
@@ -93,7 +93,7 @@ async function payout(t){
 
     for(let i=0;i<tickets.length;i++){
         const res = await results(tickets[i].match);
-        if(Math.trunc(tickets[i].timestamp/1000) > res.actual_time)
+        if(Math.trunc(tickets[i].timestamp/1000) > res.actual_time && res.actual_time != null)
             continue;
 
         sums[tickets[i].alliance]+=tickets[i].amount;
