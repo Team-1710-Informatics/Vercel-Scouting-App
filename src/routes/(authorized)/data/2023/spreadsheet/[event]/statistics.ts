@@ -231,7 +231,7 @@ export default {
         return result;
     },
 }
-function teamScore(e:any){
+export function teamScore(e:any){
     let count = 0;
     e.game.actions.forEach((a:any)=>{
         if(a.action === 'place') {
