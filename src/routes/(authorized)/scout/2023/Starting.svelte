@@ -11,6 +11,7 @@
         x:NaN,
         y:NaN
     }
+    export let display=false;
 
     let coordinates={
         x: NaN,
@@ -22,6 +23,7 @@
     let comm;
 
     function setStartingPosition(event) {
+        if(display) return;
         const rect = comm.getBoundingClientRect();
         coordinates.x = Math.trunc(event.clientX - rect.left);
         coordinates.y = Math.trunc(event.clientY - rect.top);
