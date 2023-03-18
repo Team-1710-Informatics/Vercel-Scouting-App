@@ -84,7 +84,7 @@
                                     {/each}
                                 {/each}
                             </div>
-                            <Starting alliance={entry.alliance} value={entry.pregame.start} display={true}/>
+                            <!-- <Starting alliance={entry.alliance} value={entry.pregame.start} display={true}/> -->
                         </div>
                         <!-- <p class="text-xs">{JSON.stringify(entry)}</p> -->
                     </middle>
