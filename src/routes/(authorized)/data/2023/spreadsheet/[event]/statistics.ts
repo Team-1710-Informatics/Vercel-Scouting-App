@@ -138,8 +138,10 @@ export default {
         let total = 0;
         data.forEach(e=>{
             if(e.team != team) return;
-            if(e.postgame?.driverSkill || e.postgame?.driverSkill === 0) total += e.postgame.driverSkill;
-            count++;
+            if(e.postgame?.driverSkill){
+                count++;
+                total += e.postgame.driverSkill;
+            }
         });
         return(total/count);
     },
