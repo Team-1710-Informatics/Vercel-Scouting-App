@@ -70,20 +70,22 @@
                         <p>Approx. Scouted score: {teamScore(entry)}</p>
                         <div class="w-fit"><StarRating rating={entry.postgame.rating}/></div>
                         {#if entry.postgame.thoughts}<p>Scout thoughts: {entry.postgame.thoughts}</p>{/if}
-                        <div class="grid grid-cols-9">
-                            {#each gridLayout(entry) as row}
-                                {#each row as node}
-                                    <div class="w-8 h-8 border-white border">
-                                        {#if node==="cube"}
-                                            <img src={cube}/>
-                                        {:else if node==="cone"}
-                                            <img src={cone}/>
-                                        {/if}
-                                    </div>
+                        <div class="flex flex-row items-middle gap-2">
+                            <div class="grid grid-cols-9">
+                                {#each gridLayout(entry) as row}
+                                    {#each row as node}
+                                        <div class="w-8 h-8 border-white border">
+                                            {#if node==="cube"}
+                                                <img src={cube}/>
+                                            {:else if node==="cone"}
+                                                <img src={cone}/>
+                                            {/if}
+                                        </div>
+                                    {/each}
                                 {/each}
-                            {/each}
+                            </div>
+                            <Starting alliance={entry.alliance} value={entry.pregame.start} display={true}/>
                         </div>
-                        <Starting alliance={entry.alliance} value={entry.pregame.start} display={true}/>
                         <!-- <p class="text-xs">{JSON.stringify(entry)}</p> -->
                     </middle>
                 {:else}
