@@ -3,7 +3,7 @@
     import { page } from "$app/stores";
     import Timeline from "$lib/components/data/2023/Timeline.svelte";
     import AutoAnalysis from "$lib/components/data/2023/AutoAnalysis.svelte";
-    import stats, {teamScore, gridLayout} from "../spreadsheet/[event]/statistics";
+    import {teamScore, gridLayout} from "../spreadsheet/[event]/statistics";
     import StarRating from "$lib/components/ui/StarRating.svelte";
     import cube from "$lib/assets/scout/2023/cube.png";
     import cone from "$lib/assets/scout/2023/cone.png";
@@ -69,6 +69,9 @@
                         <p>Scouted by <span class="font-bold">{entry.scout}</span></p>
                         <p>Approx. Scouted score: {teamScore(entry)}</p>
                         <div class="w-fit"><StarRating rating={entry.postgame.rating}/></div>
+                        {#if entry.postgame?.driverSkill}
+                            <div class="w-fit"><StarRating rating={entry.postgame.driverSkill}/></div>
+                        {/if}
                         {#if entry.postgame.thoughts}<p>Scout thoughts: {entry.postgame.thoughts}</p>{/if}
                         <div class="flex flex-row items-middle gap-2">
                             <div class="grid grid-cols-9">
