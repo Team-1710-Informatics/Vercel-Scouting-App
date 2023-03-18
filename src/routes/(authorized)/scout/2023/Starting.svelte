@@ -7,7 +7,7 @@
     }
 
     export let alliance;
-    export const value = {
+    export let value = {
         x:NaN,
         y:NaN
     }
