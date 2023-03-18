@@ -300,7 +300,6 @@ function autoScore(e:any){
 export function gridLayout(e:any){
     let out = [Array(9),Array(9),Array(9)]
     e.game.actions.forEach((a:any)=>{
-        console.log(a.node.y);
         if(a.action === "place"){
             
             out[a.node.y][a.node.x-1] = a.type;
