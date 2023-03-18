@@ -4,6 +4,9 @@
 
     let teams = [];
 
+    let show="";
+    $: showteams=show.split(" ");
+
     export let data;
     data.entries.forEach(e=>{
         if(!teams.includes(e.team))
@@ -62,6 +65,11 @@
         <button class="font-bold bg-gradient-to-t from-red-800 to-red-400 border-red-900" on:click={()=>{columns.pop ("Average_score");columns=columns}}>Remove column</button>
     </div>
     <br>
+    <div><label>
+        Filter teams: 
+        <input type="text" bind:value={show}>
+    </label></div>
+    <br>
     <div class="flex flex-row w-fit gap-1">
         <p>Sort:</p>
         <select bind:value={sortFunction}>
@@ -97,10 +105,13 @@
 
             {#each teams as team, i (team)}
                 <tr class="divide-x" animate:flip>
-                    <td>{i+1}.</td>
-                    {#each columns as col}
-                        <td class:font-bold={col=="Team_number"}>{(typeof stats[col](team,data.entries)==="number" && stats[col](team,data.entries) != Math.trunc(stats[col](team,data.entries)))?parseFloat(stats[col](team,data.entries)).toFixed(2):stats[col](team,data.entries)}</td>
-                    {/each}
+                    {#if showteams?.[0]=="" || showteams.includes(""+team)}
+                        <td>{i+1}.</td>
+                        {#each columns as col}
+                            <td class:font-bold={col=="Team_number"}>{(typeof stats[col](team,data.entries)==="number" && stats[col](team,data.entries) != Math.trunc(stats[col](team,data.entries)))?parseFloat(stats[col](team,data.entries)).toFixed(2):stats[col](team,data.entries)}</td>
+                        {/each}
+                    {/if}
+                    
                 </tr>
             {/each}
         </table>
