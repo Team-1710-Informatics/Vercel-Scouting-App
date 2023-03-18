@@ -37,7 +37,7 @@
     }
 </script>
 
-<div class="w-fit">
+<div class="w-fit relative h-fit">
     <img alt="" class="border-black rounded border-2" bind:this={comm} on:click={setStartingPosition} on:keydown={()=>{return}} src={imgs[alliance]}/>
-    {#if coordinates.y != NaN}<div class="rounded-full w-5 h-5 {alliance=="red"?"bg-red-600":"bg-blue-600"} border-2 border-black" style="position:absolute; top:{+coordinates.sy-10}px; left:{coordinates.sx-10}px;"/>{/if}
+    {#if coordinates.y != NaN}<div class="rounded-full w-5 h-5 {alliance=="red"?"bg-red-600":"bg-blue-600"} border-2 border-black" style="position:absolute; top:{+value.y-10}px; left:{value.x-10}px;"/>{/if}
 </div>

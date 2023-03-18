@@ -83,7 +83,7 @@
                                 {/each}
                             {/each}
                         </div>
-                        <Starting alliance={entry.alliance} value={entry.pregame.start}/>
+                        <Starting alliance={entry.alliance} value={entry.pregame.start} display={true}/>
                         <!-- <p class="text-xs">{JSON.stringify(entry)}</p> -->
                     </middle>
                 {:else}
