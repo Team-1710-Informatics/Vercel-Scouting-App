@@ -301,6 +301,7 @@ export function gridLayout(e:any){
     let out = [Array(9),Array(9),Array(9)]
     e.game.actions.forEach((a:any)=>{
         if(a.action === "place"){
+            console.log(a.node.y);
             out[a.node.y][a.node.x-1] = a.type;
         }
     })
