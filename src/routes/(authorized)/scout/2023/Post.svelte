@@ -13,6 +13,7 @@
 
     let thoughts;
     let rating;
+    let driverSkill;
 
     export let meta;
     export let pregame;
@@ -27,6 +28,7 @@
             return x;
         }(),
         rating,
+        driverSkill,
         thoughts
     };
 
@@ -55,6 +57,11 @@
         <div class="py-2">
             <h6>Your Rating</h6>
             <StarRating editable bind:rating={rating} />
+        </div>
+        <div class="py-2">
+            <h6>Driver Skill Rating</h6>
+            <p class="text-xs opacity-50">Maneuverability/Precision</p>
+            <StarRating editable bind:rating={driverSkill} />
         </div>
         <div class="flex flex-col pt-2">
             <h6>Final Thoughts</h6>

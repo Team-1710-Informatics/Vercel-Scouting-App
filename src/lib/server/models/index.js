@@ -51,6 +51,7 @@ const scoutEntry2023 = new Schema({
     postgame:{
         strategy:Array,
         rating: {type: Number, min: 0, max: 10},
+        driverSkill: {type: Number, min: 0, max: 10},
         thoughts: String
     }
 },{
