@@ -7,6 +7,8 @@
     import StarRating from "$lib/components/ui/StarRating.svelte";
     import cube from "$lib/assets/scout/2023/cube.png";
     import cone from "$lib/assets/scout/2023/cone.png";
+    import Status from "$lib/components/function/Status.svelte";
+    import Starting from "../../../scout/2023/Starting.svelte";
 
     export let data;
     
@@ -68,18 +70,21 @@
                         <p>Approx. Scouted score: {teamScore(entry)}</p>
                         <div class="w-fit"><StarRating rating={entry.postgame.rating}/></div>
                         {#if entry.postgame.thoughts}<p>Scout thoughts: {entry.postgame.thoughts}</p>{/if}
-                        <div class="grid grid-cols-9">
-                            {#each gridLayout(entry) as row}
-                                {#each row as node}
-                                    <div class="w-8 h-8 border-white">
-                                        {#if node==="cube"}
-                                            <img src={cube}/>
-                                        {:else if node==="cone"}
-                                            <img src={cone}/>
-                                        {/if}
-                                    </div>
+                        <div class="flex flex-row items-middle gap-2">
+                            <div class="grid grid-cols-9">
+                                {#each gridLayout(entry) as row}
+                                    {#each row as node}
+                                        <div class="w-8 h-8 border-white border">
+                                            {#if node==="cube"}
+                                                <img src={cube}/>
+                                            {:else if node==="cone"}
+                                                <img src={cone}/>
+                                            {/if}
+                                        </div>
+                                    {/each}
                                 {/each}
-                            {/each}
+                            </div>
+                            <!-- <Starting alliance={entry.alliance} value={entry.pregame.start} display={true}/> -->
                         </div>
                         <!-- <p class="text-xs">{JSON.stringify(entry)}</p> -->
                     </middle>

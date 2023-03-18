@@ -115,8 +115,8 @@
         </form>
     </div>
     <br>
-    <p class="font-bold">{"(Experimental) Active scouts:"}"</p>
+    <p class="font-bold">{"(Experimental) Active scouts:"}</p>
     {#each data.scouting as s}
-        <p>{s.username}</p>
+        <p>{s.name.first} {s.name.last}</p>
     {/each}
 </middle>
