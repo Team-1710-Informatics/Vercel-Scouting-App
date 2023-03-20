@@ -118,7 +118,6 @@ export default {
         data.forEach(e=>{
             if(e.team != team) return;
             if(e.game.untimed.engageAuto) mobileCount++;
-
             count++;
         });
         return(mobileCount/count);
@@ -147,34 +146,65 @@ export default {
         });
         return(cubeNum/count);
     },
-    // Avg_cycle_time(team:number, data:any[]){
-    //     let cycleEngaged=false;
+    // Average_cycle_time(team:number, data:any[]){
     //     let cycleTimes:any[]=[];
     //     let result=0;
     //     data.forEach(e=>{
+    //         let cycleEngaged=false;
     //         if(e.team!=team)return;
+    //         let startTime=0;
+    //         let endTime=0;
     //         e.game.actions.forEach((a:any)=>{
-    //             let startTime;
-    //             let endTime;
-    //             if(a.action=="intake"&&a.time>0){
+    //             if(a.action=="intake"&&a.time>0&&cycleEngaged==false){
     //                 cycleEngaged=true;
     //                 startTime=a.time;
+    //                 // console.log(startTime);
     //             }
-    //             if(a.action=="place"){
+    //             if(a.action=="place"&&cycleEngaged){
     //                 cycleEngaged=false;
+    //                 // console.log(endTime);
     //                 endTime=a.time;
+    //                 console.log(endTime, startTime);
     //                 cycleTimes.push(endTime-startTime);
     //             }
-
+    //             // console.log(startTime);
     //         });
-
     //     });
+    //     // console.log([endTime, startTime]);
+    //     // console.log(cycleTimes);
     //     cycleTimes.forEach(e=>{
     //         result+=e;
     //     });
-    //     return result;
+
+    //     return(result/cycleTimes.length);
 
     // },
+    Average_element_placement(team:number, data:any[]){
+        let resultIndex=0;
+        let count=0;
+        let array=[0, 0, 0]
+        let result="";
+        data.forEach(e=>{
+            if(e.team!=team) return;
+            e.game.actions.forEach((a:any)=>{
+                if(a.action=="place"){
+                    switch(a.node.y){
+                        case 0: array[0]+=1; break;
+                        case 1: array[1]+=1; break;
+                        case 2: array[2]+=1; break;
+                    }
+                    count++;
+                }
+            });
+        });
+        resultIndex=array.indexOf(Math.max(...array));
+        switch(resultIndex){
+            case 0: result="high"; break;
+            case 1: result="mid"; break;
+            case 2: result="low"; break;
+        }
+        return(result);
+    },
     // Pure_driver_skill(team:number, data:any[]){
 
     // },
@@ -193,7 +223,7 @@ export default {
 
         return(midField/total);
     },
-    Average_auto_score_rate(team:number, data:any[]){
+    Average_auto_score(team:number, data:any[]){
         let count = 0;
         let score = 0;
         data.forEach(e=>{
@@ -313,3 +343,26 @@ export function gridLayout(e:any){
         if(a.action=="place") outTime.push(a.time);
     });
 } */
+
+function findMode(array:any[]){
+    let object:any = {};
+    for(let i=0; i<array.length; i++){
+        if(object[array[i]]){
+            object[array[i]] += 1;
+        } else {
+            object[array[i]] = 1;
+        }
+    }
+    let biggestValue = -1;
+    let biggestValuesKey = -1;
+
+    Object.keys(object).forEach((key:any)=>{
+        let value = object[key];
+        if(value > biggestValue) {
+            biggestValue = value;
+            biggestValuesKey = key;
+        }
+
+    });
+    return biggestValuesKey;
+}
