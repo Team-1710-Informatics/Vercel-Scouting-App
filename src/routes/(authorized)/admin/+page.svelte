@@ -29,6 +29,16 @@
             reason:function(){ return "Screenshots for Credits" }
         },
         {
+            name:"Pit crew shifts",
+            fields:[
+                {name:"# of shifts", type:"number"}
+            ],
+            calculate:function(){
+                return this.fields[0]?.answer * 480;
+            },
+            reason:function(){ return "Pit crew" }
+        },
+        {
             name:"Secret, more sinister option",
             fields:[
                 {name:"Amount", type:"number"}
