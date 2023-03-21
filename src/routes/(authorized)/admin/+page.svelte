@@ -119,4 +119,7 @@
     {#each data.scouting as s}
         <p>{s.name.first} {s.name.last}</p>
     {/each}
+    <br>
+    <br>
+    <a href="/admin/history"><button>Credit history</button></a>
 </middle>

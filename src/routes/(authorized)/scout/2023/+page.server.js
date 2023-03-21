@@ -28,8 +28,8 @@ export const actions = {
         const input = await request.formData();
         const data = JSON.parse(input.get("data"));
 
-        if(locals.competition.key == data.event) await credits.transaction(locals.user.username, 100, `Scouted ${data.event}qm${data.match}:${data.team}`);
-        else if(data.event != "2023practice") await credits.transaction(locals.user.username, 20, `Scouted ${data.event}qm${data.match}:${data.team} (extra)`);
+        if(locals.competition.key == data.event) await credits.transaction(locals.user.username, 100, `Scouted ${data.event}_qm${data.match}:${data.team}`);
+        else if(data.event != "2023practice") await credits.transaction(locals.user.username, 20, `Scouted ${data.event}_qm${data.match}:${data.team} (extra)`);
 
         const db = new ScoutData(data);
         await db.save();
