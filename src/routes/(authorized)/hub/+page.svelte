@@ -32,6 +32,8 @@
             deferredPrompt = e;
         });
     })
+
+    let secret = 0;
 </script>
 
 <svelte:head>
@@ -39,7 +41,12 @@
 </svelte:head>
 
 <middle>
-    <div class="my-10 box">
+    <div class="my-10 box" on:click={()=>{
+        secret++;
+        if(secret>=10){
+            document.location.href = "/logofy";
+        }
+    }}>
         <CompetitionTracker events={data.events} />
     </div>
     <div class="grid grid-cols-6 w-60 gap-2">

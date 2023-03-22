@@ -2,7 +2,6 @@
     import MatchSelector from "$lib/components/search/MatchSelector.svelte";
     import ColorSwappingText from "$lib/components/visual/ColorSwappingText.svelte";
     import Credits from "$lib/components/visual/Credits.svelte";
-    import Mario from "$lib/components/visual/Mario.svelte";
     import Bet from "./Bet.svelte";
     import Matchup from "./Matchup.svelte";
     import Tickets from "./Tickets.svelte";
