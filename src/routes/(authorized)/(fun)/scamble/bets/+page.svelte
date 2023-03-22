@@ -1,6 +1,8 @@
 <script>
     import MatchSelector from "$lib/components/search/MatchSelector.svelte";
+    import ColorSwappingText from "$lib/components/visual/ColorSwappingText.svelte";
     import Credits from "$lib/components/visual/Credits.svelte";
+    import Mario from "$lib/components/visual/Mario.svelte";
     import Bet from "./Bet.svelte";
     import Matchup from "./Matchup.svelte";
     import Tickets from "./Tickets.svelte";
@@ -20,14 +22,15 @@
         return o;
     }
 </script>
-<Tickets tickets={data.tickets}/>
 <middle class="pt-10">
-    <p class="font-black text-6xl">SCAMBLE</p>
-    <div class="box mb-8">
+    <p class="font-black text-6xl"><ColorSwappingText text={"SCAMBLE"}/></p>
+    <div class="box">
         <p class="font-extrabold text-xl text-center">Select a Match</p>
         <hr>
         <MatchSelector event={data.competition?.key??null} events={data.events} bind:match={match}/>
     </div>
+    <Tickets tickets={data.tickets}/>
+    <div class="h-8"/>
     <Matchup bind:match={match} />
     <br>
     {#if match?.winning_alliance===""}
@@ -43,3 +46,5 @@
     {/if}
     <br>
 </middle>
+
+<!-- <Mario/> -->
