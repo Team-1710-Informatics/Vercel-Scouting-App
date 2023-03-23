@@ -158,40 +158,32 @@ export default {
         });
         return(cubeNum/count);
     },
-    // Average_cycle_time(team:number, data:any[]){
-    //     let cycleTimes:any[]=[];
-    //     let result=0;
-    //     data.forEach(e=>{
-    //         let cycleEngaged=false;
-    //         if(e.team!=team)return;
-    //         let startTime=0;
-    //         let endTime=0;
-    //         e.game.actions.forEach((a:any)=>{
-    //             if(a.action=="intake"&&a.time>0&&cycleEngaged==false){
-    //                 cycleEngaged=true;
-    //                 startTime=a.time;
-    //                 // console.log(startTime);
-    //             }
-    //             if(a.action=="place"&&cycleEngaged){
-    //                 cycleEngaged=false;
-    //                 // console.log(endTime);
-    //                 endTime=a.time;
-    //                 console.log(endTime, startTime);
-    //                 cycleTimes.push(endTime-startTime);
-    //             }
-    //             // console.log(startTime);
-    //         });
-    //     });
-    //     // console.log([endTime, startTime]);
-    //     // console.log(cycleTimes);
-    //     cycleTimes.forEach(e=>{
-    //         result+=e;
-    //     });
-    // return(result/cycleTimes.length);
-    // },
-    // Pure_driver_skill(team:number, data:any[]){
-
-    // },
+    Average_cycle_time(team:number, data:any[]){
+        let cycleTimes:any[]=[];
+        let result=0;
+        data.forEach(e=>{
+            let cycleEngaged=false;
+            if(e.team!=team)return;
+            let startTime=0;
+            let endTime=0;
+            e.game.actions.forEach((a:any)=>{
+                if(a.action=="intake"&&a.time>0&&cycleEngaged==false){
+                    cycleEngaged=true;
+                    startTime=a.time;
+                }
+                if(a.action=="place"&&cycleEngaged){
+                    cycleEngaged=false;
+                    endTime=a.time;
+                    console.log(endTime, startTime);
+                    cycleTimes.push(endTime-startTime);
+                }
+            });
+        });
+        cycleTimes.forEach(e=>{
+            result+=e;
+        });
+    return(result/(cycleTimes.length*1000));
+    },
     Average_element_placement(team:number, data:any[]){
         let resultIndex=0;
         let count=0;
@@ -218,61 +210,56 @@ export default {
         }
         return(result);
     },
-    // Pure_driver_skill(team:number, data:any[]){
-
-    // },
-    // Loading_zone_intake_rate(team:number, data:any[]){
-    //     let midField = 0;
-    //     let total = 0;
-    //     data.forEach(e=>{
-    //         if(e.team!=team) return;
-    //         e.game.actions.forEach((a:any)=>{
-    //             if(a.action=="intake"){
-    //                 if(a.location=="zone") midField++;
-    //                 total++;
-    //             }
-    //         });
-    //     });
-
-    //     return(midField/total);
-    // },
-    // Average_auto_score_rate(team:number, data:any[]){
-    //     let count = 0;
-    //     let score = 0;
-    //     data.forEach(e=>{
-    //         if(e.team != team) return;
-    //         score += autoScore(e);
-    //         count++;
-    //     });
-    //     return(score/count);
-    // },
-    // Strategy(team:number, data:any[]){
-    //     let stratIndex=0;
-    //     let allStrat=[0, 0, 0, 0, 0, 0];
-    //     let result = "";
-    //     data.forEach(e=>{
-    //         if(e.team!=team) return;
-    //         e.postgame.strategy.forEach((a:any)=>{
-    //             switch(a){
-    //                 case "cycle": allStrat[0]++; break;
-    //                 case "place": allStrat[1]++; break;
-    //                 case "transport": allStrat[2]++; break;
-    //                 case "defense": allStrat[3]++; break;
-    //                 case "moral": allStrat[4]++; break;
-    //                 case "breakdown": allStrat[5]++; break;
-    //             }
-    //         });
-    //     });
-    //     stratIndex=allStrat.indexOf(Math.max(...allStrat));
-    //     if(stratIndex==0)result="full cycle";
-    //     if(stratIndex==1)result="place";
-    //     if(stratIndex==2)result="transport";
-    //     if(stratIndex==3)result="defense";
-    //     if(stratIndex==4)result="moral support";
-    //     if(stratIndex==5)result="breakdown";
-    //     // overallStrat=allStrat.reduce(function(accumulator:number, currentvalue:number){return accumulator+currentvalue})
-    //     return result;
-    // },
+    Loading_zone_intake_rate(team:number, data:any[]){
+        let loadZone = 0;
+        let total = 0;
+        data.forEach(e=>{
+            if(e.team!=team) return;
+            e.game.actions.forEach((a:any)=>{
+                if(a.action=="intake"){
+                    if(a.location=="zone") loadZone++;
+                    total++;
+                }
+            });
+        });
+        return(loadZone/total);
+    },
+    Average_auto_score_rate(team:number, data:any[]){
+        let count = 0;
+        let score = 0;
+        data.forEach(e=>{
+            if(e.team != team) return;
+            score += autoScore(e);
+            count++;
+        });
+        return(score/count);
+    },
+    Strategy(team:number, data:any[]){
+        let stratIndex=0;
+        let allStrat=[0, 0, 0, 0, 0, 0];
+        let result = "";
+        data.forEach(e=>{
+            if(e.team!=team) return;
+            e.postgame.strategy.forEach((a:any)=>{
+                switch(a){
+                    case "cycle": allStrat[0]++; break;
+                    case "place": allStrat[1]++; break;
+                    case "transport": allStrat[2]++; break;
+                    case "defense": allStrat[3]++; break;
+                    case "moral": allStrat[4]++; break;
+                    case "breakdown": allStrat[5]++; break;
+                }
+            });
+        });
+        stratIndex=allStrat.indexOf(Math.max(...allStrat));
+        if(stratIndex==0)result="full cycle";
+        if(stratIndex==1)result="place";
+        if(stratIndex==2)result="transport";
+        if(stratIndex==3)result="defense";
+        if(stratIndex==4)result="moral support";
+        if(stratIndex==5)result="breakdown";
+        return result;
+    },
 }
 export function teamScore(e:any){
     let count = 0;
@@ -351,12 +338,6 @@ export function gridLayout(e:any){
 
     return out;
 }
-/*function cycle(e){
-    e.game.actions.forEach(a=>{
-        if(a.action=="intake") inTime.push(a.time);
-        if(a.action=="place") outTime.push(a.time);
-    });
-} */
 
 function findMode(array:any[]){
     let object:any = {};
