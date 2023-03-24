@@ -27,6 +27,16 @@ export async function load({ locals }){
 
 export const actions = {
     bet: async function({request, locals}){
+        function max(c){
+            let o = c-MIN;
+    
+            if(c<MIN*1.5){
+                o=c/3;
+            }
+    
+            return Math.trunc(o);
+        };
+
         const input = await request.formData();
         const wager = input.get("wager");
         const match = input.get("match");
@@ -34,9 +44,10 @@ export const actions = {
 
         const user = await User.findOne({username:locals.user.username});
 
-        if(wager <= 0 || wager > user.credits*0.25 || wager != Math.trunc(wager)) return;
+        if(wager <= 0 || wager > max(user.credits) || wager != Math.trunc(wager)) return;
 
         if(await ScambleTicket.findOne({user:user.username, match})){
+            console.log("Ticket exists, rejecting")
             const tickets = JSON.parse(JSON.stringify(await ScambleTicket.find({user:user.username,resolved:false})));
             return { tickets };
         }
@@ -84,6 +95,11 @@ export const actions = {
         await ticket.save();
 
         const tickets = JSON.parse(JSON.stringify(await ScambleTicket.find({user,resolved:false})));
+
+        for(let i = 0; i < tickets.length; i++){
+            tickets[i].payout = await payout(tickets[i]);
+        }
+
         return {tickets};
     }
 }
