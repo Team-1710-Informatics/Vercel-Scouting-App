@@ -12,7 +12,7 @@ export async function load ({ cookies }) {
 
     const user = await User.findOne({ token:token });
     if(user)
-        user.token = "";
+        user.token = undefined;
     await user.save();
 
     throw redirect(302, '/login');

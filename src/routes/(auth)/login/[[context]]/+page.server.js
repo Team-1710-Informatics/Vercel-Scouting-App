@@ -68,7 +68,7 @@ export const actions = {
         if(user.flags?.verification_key) { throw redirect(307, `/verify/${user.username}/l`); }
 
         //Establish session
-        let token = user?.token??crypto.randomUUID();
+        let token = (user.token&&user.token!="")?user.token:crypto.randomUUID();
         user.token = token;
         await user.save();
 

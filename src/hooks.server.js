@@ -20,7 +20,7 @@ export async function handle({ event, resolve }) {
 
     if(!token || event.url.pathname == "/logout") return await resolve(event);
 
-    const user = (await User.findOne({ token:token }))?.toJSON();
+    const user = JSON.parse(JSON.stringify(await User.findOne({ token:token })));
 
     if(token && !user) {
         // mongoose.connection.close(); 
@@ -34,24 +34,20 @@ export async function handle({ event, resolve }) {
     let c = currComp(res);
     let n = nextComp(res);
 
-    if (user) {
-        event.locals.user = {
-            username: user.username,
-            name: user.name,
-            email: user.email,
-            team: user.team,
-            stats: user.stats,
-            preferences: user.preferences,
-            permissions: user.permissions
-        }
-
-        event.locals.competition = c;
-        event.locals.nextCompetition = n;
+    event.locals.user = {
+        username: user.username,
+        name: user.name,
+        email: user.email,
+        team: user.team,
+        stats: user.stats,
+        preferences: user.preferences,
+        permissions: user.permissions
     }
+
+    event.locals.competition = c;
+    event.locals.nextCompetition = n;
     
-    const resolved = await resolve(event);
-    // mongoose.connection.close();
-    return resolved;
+    return await resolve(event);
 }
 
 function nextComp(res) {
