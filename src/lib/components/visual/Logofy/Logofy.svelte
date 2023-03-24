@@ -22,7 +22,7 @@
                 />
             {/each}
         </div>
-        <div class="font-black h-fit p-0 m-0 text-center" style="min-width:50px; font-size:{size}px; line-height:{size*0.75}px;" bind:offsetWidth={w} bind:offsetHeight={h}>
+        <div class="font-black h-fit p-0 m-0 text-center" style="min-width:50px; font-size:{size}px; line-height:{size}px;" bind:offsetWidth={w} bind:offsetHeight={h}>
             <pre>{@html text}</pre>
         </div>
         <div class="flex flex-col" style="margin-left:{2}px;">

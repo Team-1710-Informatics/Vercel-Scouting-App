@@ -36,7 +36,7 @@ export const actions = {
 
         if(wager <= 0 || wager > user.credits*0.25 || wager != Math.trunc(wager)) return;
 
-        if(await ScambleTicket.findOne({user:user.username,match})){
+        if(await ScambleTicket.findOne({user:user.username, match})){
             const tickets = JSON.parse(JSON.stringify(await ScambleTicket.find({user:user.username,resolved:false})));
             return { tickets };
         }
@@ -72,7 +72,7 @@ export const actions = {
 
         const ticket = await ScambleTicket.findOne({user,match});
 
-        if(!ticket.resolved){
+        if(ticket && !ticket.resolved){
             if(Math.trunc(ticket.timestamp/1000) > time || (time != null && winner==="")){
                 await credits.transaction(user, ticket.amount, `Scamble refund`);
             }else if(ticket.alliance === winner){

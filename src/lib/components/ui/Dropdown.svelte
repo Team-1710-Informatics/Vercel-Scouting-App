@@ -43,7 +43,7 @@
     </button>
 
     {#if show}
-        <div class="absolute box border-none p-0" style="top:{h*1.5}px; min-width:120px; width:{widest()}px; {pos()}"> 
+        <div class="absolute box border-none p-0 z-40" style="top:{h*1.5}px; min-width:120px; width:{widest()}px; {pos()}"> 
             {#each options as option, i}
                 {#if option?.action}
                     <form transition:slide method="POST" action={option.action}>
