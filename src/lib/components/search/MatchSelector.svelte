@@ -1,6 +1,5 @@
 <script>
-    import { json } from "@sveltejs/kit";
-    import NumberInput from "../ui/NumberInput.svelte";
+    import { PUBLIC_X_TBA_AUTHKEY } from "$env/static/public";
     import CompetitionSelector from "./CompetitionSelector.svelte";
 
     export let events = null;
@@ -16,7 +15,7 @@
         matches = "loading";
         const results = await fetch(`https://www.thebluealliance.com/api/v3/event/${event}/matches`,{
             headers:{
-                "X-TBA-Auth-Key":"96NRE08op9grsHLgW38FVN9m7SyYAjSA6PGQ7oCEEO6V8KSJbRQt863mowzU4Il3"
+                "X-TBA-Auth-Key":PUBLIC_X_TBA_AUTHKEY
             }
         });
         let out = await results.json()

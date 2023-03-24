@@ -1,14 +1,15 @@
 <script>
     import { enhance } from "$app/forms";
-    import Credits from "$lib/components/visual/Credits.svelte";
     import { slide } from "svelte/transition";
+    import { PUBLIC_X_TBA_AUTHKEY } from "$env/static/public";
+
 
     export let ticket;
 
     async function results(key){
         const results = await fetch(`https://www.thebluealliance.com/api/v3/match/${key}/simple`,{
             headers:{
-                "X-TBA-Auth-Key":"96NRE08op9grsHLgW38FVN9m7SyYAjSA6PGQ7oCEEO6V8KSJbRQt863mowzU4Il3"
+                "X-TBA-Auth-Key":PUBLIC_X_TBA_AUTHKEY
             }
         });
 

@@ -26,6 +26,13 @@ const user = new Schema({
 
 export const User = mongoose.model("User", user);
 
+const team = new Schema({
+    number: Number,
+    authkey: String
+});
+
+export const Team = mongoose.model("Team", team);
+
 const scoutEntry2023 = new Schema({
     event: {type: String, match:/(\d{4})\w+/},
     match: Number,

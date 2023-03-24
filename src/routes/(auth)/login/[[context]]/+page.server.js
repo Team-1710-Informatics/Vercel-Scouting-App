@@ -1,10 +1,8 @@
-import { MongoClient } from 'mongodb';
-import { MONGODB, EMAIL, EMAIL_HOST, EMAIL_PASSWORD } from '$env/static/private';
+import { EMAIL, EMAIL_HOST, EMAIL_PASSWORD } from '$env/static/private';
 import { fail, redirect } from '@sveltejs/kit';
 import crypto from 'node:crypto';
 import nodemailer from 'nodemailer';
-
-const client = new MongoClient(MONGODB);
+import { User } from '$lib/server/models';
 
 export function load({ params }) {
     let data = {};
@@ -31,14 +29,13 @@ export const actions = {
         }
 
         //Connect to DB and find user
-        await client.connect();
         const match = detectEmail(data.username) ? { email:data.username } : { username:data.username };
-        const user = await client.db("main").collection("users").findOne(match);
+        // const user = await client.db("main").collection("users").findOne(match);
+        const user = await User.findOne(match);
 
         //Throw error if user does not exist
-        if(user == null){
+        if(!user){
             data.error = "Invalid username or password!";
-            await client.close();
             return fail(401, data);
         }
 
@@ -48,12 +45,12 @@ export const actions = {
             const state = await email(user.email, key);
             if(!state) {
                 data.error = "Something went wrong!";
-                await client.close();
                 return data;
             }else{
-                await client.db("main").collection("users").updateOne({email:user.email}, {$set:{"flags.reset":key}});
+                //await client.db("main").collection("users").updateOne({email:user.email}, {$set:{"flags.reset":key}});
+                user.flags.reset = key;
+                await user.save();
                 data.alert = `Due to a change in infrastructure you will need to set a new password. We have sent an email containing instructions to ${user.email}.`;
-                await client.close();
                 return data;
             }
         }
@@ -64,16 +61,16 @@ export const actions = {
 
         if(hash != user.password.hash){
             data.error = "Invalid username or password!";
-            await client.close();
             return fail(401, data);
         }
 
         //Redirect unverified accounts
-        if(user.flags?.verification_key) { await client.close(); throw redirect(307, `/verify/${user.username}/l`); }
+        if(user.flags?.verification_key) { throw redirect(307, `/verify/${user.username}/l`); }
 
         //Establish session
         let token = user?.token??crypto.randomUUID();
-        await client.db("main").collection("users").updateOne({ username:user.username }, { $set:{ token:token } });
+        user.token = token;
+        await user.save();
 
         cookies.set('session', token, {
             path: '/',
@@ -81,7 +78,6 @@ export const actions = {
             maxAge: 60 * 60 * 24 * 7
         });
 
-        await client.close();
         throw redirect(302, '/hub');
     }
 }

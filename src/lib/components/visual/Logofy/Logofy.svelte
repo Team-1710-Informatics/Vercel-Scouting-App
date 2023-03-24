@@ -6,6 +6,8 @@
 
     export let size = 40;
     export let contenteditable = false;
+
+    let text;
 </script>
 
 {#key size}
@@ -22,7 +24,7 @@
                 />
             {/each}
         </div>
-        <div class="font-black h-fit p-0 m-0" style="min-width:50px; font-size:{size}px; line-height:{size*0.75}px;" {contenteditable} bind:offsetWidth={w} bind:offsetHeight={h}>
+        <div class="font-black h-fit p-0 m-0" style="min-width:50px; font-size:{size}px; line-height:{size}px;" contenteditable bind:textContent={text} bind:offsetWidth={w} bind:offsetHeight={h}>
             <slot />
         </div>
         <div class="flex flex-col" style="margin-right:{-(w/2-w/48)}px;">

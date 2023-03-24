@@ -1,15 +1,14 @@
-import { MongoClient } from "mongodb";
-import { MONGODB, EMAIL, EMAIL_HOST, EMAIL_PASSWORD } from "$env/static/private";
+import { EMAIL, EMAIL_HOST, EMAIL_PASSWORD } from "$env/static/private";
 import nodemailer from 'nodemailer';
-
-const client = new MongoClient(MONGODB);
+import { User } from "$lib/server/models";
 
 export const actions = {
     forgot: async ({ request }) => {
         const input = await request.formData();
         const data = { email: input.get("email") };
 
-        const user = await client.db("main").collection("users").findOne({ email: data.email });
+        const user = await User.findOne({ email: data.email });
+        // const user = await client.db("main").collection("users").findOne({ email: data.email });
 
         if(!user){
             data.error = "Invalid email!"
@@ -18,7 +17,9 @@ export const actions = {
 
         const key = crypto.randomUUID();
         if(await email(user.email, key)){
-            await client.db("main").collection("users").updateOne({ email: data.email }, {$set: {"flags.reset": key}});
+            //await client.db("main").collection("users").updateOne({ email: data.email }, {$set: {"flags.reset": key}});
+            user.flags.reset = key;
+            await user.save();
             data.success = "You have been sent an email containing instructions to reset your password.";
         }else{
             data.error = "Something went wrong!";

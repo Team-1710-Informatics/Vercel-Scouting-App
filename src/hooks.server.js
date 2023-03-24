@@ -1,15 +1,12 @@
-import { MongoClient } from 'mongodb';
-import { MONGODB } from '$env/static/private';
 import { MONGODB_MAIN } from '$env/static/private';
 
 import mongoose from 'mongoose';
-import { ScoutData, User } from '$lib/server/models';
+import { User } from '$lib/server/models';
 
 import { redirect } from "@sveltejs/kit";
 
 import { X_TBA_AUTHKEY } from '$env/static/private';
 import { DateTime } from 'luxon';
-import stats from '$lib/server/user/stats';
 
 await mongoose.connect(MONGODB_MAIN);
 console.log('Connected to MongoDB Atlas');
