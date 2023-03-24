@@ -27,6 +27,7 @@ export async function load({ locals }){
 
 export const actions = {
     bet: async function({request, locals}){
+        const MIN = 100;
         function max(c){
             let o = c-MIN;
     
