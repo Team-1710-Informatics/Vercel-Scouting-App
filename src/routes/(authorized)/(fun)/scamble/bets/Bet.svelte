@@ -3,20 +3,22 @@
     import { page } from "$app/stores";
     import { enhance } from "$app/forms";
 
+    const MIN = 1000;
     function max(c){
-        if(c <= 400){
-            return Math.trunc(c/4)
-        }else if(c <= 500){
-            return Math.trunc(c-(c-400)/4)
+        let o = c-MIN;
+
+        if(c<MIN*1.5){
+            o=c/3;
         }
-        return c-100;
+
+        return Math.trunc(o);
     };
 
     export let data;
     export let match;
 
     async function load(){
-        const o = await fetch(`https://${$page.url.host}/internal-api/credits/${data.user}`);
+        const o = await fetch(`http${$page.url.hostname==="localhost"?"":"s"}://${$page.url.host}/internal-api/credits/${data.user}`);
         
         return await o.json();
     }
@@ -26,6 +28,8 @@
     let loading = false;
 
     let alliance="blue";
+
+    let temp =0;
 </script>
 
 <div class="box m-6">
