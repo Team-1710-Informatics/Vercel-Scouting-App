@@ -20,7 +20,9 @@
         <div class="disp blue" style="max-width:48vw; width:150px">
             {#each match.alliances.blue.team_keys as team}
                 <div class="text-4xl font-bold">
-                    {team.substring(3)}
+                    <a class="underline hover:opacity-75" rel="noreferrer" target="_blank" href="https://www.thebluealliance.com/team/{team.substring(3)}/{new Date().getFullYear()}">
+                        {team.substring(3)}
+                    </a>
                     <center class="text-sm text-blue-100" style="min-height:46px">
                         {#await teamName(team) then name}
                             <ExpandableText clamp=2>{name}</ExpandableText>
@@ -32,7 +34,9 @@
         <div class="disp red" style="max-width:48vw; width:150px">
             {#each match.alliances.red.team_keys as team}
                 <div class="text-4xl font-bold">
-                    {team.substring(3)}
+                    <a class="underline hover:opacity-75" rel="noreferrer" target="_blank" href="https://www.thebluealliance.com/team/{team.substring(3)}/{new Date().getFullYear()}">
+                        {team.substring(3)}
+                    </a>
                     <center class="text-sm text-red-200" style="min-height:46px">
                         {#await teamName(team) then name}
                             <ExpandableText clamp=2>{name}</ExpandableText>
