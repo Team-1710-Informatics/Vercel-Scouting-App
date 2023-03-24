@@ -42,8 +42,8 @@
     </div>
     <Tickets tickets={data.tickets}/>
     <div class="h-8"/>
-    <div class="font-bold bg-gradient-to-t from-slate-900 to-slate-700 text-center p-2 border-2 rounded-lg border-white"
-        class:border-b-0={match}
+    <div class="font-bold bg-gradient-to-t from-slate-900 to-slate-700 text-center p-2 border-2 rounded-lg border-white mb-2"
+        
         class:rounded-b-none={match}
         style="max-width:96vw; width:300px"
     >
@@ -52,21 +52,25 @@
     </div>
     <Matchup bind:match={match} />
     <div>
-        {#if match?.winning_alliance===""}
+        {#if match?.winning_alliance===""&&!match.actual_time}
             {#key form}
                 {#if !ticketExists(match.key)}
                     <Bet {data} bind:match={match} />
                 {:else}
-                    <p class="mt-4">You bet <Credits>{ticketExists(match.key).amount}</Credits> credits on {ticketExists(match.key).alliance}</p>
+                    <p class="font-bold bg-gradient-to-b from-slate-900 to-slate-800 text-center p-2 border-2 rounded-lg rounded-t-none border-white mt-2" style="max-width:96vw; width:300px">
+                        You bet <Credits>{ticketExists(match.key).amount}</Credits> credits on {ticketExists(match.key).alliance}
+                    </p>
                 {/if}
             {/key}
-        {:else if match?.winning_alliance}
-            <p class={`font-bold p-2 rounded-b-lg border-t-2 border-t-black bg-gradient-to-b ${
+        {:else if match?.winning_alliance != undefined}
+            <p class={`font-bold p-2 mt-2 rounded-b-lg border-2 border-white bg-gradient-to-b ${
                 match.winning_alliance==="blue"?
                 "from-blue-700 to-blue-400":
-                "from-red-700 to-red-400 text-right"
+                match.winning_alliance==="red"?
+                "from-red-700 to-red-400 text-right":
+                "from-slate-900 to-slate-800 text-center"
             }`} style="max-width:96vw; width:300px"
-            >{match.winning_alliance.toUpperCase()} VICTORY</p>
+            >{match.winning_alliance.toUpperCase()}{match.winning_alliance!=""?" VICTORY":"DRAW"}</p>
         {/if}
     </div>
     <br>
