@@ -15,7 +15,7 @@
     let match = null;
 
     let team = null;
-    console.log(data.competition.key)
+
     function getYTlink(match){
         for(let i = 0; i < match.videos.length; i++){
             if(match.videos[i].type=="youtube"){
