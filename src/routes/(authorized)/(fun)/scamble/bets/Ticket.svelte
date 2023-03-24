@@ -2,6 +2,7 @@
     import { enhance } from "$app/forms";
     import { slide } from "svelte/transition";
     import { PUBLIC_X_TBA_AUTHKEY } from "$env/static/public";
+    import Credits from "$lib/components/visual/Credits.svelte";
 
 
     export let ticket;
@@ -19,19 +20,21 @@
     let loading=false;
 </script>
 
-<div class="flex flex-col gap-0 m-2 w-64" transition:slide>
-    <div class={`rounded-t p-1 ${ticket.alliance=="red"?"bg-red-500":"bg-blue-600"}`}>
+<div class="flex flex-col gap-0 m-2 w-64 border-2 border-white rounded-lg" transition:slide>
+    <div class={`rounded-t-lg p-1 bg-gradient-to-t ${ticket.alliance=="red"?"from-red-500 to-rose-400":"from-sky-600 to-sky-400"}`}>
         <p class="text-2xl font-bold">{ticket.match}</p>
     </div>
-    <div class="rounded-b bg-white p-2 font-bold">
-        <p class="text-black">Wager: {ticket.amount}</p>
-        
+    <div class="rounded-b-lg bg-gradient-to-b from-slate-900 to-slate-700 p-2 font-bold">
+        <p>Wager: <Credits class="font-bold text-2xl">{ticket.amount}</Credits></p>
         {#await results(ticket.match) then r}
             <div transition:slide>
+                <hr class="my-3">
+                <center>
                 {#if r.winning_alliance === "" && r.actual_time === null}
-                    <p class="text-black">Predicted payout: {ticket.payout}</p>
+                    <p class="text-white text-center">Predicted payout: {ticket.payout}</p>
                 {:else if Math.trunc(ticket.timestamp/1000) > r.actual_time || r.winning_alliance === ""}
-                    <!-- <p class="text-black opacity-50 text-xs">Bet was placed after match started.</p> -->
+                    {#if r.winning_alliance===""}<p class="opacity-50 text-xs">Match was a draw.</p>
+                    {:else}<p class="opacity-50 text-xs">This bet was placed<br>after the match started.</p>{/if}
                     <form method=POST action=?/resolve use:enhance={() => {
                         loading = true;
                         //@ts-ignore
@@ -84,6 +87,7 @@
                         <button disabled={loading} class="bg-gradient-to-b from-gray-500 to-gray-300 text-black border-black">Skill issue.</button>
                     </form>
                 {/if}
+                </center>
             </div>
         {/await}
     </div>
