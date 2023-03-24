@@ -4,7 +4,7 @@
     export let data;
 
     let teamNumber="";
-    let competition=data.competition.key;
+    let competition=data.competition?.key??null;
 
     let optimally="";
     let possible="";
@@ -30,6 +30,12 @@
     let autoStrategy="";
 
     let averageScore="";
+
+    let topSpeed="";
+
+    let defenseCapability="";
+
+    let defenseExperience="";
 
     let chargeStation:any = {
         "chargeStationMain":undefined,
@@ -74,7 +80,10 @@
             <h1 class="header">Strategy</h1>
             <label>Main Strategy:<input class="lable" type="text" name="mainStrategy" bind:value={mainStrategy}></label><br>
             <label>Auto Strategy:<input class="label" type="text" name="autoStrategy" bind:value={autoStrategy}></label><br>
-            <label>Average Score:<input class="label" name="averageScore" bind:value={averageScore}></label>
+            <label>Average Score:<input class="label" name="averageScore" bind:value={averageScore}></label><br>
+            <label>Top Speed:<input class="label" type="text" name="topSpeed" bind:value={topSpeed}></label><br>
+            <label>Defense Capability:<input class="label" type="text" name="defenseCapability" bind:value={defenseCapability}></label><br>
+            <label>Defense Experience:<input class="label" type="text" name="defenseExperience" bind:value={defenseExperience}></label>
             <h1 class="header">Charge Station Capability</h1>
             <div class="grid grid-cols-5">
                 <div class="col-span-2" />
@@ -99,6 +108,9 @@
                 <input type="radio" name="piecePreferance" value="Cube">
                 <input type="radio" name="piecePreferance" value="Either">
             </div>
+            <h1 class="header">Robot Specifics</h1>
+            <label class="pt-4">Frame Perimeter:<input class="label" type="text" name="framePerimeter"></label><br>
+            <label class="pt-4">Robot Weight:<input class="label" type="text" name="weight"></label>
             <h1 class="header">Other Thoughts</h1><input class="label" type="text" name="thoughts" bind:value={otherThoughts}><br>
             <h1 class="header">Other Scouts</h1><input class="label" type="text" name="otherScouts"><br>
             <!--make text box bigger-->
