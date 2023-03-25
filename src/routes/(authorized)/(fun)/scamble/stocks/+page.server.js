@@ -19,9 +19,12 @@ export const actions = {
 
         const value = (await (await fetch(`stocks/${team}`)).json()).value;
 
-        const port = 
-            (await Portfolio.findOne({user:locals.user.username}))??
-            new Portfolio({user:locals.user.username, portfolio:{}});
+        let port = await Portfolio.findOne({user:locals.user.username})
+            
+        if(!port?.portfolio){
+            port = new Portfolio({user:locals.user.username, portfolio:{}});
+            await port.save();
+        }
 
         port.portfolio[team] = +(port.portfolio?.[team]??0)+(+stocks);
         await Portfolio.updateOne({user:locals.user.username}, {$set:{portfolio:port.portfolio}});
