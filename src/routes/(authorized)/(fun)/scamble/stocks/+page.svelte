@@ -56,35 +56,39 @@
                 {#await value(team)}
                     <Loading/>
                 {:then t}
-                    <div transition:slide>
-                        <div class="grid grid-cols-2">
-                            <div class="opacity-50 justify-self-start">{t.team} value:</div> 
-                            <div class="justify-self-end text-xl">{t.value} cr.</div>
-                        </div>
-                        <form method=POST action=?/purchase use:enhance={() => {
-                            loading = true;
-                            //@ts-ignore
-                            return async ({ update }) => {
-                                await update();
-                                loading = false;
-                            };
-                        }}>
-                            <label>
-                                Purchase stocks:
-                                <input class="w-16" type="number" name="stocks" bind:value={stocks}>
-                                <input hidden type="number" name="team" value={t.team}>
-                            </label><hr class="border-black my-2">
-                            <div class="grid grid-cols-1">
-                                <div class="text-2xl col-span-2 justify-self-start">{Math.trunc($credits-stocks*t.value)} cr.</div>
-                                <button disabled={
-                                    loading ||
-                                    stocks != Math.trunc(stocks) ||
-                                    stocks <= 0 ||
-                                    stocks*t.value > $credits
-                                } class="rounded-none border-black  bg-gradient-to-b from-green-200 to-emerald-400 w-fit justify-self-end col-span-2">{stocks*t.value} cr.</button>
+                    {#if t.value != undefined}
+                        <div transition:slide>
+                            <div class="grid grid-cols-2">
+                                <div class="opacity-50 justify-self-start">{t.team} value:</div> 
+                                <div class="justify-self-end text-xl">{t.value} cr.</div>
                             </div>
-                        </form>
-                    </div>
+                            <form method=POST action=?/purchase use:enhance={() => {
+                                loading = true;
+                                //@ts-ignore
+                                return async ({ update }) => {
+                                    await update();
+                                    loading = false;
+                                };
+                            }}>
+                                <label>
+                                    Purchase stocks:
+                                    <input class="w-16" type="number" name="stocks" bind:value={stocks}>
+                                    <input hidden type="number" name="team" value={t.team}>
+                                </label><hr class="border-black my-2">
+                                <div class="grid grid-cols-1">
+                                    <div class="text-2xl col-span-2 justify-self-start">{Math.trunc($credits-stocks*t.value)} cr.</div>
+                                    <button disabled={
+                                        loading ||
+                                        stocks != Math.trunc(stocks) ||
+                                        stocks <= 0 ||
+                                        stocks*t.value > $credits
+                                    } class="rounded-none border-black  bg-gradient-to-b from-green-200 to-emerald-400 w-fit justify-self-end col-span-2">{stocks*t.value} cr.</button>
+                                </div>
+                            </form>
+                        </div>
+                    {:else}
+                        <div>Invalid item</div>
+                    {/if}
                 {/await}
             </center>
         </div>
