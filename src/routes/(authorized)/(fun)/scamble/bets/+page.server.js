@@ -86,9 +86,9 @@ export const actions = {
 
         if(ticket && !ticket.resolved){
             if(Math.trunc(ticket.timestamp/1000) > time || (time != null && winner==="")){
-                await credits.transaction(user, ticket.amount, `Scamble refund`);
+                await credits.transaction(user, ticket.amount, `Scamble refund for ${match}`);
             }else if(ticket.alliance === winner){
-                await credits.transaction(user, await payout(ticket), `Scamble winnings`);
+                await credits.transaction(user, await payout(ticket), `Scamble winnings for ${match}`);
             }
         }
 
