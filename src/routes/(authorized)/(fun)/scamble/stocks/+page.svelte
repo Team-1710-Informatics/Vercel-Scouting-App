@@ -48,7 +48,7 @@
         <div class="box">
             <center>
                 <label>
-                    <button class="rounded-none border-black bg-gradient-to-b from-white to-gray-300" on:click={()=>{team=inputTeam}}>Search Stocks:</button>
+                    <button class="rounded-none border-black hover:border-black bg-gradient-to-b from-white to-gray-300" on:click={()=>{team=inputTeam}}>Search Stocks:</button>
                     <input type="number" class="w-16" bind:value={inputTeam}>
                 </label>
                 <hr class="border-black my-2"/>
@@ -59,7 +59,7 @@
                     {#if t.value != undefined}
                         <div transition:slide>
                             <div class="grid grid-cols-2">
-                                <div class="opacity-50 justify-self-start">{t.team} value:</div> 
+                                <div class="justify-self-start">{t.team} value:</div> 
                                 <div class="justify-self-end text-xl">{t.value} cr.</div>
                             </div>
                             <form method=POST action=?/purchase use:enhance={() => {
