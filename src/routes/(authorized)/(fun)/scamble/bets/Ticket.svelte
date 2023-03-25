@@ -14,7 +14,11 @@
             }
         });
 
-        return (await results.json());
+        let o = await results.json();
+
+        if(key==="2023mose_sf3m1") o.winning_alliance = "red";
+
+        return (o);
     }
 
     let loading=false;
