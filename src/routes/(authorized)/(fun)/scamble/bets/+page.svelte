@@ -38,7 +38,7 @@
     <div class="box">
         <p class="font-extrabold text-xl text-center">Select a Match</p>
         <hr>
-        <MatchSelector event={data.competition?.key??"2023mose"} events={data.events} bind:match={match}/>
+        <MatchSelector event={data.competition?.key??"2023mnmi2"} events={data.events} bind:match={match}/>
     </div>
     <Tickets tickets={data.tickets}/>
     <div class="h-8"/>
