@@ -69,7 +69,7 @@
                         <button disabled={loading} class="bg-gradient-to-t from-yellow-600 to-slate-300 text-white border-black">Claim {ticket.payout} credits</button>
                     </form>
                 {:else}
-                    <p class="text-black text-sm">You lost.</p>
+                    <p class="text-sm">You lost.</p>
                     <form method=POST action=?/resolve use:enhance={() => {
                         loading = true;
                         //@ts-ignore
