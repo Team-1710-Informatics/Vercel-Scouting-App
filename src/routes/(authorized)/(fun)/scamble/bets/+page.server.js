@@ -121,12 +121,10 @@ async function payout(t){
             continue;
 
         sums[tickets[i].alliance]+=tickets[i].amount;
-        pot+=tickets[i].amount;
+        pot+=tickets[i].amount + (tickets[i].amount>1000?100:tickets[i].amount*0.1);
     };
 
     let portion = t.amount/sums[t.alliance];
-
-    pot *= 1.2;
 
     return Math.trunc(portion * pot);
 }
