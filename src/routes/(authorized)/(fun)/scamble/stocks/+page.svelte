@@ -135,7 +135,7 @@
                                         sell >data.portfolio.portfolio[team] ||
                                         sell != Math.trunc(sell) ||
                                         loading
-                                    } class="w-full h-full rounded-none bg-gradient-to-b from-red-100 to-rose-400 border-black text-xs">Sell {sell??0} for<br>{sell*v.value} cr.</button>
+                                    } class="w-full h-full rounded-none bg-gradient-to-b from-red-100 to-rose-400 border-black text-xs">{sell??0} for<br>{sell*v.value} cr.</button>
                                 </form>
                             </td>
                         {/await}
