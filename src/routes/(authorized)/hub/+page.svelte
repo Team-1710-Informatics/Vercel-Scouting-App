@@ -20,7 +20,7 @@
         ])
     }
 
-    if(data.permissions.includes("admin") || data.user == "Brooks"){
+    if(data.permissions.includes("admin")){
         links.unshift(["Admin", "/admin", 6, "border-red-600 bg-gradient-to-br from-rose-800 to-slate-600"])
     }
 
@@ -51,6 +51,9 @@
     }}>
         <CompetitionTracker events={data.events} />
     </div>
+    {#if data.permissions.includes("investor")}
+        <div class="pb-6 font-serif font-bold">Pleasure doing business with you, {data.user}</div>
+    {/if}
     <div class="grid grid-cols-6 w-60 gap-2">
         {#each links as link}
             <a href={link[1]} class="w-full font-bold" style="grid-column: span {link[2]} / span {link[2]};"><button class={link?.[3]+" w-full py-3"}>{link[0]}</button></a>
