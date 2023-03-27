@@ -24,7 +24,16 @@
     let loading=false;
 
     const lossFlavorText = [
-         "Skill Issue.",
+         "Skill issue.",
+         "Skill issue.",
+         "Skill issue.",
+         "Skill issue.",
+         "Skill issue.",
+         "Skill issue.",
+         "Maybe it's a sign.",
+         "Claim 150000 participation credits"
+         
+         
     ]
 </script>
 
