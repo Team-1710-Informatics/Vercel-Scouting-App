@@ -4,7 +4,7 @@ import credits from "$lib/server/user/credi";
 import stats from "$lib/server/user/stats";
 import { redirect } from "@sveltejs/kit";
 
-export async function load({ locals, url }) {
+export async function load({ locals, url, fetch }) {
     if(!locals.user) throw redirect(307, "/login");
 
     const res = await fetch(`https://thebluealliance.com/api/v3/events/2023`,{

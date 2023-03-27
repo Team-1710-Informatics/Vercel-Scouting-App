@@ -2,7 +2,7 @@ import { X_TBA_AUTHKEY } from "$env/static/private";
 import { ScambleTicket, User } from "$lib/server/models";
 import credits from "$lib/server/user/credi";
 
-export async function load({ locals }){
+export async function load({ locals, fetch }){
     const res = await fetch(`https://thebluealliance.com/api/v3/events/2023`,{
         headers:{
             "X-TBA-Auth-Key":X_TBA_AUTHKEY
@@ -17,11 +17,15 @@ export async function load({ locals }){
         tickets[i].payout = await payout(tickets[i]);
     }
 
+    let all = (await ScambleTicket.find({user:locals.user.username}));
+
+
     return{
         events,
         competition:locals.competition,
         user:locals.user.username,
-        tickets
+        tickets,
+        last:all?.[all.length-1].match.split("_")[0]
     }
 }
 

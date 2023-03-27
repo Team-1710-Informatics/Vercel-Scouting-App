@@ -1,7 +1,7 @@
 import { X_TBA_AUTHKEY } from "$env/static/private";
 import { json } from "@sveltejs/kit";
 
-export async function GET({ params }){
+export async function GET({ params, fetch }){
     const YEAR = new Date().getFullYear();
     const res = (await fetch(`https://thebluealliance.com/api/v3/team/frc${params.team}/matches/${YEAR}`,{
         headers:{

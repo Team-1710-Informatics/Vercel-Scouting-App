@@ -16,6 +16,7 @@ function sleep(ms) {
 }
 
 export async function handle({ event, resolve }) {
+    const { fetch } = event;
     const token = event.cookies.get("session");
 
     if(!token || event.url.pathname == "/logout") return await resolve(event);
