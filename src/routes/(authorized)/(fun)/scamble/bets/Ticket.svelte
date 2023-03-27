@@ -28,10 +28,10 @@
          "Skill issue.",
          "Skill issue.",
          "Okay.",
-         "We love you anyway.",
+         "Just win next time.",
          "I understand.",
          "Maybe it's a sign.",
-         'Claim <span class="text-white">150000</span> participation credits'
+         'Claim <span class="text-white">25000</span> participation credits',
          
          
     ]
