@@ -27,11 +27,11 @@
          "Skill issue.",
          "Skill issue.",
          "Skill issue.",
-         "Skill issue.",
-         "Skill issue.",
-         "Skill issue.",
+         "Okay.",
+         "We love you anyway.",
+         "I understand.",
          "Maybe it's a sign.",
-         "Claim <span class="text-white">150000</span> participation credits"
+         'Claim <span class="text-white">150000</span> participation credits'
          
          
     ]
