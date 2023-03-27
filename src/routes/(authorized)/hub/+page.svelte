@@ -13,11 +13,11 @@
     ]
 
     if(data.team === 1710){
-        links.unshift(["Scamble", '/scamble/bets', 3, 
+        links.unshift(["Scamble", '/scamble/bets', 6, 
             'text-white border-slate-800 bg-gradient-to-t from-slate-800 to-teal-300'
-        ],["Stocks", '/scamble/stocks', 3, 
+        ]/*,["Stocks", '/scamble/stocks', 3, 
             'text-black font-serif border-black bg-gradient-to-b from-white to-gray-400'
-        ])
+        ]*/)
     }
 
     if(data.permissions.includes("admin")){
