@@ -80,11 +80,13 @@ export const actions = {
 
         const ticket = await ScambleTicket.findOne({user,match});
 
+        const others = await ScambleTicket.find({match:match});
+
         if(ticket && !ticket.resolved){
             if(Math.trunc(ticket.timestamp/1000) > time || (time != null && winner==="")){
                 await credits.transaction(user, ticket.amount, `Scamble refund for ${match}`);
             }else if(ticket.alliance === winner){
-                await credits.transaction(user, (await payout(ticket))[0], `Scamble winnings for ${match}`);
+                await credits.transaction(user, (await payout(ticket,others))[0], `Scamble winnings for ${match}`);
             }
         }
 
