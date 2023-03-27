@@ -28,7 +28,7 @@
     $: if(data.tickets||!data.tickets) loadCredits();
 
     async function loadCredits(){
-        const o = await fetch(`http${$page.url.hostname==="localhost"?"":"s"}://${$page.url.host}/internal-api/credits/${data.user}`);
+        const o = await fetch(`http${$page.url.hostname==="localhost"?"":"s"}://${$page.url.host}/internal/credits/${data.user}`);
         
         credits.set(await o.json());
     }

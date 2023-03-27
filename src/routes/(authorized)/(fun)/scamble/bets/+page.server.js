@@ -1,33 +1,26 @@
-import { X_TBA_AUTHKEY } from "$env/static/private";
+import tba from "$lib/modules/tba";
 import { ScambleTicket, User } from "$lib/server/models";
-import credits from "$lib/server/user/credi";
+import credi from "$lib/server/user/credi";
 
-export async function load({ locals, fetch }){
-    const res = await fetch(`https://thebluealliance.com/api/v3/events/2023`,{
-        headers:{
-            "X-TBA-Auth-Key":X_TBA_AUTHKEY
-        }
-    });
+export async function load({ locals }){
+    const events = await tba("events/" + new Date().getFullYear());
 
-    const events = await res.json();
+    const last = (await ScambleTicket.find({user:locals.user.username}).limit(1).sort({$natural:-1}))[0];
 
     const tickets = await getTickets(locals.user.username);
 
-    let all = (await ScambleTicket.find({user:locals.user.username}));
-
-
-    return{
+    return {
         events,
         competition:locals.competition,
         user:locals.user.username,
-        tickets,
-        last:all?.[all.length-1].match.split("_")[0]
+        last:last?.match.split("_")[0],
+        tickets
     }
 }
 
 export const actions = {
     bet: async function({request, locals}){
-        const MIN = 100;
+        const MIN = 1000;
         function max(c){
             let o = c-MIN;
     
@@ -49,7 +42,7 @@ export const actions = {
 
         if(await ScambleTicket.findOne({user:user.username, match})){
             console.log("Ticket exists, rejecting")
-            const tickets = JSON.parse(JSON.stringify(await ScambleTicket.find({user:user.username,resolved:false})));
+            const tickets = await getTickets(user.username);
             return { tickets };
         }
 
@@ -62,7 +55,7 @@ export const actions = {
             resolved:false
         })
 
-        await credits.transaction(user.username, -wager, `Scamble: Place bet on ${match}`)
+        await credi.transaction(user.username, -wager, `Scamble: Place bet on ${match}`)
         await ticket.save();
 
         const tickets = await getTickets(user.username);
@@ -79,14 +72,15 @@ export const actions = {
         const time = input.get("time");
 
         const ticket = await ScambleTicket.findOne({user,match});
-
         const others = await ScambleTicket.find({match:match});
+
+        await punchTicket(ticket);
 
         if(ticket && !ticket.resolved){
             if(Math.trunc(ticket.timestamp/1000) > time || (time != null && winner==="")){
-                await credits.transaction(user, ticket.amount, `Scamble refund for ${match}`);
+                await credi.transaction(user, ticket.amount, `Scamble refund for ${match}`);
             }else if(ticket.alliance === winner){
-                await credits.transaction(user, (await payout(ticket,others))[0], `Scamble winnings for ${match}`);
+                await credi.transaction(user, ticket.payout, `Scamble winnings for ${match}`);
             }
         }
 
@@ -100,64 +94,49 @@ export const actions = {
 }
 
 async function getTickets(user){
-    const tickets = JSON.parse(JSON.stringify(await ScambleTicket.find({user,resolved:false})));
+    const tickets = JSON.parse(JSON.stringify(
+        await ScambleTicket.find({user,resolved:false})));
 
-    for(let i = 0; i < tickets.length; i++){
-        const others = await ScambleTicket.find({match:tickets[i].match});
-        tickets[i].payout = (await payout(tickets[i],others))[0];
-        tickets[i].portion = (await payout(tickets[i],others))[1];
-        tickets[i].percent = await percentage(tickets[i],others);
-        tickets[i].fixed = (await payout(tickets[i],others))[2];
-        tickets[i].others = others.length;
-    }
+    for(let i = 0; i < tickets.length; i++)   
+        await punchTicket(tickets[i]);
 
     return tickets;
 }
 
-async function percentage(t, tickets){
+async function punchTicket(t){
+    const all = await ScambleTicket.find({match:t.match});
+    const res = await tba(`match/${t.match}/simple`);
+
+    let sums = {red:0,blue:0,total:0}
     let matching = 0;
 
-    tickets.forEach(ticket=>{
-        if(ticket.alliance === t.alliance) matching++;
-    })
+    for(let i=0;i<all.length;i++){
+        //Filter out late bets
+        if(
+            Math.trunc(all[i].timestamp/1000) > res.actual_time
+            && res.actual_time != null
+        ) continue;
 
-    return Math.round((matching/tickets.length)*100);
-}
+        // Count matching bets
+        if(all[i].alliance===t.alliance) matching++;
 
-async function payout(t, tickets){
-    //const tickets = await ScambleTicket.find({match:t.match});
+        // Add a bonus for payout calculation
+        let effective = all[i].amount
+            + Math.sqrt(all[i].amount)*5;
 
-    let sums={
-        red:0,
-        blue:0
+        sums[all[i].alliance] += effective;
+        sums.total += effective;
     }
 
-    let pot=0;
+    let effective = t.amount
+        + Math.sqrt(t.amount)*5;
 
-    for(let i=0;i<tickets.length;i++){
-        const res = await results(tickets[i].match);
-        if(Math.trunc(tickets[i].timestamp/1000) > res.actual_time && res.actual_time != null)
-            continue;
+    let portion = effective/sums[t.alliance];
 
-        sums[tickets[i].alliance]+=tickets[i].amount + Math.sqrt(tickets[i].amount)/0.2;
-        pot+=tickets[i].amount + Math.sqrt(tickets[i].amount)/0.2;
-    };
-
-    let portion = (t.amount+Math.sqrt(t.amount)/0.2)/sums[t.alliance];
-
-    return [Math.trunc(portion * pot),Math.ceil((sums[t.alliance]/pot)*100),Math.round(((t.amount+Math.sqrt(t.amount)/0.2)/pot)*100)];
+    t.payout = Math.trunc(portion * sums.total);
+    t.portion = Math.round((effective/sums.total)*100);
+    t.sameBetPercentageCredits = Math.round((sums[t.alliance]/sums.total)*100);
+    t.sameBetPercentage = Math.round((matching/all.length)*100);
+    t.others = all.length;
 }
 
-async function results(key){
-    const results = await fetch(`https://www.thebluealliance.com/api/v3/match/${key}/simple`,{
-        headers:{
-            "X-TBA-Auth-Key":X_TBA_AUTHKEY
-        }
-    });
-
-    let o = await results.json();
-
-    if(key==="2023mose_sf3m1") o.winning_alliance = "red";
-
-    return (o);
-}

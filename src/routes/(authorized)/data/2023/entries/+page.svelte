@@ -61,7 +61,7 @@
 
         {#if team}
             <br>
-            {#await fetch(`https://${$page.url.host}/internal-api/data/${match.event_key}/${match.match_number}/${team}`)}
+            {#await fetch(`https://${$page.url.host}/internal/data/${match.event_key}/${match.match_number}/${team}`)}
                 <p>Loading...</p>
             {:then res}{#await res.json() then res}
                 {#each res.data as entry}

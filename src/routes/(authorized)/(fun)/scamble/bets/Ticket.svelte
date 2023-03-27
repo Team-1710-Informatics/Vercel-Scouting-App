@@ -28,12 +28,15 @@
          "Skill issue.",
          "Skill issue.",
          "Okay.",
+         "Okay.",
+         "Okay.",
          "Just win next time.",
          "I understand.",
+         "I understand.",
+         "I understand.",
+         "Maybe it's a sign.",
          "Maybe it's a sign.",
          'Claim <span class="text-white">25000</span> participation credits',
-         
-         
     ]
 </script>
 
@@ -49,14 +52,14 @@
             </p>
         </div>
         <div class={`border-b-2 border-black relative w-full h-4 ${ticket.alliance==='blue'?'bg-red-500':'bg-blue-500'} p-0 `}>
-            <div class={`border-r-2 border-b-2 border-black h-4 p-0 m-0 ${ticket.alliance==='red'?'bg-red-500':'bg-blue-500'} absolute top-0`} style="width:{ticket.percent}%;"></div>
+            <div class={`border-r-2 border-b-2 border-black h-4 p-0 m-0 ${ticket.alliance==='red'?'bg-red-500':'bg-blue-500'} absolute top-0`} style="width:{ticket.sameBetPercentage}%;"></div>
             <div class={`border-r-2 border-b-2 border-black h-4 p-0 m-0 bg-black/25 absolute top-0`} style="width:{(1/ticket.others)*100}%;"></div>
-            <p class="absolute top-0 pl-1" style="font-size:11px; padding-top:1px; line-height:12px">{ticket.percent}% of people</p>
+            <p class="absolute top-0 pl-1" style="font-size:11px; padding-top:1px; line-height:12px">{ticket.sameBetPercentage}% of people</p>
         </div>
         <div class={`relative w-full h-4 ${ticket.alliance==='blue'?'bg-red-500':'bg-blue-500'} p-0`}>
-            <div class={`border-r-2 border-black h-4 p-0 m-0 ${ticket.alliance==='red'?'bg-red-500':'bg-blue-500'} absolute top-0`} style="width:{ticket.portion}%;"></div>
-            <div class={`border-r-2 border-black h-4 p-0 m-0 bg-black/25 absolute top-0`} style="width:{ticket.fixed}%;"></div>
-            <p class="absolute top-0 pl-1" style="font-size:11px; padding-top:2px; line-height:12px">{ticket.portion}% of credits</p>
+            <div class={`border-r-2 border-black h-4 p-0 m-0 ${ticket.alliance==='red'?'bg-red-500':'bg-blue-500'} absolute top-0`} style="width:{ticket.sameBetPercentageCredits}%;"></div>
+            <div class={`border-r-2 border-black h-4 p-0 m-0 bg-black/25 absolute top-0`} style="width:{ticket.portion}%;"></div>
+            <p class="absolute top-0 pl-1" style="font-size:11px; padding-top:2px; line-height:12px">{ticket.sameBetPercentageCredits}% of credits</p>
         </div>
         {#await results(ticket.match) then r}
             <div transition:slide>
