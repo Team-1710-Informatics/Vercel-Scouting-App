@@ -47,7 +47,7 @@
                     loading = false;
                 };
             }}>
-                <div class="w-fit text-2xl self-center text-teal-500"><Credits class="">{credits-wager}</Credits> credits</div>
+                <div class="w-fit text-2xl self-center text-teal-500"><Credits class="text-3xl">{credits-wager}</Credits> credits</div>
                 <input type="number" name="wager" bind:value={wager}/>
                 <input hidden type="text" name="match" bind:value={match.key}/>
                 <p class="opacity-50 text-xs">Max bet: {max(credits)}</p>

@@ -11,11 +11,7 @@ export async function load({ locals, fetch }){
 
     const events = await res.json();
 
-    const tickets = JSON.parse(JSON.stringify(await ScambleTicket.find({user:locals.user.username,resolved:false})));
-
-    for(let i = 0; i < tickets.length; i++){
-        tickets[i].payout = await payout(tickets[i]);
-    }
+    const tickets = await getTickets(locals.user.username);
 
     let all = (await ScambleTicket.find({user:locals.user.username}));
 
@@ -69,11 +65,7 @@ export const actions = {
         await credits.transaction(user.username, -wager, `Scamble: Place bet on ${match}`)
         await ticket.save();
 
-        const tickets = JSON.parse(JSON.stringify(await ScambleTicket.find({user:user.username,resolved:false})));
-
-        for(let i = 0; i < tickets.length; i++){
-            tickets[i].payout = await payout(tickets[i]);
-        }
+        const tickets = await getTickets(user.username);
 
         return { tickets };
     },
@@ -92,25 +84,46 @@ export const actions = {
             if(Math.trunc(ticket.timestamp/1000) > time || (time != null && winner==="")){
                 await credits.transaction(user, ticket.amount, `Scamble refund for ${match}`);
             }else if(ticket.alliance === winner){
-                await credits.transaction(user, await payout(ticket), `Scamble winnings for ${match}`);
+                await credits.transaction(user, (await payout(ticket))[0], `Scamble winnings for ${match}`);
             }
         }
 
         ticket.resolved = true;
         await ticket.save();
 
-        const tickets = JSON.parse(JSON.stringify(await ScambleTicket.find({user,resolved:false})));
-
-        for(let i = 0; i < tickets.length; i++){
-            tickets[i].payout = await payout(tickets[i]);
-        }
+        const tickets = await getTickets(user);
 
         return {tickets};
     }
 }
 
-async function payout(t){
-    const tickets = await ScambleTicket.find({match:t.match});
+async function getTickets(user){
+    const tickets = JSON.parse(JSON.stringify(await ScambleTicket.find({user,resolved:false})));
+
+    for(let i = 0; i < tickets.length; i++){
+        const others = await ScambleTicket.find({match:tickets[i].match});
+        tickets[i].payout = (await payout(tickets[i],others))[0];
+        tickets[i].portion = (await payout(tickets[i],others))[1];
+        tickets[i].percent = await percentage(tickets[i],others);
+        tickets[i].fixed = (await payout(tickets[i],others))[2];
+        tickets[i].others = others.length;
+    }
+
+    return tickets;
+}
+
+async function percentage(t, tickets){
+    let matching = 0;
+
+    tickets.forEach(ticket=>{
+        if(ticket.alliance === t.alliance) matching++;
+    })
+
+    return Math.round((matching/tickets.length)*100);
+}
+
+async function payout(t, tickets){
+    //const tickets = await ScambleTicket.find({match:t.match});
 
     let sums={
         red:0,
@@ -130,7 +143,7 @@ async function payout(t){
 
     let portion = (t.amount+Math.sqrt(t.amount)/0.2)/sums[t.alliance];
 
-    return Math.trunc(portion * pot);
+    return [Math.trunc(portion * pot),Math.ceil((sums[t.alliance]/pot)*100),Math.round(((t.amount+Math.sqrt(t.amount)/0.2)/pot)*100)];
 }
 
 async function results(key){

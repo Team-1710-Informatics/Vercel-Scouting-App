@@ -42,7 +42,22 @@
         <p class="text-2xl font-bold">{ticket.match}</p>
     </div>
     <div class="rounded-b-lg bg-gradient-to-b from-slate-900 to-slate-700 p-2 font-bold">
-        <p>Wager: <Credits class="font-bold text-2xl">{ticket.amount}</Credits></p>
+        <div class="flex flex-row">
+            <p class="text-xs self-end mr-1 mb-1">Your bet<br>aligns with:</p>
+            <p class={`flex-grow text-center -mt-2 -mr-2 p-1 mb-3 rounded-bl-lg bg-gradient-to-t ${ticket.alliance=="red"?"from-red-700 to-red-500":"from-sky-700 to-sky-600"}`}>
+                Wager: <Credits class="font-bold text-2xl">{ticket.amount}</Credits>
+            </p>
+        </div>
+        <div class={`border-b-2 border-black relative w-full h-4 ${ticket.alliance==='blue'?'bg-red-500':'bg-blue-500'} p-0 `}>
+            <div class={`border-r-2 border-b-2 border-black h-4 p-0 m-0 ${ticket.alliance==='red'?'bg-red-500':'bg-blue-500'} absolute top-0`} style="width:{ticket.percent}%;"></div>
+            <div class={`border-r-2 border-b-2 border-black h-4 p-0 m-0 bg-black/25 absolute top-0`} style="width:{(1/ticket.others)*100}%;"></div>
+            <p class="absolute top-0 pl-1" style="font-size:11px; padding-top:1px; line-height:12px">{ticket.percent}% of people</p>
+        </div>
+        <div class={`relative w-full h-4 ${ticket.alliance==='blue'?'bg-red-500':'bg-blue-500'} p-0`}>
+            <div class={`border-r-2 border-black h-4 p-0 m-0 ${ticket.alliance==='red'?'bg-red-500':'bg-blue-500'} absolute top-0`} style="width:{ticket.portion}%;"></div>
+            <div class={`border-r-2 border-black h-4 p-0 m-0 bg-black/25 absolute top-0`} style="width:{ticket.fixed}%;"></div>
+            <p class="absolute top-0 pl-1" style="font-size:11px; padding-top:2px; line-height:12px">{ticket.portion}% of credits</p>
+        </div>
         {#await results(ticket.match) then r}
             <div transition:slide>
                 <hr class="my-3">

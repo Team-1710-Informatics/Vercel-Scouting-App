@@ -42,7 +42,7 @@
     </div>
     <Tickets tickets={data.tickets}/>
     <div class="h-8"/>
-    <div class="font-bold bg-gradient-to-t from-slate-900 to-slate-700 text-center p-2 border-2 rounded-lg border-white mb-2"
+    <div class="font-bold bg-gradient-to-t from-slate-900 to-slate-700 text-center p-2 border-2 rounded-lg border-white mb-2 text-2xl text-teal-500"
         
         class:rounded-b-none={match}
         style="max-width:96vw; width:300px"
