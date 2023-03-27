@@ -31,7 +31,7 @@
          "Skill issue.",
          "Skill issue.",
          "Maybe it's a sign.",
-         "Claim 150000 participation credits"
+         "Claim <span class="text-white">150000</span> participation credits"
          
          
     ]
@@ -101,7 +101,7 @@
                         <input hidden type="text" name="winner" value={r.winning_alliance}/>
                         <input hidden type="text" name="time" value={r.actual_time}/>
 
-                        <button disabled={loading} class="bg-gradient-to-b from-gray-500 to-gray-300 text-black border-black">{lossFlavorText[Math.floor(Math.random()*lossFlavorText.length)]}</button>
+                        <button disabled={loading} class="bg-gradient-to-b from-gray-500 to-gray-300 text-black border-black">{@html lossFlavorText[Math.floor(Math.random()*lossFlavorText.length)]}</button>
                     </form>
                 {/if}
                 </center>
