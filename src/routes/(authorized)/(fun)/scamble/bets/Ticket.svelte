@@ -22,6 +22,10 @@
     }
 
     let loading=false;
+
+    const lossFlavorText = [
+         "Skill Issue.",
+    ]
 </script>
 
 <div class="flex flex-col gap-0 m-2 w-64 border-2 border-white rounded-lg" transition:slide>
@@ -88,7 +92,7 @@
                         <input hidden type="text" name="winner" value={r.winning_alliance}/>
                         <input hidden type="text" name="time" value={r.actual_time}/>
 
-                        <button disabled={loading} class="bg-gradient-to-b from-gray-500 to-gray-300 text-black border-black">Skill issue.</button>
+                        <button disabled={loading} class="bg-gradient-to-b from-gray-500 to-gray-300 text-black border-black">{lossFlavorText[Math.floor(Math.random()*lossFlavorText.length)]}</button>
                     </form>
                 {/if}
                 </center>
