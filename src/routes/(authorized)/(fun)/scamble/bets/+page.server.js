@@ -124,11 +124,11 @@ async function payout(t){
         if(Math.trunc(tickets[i].timestamp/1000) > res.actual_time && res.actual_time != null)
             continue;
 
-        sums[tickets[i].alliance]+=tickets[i].amount;
+        sums[tickets[i].alliance]+=tickets[i].amount + Math.sqrt(tickets[i].amount)/0.2;
         pot+=tickets[i].amount + Math.sqrt(tickets[i].amount)/0.2;
     };
 
-    let portion = t.amount/sums[t.alliance];
+    let portion = (t.amount+Math.sqrt(t.amount)/0.2)/sums[t.alliance];
 
     return Math.trunc(portion * pot);
 }
