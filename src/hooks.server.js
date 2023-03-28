@@ -5,18 +5,12 @@ import { User } from '$lib/server/models';
 
 import { redirect } from "@sveltejs/kit";
 
-import { X_TBA_AUTHKEY } from '$env/static/private';
 import { DateTime } from 'luxon';
+import tba from '$lib/modules/tba';
 
 await mongoose.connect(MONGODB_MAIN);
-console.log('Connected to MongoDB Atlas');
-
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
 
 export async function handle({ event, resolve }) {
-    const { fetch } = event;
     const token = event.cookies.get("session");
 
     if(!token || event.url.pathname == "/logout") return await resolve(event);
@@ -24,13 +18,10 @@ export async function handle({ event, resolve }) {
     const user = JSON.parse(JSON.stringify(await User.findOne({ token:token })));
 
     if(token && !user) {
-        // mongoose.connection.close(); 
         throw redirect(307, "/logout");
     }
 
-    let res = await fetch(`https://thebluealliance.com/api/v3/team/frc${user.team}/events/${new Date().getFullYear()}`, {
-        headers: { "X-TBA-Auth-Key": X_TBA_AUTHKEY }
-    });
+    let res = await tba(`team/frc${user.team}/events/${new Date().getFullYear()}`);
     res = await res.json();
     let c = currComp(res);
     let n = nextComp(res);
