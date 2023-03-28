@@ -147,7 +147,7 @@ async function email(email, key, fname){
                 console.log("Server is ready to take our messages");
                 
                 transporter.sendMail({
-                    from: `"Team 1710 Scouting" <${EMAIL}>`,
+                    from: `"Scouting" <${EMAIL}>`,
                     to: `${email}`,
                     subject: "Verify Scouting Account",
                     text: `Hello, ${fname}!\n\nThank you for signing up for Team 1710's Scouting App!\nYour verification code is ${key}`                }).then((res)=>{

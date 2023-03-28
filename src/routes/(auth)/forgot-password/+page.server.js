@@ -1,6 +1,7 @@
 import { EMAIL, EMAIL_HOST, EMAIL_PASSWORD } from "$env/static/private";
 import nodemailer from 'nodemailer';
 import { User } from "$lib/server/models";
+import { PUBLIC_HOST } from "$env/static/public";
 
 export const actions = {
     forgot: async ({ request }) => {
@@ -50,10 +51,10 @@ async function email(email, key){
                 console.log("Server is ready to take our messages");
                 
                 transporter.sendMail({
-                    from: `"Team 1710 Scouting" <${EMAIL}>`,
+                    from: `"Scouting" <${EMAIL}>`,
                     to: `${email}`,
                     subject: "Scouting Password Reset",
-                    text: `You may reset your scouting password at https://team1710scouting.vercel.app/pw-reset/${key}.\n\nIf this was not you, please ignore this email.`
+                    text: `You may reset your scouting password at ${PUBLIC_HOST}/pw-reset/${key}.\n\nIf this was not you, please ignore this email.`
                 }).then((res)=>{
                     console.log(res);
                     resolve(true);

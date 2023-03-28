@@ -3,7 +3,6 @@
     import Match from "./Match.svelte";
     import Post from "./Post.svelte";
     import { fly } from "svelte/transition";
-    import Status from "$lib/components/function/Status.svelte";
 
     export let data:any;
 
@@ -43,8 +42,6 @@
 </script>
 
 <svelte:window on:beforeunload={safetynet}></svelte:window>
-
-<Status value="scouting" host={data.host}/>
 
 <center class="pt-10">
     {#if step===0}

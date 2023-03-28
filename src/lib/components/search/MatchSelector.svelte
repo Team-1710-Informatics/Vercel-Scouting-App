@@ -1,5 +1,5 @@
 <script>
-    import { PUBLIC_X_TBA_AUTHKEY } from "$env/static/public";
+    import tba from "$lib/modules/tba";
     import CompetitionSelector from "./CompetitionSelector.svelte";
 
     export let events = null;
@@ -13,11 +13,7 @@
     async function load(event){
         if(event==null) {matches = null; return;}
         matches = "loading";
-        const results = await fetch(`https://www.thebluealliance.com/api/v3/event/${event}/matches`,{
-            headers:{
-                "X-TBA-Auth-Key":PUBLIC_X_TBA_AUTHKEY
-            }
-        });
+        const results = await tba(`event/${event}/matches`);
         let out = await results.json()
 
         matches = out;
