@@ -3,10 +3,7 @@
     import Match from "./Match.svelte";
     import Post from "./Post.svelte";
     import { fly } from "svelte/transition";
-<<<<<<< HEAD
     import Status from "$lib/components/function/Status.svelte";
-=======
->>>>>>> open/main
 
     export let data:any;
 
@@ -47,11 +44,8 @@
 
 <svelte:window on:beforeunload={safetynet}></svelte:window>
 
-<<<<<<< HEAD
 <Status value="scouting" host={data.host}/>
 
-=======
->>>>>>> open/main
 <center class="pt-10">
     {#if step===0}
         <div in:fly={{duration:500, delay:500}} out:fly={{duration:500}}>
