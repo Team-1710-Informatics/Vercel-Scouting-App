@@ -9,7 +9,6 @@ import { X_TBA_AUTHKEY } from '$env/static/private';
 import { DateTime } from 'luxon';
 
 await mongoose.connect(MONGODB_MAIN);
-console.log('Connected to MongoDB Atlas');
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
