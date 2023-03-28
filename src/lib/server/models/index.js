@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
-// mongoose.set('strictQuery', false);
+mongoose.set('strictQuery', false);
 
 const user = new Schema({
     username: String,

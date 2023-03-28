@@ -1,11 +1,7 @@
-import { X_TBA_AUTHKEY } from "$env/static/private";
+import tba from "$lib/modules/tba";
 
-export async function load({locals, fetch}){
-    const events = (await fetch(`https://thebluealliance.com/api/v3/events/2023`,{
-        headers:{
-            "X-TBA-Auth-Key":X_TBA_AUTHKEY
-        }
-    })).json();
+export async function load({locals}){
+    const events = await tba(`events/2023`);
 
     return { events, competition:locals.competition };
 }

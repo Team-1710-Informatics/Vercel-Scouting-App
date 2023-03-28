@@ -1,6 +1,4 @@
 <script lang=ts>
-    import { slide } from "svelte/transition";
-    import { onMount } from "svelte";
     import CompetitionTracker from "./CompetitionTracker.svelte";
 
     export let data:any;
@@ -23,17 +21,6 @@
     if(data.permissions.includes("admin")){
         links.unshift(["Admin", "/admin", 6, "border-red-600 bg-gradient-to-br from-rose-800 to-slate-600"])
     }
-
-    let deferredPrompt:any;
-
-    onMount(()=>{
-        window.addEventListener('beforeinstallprompt', (e) => {
-            // Prevent the mini-infobar from appearing on mobile
-            e.preventDefault();
-            // Stash the event so it can be triggered later.
-            deferredPrompt = e;
-        });
-    })
 
     let secret = 0;
 </script>
@@ -59,7 +46,4 @@
             <a href={link[1]} class="w-full font-bold" style="grid-column: span {link[2]} / span {link[2]};"><button class={link?.[3]+" w-full py-3"}>{link[0]}</button></a>
         {/each}
     </div>
-    <!-- {#if deferredPrompt}
-        <button class="my-5" transition:slide on:click={deferredPrompt.prompt}>Install App</button>
-    {/if} -->
 </middle>

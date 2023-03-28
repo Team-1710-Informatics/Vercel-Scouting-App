@@ -1,9 +1,6 @@
 <script>
-    import Status from '$lib/components/function/Status.svelte';
-    import Dropdown from '$lib/components/ui/Dropdown.svelte';
-    import { onDestroy } from 'svelte';
     import logo from "$lib/assets/logo.png";
-    import Logofy from '$lib/components/visual/Logofy/Logofy.svelte';
+    import Dropdown from '$lib/components/ui/Dropdown.svelte';
 
     export let data;
 </script>
