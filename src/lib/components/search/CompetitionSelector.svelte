@@ -9,6 +9,10 @@
      */
     export let events = null;
 
+    events.sort((a,b)=>{
+        return a.short_name.localeCompare(b.short_name)
+    })
+
     export let disabled = false;
 
     export let watermark = true;

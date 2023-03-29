@@ -1,12 +1,8 @@
-import { X_TBA_AUTHKEY } from '$env/static/private';
+import tba from '$lib/modules/tba';
 import { DateTime } from 'luxon';
 
-export async function load({ locals, url }){
-    const res = await fetch(`https://thebluealliance.com/api/v3/team/frc${locals.user.team}/events/${new Date().getFullYear()}`, {
-        headers: {
-            "X-TBA-Auth-Key": X_TBA_AUTHKEY
-        }
-    });
+export async function load({ locals }){
+    const data = await tba(`team/frc${locals.user.team}/events/${new Date().getFullYear()}`);
 
     function timestamp(d, tz){
         let array = d.split("-");
@@ -14,7 +10,6 @@ export async function load({ locals, url }){
         return n.toMillis();
     }
 
-    const data = await res.json();
     let events = [];
     data.forEach(event=>{
         events.push({

@@ -8,6 +8,8 @@
     import cube from "$lib/assets/scout/2023/cube.png";
     import cone from "$lib/assets/scout/2023/cone.png";
     import x from "$lib/assets/icons/x.svg";
+    import tba from "$lib/modules/tba";
+    import TeamSelector from "$lib/components/search/TeamSelector.svelte";
 
     const imgs=[
         ["cube",cube,""],
@@ -21,6 +23,8 @@
     export let events;
 
     let disabled = false;
+
+    $: key = `${meta.event}_qm${meta.match}`;
 </script>
 
 <h5>Pre-Match</h5>
@@ -37,15 +41,19 @@
         <div class="justify-self-end"><input class="w-16" type="number" bind:value={meta.team} {disabled}></div>
 
         <b class="justify-self-start col-span-2">Alliance:</b>
-        <!-- <div class="justify-self-end col-span-2"> -->
-            {#each ['red','blue'] as all}
-                <label class="justify-self-start">
-                    <input class="{all==="red"?"accent-red-600":"accent-blue-600"}" type="radio" bind:group={meta.alliance} value={all} {disabled}>
-                    <span class="capitalize">{all}</span>
-                </label>
-            {/each}
-        <!-- </div> -->
+        {#each ['red','blue'] as all}
+            <label class="justify-self-start">
+                <input class="{all==="red"?"accent-red-600":"accent-blue-600"}" type="radio" bind:group={meta.alliance} value={all} {disabled}>
+                <span class="capitalize">{all}</span>
+            </label>
+        {/each}
     </div>
+    {#await tba(`match/${key}/simple`)}
+        <p class="text-xs opacity-50" transition:slide>Loading...</p>
+    {:then m}
+        <TeamSelector {disabled} match={m} bind:team={meta.team} bind:alliance={meta.alliance} />
+    {/await}
+    <br>
     {#if !disabled}
         <button on:click={()=>{disabled=true;}} class="submit" disabled={!(meta.event && meta.match && meta.team && meta.alliance)}>Next</button>
     {:else}

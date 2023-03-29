@@ -1,10 +1,9 @@
-import { MongoClient } from 'mongodb';
 import { fail, redirect } from '@sveltejs/kit';
 import crypto from 'node:crypto';
 import nodemailer from 'nodemailer';
-import { MONGODB, EMAIL_HOST, EMAIL, EMAIL_PASSWORD } from '$env/static/private';
+import { EMAIL_HOST, EMAIL, EMAIL_PASSWORD } from '$env/static/private';
+import { Team, User } from '$lib/server/models';
 
-const client = new MongoClient(MONGODB);
 
 export function load({ params }){
     let data = {};
@@ -59,8 +58,8 @@ export const actions = {
         }
 
         //Verify uniqueness
-        const e = await client.db("main").collection("users").findOne({ email:data.email });
-        const u = await client.db("main").collection("users").findOne({ username:data.uname })
+        const e = await User.findOne({ email:data.email });
+        const u = await User.findOne({ username:data.uname })
         if(e){
             data.error = "Email already in use!";
         }else if(u){
@@ -69,14 +68,14 @@ export const actions = {
         if(data?.error) { return fail(400, data); }
         
         //Check team authkey
-        const team = await client.db("main").collection("teams").findOne({ number:+data.team });
+        const team = await Team.findOne({ number:+data.team });
         if(!team || team?.authkey != data.auth){
             data.error = "Invalid authkey!";
             return fail(400, data);
         }
 
         //Create account
-        const key = await create(client, data);
+        const key = await create(data);
 
         //Send verification email
         if(key) {
@@ -84,7 +83,7 @@ export const actions = {
             if(state) data.success = "Success!";
             else{
                 console.log("Email failure");
-                await client.db("main").collection("users").deleteOne({ email:data.email });
+                await User.deleteOne({ email:data.email });
                 data.error = "Something went wrong!";
             }
         } else data.error = "Something went wrong!";
@@ -95,14 +94,14 @@ export const actions = {
 }
 
 //Takes in mongo client and processed form data from signup action
-async function create(client, data) {
+async function create(data) {
     let salt = randstr(30);
     let hash = salt + data.pass1;
     for(let i = 0; i < 1145; i++) hash = crypto.createHash("sha512").update(hash).digest('hex');
 
     let key = Math.floor(Math.random() * 900000 + 100000);
     
-    const result = await client.db("main").collection("users").insertOne({
+    const result = new User({
         username: data.uname,
         email: data.email,
         name: {
@@ -118,11 +117,12 @@ async function create(client, data) {
         stats: { joined: Math.floor(Date.now()/1000) },
         preferences: { theme: "dark" },
         permissions: [],
-        flags: { verification_key: key }
+        flags: { verification_key:key }
     });
-    console.log(result);
-    if(result) return key;
-    else return false;
+    
+    await result.save();
+
+    return key;
 }
 
 async function email(email, key, fname){

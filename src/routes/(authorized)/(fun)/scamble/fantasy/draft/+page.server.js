@@ -2,7 +2,7 @@ import { X_TBA_AUTHKEY } from '$env/static/private';
 import { error } from '@sveltejs/kit';
 
 export const actions = {
-    default: async function({request}){
+    default: async function({request, fetch}){
         const req = await request.formData();
         const team = req.get("team");
 

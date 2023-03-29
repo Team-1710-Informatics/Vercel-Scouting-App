@@ -5,6 +5,9 @@
     import Bet from "./Bet.svelte";
     import Matchup from "./Matchup.svelte";
     import Tickets from "./Tickets.svelte";
+    import { page } from "$app/stores"
+    import { tweened } from "svelte/motion";
+    import { identity } from "svelte/internal";
 
     export let data;
     export let form;
@@ -20,29 +23,56 @@
         })
         return o;
     }
+
+    let credits=tweened(0);
+    $: if(data.tickets||!data.tickets) loadCredits();
+
+    async function loadCredits(){
+        const o = await fetch(`http${$page.url.hostname==="localhost"?"":"s"}://${$page.url.host}/internal/credits/${data.user}`);
+        
+        credits.set(await o.json());
+    }
 </script>
-<middle class="pt-10">
+<middle class="py-10">
     <p class="font-black text-6xl"><ColorSwappingText text={"SCAMBLE"}/></p>
     <div class="box">
         <p class="font-extrabold text-xl text-center">Select a Match</p>
         <hr>
-        <MatchSelector event={data.competition?.key??null} events={data.events} bind:match={match}/>
+        <MatchSelector event={data.competition?.key??data.last??null} events={data.events} bind:match={match}/>
     </div>
     <Tickets tickets={data.tickets}/>
     <div class="h-8"/>
+    <div class="font-bold bg-gradient-to-t from-slate-900 to-slate-700 text-center p-2 border-2 rounded-lg border-white mb-2 text-2xl text-teal-500"
+        
+        class:rounded-b-none={match}
+        style="max-width:96vw; width:300px"
+    >
+        <Credits class="text-3xl">{Math.trunc($credits)}</Credits>
+        credits
+    </div>
     <Matchup bind:match={match} />
-    <br>
-    {#if match?.winning_alliance===""}
-        {#key form}
-            {#if !ticketExists(match.key)}
-                <Bet {data} bind:match={match} />
-            {:else}
-                <p class="mt-4">You bet <Credits>{ticketExists(match.key).amount}</Credits> credits on {ticketExists(match.key).alliance}</p>
-            {/if}
-        {/key}
-    {:else if match?.winning_alliance}
-        <p>{match.winning_alliance} victory</p>
-    {/if}
+    <div>
+        {#if match?.winning_alliance===""&&!match.actual_time}
+            {#key form}
+                {#if !ticketExists(match.key)}
+                    <Bet {data} bind:match={match} />
+                {:else}
+                    <p class="font-bold bg-gradient-to-b from-slate-900 to-slate-800 text-center p-2 border-2 rounded-lg rounded-t-none border-white mt-2" style="max-width:96vw; width:300px">
+                        You bet <Credits>{ticketExists(match.key).amount}</Credits> credits on {ticketExists(match.key).alliance}
+                    </p>
+                {/if}
+            {/key}
+        {:else if match?.winning_alliance != undefined}
+            <p class={`font-bold p-2 mt-2 rounded-b-lg border-2 border-white bg-gradient-to-b ${
+                match.winning_alliance==="blue"?
+                "from-blue-700 to-blue-400":
+                match.winning_alliance==="red"?
+                "from-red-700 to-red-400 text-right":
+                "from-slate-900 to-slate-800 text-center"
+            }`} style="max-width:96vw; width:300px"
+            >{match.winning_alliance.toUpperCase()}{match.winning_alliance!=""?" VICTORY":"DRAW"}</p>
+        {/if}
+    </div>
     <br>
 </middle>
 

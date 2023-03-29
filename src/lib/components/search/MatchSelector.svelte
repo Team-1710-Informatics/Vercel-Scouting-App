@@ -1,6 +1,5 @@
 <script>
-    import { json } from "@sveltejs/kit";
-    import NumberInput from "../ui/NumberInput.svelte";
+    import tba from "$lib/modules/tba";
     import CompetitionSelector from "./CompetitionSelector.svelte";
 
     export let events = null;
@@ -14,14 +13,9 @@
     async function load(event){
         if(event==null) {matches = null; return;}
         matches = "loading";
-        const results = await fetch(`https://www.thebluealliance.com/api/v3/event/${event}/matches`,{
-            headers:{
-                "X-TBA-Auth-Key":"96NRE08op9grsHLgW38FVN9m7SyYAjSA6PGQ7oCEEO6V8KSJbRQt863mowzU4Il3"
-            }
-        });
-        let out = await results.json()
+        const results = await tba(`event/${event}/matches`);
 
-        matches = out;
+        matches = results;
     }
 
     function getMatch(level, number){

@@ -1,4 +1,4 @@
-import { X_TBA_AUTHKEY } from "$env/static/private";
+import tba from "$lib/modules/tba";
 import { ScoutData } from "$lib/server/models";
 import credits from "$lib/server/user/credi";
 import stats from "$lib/server/user/stats";
@@ -7,13 +7,7 @@ import { redirect } from "@sveltejs/kit";
 export async function load({ locals, url }) {
     if(!locals.user) throw redirect(307, "/login");
 
-    const res = await fetch(`https://thebluealliance.com/api/v3/events/2023`,{
-        headers:{
-            "X-TBA-Auth-Key":X_TBA_AUTHKEY
-        }
-    });
-
-    const events = await res.json();
+    const events = await tba(`events/2023`);
 
     return{
         events,

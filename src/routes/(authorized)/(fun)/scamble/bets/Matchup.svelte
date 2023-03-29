@@ -1,12 +1,13 @@
 <script>
     import ExpandableText from "$lib/components/visual/ExpandableText.svelte";
+    import { PUBLIC_X_TBA_AUTHKEY } from "$env/static/public";
 
     export let match;
 
     async function teamName(key){
         const results = await fetch(`https://www.thebluealliance.com/api/v3/team/${key}`,{
             headers:{
-                "X-TBA-Auth-Key":"96NRE08op9grsHLgW38FVN9m7SyYAjSA6PGQ7oCEEO6V8KSJbRQt863mowzU4Il3"
+                "X-TBA-Auth-Key":PUBLIC_X_TBA_AUTHKEY
             }
         });
 
@@ -15,11 +16,13 @@
 </script>
 
 {#if match}
-    <div class="flex flex-row gap-0">
-        <div class="disp blue" style="max-width:48vw; width:150px">
+    <div class="flex flex-row gap-0 border-x-2 border-white/25">
+        <div class="disp blue" style="max-width:48vw; width:148px">
             {#each match.alliances.blue.team_keys as team}
                 <div class="text-4xl font-bold">
-                    {team.substring(3)}
+                    <a class="underline hover:opacity-75" rel="noreferrer" target="_blank" href="https://www.thebluealliance.com/team/{team.substring(3)}/{new Date().getFullYear()}">
+                        {team.substring(3)}
+                    </a>
                     <center class="text-sm text-blue-100" style="min-height:46px">
                         {#await teamName(team) then name}
                             <ExpandableText clamp=2>{name}</ExpandableText>
@@ -31,7 +34,9 @@
         <div class="disp red" style="max-width:48vw; width:150px">
             {#each match.alliances.red.team_keys as team}
                 <div class="text-4xl font-bold">
-                    {team.substring(3)}
+                    <a class="underline hover:opacity-75" rel="noreferrer" target="_blank" href="https://www.thebluealliance.com/team/{team.substring(3)}/{new Date().getFullYear()}">
+                        {team.substring(3)}
+                    </a>
                     <center class="text-sm text-red-200" style="min-height:46px">
                         {#await teamName(team) then name}
                             <ExpandableText clamp=2>{name}</ExpandableText>

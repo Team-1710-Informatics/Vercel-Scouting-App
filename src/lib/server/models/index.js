@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
-// mongoose.set('strictQuery', false);
+mongoose.set('strictQuery', false);
 
 const user = new Schema({
     username: String,
@@ -25,6 +25,13 @@ const user = new Schema({
 });
 
 export const User = mongoose.model("User", user);
+
+const team = new Schema({
+    number: Number,
+    authkey: String
+});
+
+export const Team = mongoose.model("Team", team);
 
 const scoutEntry2023 = new Schema({
     event: {type: String, match:/(\d{4})\w+/},
@@ -180,3 +187,10 @@ const storeItems = new Schema({
 });
 
 export const StoreItem = mongoose.model("product", storeItems);
+
+const portfolio = new Schema({
+    user:String,
+    portfolio:{}
+})
+
+export const Portfolio = mongoose.model("portfolio",portfolio);
