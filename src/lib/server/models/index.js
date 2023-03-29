@@ -170,3 +170,13 @@ const ticket = new Schema({
 })
 
 export const ScambleTicket = mongoose.model("ticket",ticket);
+
+const storeItems = new Schema({
+    name:String,
+    price:Number,
+    stock:Number,
+    category:String,
+    other:{}
+});
+
+export const StoreItem = mongoose.model("product", storeItems);

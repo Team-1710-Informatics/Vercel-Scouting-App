@@ -1,5 +1,3 @@
-import { element } from "svelte/internal";
-
 export default {
     Team_number(team:number, data:any[]){
         return team;
@@ -166,23 +164,29 @@ export default {
             if(e.team!=team)return;
             let startTime=0;
             let endTime=0;
+            let cycles=0;
             e.game.actions.forEach((a:any)=>{
                 if(a.action=="intake"&&a.time>0&&cycleEngaged==false){
                     cycleEngaged=true;
                     startTime=a.time;
                 }
+
                 if(a.action=="place"&&cycleEngaged){
                     cycleEngaged=false;
                     endTime=a.time;
-                    console.log(endTime, startTime);
                     cycleTimes.push(endTime-startTime);
+                    cycles++;
                 }
             });
+            if(cycles==0) cycleTimes.push(153000);
         });
+        
+        
         cycleTimes.forEach(e=>{
             result+=e;
         });
-    return(result/(cycleTimes.length*1000));
+
+        return(result/(cycleTimes.length*1000));
     },
     Average_element_placement(team:number, data:any[]){
         let resultIndex=0;
@@ -234,6 +238,21 @@ export default {
         });
         return(score/count);
     },
+    Standard_Score_Deviation(team:number, data:any[]){
+        let scores:any[]=[];
+        let score=0;
+        let count=0;
+        data.forEach(e=>{
+            if(e.team != team) return;
+            score += teamScore(e);
+            count++;
+            scores.push(score/count);
+        });
+        
+        
+
+        return stdDev(scores);
+    },
     Strategy(team:number, data:any[]){
         let stratIndex=0;
         let allStrat=[0, 0, 0, 0, 0, 0];
@@ -259,6 +278,14 @@ export default {
         if(stratIndex==4)result="moral support";
         if(stratIndex==5)result="breakdown";
         return result;
+    },
+    Matches_Scouted(team:number, data:any[]){
+        let scouted=0;
+        data.forEach(e=>{
+            if(e.team!=team) return;
+            scouted++;
+        });
+        return scouted;
     },
 }
 export function teamScore(e:any){
@@ -294,6 +321,7 @@ export function teamScore(e:any){
 
     return(count);
 }
+
 function autoScore(e:any){
     let count = 0;
     e.game.actions.forEach((a:any)=>{
@@ -360,4 +388,20 @@ function findMode(array:any[]){
 
     });
     return biggestValuesKey;
+}
+
+function stdDev(arr:any){
+    let mean = arr.reduce((acc:any, curr:any)=>{
+        return acc + curr;
+    }, 0) / arr.length;
+
+    arr = arr.map((k:any)=>{
+        return(k-mean)**2;
+    });
+    
+    let sum = arr.reduce((acc:any, curr:any)=> acc + curr, 0);
+
+    let variance = sum / arr.length
+
+    return Math.sqrt(sum/arr.length);
 }

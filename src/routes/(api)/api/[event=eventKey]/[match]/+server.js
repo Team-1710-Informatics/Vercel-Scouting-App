@@ -6,8 +6,3 @@ export async function GET({ params }) {
     return json(jason);
 }
 
-export const _info = {
-    url: "/{event key}/{match key}",
-    desc: "Displays the raw match data in order of the scout submission.",
-    ex: "/2023test/8",
-}

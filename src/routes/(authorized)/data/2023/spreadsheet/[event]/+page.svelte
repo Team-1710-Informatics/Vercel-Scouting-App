@@ -55,7 +55,7 @@
     }
 
     $: teams = teams.sort((a,b)=>{
-        return (+stats[sortFunction](b,data.entries))-(+stats[sortFunction](a,data.entries))*(ascending?-1:1);
+        return ((+stats[sortFunction](b,data.entries))-(+stats[sortFunction](a,data.entries)))*(ascending? -1 : 1);
     })
 </script>
 
