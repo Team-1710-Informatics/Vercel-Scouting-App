@@ -1,14 +1,14 @@
 <script>
     import { enhance } from "$app/forms";
+    import { PUBLIC_HOST } from "$env/static/public";
     export let path;
     export let name;
 
     let state = "Upload";
 </script>
 
-<form enctype="multipart/form-data" method=POST action="https://team1710.com/scouting/files/upload.php" use:enhance={() => {
+<form enctype="multipart/form-data" method=POST action="{PUBLIC_HOST}/internal/upload" use:enhance={() => {
     state = "Loading..."
-    //@ts-ignore
     return async ({ update }) => {
         await update();
         state = "Upload";
