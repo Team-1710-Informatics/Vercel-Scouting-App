@@ -20,4 +20,4 @@
     <button disabled={state!="Upload"}>{state}</button>
 </form>
 
-<img crossorigin src="https://team1710.com/scouting/files/storage/hub/hub.png" alt="No Image Uploaded" />
+<img crossorigin src="https://team1710.com/scouting/files/storage/{path}{name}" alt="No Image Uploaded" />
