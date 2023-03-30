@@ -36,7 +36,7 @@ export const actions = {
 
         let output = {}
 
-        const items = ["event","team","intakeCube","intakeCone","shelfStation","chuteStation","floorStation","floor","placeHigh","placeMid","placeLow","mainStrategy","autoStrategy","averageScore","topSpeed","defenseCapability","defenseExperience","chargeStationMain","chargeStationAuto","drivetrain","piecePreferance","framePerimeter","weight","thoughts","otherScouts"]
+        const items = ["event","team","intakeCube","intakeCone","shelfStation","chuteStation","floorStation","floor","placeHigh","placeMid","placeLow","mainStrategy","autoStrategy","averageScore","defenseCapability","defenseExperience","chargeStationMain","chargeStationAuto","piecePreferance",,"drivetrain","topSpeed","framePerimeter","weight","thoughts","otherScouts"]
 
         items.forEach(item=>{
             output[item]=input.get(item)
