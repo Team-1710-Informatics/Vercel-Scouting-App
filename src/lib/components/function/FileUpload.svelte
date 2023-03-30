@@ -5,7 +5,7 @@
     let state = "Upload";
 </script>
 
-<form enctype="multipart/form-data" method=POST action="https://www.team1710.com/scouting/files/upload.php" use:enhance={() => {
+<form enctype="multipart/form-data" method=POST action="http://www.team1710.com/scouting/files/upload.php" use:enhance={() => {
     state = "Loading..."
     //@ts-ignore
     return async ({ update }) => {
