@@ -115,6 +115,8 @@
             <label>Other Thoughts:<input class="label" type="text" name="thoughts" bind:value={otherThoughts}></label><br>
             <label>Other Scouts:<input class="label" type="text" name="otherScouts"></label><br>
             <!--make text box bigger-->
+            <h1>Ask for permission to take a picture of robot, if yes post it in the pit-scouting slack with the team number. Remember to say thank you regardless!</h1>
+
             <button class="submit">Submit</button>
         </form>
     </div>
