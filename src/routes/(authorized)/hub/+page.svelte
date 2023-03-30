@@ -48,5 +48,5 @@ import CompetitionTracker from "./CompetitionTracker.svelte";
         {/each}
     </div>
 
-    <PublicImageSlot path="hub/" name="hub.png" />
+    <!-- <PublicImageSlot path="hub/" name="hub.png" /> -->
 </middle>
