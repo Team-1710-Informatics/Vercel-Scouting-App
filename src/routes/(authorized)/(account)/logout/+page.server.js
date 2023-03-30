@@ -1,11 +1,7 @@
-import { MongoClient } from 'mongodb';
-import { MONGODB } from '$env/static/private';
 import { redirect } from '@sveltejs/kit';
-
-const client = new MongoClient(MONGODB);
+import { User } from '$lib/server/models';
 
 export async function load ({ cookies }) {
-    await client.connect();
     const token = cookies.get("session");
     if(token){
         cookies.set('session', '', {
@@ -13,9 +9,12 @@ export async function load ({ cookies }) {
             expires: new Date(0),
         });
     }
-    if(await client.db("main").collection("users").findOne({ token:token }))
-        await client.db("main").collection("users").updateOne({ token:token }, { $unset:{ token:"" } });
 
-    await client.close();
+    const user = await User.findOne({ token:token });
+    if(user){
+        user.token = undefined;
+        await user.save();
+    }
+
     throw redirect(302, '/login');
 }

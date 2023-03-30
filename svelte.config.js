@@ -8,12 +8,15 @@ const config = {
 	preprocess: vitePreprocess(),
 
 	kit: {
-		adapter:adapter()
-		// adapter: vercel({
-		// 	edge:false,
-		// 	external:[],
-		// 	split:false
-		// })
+		adapter:adapter(),
+		csp: {
+			directives: {
+				'form-action': ['self','https://team1710.com']
+			},
+			// reportOnly: {
+			// 	'form-action': ['self','https://team1710.com']
+			// }
+		}
 	}
 };
 

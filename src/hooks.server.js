@@ -1,60 +1,47 @@
-import { MongoClient } from 'mongodb';
-import { MONGODB } from '$env/static/private';
 import { MONGODB_MAIN } from '$env/static/private';
 
 import mongoose from 'mongoose';
-import { ScoutData, User } from '$lib/server/models';
+import { User } from '$lib/server/models';
 
 import { redirect } from "@sveltejs/kit";
 
-import { X_TBA_AUTHKEY } from '$env/static/private';
 import { DateTime } from 'luxon';
-import stats from '$lib/server/user/stats';
+import tba from '$lib/modules/tba';
 
 await mongoose.connect(MONGODB_MAIN);
-console.log('Connected to MongoDB Atlas');
-
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
 
 export async function handle({ event, resolve }) {
     const token = event.cookies.get("session");
 
     if(!token || event.url.pathname == "/logout") return await resolve(event);
 
-    const user = (await User.findOne({ token:token }))?.toJSON();
+    const user = JSON.parse(JSON.stringify(await User.findOne({ token:token })));
 
     if(token && !user) {
-        // mongoose.connection.close(); 
         throw redirect(307, "/logout");
     }
 
-    let res = await fetch(`https://thebluealliance.com/api/v3/team/frc${user.team}/events/${new Date().getFullYear()}`, {
-        headers: { "X-TBA-Auth-Key": X_TBA_AUTHKEY }
-    });
-    res = await res.json();
+    let res = await tba(`team/frc${user.team}/events/${new Date().getFullYear()}`);
+    
     let c = currComp(res);
     let n = nextComp(res);
 
-    if (user) {
-        event.locals.user = {
-            username: user.username,
-            name: user.name,
-            email: user.email,
-            team: user.team,
-            stats: user.stats,
-            preferences: user.preferences,
-            permissions: user.permissions
-        }
-
-        event.locals.competition = c;
-        event.locals.nextCompetition = n;
+    event.locals.user = {
+        username: user.username,
+        name: user.name,
+        email: user.email,
+        team: user.team,
+        stats: user.stats,
+        preferences: user.preferences,
+        permissions: user.permissions
     }
+
+    event.locals.competition = c;
+    event.locals.nextCompetition = n;
     
-    const resolved = await resolve(event);
-    // mongoose.connection.close();
-    return resolved;
+    let response = await resolve(event);
+    response.headers.append('Access-Control-Allow-Origin', `https://team1710.com`);
+    return response;
 }
 
 function nextComp(res) {

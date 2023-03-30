@@ -1,7 +1,7 @@
 import { X_TBA_AUTHKEY } from "$env/static/private";
 import { pitdata2023 } from "$lib/server/models";
 
-export async function load({ locals }){
+export async function load({ locals, fetch }){
     // const res = await fetch(`https://thebluealliance.com/api/v3/events/2023`,{
     //     headers:{
     //         "X-TBA-Auth-Key":X_TBA_AUTHKEY

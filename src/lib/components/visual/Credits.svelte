@@ -12,5 +12,6 @@
     .lcd {
         font-family: 'LCDMono', sans-serif;
         color: rgb(20 184 166);
+        font-weight:900;
     }
 </style>
