@@ -48,14 +48,14 @@
 
 <center class="pt-10">
     <div class="box w-fit">
-        <h1 class="header">Pit Scouting</h1>
+        <h1 class="heading">Pit Scouting</h1>
         <form method="POST">
             <label>Competition:<CompetitionSelector bind:event={competition} events={data.events}/></label><br>
             <input type="text" bind:value={competition} name="event" hidden />
 
             <label>Team Number:<input class="label" type="text" name="team" bind:value={teamNumber} required></label><br>
 
-            <h1 class="header">Intake Capabilities</h1>
+            <h1 class="heading">Intake Capabilities</h1>
             <div class="grid grid-cols-5">
                 <div class="col-span-2" />
                 <p class="text-xs">Optimally</p>
@@ -68,7 +68,7 @@
                     <input type="radio" name={c} bind:group={capabilities[c][0]} value="incapable">
                 {/each}
             </div>
-            <h1 class="header">Placement</h1>
+            <h1 class="heading">Placement</h1>
             <div class="grid grid-cols-5">
                 {#each Object.keys(placement) as p}
                     <p class="col-span-2 text-xs">{placement[p][1]}:</p>
@@ -77,14 +77,13 @@
                     <input type="radio" name={p} bind:group={placement[p][0]} value="incapable">
                 {/each}
             </div>
-            <h1 class="header">Strategy</h1>
+            <h1 class="heading">Strategy</h1>
             <label>Main Strategy:<input class="lable" type="text" name="mainStrategy" bind:value={mainStrategy}></label><br>
             <label>Auto Strategy:<input class="label" type="text" name="autoStrategy" bind:value={autoStrategy}></label><br>
             <label>Average Score:<input class="label" name="averageScore" bind:value={averageScore}></label><br>
-            <label>Top Speed:<input class="label" type="text" name="topSpeed" bind:value={topSpeed}></label><br>
             <label>Defense Capability:<input class="label" type="text" name="defenseCapability" bind:value={defenseCapability}></label><br>
             <label>Defense Experience:<input class="label" type="text" name="defenseExperience" bind:value={defenseExperience}></label>
-            <h1 class="header">Charge Station Capability</h1>
+            <h1 class="heading">Charge Station Capability</h1>
             <div class="grid grid-cols-5">
                 <div class="col-span-2" />
                 <p class="text-xs">Engage</p>
@@ -99,7 +98,7 @@
             </div>
             <br>
             <label class="pt-4">Drivetrain Type:<input class="label" type="text" name="drivetrain"></label><br>
-            <h1 class="header">Game Piece Preference</h1>
+            <h1 class="heading">Game Piece Preference</h1>
             <div class="grid grid-cols-3">
                 <p class="text-xs">Cone</p>
                 <p class="text-xs">Cube</p>
@@ -108,11 +107,13 @@
                 <input type="radio" name="piecePreferance" value="Cube">
                 <input type="radio" name="piecePreferance" value="Either">
             </div>
-            <h1 class="header">Robot Specifics</h1>
+            <h1 class="heading">Robot Specifics</h1>
             <label class="pt-4">Frame Perimeter:<input class="label" type="text" name="framePerimeter"></label><br>
-            <label class="pt-4">Robot Weight:<input class="label" type="text" name="weight"></label>
-            <h1 class="header">Other Thoughts</h1><input class="label" type="text" name="thoughts" bind:value={otherThoughts}><br>
-            <h1 class="header">Other Scouts</h1><input class="label" type="text" name="otherScouts"><br>
+            <label class="pt-4">Robot Weight:<input class="label" type="text" name="weight"></label><br>
+            <label>Top Speed:<input class="label" type="text" name="topSpeed" bind:value={topSpeed}></label><br>
+            <h1 class="heading"></h1>
+            <label>Other Thoughts:<input class="label" type="text" name="thoughts" bind:value={otherThoughts}></label><br>
+            <label>Other Scouts:<input class="label" type="text" name="otherScouts"></label><br>
             <!--make text box bigger-->
             <button class="submit">Submit</button>
         </form>
@@ -124,8 +125,11 @@
         margin-bottom: 1vh;
     }
 
-    .header{
+    .heading{
         margin-bottom: 1vh;
         font-size: 17px;
+        background-image: linear-gradient(to top, rgba(255,255,255,0.5), rgba(255,255,255,0), rgba(255,255,255,0));
+        border-bottom-left-radius:8px;
+        border-bottom-right-radius:8px;
     }
 </style>
