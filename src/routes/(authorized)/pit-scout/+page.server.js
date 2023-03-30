@@ -53,6 +53,6 @@ export const actions = {
             await credits.transaction(output.otherScouts, 200, `Co-pit scouted ${output.team}`);
 
 
-        throw redirect(307, "nav");
+        throw redirect(307, "/pit-scout/nav");
     }
 }
