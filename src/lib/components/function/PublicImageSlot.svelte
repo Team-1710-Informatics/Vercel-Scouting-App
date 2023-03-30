@@ -1,11 +1,12 @@
 <script>
     import { enhance } from "$app/forms";
     export let path;
+    export let name;
 
     let state = "Upload";
 </script>
 
-<form enctype="multipart/form-data" method=POST action="http://www.team1710.com/scouting/files/upload.php" use:enhance={() => {
+<form enctype="multipart/form-data" method=POST action="https://www.team1710.com/scouting/files/upload.php" use:enhance={() => {
     state = "Loading..."
     //@ts-ignore
     return async ({ update }) => {
@@ -14,6 +15,9 @@
     };
 }}>
     <input type="hidden" value={path} name="path"/>
+    <input type="hidden" value={name} name="name"/>
     <input type="file" name="upload"/>
     <button disabled={state!="Upload"}>{state}</button>
 </form>
+
+<img src="https://www.team1710.com/scouting/files/storage/hub/hub.png" alt="No Image Uploaded" />

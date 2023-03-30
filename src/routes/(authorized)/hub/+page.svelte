@@ -1,5 +1,6 @@
 <script lang=ts>
-    import CompetitionTracker from "./CompetitionTracker.svelte";
+    import PublicImageSlot from "$lib/components/function/PublicImageSlot.svelte";
+import CompetitionTracker from "./CompetitionTracker.svelte";
 
     export let data:any;
 
@@ -46,4 +47,6 @@
             <a href={link[1]} class="w-full font-bold" style="grid-column: span {link[2]} / span {link[2]};"><button class={link?.[3]+" w-full py-3"}>{link[0]}</button></a>
         {/each}
     </div>
+
+    <PublicImageSlot path="hub/" name="hub.png" />
 </middle>

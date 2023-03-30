@@ -40,7 +40,7 @@ export async function handle({ event, resolve }) {
     event.locals.nextCompetition = n;
     
     let response = await resolve(event);
-    response.headers.append('Access-Control-Allow-Origin', `http://www.team1710.com`);
+    response.headers.append('Access-Control-Allow-Origin', `https://www.team1710.com`);
     return response;
 }
 
