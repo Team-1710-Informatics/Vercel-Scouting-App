@@ -103,7 +103,7 @@
             <h1 class="heading">Finishing</h1>
             <label>Other Thoughts:<input class="label" type="text" name="thoughts" bind:value={otherThoughts}></label><br>
             <!-- <label>Other Scouts:<input class="label" type="text" name="otherScouts"></label><br> -->
-            <label>Scouting partner: <select>
+            <label>Scouting partner: <select name="otherScouts">
                 <option value="none">None</option>
                 {#each data.members as member}
                     <option value={member.username}>{member.name.first} {member.name.last}</option>
