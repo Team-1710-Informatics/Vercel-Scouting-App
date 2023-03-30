@@ -38,8 +38,8 @@
     let defenseExperience="";
 
     let chargeStation:any = {
-        "chargeStationMain":[undefined, "Charge Station TeleOp"],
-        "chargeStationAuto":[undefined, "Charge Station Auto"],
+        "chargeStationMain":[undefined, "Endgame"],
+        "chargeStationAuto":[undefined, "Auto"],
     }
 
     let otherThoughts="";
@@ -47,7 +47,7 @@
 </script>
 
 <center class="pt-10">
-    <div class="box w-fit">
+    <div class="box w-fit max-w-sm">
         <h1 class="heading">Pit Scouting</h1>
         <form method="POST">
             <label>Competition:<CompetitionSelector bind:event={competition} events={data.events}/></label><br>
@@ -78,7 +78,7 @@
                 {/each}
             </div>
             <h1 class="heading">Strategy</h1>
-            <label>Main Strategy:<input class="lable" type="text" name="mainStrategy" bind:value={mainStrategy}></label><br>
+            <label>Main Strategy:<input class="label" type="text" name="mainStrategy" bind:value={mainStrategy}></label><br>
             <label>Auto Strategy:<input class="label" type="text" name="autoStrategy" bind:value={autoStrategy}></label><br>
             <label>Average Score:<input class="label" name="averageScore" bind:value={averageScore}></label><br>
             <label>Defense Capability:<input class="label" type="text" name="defenseCapability" bind:value={defenseCapability}></label><br>
@@ -91,13 +91,12 @@
                 <p class="text-xs">No</p>
                 {#each [...Object.keys(chargeStation)] as s}
                     <p class="col-span-2 text-xs">{chargeStation[s][1]}:</p>
-                    <input type="radio" name={s} bind:group= {chargeStation[s][0]} value="Engage">
-                    <input type="radio" name={s} bind:group= {chargeStation[s][0]} value="Dock">
-                    <input type="radio" name={s} bind:group= {chargeStation[s][0]} value="No">
+                    <input type="radio" name={s} bind:group={chargeStation[s][0]} value="Engage">
+                    <input type="radio" name={s} bind:group={chargeStation[s][0]} value="Dock">
+                    <input type="radio" name={s} bind:group={chargeStation[s][0]} value="No">
                 {/each}
             </div>
             <br>
-            <label class="pt-4">Drivetrain Type:<input class="label" type="text" name="drivetrain"></label><br>
             <h1 class="heading">Game Piece Preference</h1>
             <div class="grid grid-cols-3">
                 <p class="text-xs">Cone</p>
@@ -108,14 +107,15 @@
                 <input type="radio" name="piecePreferance" value="Either">
             </div>
             <h1 class="heading">Robot Specifics</h1>
+            <label class="pt-4">Drivetrain Type:<input class="label" type="text" name="drivetrain"></label><br>
             <label class="pt-4">Frame Perimeter:<input class="label" type="text" name="framePerimeter"></label><br>
             <label class="pt-4">Robot Weight:<input class="label" type="text" name="weight"></label><br>
             <label>Top Speed:<input class="label" type="text" name="topSpeed" bind:value={topSpeed}></label><br>
-            <h1 class="heading"></h1>
+            <h1 class="heading">Finishing</h1>
             <label>Other Thoughts:<input class="label" type="text" name="thoughts" bind:value={otherThoughts}></label><br>
             <label>Other Scouts:<input class="label" type="text" name="otherScouts"></label><br>
             <!--make text box bigger-->
-            <h1>Ask for permission to take a picture of robot, if yes post it in the pit-scouting slack with the team number. Remember to say thank you regardless!</h1>
+            <h1 class="rounded-lg bg-slate-600 p-1 m-1 my-2 text-sm">Ask for permission to take a picture of robot, if yes post it in the pit-scouting slack with the team number. Remember to say thank you regardless!</h1>
 
             <button class="submit">Submit</button>
         </form>
@@ -124,7 +124,11 @@
 
 <style>
     .label{
-        margin-bottom: 1vh;
+        margin-bottom: 2px;
+    }
+
+    label{
+        font-size:14px;
     }
 
     .heading{
