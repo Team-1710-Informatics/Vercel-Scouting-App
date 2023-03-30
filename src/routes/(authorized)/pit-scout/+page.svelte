@@ -11,18 +11,18 @@
     let incapable="";
 
     let capabilities:any = {
-        "intakeCube":undefined,
-        "intakeCone":undefined,
-        "shelfStation":undefined,
-        "chuteStation":undefined,
-        "floorStation":undefined,
-        "floor":undefined,
+        "intakeCube":[undefined, "Cube Intake"],
+        "intakeCone":[undefined, "Cone Intake"],
+        "shelfStation":[undefined, "Shelf Station"],
+        "chuteStation":[undefined, "Chute Station"],
+        "floorStation":[undefined, "Floor Station"],
+        "floor":[undefined, "Floor"],
     }
 
     let placement:any = {
-        "placeHigh":undefined,
-        "placeMid":undefined,
-        "placeLow":undefined,
+        "placeHigh":[undefined, "Placement High"],
+        "placeMid":[undefined, "Placement Mid"],
+        "placeLow":[undefined, "Placement Low"],
     }
 
     let mainStrategy="";
@@ -38,8 +38,8 @@
     let defenseExperience="";
 
     let chargeStation:any = {
-        "chargeStationMain":undefined,
-        "chargeStationAuto":undefined,
+        "chargeStationMain":[undefined, "Charge Station TeleOp"],
+        "chargeStationAuto":[undefined, "Charge Station Auto"],
     }
 
     let otherThoughts="";
@@ -62,19 +62,19 @@
                 <p class="text-xs">Possible</p>
                 <p class="text-xs">Incapable</p>
                 {#each Object.keys(capabilities) as c}
-                    <p class="col-span-2 text-xs">{c}:</p>
-                    <input type="radio" name={c} bind:group={capabilities[c]} value="optimal">
-                    <input type="radio" name={c} bind:group={capabilities[c]} value="possible">
-                    <input type="radio" name={c} bind:group={capabilities[c]} value="incapable">
+                    <p class="col-span-2 text-xs">{capabilities[c][1]}:</p>
+                    <input type="radio" name={c} bind:group={capabilities[c][0]} value="optimal">
+                    <input type="radio" name={c} bind:group={capabilities[c][0]} value="possible">
+                    <input type="radio" name={c} bind:group={capabilities[c][0]} value="incapable">
                 {/each}
             </div>
             <h1 class="header">Placement</h1>
             <div class="grid grid-cols-5">
                 {#each Object.keys(placement) as p}
-                    <p class="col-span-2 text-xs">{p}:</p>
-                    <input type="radio" name={p} bind:group={placement[p]} value="optimal">
-                    <input type="radio" name={p} bind:group={placement[p]} value="possible">
-                    <input type="radio" name={p} bind:group={placement[p]} value="incapable">
+                    <p class="col-span-2 text-xs">{placement[p][1]}:</p>
+                    <input type="radio" name={p} bind:group={placement[p][0]} value="optimal">
+                    <input type="radio" name={p} bind:group={placement[p][0]} value="possible">
+                    <input type="radio" name={p} bind:group={placement[p][0]} value="incapable">
                 {/each}
             </div>
             <h1 class="header">Strategy</h1>
@@ -91,10 +91,10 @@
                 <p class="text-xs">Dock</p>
                 <p class="text-xs">No</p>
                 {#each [...Object.keys(chargeStation)] as s}
-                    <p class="col-span-2 text-xs">{s}:</p>
-                    <input type="radio" name={s} bind:group= {chargeStation[s]} value="Engage">
-                    <input type="radio" name={s} bind:group= {chargeStation[s]} value="Dock">
-                    <input type="radio" name={s} bind:group= {chargeStation[s]} value="No">
+                    <p class="col-span-2 text-xs">{chargeStation[s][1]}:</p>
+                    <input type="radio" name={s} bind:group= {chargeStation[s][0]} value="Engage">
+                    <input type="radio" name={s} bind:group= {chargeStation[s][0]} value="Dock">
+                    <input type="radio" name={s} bind:group= {chargeStation[s][0]} value="No">
                 {/each}
             </div>
             <br>
