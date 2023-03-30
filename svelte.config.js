@@ -13,9 +13,9 @@ const config = {
 			directives: {
 				'form-action': ['self','https://team1710.com']
 			},
-			reportOnly: {
-				'form-action': ['self','https://team1710.com']
-			}
+			// reportOnly: {
+			// 	'form-action': ['self','https://team1710.com']
+			// }
 		}
 	}
 };
