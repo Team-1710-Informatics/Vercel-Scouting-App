@@ -1,5 +1,5 @@
 import { X_TBA_AUTHKEY } from "$env/static/private";
-import { pitdata2023 } from "$lib/server/models";
+import { pitdata2023, User } from "$lib/server/models";
 import credits from "$lib/server/user/credi";
 import { redirect } from "@sveltejs/kit";
 
@@ -12,10 +12,21 @@ export async function load({ locals, fetch }){
 
     const events = await res.json();
 
+    let result = JSON.parse(JSON.stringify(await User.find({ team:locals.user.team })));
+
+    const members = [];
+    result.forEach(m=>{
+        members.push({
+            username:m.username,
+            name:m.name
+        })
+    })
+
     return{
         events,
         competition:locals.competition,
-        scout:locals.user.username
+        scout:locals.user.username,
+        members
     }
 }
 
@@ -25,7 +36,7 @@ export const actions = {
 
         let output = {}
 
-        const items = ["event","team","intakeCube","intakeCone","shelfStation","chuteStation","floorStation","floor","placeHigh","placeMid","placeLow","mainStrategy","autoStrategy","averageScore","topSpeed","defenseCapability","defenseExperiance","chargeStationMain","chargeStationAuto","drivetrain","piecePreferance","framePerimeter","weight","thoughts","otherScouts"]
+        const items = ["event","team","intakeCube","intakeCone","shelfStation","chuteStation","floorStation","floor","placeHigh","placeMid","placeLow","mainStrategy","autoStrategy","averageScore","topSpeed","defenseCapability","defenseExperience","chargeStationMain","chargeStationAuto","drivetrain","piecePreferance","framePerimeter","weight","thoughts","otherScouts"]
 
         items.forEach(item=>{
             output[item]=input.get(item)
@@ -37,6 +48,10 @@ export const actions = {
         await db.save();
 
         await credits.transaction(output.scout, 200, `Pit scouted ${output.team}`);
+
+        if(output.otherScouts != "none")
+            await credits.transaction(output.otherScouts, 200, `Co-pit scouted ${output.team}`);
+
 
         throw redirect(307, "nav");
     }

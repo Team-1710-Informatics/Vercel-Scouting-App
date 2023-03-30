@@ -25,18 +25,6 @@
         "placeLow":[undefined, "Placement Low"],
     }
 
-    let mainStrategy="";
-
-    let autoStrategy="";
-
-    let averageScore="";
-
-    let topSpeed="";
-
-    let defenseCapability="";
-
-    let defenseExperience="";
-
     let chargeStation:any = {
         "chargeStationMain":[undefined, "Endgame"],
         "chargeStationAuto":[undefined, "Auto"],
@@ -78,12 +66,12 @@
                 {/each}
             </div>
             <h1 class="heading">Strategy</h1>
-            <label>Main Strategy:<input class="label" type="text" name="mainStrategy" bind:value={mainStrategy}></label><br>
-            <label>Auto Strategy:<input class="label" type="text" name="autoStrategy" bind:value={autoStrategy}></label><br>
-            <label>Average Score:<input class="label" name="averageScore" bind:value={averageScore}></label><br>
+            <label>Main Strategy:<input class="label" type="text" name="mainStrategy"></label><br>
+            <label>Auto Strategy:<input class="label" type="text" name="autoStrategy"></label><br>
+            <label>Average Score:<input class="label" name="averageScore"></label><br>
             <h1 class="heading">Defense</h1>
-            <label>Ability:<input class="label" type="text" name="defenseCapability" bind:value={defenseCapability}></label><br>
-            <label>Experience:<input class="label" type="text" name="defenseExperience" bind:value={defenseExperience}></label>
+            <label>Ability:<input class="label" type="text" name="defenseCapability"></label><br>
+            <label>Experience:<input class="label" type="text" name="defenseExperience"></label>
             <h1 class="heading">Charge Station Capability</h1>
             <div class="grid grid-cols-5">
                 <div class="col-span-2" />
@@ -111,10 +99,16 @@
             <label class="pt-4">Drivetrain Type:<input class="label" type="text" name="drivetrain"></label><br>
             <label class="pt-4">Frame Perimeter:<input class="label" type="text" name="framePerimeter"></label><br>
             <label class="pt-4">Robot Weight:<input class="label" type="text" name="weight"></label><br>
-            <label>Top Speed:<input class="label" type="text" name="topSpeed" bind:value={topSpeed}></label><br>
+            <label>Top Speed:<input class="label" type="text" name="topSpeed"></label><br>
             <h1 class="heading">Finishing</h1>
             <label>Other Thoughts:<input class="label" type="text" name="thoughts" bind:value={otherThoughts}></label><br>
-            <label>Other Scouts:<input class="label" type="text" name="otherScouts"></label><br>
+            <!-- <label>Other Scouts:<input class="label" type="text" name="otherScouts"></label><br> -->
+            <label>Scouting partner: <select>
+                <option value="none">None</option>
+                {#each data.members as member}
+                    <option value={member.username}>{member.name.first} {member.name.last}</option>
+                {/each}
+            </select></label>
             <!--make text box bigger-->
             <h1 class="rounded-lg bg-slate-600 p-1 m-1 my-2 text-sm">Ask for permission to take a picture of robot, if yes post it in the pit-scouting slack with the team number. Remember to say thank you regardless!</h1>
 
