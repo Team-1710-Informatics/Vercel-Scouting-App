@@ -4,7 +4,7 @@ export async function load({locals}){
     const events = await tba(`events/2023`);
 
     events.push({
-        short_name: "Practice"
+        short_name: "Practice",
         key: "2023practice"
     })
 
