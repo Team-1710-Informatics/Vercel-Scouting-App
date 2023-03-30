@@ -81,8 +81,9 @@
             <label>Main Strategy:<input class="label" type="text" name="mainStrategy" bind:value={mainStrategy}></label><br>
             <label>Auto Strategy:<input class="label" type="text" name="autoStrategy" bind:value={autoStrategy}></label><br>
             <label>Average Score:<input class="label" name="averageScore" bind:value={averageScore}></label><br>
-            <label>Defense Capability:<input class="label" type="text" name="defenseCapability" bind:value={defenseCapability}></label><br>
-            <label>Defense Experience:<input class="label" type="text" name="defenseExperience" bind:value={defenseExperience}></label>
+            <h1 class="heading">Defense</h1>
+            <label>Ability:<input class="label" type="text" name="defenseCapability" bind:value={defenseCapability}></label><br>
+            <label>Experience:<input class="label" type="text" name="defenseExperience" bind:value={defenseExperience}></label>
             <h1 class="heading">Charge Station Capability</h1>
             <div class="grid grid-cols-5">
                 <div class="col-span-2" />
