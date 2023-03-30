@@ -161,6 +161,8 @@ const pitscout2023 = new Schema({
     chargeStationAuto: String,
     drivetrain: String,
     piecePreferance: String,
+    framePerimeter: String,
+    weight: String,
     thoughts: String,
     otherScouts: String
 });
