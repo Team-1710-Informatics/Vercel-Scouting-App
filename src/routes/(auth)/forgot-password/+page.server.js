@@ -69,7 +69,7 @@ async function email(email, key){
         });
     });
 
-    return state;
+    return await state;
 }
 
 function randstr(length) {
