@@ -71,11 +71,11 @@
         <input type="text" bind:value={show}>
     </label></div>
     <label>
-        <input type="radio" name="sort" bind:group={positive} value={true}>
+        <input type="radio" name="positive" bind:group={positive} value={true}>
         Include
     </label>
     <label>
-        <input type="radio" name="sort" bind:group={positive} value={false}>
+        <input type="radio" name="positive" bind:group={positive} value={false}>
         Exclude
     </label>    
     <br>
