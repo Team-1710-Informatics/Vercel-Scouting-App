@@ -182,9 +182,9 @@ export default {
         cycleTimes.forEach(e=>{
             result+=e;
         });
-    return(result/(cycleTimes.length*1000));
+        return(result/(cycleTimes.length*1000));
     },
-    Average_element_placement(team:number, data:any[]){
+    Favorite_placement_level(team:number, data:any[]){
         let resultIndex=0;
         let count=0;
         let array=[0, 0, 0]
@@ -210,30 +210,30 @@ export default {
         }
         return(result);
     },
-    Loading_zone_intake_rate(team:number, data:any[]){
-        let loadZone = 0;
-        let total = 0;
-        data.forEach(e=>{
-            if(e.team!=team) return;
-            e.game.actions.forEach((a:any)=>{
-                if(a.action=="intake"){
-                    if(a.location=="zone") loadZone++;
-                    total++;
-                }
-            });
-        });
-        return(loadZone/total);
-    },
-    Average_auto_score_rate(team:number, data:any[]){
-        let count = 0;
-        let score = 0;
-        data.forEach(e=>{
-            if(e.team != team) return;
-            score += autoScore(e);
-            count++;
-        });
-        return(score/count);
-    },
+    // Loading_zone_intake_rate(team:number, data:any[]){
+    //     let loadZone = 0;
+    //     let total = 0;
+    //     data.forEach(e=>{
+    //         if(e.team!=team) return;
+    //         e.game.actions.forEach((a:any)=>{
+    //             if(a.action=="intake"){
+    //                 if(a.location=="zone") loadZone++;
+    //                 total++;
+    //             }
+    //         });
+    //     });
+    //     return(loadZone/total);
+    // },
+    // Average_auto_score_rate(team:number, data:any[]){
+    //     let count = 0;
+    //     let score = 0;
+    //     data.forEach(e=>{
+    //         if(e.team != team) return;
+    //         score += autoScore(e);
+    //         count++;
+    //     });
+    //     return(score/count);
+    // },
     // Strategy(team:number, data:any[]){
     //     let stratIndex=0;
     //     let allStrat=[0, 0, 0, 0, 0, 0];
@@ -280,6 +280,8 @@ export function teamScore(e:any){
             }
         }
     });
+
+    count += links(e) * 5;
 
     if(e.game.untimed.mobile) count += 3;
     if(e.game.untimed.dockedAuto){
@@ -332,11 +334,30 @@ export function gridLayout(e:any){
     e.game.actions.forEach((a:any)=>{
         if(a.action === "place"){
             console.log(a.type);
+            if(a.node.y < 3 && a.node.x < 9)
             out[a.node.y][a.node.x] = a.type;
         }
     })
 
     return out;
+}
+function links(e:any){
+    let grid = gridLayout(e);
+    let links = 0;
+    grid.forEach(row=>{
+        let consecutive = 0;
+        row.forEach(node=>{
+            if(node){
+                consecutive++;
+                if(consecutive == 3){
+                    links++;
+                    consecutive = 0;
+                }
+            }
+        })
+    })
+
+    return links;
 }
 
 function findMode(array:any[]){

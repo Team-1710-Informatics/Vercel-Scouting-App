@@ -261,6 +261,24 @@ export default {
         return result;
     },
 }
+function links(e:any){
+    let grid = gridLayout(e);
+    let links = 0;
+    grid.forEach(row=>{
+        let consecutive = 0;
+        row.forEach(node=>{
+            if(node){
+                consecutive++;
+                if(consecutive == 3){
+                    links++;
+                    consecutive = 0;
+                }
+            }
+        })
+    })
+
+    return links;
+}
 export function teamScore(e:any){
     let count = 0;
     e.game.actions.forEach((a:any)=>{
@@ -272,6 +290,7 @@ export function teamScore(e:any){
             }
             if(a.time - e.game.start <= 18000) count++;
         }
+
         if(a.action === 'intake' && typeof a.location != "string"){
             switch(a.location.y){
                 case 0: count-= 5; break;
@@ -280,6 +299,8 @@ export function teamScore(e:any){
             }
         }
     });
+
+    count += links(e) * 5;
 
     if(e.game.untimed.mobile) count += 3;
     if(e.game.untimed.dockedAuto){
