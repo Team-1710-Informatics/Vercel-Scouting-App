@@ -35,8 +35,11 @@ export const actions = {
 
         const user = await User.findOne({ "flags.reset":key });
         user.flags.reset = null;
-        user.password.hash = hash;
-        user.password.salt = salt;
+        user.flags = JSON.parse(JSON.stringify(user.flags));
+        user.password = {
+            hash,
+            salt
+        }
         await user.save();
 
         throw redirect(307, "/login/r");

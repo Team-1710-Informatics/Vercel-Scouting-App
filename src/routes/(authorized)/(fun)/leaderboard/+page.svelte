@@ -33,8 +33,6 @@
     }
 </script>
 
-<Status value="viewing leaderboard" host={data.host}/>
-
 <center>
     <br>
     <h5>Leaderboard</h5>
@@ -45,15 +43,13 @@
                 <tr class="text-xl mb-2 font-bold">
                     <th>Rank</th>
                     <th>User</th>
-                    <th>Credits</th>
-                    <!-- <th><select class="w-20 text-sm" bind:value={key}>
+                    <th><select class="w-20 text-sm" bind:value={key}>
                         {#each Object.keys(data.list[0].stats) as s}
                             <option value={s}>{normal(s)}</option>
                         {/each}
-                    </select></th> -->
+                    </select></th>
                 </tr>
                 {#each data.list as u,i (u.uname)}
-                
                     <tr animate:flip class={`divide-x divide-gray-600 bg-opacity-25 ${u.uname===data.user?"bg-white":"bg-transparent"} ${function(){
                         switch(i){
                             case 0: return "text-teal-200  text-xl";
@@ -65,7 +61,7 @@
                         {#if (u.uname == data.user || i < 10) && u.stats[key]>0}
                             <th>{i+1}.</th>
                             <td class="px-3">{u.user}</td>
-                            <td class="text-teal-500 lcd text-right">{u.stats[key]}</td>
+                            <td class={`${key=="credits"?"text-teal-500 lcd":""} text-right`}>{u.stats[key]}</td>
                         {/if}
                     </tr>
                 {/each}

@@ -1,6 +1,6 @@
 <script>
     import MatchSelector from "$lib/components/search/MatchSelector.svelte";
-    import {teamScore, gridLayout} from "../spreadsheet/[event]/statistics";
+    import {teamScore, gridLayout} from "../../spreadsheet/[event]/statistics";
     import StarRating from "$lib/components/ui/StarRating.svelte";
     import cube from "$lib/assets/scout/2023/cube.png";
     import cone from "$lib/assets/scout/2023/cone.png";
@@ -29,10 +29,13 @@
     <p class="text-xl font-bold">Find match</p>
     <div class="box">
         <MatchSelector 
-            event={data.competition?.key??null} 
+            event={data.competition} 
             events={data.events} 
             bind:match={match} 
         />
+        <label>Team:
+            <input class="w-20" bind:value={team}>
+        </label>
     </div>
     <hr class="w-3/4 sm:w-1/2 my-3">
     {#if match}

@@ -1,4 +1,4 @@
-<!-- <script>
+<script>
     import { enhance } from "$app/forms";
     import Loading from "$lib/components/ui/Loading.svelte";
     import { slide } from "svelte/transition";
@@ -38,6 +38,15 @@
         
         credits.set(await o.json());
     }
+
+    function num(){
+        if(!data.portfolio?.portfolio) return 0;
+        let sum=0;
+        Object.keys(data.portfolio.portfolio).forEach(p=>{
+            sum+=data.portfolio.portfolio[p];
+        })
+        return sum;
+    }
 </script>
 
 <middle class="py-10">
@@ -75,14 +84,18 @@
                                     <input class="w-16" type="number" name="stocks" bind:value={stocks}>
                                     <input hidden type="number" name="team" value={t.team}>
                                 </label><hr class="border-black my-2">
-                                <div class="grid grid-cols-1">
+                                <div class="grid grid-cols-2">
                                     <div class="text-2xl col-span-2 justify-self-start">{Math.trunc($credits-stocks*t.value)} cr.</div>
+                                    <div class="justify-self-start self-end" class:text-red-500={(num()+stocks)>5}>
+                                        {num()+stocks}<span class="opacity-50">/5</span>
+                                    </div>
                                     <button disabled={
                                         loading ||
                                         stocks != Math.trunc(stocks) ||
                                         stocks <= 0 ||
-                                        stocks*t.value > $credits
-                                    } class="rounded-none border-black  bg-gradient-to-b from-green-200 to-emerald-400 w-fit justify-self-end col-span-2">{stocks*t.value} cr.</button>
+                                        stocks*t.value > $credits ||
+                                        (num()+stocks)>5
+                                    } class="rounded-none border-black  bg-gradient-to-b from-green-200 to-emerald-400 w-fit justify-self-end">{stocks*t.value} cr.</button>
                                 </div>
                             </form>
                         </div>
@@ -94,10 +107,14 @@
         </div>
         <br>   
     </div>
+    <div class="h-16">{loading?"Loading...":""}</div>
     <div class="box font-serif font-black">
-        <div class="grid grid-cols-2">
-            <div>Your portfolio</div>
-            <label class="justify-self-end">
+        <div class="grid grid-cols-5">
+            <div class="col-span-2">Your portfolio</div>
+            <div class="justify-self-center">
+                {#key data.portfolio}{num()}<span class="opacity-50">/5</span>{/key}
+            </div>
+            <label class="justify-self-end col-span-2">
                 Sell:
                 <input class="w-16" type="number" bind:value={sell}>
             </label>
@@ -120,23 +137,27 @@
                         {:then v}
                             <td>{v.value*data.portfolio.portfolio[team]}</td>
                             <td class="p-0">
-                                <form class="w-full h-full" method=POST action=?/sell use:enhance={() => {
-                                    loading = true;
-                                    //@ts-ignore
-                                    return async ({ update }) => {
-                                        await update();
-                                        loading = false;
-                                    };
-                                }}>
-                                    <input hidden value={team} name="team">
-                                    <input hidden bind:value={sell} name="sell">
-                                    <button disabled={
-                                        sell <= 0 ||
-                                        sell >data.portfolio.portfolio[team] ||
-                                        sell != Math.trunc(sell) ||
-                                        loading
-                                    } class="w-full h-full rounded-none bg-gradient-to-b from-red-100 to-rose-400 border-black text-xs">{sell??0} for<br>{sell*v.value} cr.</button>
-                                </form>
+                                {#if Date.now()-(data.portfolio?.times?.[team]??0)>86400000}
+                                    <form class="w-full h-full" method=POST action=?/sell use:enhance={() => {
+                                        loading = true;
+                                        //@ts-ignore
+                                        return async ({ update }) => {
+                                            await update();
+                                            loading = false;
+                                        };
+                                    }}>
+                                        <input hidden value={team} name="team">
+                                        <input hidden bind:value={sell} name="sell">
+                                        <button disabled={
+                                            sell <= 0 ||
+                                            sell >data.portfolio.portfolio[team] ||
+                                            sell != Math.trunc(sell) ||
+                                            loading
+                                        } class="w-full h-full rounded-none bg-gradient-to-b from-red-100 to-rose-400 border-black text-xs">{sell??0} for<br>{sell*v.value} cr.</button>
+                                    </form>
+                                {:else}
+                                    <button disabled class="w-full h-full rounded-none bg-gradient-to-b from-red-100 to-rose-400 border-black text-xs">Sell in<br>{Math.trunc((86400000-(Date.now()-(data.portfolio.times[team])))/3600000)} hours</button>
+                                {/if}
                             </td>
                         {/await}
                     {/if}
@@ -172,6 +193,4 @@
         height:45px;
         font-weight: 500 !important;
     }
-</style> -->
-
-<p> down for rebalancing 🙃 </p>
+</style>

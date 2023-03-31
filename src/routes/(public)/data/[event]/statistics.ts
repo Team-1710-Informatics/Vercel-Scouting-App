@@ -1,3 +1,5 @@
+import { element } from "svelte/internal";
+
 export default {
     Team_number(team:number, data:any[]){
         return team;
@@ -130,18 +132,18 @@ export default {
         });
         return(mobileCount/count);
     },
-    Driver_skill(team:number, data:any[]){
-        let count = 0;
-        let total = 0;
-        data.forEach(e=>{
-            if(e.team != team) return;
-            if(e.postgame?.driverSkill){
-                count++;
-                total += e.postgame.driverSkill;
-            }
-        });
-        return(total/count);
-    },
+    // Driver_skill(team:number, data:any[]){
+    //     let count = 0;
+    //     let total = 0;
+    //     data.forEach(e=>{
+    //         if(e.team != team) return;
+    //         if(e.postgame?.driverSkill){
+    //             count++;
+    //             total += e.postgame.driverSkill;
+    //         }
+    //     });
+    //     return(total/count);
+    // },
     Cube_score_rate(team:number, data:any[]){
         let cubeNum = 0;
         let count = 0;
@@ -164,31 +166,25 @@ export default {
             if(e.team!=team)return;
             let startTime=0;
             let endTime=0;
-            let cycles=0;
             e.game.actions.forEach((a:any)=>{
                 if(a.action=="intake"&&a.time>0&&cycleEngaged==false){
                     cycleEngaged=true;
                     startTime=a.time;
                 }
-
                 if(a.action=="place"&&cycleEngaged){
                     cycleEngaged=false;
                     endTime=a.time;
+                    console.log(endTime, startTime);
                     cycleTimes.push(endTime-startTime);
-                    cycles++;
                 }
             });
-            if(cycles==0) cycleTimes.push(153000);
         });
-        
-        
         cycleTimes.forEach(e=>{
             result+=e;
         });
-
         return(result/(cycleTimes.length*1000));
     },
-    Average_element_placement(team:number, data:any[]){
+    Favorite_placement_level(team:number, data:any[]){
         let resultIndex=0;
         let count=0;
         let array=[0, 0, 0]
@@ -214,97 +210,56 @@ export default {
         }
         return(result);
     },
-    Loading_zone_intake_rate(team:number, data:any[]){
-        let loadZone = 0;
-        let total = 0;
-        data.forEach(e=>{
-            if(e.team!=team) return;
-            e.game.actions.forEach((a:any)=>{
-                if(a.action=="intake"){
-                    if(a.location=="zone") loadZone++;
-                    total++;
-                }
-            });
-        });
-        return(loadZone/total);
-    },
-    Average_auto_score_rate(team:number, data:any[]){
-        let count = 0;
-        let score = 0;
-        data.forEach(e=>{
-            if(e.team != team) return;
-            score += autoScore(e);
-            count++;
-        });
-        return(score/count);
-    },
-    Standard_Score_Deviation(team:number, data:any[]){
-        let scores:any[]=[];
-        let score=0;
-        let count=0;
-        data.forEach(e=>{
-            if(e.team != team) return;
-            score += teamScore(e);
-            count++;
-            scores.push(score/count);
-        });
-        
-        
-
-        return stdDev(scores);
-    },
-    Strategy(team:number, data:any[]){
-        let stratIndex=0;
-        let allStrat=[0, 0, 0, 0, 0, 0];
-        let result = "";
-        data.forEach(e=>{
-            if(e.team!=team) return;
-            e.postgame.strategy.forEach((a:any)=>{
-                switch(a){
-                    case "cycle": allStrat[0]++; break;
-                    case "place": allStrat[1]++; break;
-                    case "transport": allStrat[2]++; break;
-                    case "defense": allStrat[3]++; break;
-                    case "moral": allStrat[4]++; break;
-                    case "breakdown": allStrat[5]++; break;
-                }
-            });
-        });
-        stratIndex=allStrat.indexOf(Math.max(...allStrat));
-        if(stratIndex==0)result="full cycle";
-        if(stratIndex==1)result="place";
-        if(stratIndex==2)result="transport";
-        if(stratIndex==3)result="defense";
-        if(stratIndex==4)result="moral support";
-        if(stratIndex==5)result="breakdown";
-        return result;
-    },
-    Matches_Scouted(team:number, data:any[]){
-        let scouted=0;
-        data.forEach(e=>{
-            if(e.team!=team) return;
-            scouted++;
-        });
-        return scouted;
-    },
-}
-function links(e:any){
-    let grid = gridLayout(e);
-    let links = 0;
-    grid.forEach(row=>{
-        let consecutive = 0;
-        row.forEach(node=>{
-            if(node){
-                consecutive++;
-                if(consecutive == 3){
-                    links++;
-                    consecutive = 0;
-                }
-            }
-        })
-    })
-
-    return links;
+    // Loading_zone_intake_rate(team:number, data:any[]){
+    //     let loadZone = 0;
+    //     let total = 0;
+    //     data.forEach(e=>{
+    //         if(e.team!=team) return;
+    //         e.game.actions.forEach((a:any)=>{
+    //             if(a.action=="intake"){
+    //                 if(a.location=="zone") loadZone++;
+    //                 total++;
+    //             }
+    //         });
+    //     });
+    //     return(loadZone/total);
+    // },
+    // Average_auto_score_rate(team:number, data:any[]){
+    //     let count = 0;
+    //     let score = 0;
+    //     data.forEach(e=>{
+    //         if(e.team != team) return;
+    //         score += autoScore(e);
+    //         count++;
+    //     });
+    //     return(score/count);
+    // },
+    // Strategy(team:number, data:any[]){
+    //     let stratIndex=0;
+    //     let allStrat=[0, 0, 0, 0, 0, 0];
+    //     let result = "";
+    //     data.forEach(e=>{
+    //         if(e.team!=team) return;
+    //         e.postgame.strategy.forEach((a:any)=>{
+    //             switch(a){
+    //                 case "cycle": allStrat[0]++; break;
+    //                 case "place": allStrat[1]++; break;
+    //                 case "transport": allStrat[2]++; break;
+    //                 case "defense": allStrat[3]++; break;
+    //                 case "moral": allStrat[4]++; break;
+    //                 case "breakdown": allStrat[5]++; break;
+    //             }
+    //         });
+    //     });
+    //     stratIndex=allStrat.indexOf(Math.max(...allStrat));
+    //     if(stratIndex==0)result="full cycle";
+    //     if(stratIndex==1)result="place";
+    //     if(stratIndex==2)result="transport";
+    //     if(stratIndex==3)result="defense";
+    //     if(stratIndex==4)result="moral support";
+    //     if(stratIndex==5)result="breakdown";
+    //     return result;
+    // },
 }
 export function teamScore(e:any){
     let count = 0;
@@ -317,7 +272,6 @@ export function teamScore(e:any){
             }
             if(a.time - e.game.start <= 18000) count++;
         }
-
         if(a.action === 'intake' && typeof a.location != "string"){
             switch(a.location.y){
                 case 0: count-= 5; break;
@@ -342,7 +296,6 @@ export function teamScore(e:any){
 
     return(count);
 }
-
 function autoScore(e:any){
     let count = 0;
     e.game.actions.forEach((a:any)=>{
@@ -381,11 +334,30 @@ export function gridLayout(e:any){
     e.game.actions.forEach((a:any)=>{
         if(a.action === "place"){
             console.log(a.type);
+            if(a.node.y < 3 && a.node.x < 9)
             out[a.node.y][a.node.x] = a.type;
         }
-    });
+    })
 
     return out;
+}
+function links(e:any){
+    let grid = gridLayout(e);
+    let links = 0;
+    grid.forEach(row=>{
+        let consecutive = 0;
+        row.forEach(node=>{
+            if(node){
+                consecutive++;
+                if(consecutive == 3){
+                    links++;
+                    consecutive = 0;
+                }
+            }
+        })
+    })
+
+    return links;
 }
 
 function findMode(array:any[]){
@@ -409,20 +381,4 @@ function findMode(array:any[]){
 
     });
     return biggestValuesKey;
-}
-
-function stdDev(arr:any){
-    let mean = arr.reduce((acc:any, curr:any)=>{
-        return acc + curr;
-    }, 0) / arr.length;
-
-    arr = arr.map((k:any)=>{
-        return(k-mean)**2;
-    });
-    
-    let sum = arr.reduce((acc:any, curr:any)=> acc + curr, 0);
-
-    let variance = sum / arr.length
-
-    return Math.sqrt(sum/arr.length);
 }

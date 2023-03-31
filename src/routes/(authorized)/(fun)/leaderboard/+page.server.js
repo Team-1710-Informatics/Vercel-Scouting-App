@@ -10,7 +10,7 @@ export async function load({ locals }){
             uname: item.username,
             stats:{
                 credits: item.credits,
-                matches_scouted: item.stats?.matches_scouted??0
+                bismuth: item.stats?.bismuth??0
             }
         });
     })

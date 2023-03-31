@@ -1,6 +1,6 @@
 import tba from "$lib/modules/tba";
 
-export async function load({locals}){
+export async function load({params}){
     const events = await tba(`events/2023`);
 
     events.push({
@@ -8,5 +8,5 @@ export async function load({locals}){
         key: "2023practice"
     })
 
-    return { events, competition:locals.competition?.key };
+    return { events, competition:params.event };
 }

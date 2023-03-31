@@ -3,7 +3,7 @@ import { User } from '$lib/server/models';
 
 export async function load({ params }) {
     // Verify that account exists and is unverified
-    const user = User.findOne({ username:params.user });
+    const user = await User.findOne({ username:params.user });
 
     if(!user?.flags?.verification_key) { throw redirect(308, "/login"); }
 
@@ -28,11 +28,10 @@ export const actions = {
     verify: async ({ request, params })=>{
         const input = await request.formData();
         const key = input.get("key");
-        const user = User.findOne({ username:params.user });
+        const user = await User.findOne({ username:params.user });
         
         if(key == user?.flags?.verification_key){
-            user.flags.verification_key = "";
-            await user.save();
+            await user.update({$unset:{"flags.verification_key":1}})
             throw redirect(307, '/login/n');
         }else{
             return fail(401, {

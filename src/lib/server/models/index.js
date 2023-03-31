@@ -157,10 +157,15 @@ const pitscout2023 = new Schema({
     mainStrategy: String,
     autoStrategy: String,
     averageScore: String,
+    topSpeed: String,
+    defenseCapability: String,
+    defenseExperience: String,
     chargeStationMain: String,
     chargeStationAuto: String,
     drivetrain: String,
     piecePreferance: String,
+    framePerimeter: String,
+    weight: String,
     thoughts: String,
     otherScouts: String
 });
@@ -190,7 +195,8 @@ export const StoreItem = mongoose.model("product", storeItems);
 
 const portfolio = new Schema({
     user:String,
-    portfolio:{}
+    portfolio:{},
+    times:{}
 })
 
 export const Portfolio = mongoose.model("portfolio",portfolio);
