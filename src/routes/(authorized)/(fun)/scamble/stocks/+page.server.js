@@ -3,10 +3,13 @@ import credi from "$lib/server/user/credi";
 
 
 export async function load({locals}){
-    const portfolio = JSON.parse(JSON.stringify((await Portfolio.findOne({user:locals.user.username}))??{}))
+    let portfolio = await Portfolio.findOne({user:locals.user.username});
+
+    if(!portfolio) portfolio = {};
+
     return{
         user:locals.user.username,
-        portfolio:portfolio
+        portfolio:(JSON.parse(JSON.stringify(portfolio)))
     }
 }
 
