@@ -158,8 +158,8 @@ const pitscout2023 = new Schema({
     autoStrategy: String,
     averageScore: String,
     topSpeed: String,
-    defenseCabability: String,
-    defenseExperiance: String,
+    defenseCapability: String,
+    defenseExperience: String,
     chargeStationMain: String,
     chargeStationAuto: String,
     drivetrain: String,
@@ -185,7 +185,8 @@ export const ScambleTicket = mongoose.model("ticket",ticket);
 
 const portfolio = new Schema({
     user:String,
-    portfolio:{}
+    portfolio:{},
+    times:{}
 })
 
 export const Portfolio = mongoose.model("portfolio",portfolio);

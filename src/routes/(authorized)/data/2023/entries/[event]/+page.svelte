@@ -33,6 +33,9 @@
             events={data.events} 
             bind:match={match} 
         />
+        <label>Team:
+            <input class="w-20" bind:value={team}>
+        </label>
     </div>
     <hr class="w-3/4 sm:w-1/2 my-3">
     {#if match}

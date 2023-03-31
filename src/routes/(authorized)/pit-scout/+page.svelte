@@ -25,21 +25,9 @@
         "placeLow":[undefined, "Placement Low"],
     }
 
-    let mainStrategy="";
-
-    let autoStrategy="";
-
-    let averageScore="";
-
-    let topSpeed="";
-
-    let defenseCapability="";
-
-    let defenseExperience="";
-
     let chargeStation:any = {
-        "chargeStationMain":[undefined, "Charge Station TeleOp"],
-        "chargeStationAuto":[undefined, "Charge Station Auto"],
+        "chargeStationMain":[undefined, "Endgame"],
+        "chargeStationAuto":[undefined, "Auto"],
     }
 
     let otherThoughts="";
@@ -47,15 +35,15 @@
 </script>
 
 <center class="pt-10">
-    <div class="box w-fit">
-        <h1 class="header">Pit Scouting</h1>
+    <div class="box w-fit max-w-sm">
+        <h1 class="heading">Pit Scouting</h1>
         <form method="POST">
             <label>Competition:<CompetitionSelector bind:event={competition} events={data.events}/></label><br>
             <input type="text" bind:value={competition} name="event" hidden />
 
             <label>Team Number:<input class="label" type="text" name="team" bind:value={teamNumber} required></label><br>
 
-            <h1 class="header">Intake Capabilities</h1>
+            <h1 class="heading">Intake Capabilities</h1>
             <div class="grid grid-cols-5">
                 <div class="col-span-2" />
                 <p class="text-xs">Optimally</p>
@@ -68,7 +56,7 @@
                     <input type="radio" name={c} bind:group={capabilities[c][0]} value="incapable">
                 {/each}
             </div>
-            <h1 class="header">Placement</h1>
+            <h1 class="heading">Placement</h1>
             <div class="grid grid-cols-5">
                 {#each Object.keys(placement) as p}
                     <p class="col-span-2 text-xs">{placement[p][1]}:</p>
@@ -77,14 +65,14 @@
                     <input type="radio" name={p} bind:group={placement[p][0]} value="incapable">
                 {/each}
             </div>
-            <h1 class="header">Strategy</h1>
-            <label>Main Strategy:<input class="lable" type="text" name="mainStrategy" bind:value={mainStrategy}></label><br>
-            <label>Auto Strategy:<input class="label" type="text" name="autoStrategy" bind:value={autoStrategy}></label><br>
-            <label>Average Score:<input class="label" name="averageScore" bind:value={averageScore}></label><br>
-            <label>Top Speed:<input class="label" type="text" name="topSpeed" bind:value={topSpeed}></label><br>
-            <label>Defense Capability:<input class="label" type="text" name="defenseCapability" bind:value={defenseCapability}></label><br>
-            <label>Defense Experience:<input class="label" type="text" name="defenseExperience" bind:value={defenseExperience}></label>
-            <h1 class="header">Charge Station Capability</h1>
+            <h1 class="heading">Strategy</h1>
+            <label>Main Strategy:<input class="label" type="text" name="mainStrategy"></label><br>
+            <label>Auto Strategy:<input class="label" type="text" name="autoStrategy"></label><br>
+            <label>Average Score:<input class="label" name="averageScore"></label><br>
+            <h1 class="heading">Defense</h1>
+            <label>Ability:<input class="label" type="text" name="defenseCapability"></label><br>
+            <label>Experience:<input class="label" type="text" name="defenseExperience"></label>
+            <h1 class="heading">Charge Station Capability</h1>
             <div class="grid grid-cols-5">
                 <div class="col-span-2" />
                 <p class="text-xs">Engage</p>
@@ -92,14 +80,13 @@
                 <p class="text-xs">No</p>
                 {#each [...Object.keys(chargeStation)] as s}
                     <p class="col-span-2 text-xs">{chargeStation[s][1]}:</p>
-                    <input type="radio" name={s} bind:group= {chargeStation[s][0]} value="Engage">
-                    <input type="radio" name={s} bind:group= {chargeStation[s][0]} value="Dock">
-                    <input type="radio" name={s} bind:group= {chargeStation[s][0]} value="No">
+                    <input type="radio" name={s} bind:group={chargeStation[s][0]} value="Engage">
+                    <input type="radio" name={s} bind:group={chargeStation[s][0]} value="Dock">
+                    <input type="radio" name={s} bind:group={chargeStation[s][0]} value="No">
                 {/each}
             </div>
             <br>
-            <label class="pt-4">Drivetrain Type:<input class="label" type="text" name="drivetrain"></label><br>
-            <h1 class="header">Game Piece Preference</h1>
+            <h1 class="heading">Game Piece Preference</h1>
             <div class="grid grid-cols-3">
                 <p class="text-xs">Cone</p>
                 <p class="text-xs">Cube</p>
@@ -108,13 +95,22 @@
                 <input type="radio" name="piecePreferance" value="Cube">
                 <input type="radio" name="piecePreferance" value="Either">
             </div>
-            <h1 class="header">Robot Specifics</h1>
+            <h1 class="heading">Robot Specifics</h1>
+            <label class="pt-4">Drivetrain Type:<input class="label" type="text" name="drivetrain"></label><br>
             <label class="pt-4">Frame Perimeter:<input class="label" type="text" name="framePerimeter"></label><br>
-            <label class="pt-4">Robot Weight:<input class="label" type="text" name="weight"></label>
-            <h1 class="header">Other Thoughts</h1><input class="label" type="text" name="thoughts" bind:value={otherThoughts}><br>
-            <h1 class="header">Other Scouts</h1><input class="label" type="text" name="otherScouts"><br>
+            <label class="pt-4">Robot Weight:<input class="label" type="text" name="weight"></label><br>
+            <label>Top Speed:<input class="label" type="text" name="topSpeed"></label><br>
+            <h1 class="heading">Finishing</h1>
+            <label>Other Thoughts:<input class="label" type="text" name="thoughts" bind:value={otherThoughts}></label><br>
+            <!-- <label>Other Scouts:<input class="label" type="text" name="otherScouts"></label><br> -->
+            <label>Scouting partner: <select name="otherScouts">
+                <option value="none">None</option>
+                {#each data.members as member}
+                    <option value={member.username}>{member.name.first} {member.name.last}</option>
+                {/each}
+            </select></label>
             <!--make text box bigger-->
-            <h1>Ask for permission to take a picture of robot, if yes post it in the pit-scouting slack with the team number. Remember to say thank you regardless!</h1>
+            <h1 class="rounded-lg bg-slate-600 p-1 m-1 my-2 text-sm">Ask for permission to take a picture of robot, if yes post it in the pit-scouting slack with the team number. Take the picture from an angle that shows off the robot's features well. Remember to say thank you regardless!</h1>
 
             <button class="submit">Submit</button>
         </form>
@@ -123,11 +119,18 @@
 
 <style>
     .label{
-        margin-bottom: 1vh;
+        margin-bottom: 2px;
     }
 
-    .header{
+    label{
+        font-size:14px;
+    }
+
+    .heading{
         margin-bottom: 1vh;
         font-size: 17px;
+        background-image: linear-gradient(to top, rgba(255,255,255,0.5), rgba(255,255,255,0), rgba(255,255,255,0));
+        border-bottom-left-radius:8px;
+        border-bottom-right-radius:8px;
     }
 </style>
