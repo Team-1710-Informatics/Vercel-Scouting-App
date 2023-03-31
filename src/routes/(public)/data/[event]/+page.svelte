@@ -117,7 +117,8 @@
         </table>
     </div>
     <br>
-    <button on:click={tableToCSV} class="font-bold bg-gradient-to-t from-teal-800  to-teal-400 border-black">Export sheet</button>
+    <div class="opacity-50">*Score calculations do not include links</div>
+    <button on:click={tableToCSV} class="font-bold bg-gradient-to-t from-teal-800  to-teal-400 border-black py-2">Export sheet</button>
 </center>
 
 <table bind:this={output} hidden>

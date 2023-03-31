@@ -300,7 +300,7 @@ export function teamScore(e:any){
         }
     });
 
-    count += links(e) * 5;
+    // count += links(e) * 5;
 
     if(e.game.untimed.mobile) count += 3;
     if(e.game.untimed.dockedAuto){
