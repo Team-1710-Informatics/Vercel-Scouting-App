@@ -1,4 +1,5 @@
 import { X_TBA_AUTHKEY } from "$env/static/private";
+import tba from "$lib/modules/tba";
 import { pitdata2023 } from "$lib/server/models";
 
 export async function load({ locals, fetch }){

@@ -362,7 +362,7 @@ export function gridLayout(e:any){
             console.log(a.type);
             out[a.node.y][a.node.x-1] = a.type;
         }
-    })
+    });
 
     return out;
 }

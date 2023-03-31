@@ -3,7 +3,7 @@
 
     export let data;
 
-    let teamNumber="";
+    let teamNumber=data.team;
     let competition=data.competition?.key??null;
 
     let optimally="";
@@ -52,8 +52,7 @@
         <form method="POST">
             <label>Competition:<CompetitionSelector bind:event={competition} events={data.events}/></label><br>
             <input type="text" bind:value={competition} name="event" hidden />
-
-            <label>Team Number:<input class="label" type="text" name="team" bind:value={teamNumber} required></label><br>
+            <!-- <label>Team Number:<input class="label" type="text" name="team" bind:value={teamNumber} required></label><br> -->
 
             <h1 class="header">Intake Capabilities</h1>
             <div class="grid grid-cols-5">

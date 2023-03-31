@@ -3,7 +3,7 @@ import { pitdata2023 } from "$lib/server/models";
 import credits from "$lib/server/user/credi";
 import { redirect } from "@sveltejs/kit";
 
-export async function load({ locals, fetch }){
+export async function load({ locals, fetch, params }){
     const res = await fetch(`https://thebluealliance.com/api/v3/events/2023`,{
         headers:{
             "X-TBA-Auth-Key":X_TBA_AUTHKEY
@@ -15,7 +15,8 @@ export async function load({ locals, fetch }){
     return{
         events,
         competition:locals.competition,
-        scout:locals.user.username
+        scout:locals.user.username,
+        team:params?.team
     }
 }
 
