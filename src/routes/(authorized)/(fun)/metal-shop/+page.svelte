@@ -3,6 +3,8 @@
     import { PUBLIC_HOST } from "$env/static/public";
     import Credits from "$lib/components/visual/Credits.svelte";
     import { tweened } from "svelte/motion";
+    import meme from "$lib/assets/credits/Screenshot_20230330_162537_Firefox.jpg";
+    import { slide } from 'svelte/transition';
 
     let credits = tweened(0);
 
@@ -39,4 +41,7 @@
         <button class="font-bold bg-gradient-to-t from-slate-800 to-emerald-800 p-3" disabled={$credits < 1000 || loading}>Purchase 1 Bismuth<br>for 1000 credits</button>
     </form>
     <p class="mb-5 text-2xl text-teal-400 font-bold"><span class="mb-5 text-3xl">{data.bismuth}</span> bismuth</p>
+    {#if (data.bismuth == 0 && $credits >= 1000) || data.user === "Gaven"}
+        <img class='rounded-lg' src={meme} transition:slide width=300px />
+    {/if}
 </middle>

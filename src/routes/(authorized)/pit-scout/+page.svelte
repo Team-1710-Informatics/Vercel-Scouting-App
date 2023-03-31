@@ -110,7 +110,7 @@
                 {/each}
             </select></label>
             <!--make text box bigger-->
-            <h1 class="rounded-lg bg-slate-600 p-1 m-1 my-2 text-sm">Ask for permission to take a picture of robot, if yes post it in the pit-scouting slack with the team number. Remember to say thank you regardless!</h1>
+            <h1 class="rounded-lg bg-slate-600 p-1 m-1 my-2 text-sm">Ask for permission to take a picture of robot, if yes post it in the pit-scouting slack with the team number. Take the picture from an angle that shows off the robot's features well. Remember to say thank you regardless!</h1>
 
             <button class="submit">Submit</button>
         </form>
