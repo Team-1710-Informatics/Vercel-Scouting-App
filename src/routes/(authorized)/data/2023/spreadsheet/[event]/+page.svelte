@@ -16,6 +16,7 @@
     let columns = ["Team_number", "Average_score"];
     let sortFunction = "Average_score";
     let ascending = false;
+    let positive = true;
 
     let output;
 
@@ -69,6 +70,14 @@
         Filter teams: 
         <input type="text" bind:value={show}>
     </label></div>
+    <label>
+        <input type="radio" name="sort" bind:group={positive} value={true}>
+        Include
+    </label>
+    <label>
+        <input type="radio" name="sort" bind:group={positive} value={false}>
+        Exclude
+    </label>    
     <br>
     <div class="flex flex-row w-fit gap-1">
         <p>Sort:</p>
@@ -105,7 +114,7 @@
 
             {#each teams as team, i (team)}
                 <tr class="divide-x" animate:flip>
-                    {#if showteams?.[0]=="" || showteams.includes(""+team)}
+                    {#if showteams?.[0]=="" || (showteams.includes(""+team) && positive) || (!showteams.includes(""+team) && !positive)}
                         <td>{i+1}.</td>
                         {#each columns as col}
                             <td class:font-bold={col=="Team_number"}>{(typeof stats[col](team,data.entries)==="number" && stats[col](team,data.entries) != Math.trunc(stats[col](team,data.entries)))?parseFloat(stats[col](team,data.entries)).toFixed(2):stats[col](team,data.entries)}</td>
