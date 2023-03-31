@@ -161,7 +161,7 @@ async function email(email, key, fname){
         });
     });
 
-    return state;
+    return await state;
 }
 
 function randstr(length) {
