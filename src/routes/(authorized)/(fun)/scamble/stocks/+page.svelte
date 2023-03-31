@@ -40,6 +40,7 @@
     }
 
     function num(){
+        if(!data.portfolio?.portfolio) return 0;
         let sum=0;
         Object.keys(data.portfolio.portfolio).forEach(p=>{
             sum+=data.portfolio.portfolio[p];
