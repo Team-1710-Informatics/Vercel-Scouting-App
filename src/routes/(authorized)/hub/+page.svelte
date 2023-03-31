@@ -1,6 +1,5 @@
 <script lang=ts>
-    import PublicImageSlot from "$lib/components/function/PublicImageSlot.svelte";
-import CompetitionTracker from "./CompetitionTracker.svelte";
+    import CompetitionTracker from "./CompetitionTracker.svelte";
 
     export let data:any;
 
@@ -13,13 +12,13 @@ import CompetitionTracker from "./CompetitionTracker.svelte";
 
     if(data.team === 1710){
         
-        links.unshift(["Metalshop", '/metal-shop', 3, 
-            'font-bold bg-gradient-to-t from-slate-800 to-emerald-700 border-black'
-        ],["Scamble", '/scamble/bets', 3, 
+        links.unshift(["Scamble", '/scamble/bets', 3, 
             'text-white border-slate-800 bg-gradient-to-t from-slate-800 to-teal-300'
-        ]/*,["Stocks", '/scamble/stocks', 3, 
+        ],["Stocks", '/scamble/stocks', 3, 
             'text-black font-serif border-black bg-gradient-to-b from-white to-gray-400'
-        ]*/)
+        ],["Metalshop", '/metal-shop', 6, 
+            'font-bold bg-gradient-to-t from-slate-800 to-emerald-700 border-black'
+        ])
     }
 
     if(data.permissions.includes("admin")){

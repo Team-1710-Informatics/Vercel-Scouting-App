@@ -185,7 +185,8 @@ export const ScambleTicket = mongoose.model("ticket",ticket);
 
 const portfolio = new Schema({
     user:String,
-    portfolio:{}
+    portfolio:{},
+    times:{}
 })
 
 export const Portfolio = mongoose.model("portfolio",portfolio);

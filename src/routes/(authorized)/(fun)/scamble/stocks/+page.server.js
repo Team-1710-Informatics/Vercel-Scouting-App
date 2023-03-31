@@ -1,4 +1,4 @@
-/* import { Portfolio } from "$lib/server/models";
+import { Portfolio } from "$lib/server/models";
 import credi from "$lib/server/user/credi";
 
 
@@ -26,8 +26,11 @@ export const actions = {
             await port.save();
         }
 
+        if(!port?.times) port.times = {};
+
         port.portfolio[team] = +(port.portfolio?.[team]??0)+(+stocks);
-        await Portfolio.updateOne({user:locals.user.username}, {$set:{portfolio:port.portfolio}});
+        port.times[team] = Date.now();
+        await Portfolio.updateOne({user:locals.user.username}, {$set:{portfolio:port.portfolio, times:port.times}});
 
         await credi.transaction(locals.user.username, -value*stocks, `Purchased ${stocks} stocks in ${team}`);
 
@@ -55,4 +58,4 @@ export const actions = {
             portfolio:JSON.parse(JSON.stringify(port))
         }
     }
-} */
+}
