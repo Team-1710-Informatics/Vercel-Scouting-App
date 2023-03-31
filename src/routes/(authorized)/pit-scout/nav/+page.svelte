@@ -13,7 +13,7 @@
     function scouted(team){
         let scouted = false;
         data.scouted.forEach(e=>{
-            if(e.team == team){
+            if(e.team == team && e.event == event){
                 scouted = true;
             }
         })

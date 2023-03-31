@@ -240,16 +240,11 @@ export default {
     },
     Standard_Score_Deviation(team:number, data:any[]){
         let scores:any[]=[];
-        let score=0;
-        let count=0;
         data.forEach(e=>{
             if(e.team != team) return;
-            score += teamScore(e);
-            count++;
-            scores.push(score/count);
+            let score = teamScore(e);
+            scores.push(score);
         });
-        
-        
 
         return stdDev(scores);
     },
