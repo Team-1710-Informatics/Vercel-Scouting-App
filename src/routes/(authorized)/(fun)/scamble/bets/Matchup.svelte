@@ -1,17 +1,11 @@
 <script>
     import ExpandableText from "$lib/components/visual/ExpandableText.svelte";
-    import { PUBLIC_X_TBA_AUTHKEY } from "$env/static/public";
+    import tba from "$lib/modules/tba";
 
     export let match;
 
     async function teamName(key){
-        const results = await fetch(`https://www.thebluealliance.com/api/v3/team/${key}`,{
-            headers:{
-                "X-TBA-Auth-Key":PUBLIC_X_TBA_AUTHKEY
-            }
-        });
-
-        return (await results.json()).nickname;
+        return (await tba(`team/${key}`)).nickname;
     }
 </script>
 
