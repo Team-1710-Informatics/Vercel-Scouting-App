@@ -1,30 +1,14 @@
 import mongoose from 'mongoose';
+import UserModel from './user';
+import { StoreModel, ReceiptModel } from './credit-store';
+
 const { Schema } = mongoose;
 
-mongoose.set('strictQuery', false);
+mongoose.set('strictQuery', true);
 
-const user = new Schema({
-    username: String,
-    email: String,
-    name: {
-        first: String,
-        last: String
-    },
-    password: {
-        hash: String,
-        salt: String
-    },
-    credits: Number,
-    team: Number,
-    stats: {},
-    preferences: {},
-    permissions: [],
-    flags: {},
-    token: String,
-    status: String,
-});
-
-export const User = mongoose.model("User", user);
+export const User = UserModel;
+export const StoreItem = StoreModel;
+export const Receipt = ReceiptModel;
 
 const team = new Schema({
     number: Number,
@@ -182,16 +166,6 @@ const ticket = new Schema({
 })
 
 export const ScambleTicket = mongoose.model("ticket",ticket);
-
-const storeItems = new Schema({
-    name:String,
-    price:Number,
-    stock:Number,
-    category:String,
-    other:{}
-});
-
-export const StoreItem = mongoose.model("product", storeItems);
 
 const portfolio = new Schema({
     user:String,

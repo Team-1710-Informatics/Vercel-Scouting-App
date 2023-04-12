@@ -3,14 +3,15 @@ import { MONGODB_MAIN } from '$env/static/private';
 import mongoose from 'mongoose';
 import { User } from '$lib/server/models';
 
-import { redirect } from "@sveltejs/kit";
+import { redirect, type Handle } from "@sveltejs/kit";
 
+//@ts-ignore
 import { DateTime } from 'luxon';
 import tba from '$lib/modules/tba';
 
 await mongoose.connect(MONGODB_MAIN);
 
-export async function handle({ event, resolve }) {
+export const handle = (async function({ event, resolve }) {
     const token = event.cookies.get("session");
 
     if(!token || event.url.pathname == "/logout") return await resolve(event);
@@ -42,12 +43,12 @@ export async function handle({ event, resolve }) {
     let response = await resolve(event);
     response.headers.append('Access-Control-Allow-Origin', `https://team1710.com`);
     return response;
-}
+}) satisfies Handle;
 
-function nextComp(res) {
-    let next = null;
+function nextComp(res:any) {
+    let next:any = null;
     let now = Date.now();
-    res.forEach(e=>{
+    res.forEach((e:any)=>{
         if(timestamp(e.start_date, e.timezone)>now){
             if(next == null) next = e;
             else if(timestamp(next.start_date, e.timezone)>timestamp(e.start_date, e.timezone)) next = e;
@@ -57,10 +58,10 @@ function nextComp(res) {
     return next;
 }
 
-function currComp(res){
-    let curr = null;
+function currComp(res:any){
+    let curr:any = null;
     let now = Date.now();
-    res.forEach(e=>{
+    res.forEach((e:any)=>{
         if(timestamp(e.start_date, e.timezone) <= now && timestamp(e.end_date, e.timezone)+86400000 > now)
             curr = e;
     });
@@ -68,7 +69,7 @@ function currComp(res){
     return curr;
 }
 
-function timestamp(d, tz){
+function timestamp(d:any, tz:any){
     let array = d.split("-");
     let n = DateTime.local(+array[0], +array[1], +array[2], { zone: tz });
     return n.toMillis();
