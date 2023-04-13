@@ -1,56 +1,104 @@
-<script>
-    import arrow from "$lib/assets/icons/caret.svg";
-    import { fly, fade } from 'svelte/transition';
-
-    let opened = false;
+<script lang=ts>
+    import { PUBLIC_HOST } from "$env/static/public";
+    import Credits from "$lib/components/visual/Credits.svelte";
+    import { tweened } from "svelte/motion";
+    import Item from "./Item.svelte";
+    import Purchased from "./Purchased.svelte";
+    import { slide } from "svelte/transition";
 
     export let data;
+    export let form;
+
+    function purchased(item:string){
+        for(let i=0;i<data.receipts.length;i++) {
+            if(data.receipts[i].item === item)
+                return true;
+        }
+        return false;
+    }
+
+    function getItem(receipt:Receipt){
+        for(let i=0;i<data.items.length;i++) {
+            if(data.items[i].name === receipt.item)
+                return data.items[i];
+        }
+        return false;
+    }
+
+    const categories:string[] = [];
+    let category:string = "All";
+
+    data.items.forEach((i:Merchandise)=>{
+        if(!categories.includes(i.category)){
+            categories.push(i.category);
+        }
+    })
+
+    let credits = tweened(0);
+
+    async function loadCredits(){
+        const o = await fetch(`${PUBLIC_HOST}/internal/credits/${data.user.username}`);
+        
+        credits.set(await o.json());
+    }
+
+    $: if(form){
+        data.items = form.items;
+        data.receipts = form.receipts;
+    };
+
+    $: { form; loadCredits(); }
+
+    let loading = false;
+
+    let tab = "purchase";
 </script>
 
-<div class="flex flex-row">
-    {#if opened}
-        <div transition:fade on:click={()=>{opened=false}} on:keydown={e=>{opened=false}} class="bg-white opacity-50 m-0 fixed top-0 z-50" style="width:100vw; height:100vh;"/>
-        <div transition:fly={{x:-300}} class="sideBar fixed left-0 h-full w-1/4 z-50">
-            <a href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwjL1MXntO39AhXNBzQIHS3fAW4QwqsBegQICxAB&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DdQw4w9WgXcQ&usg=AOvVaw0aHtehaphMhOCAkCydRLZU">click me</a>
-        </div>
-    {:else}
-        <button class="options" style="height:calc(100vh - 68px);" on:click={()=>{opened=!opened}} >
-            <img class="arrow" src={arrow} alt=">" style={opened?"transform:rotate(90deg)":"transform:rotate(270deg)"}>
-            <img class="arrow" src={arrow} alt=">" style={opened?"transform:rotate(90deg)":"transform:rotate(270deg)"}>
-            <img class="arrow" src={arrow} alt=">" style={opened?"transform:rotate(90deg)":"transform:rotate(270deg)"}>
-        </button>
-    {/if}
-</div>
-    <div>
-        {#each data.items as item}
-            {item.name}
-        {/each}
-    </div>
-        <!-- <button class="col-span-1 options" style="background-color:black; height:calc(100vh - 68px);" on:click={()=>{opened=true}}>
-            <img class="arrow" src={arrow} alt=">" style="transform:rotate(270deg)">
-            <img class="arrow" src={arrow} alt=">" style="transform:rotate(270deg)">
-            <img class="arrow" src={arrow} alt=">" style="transform:rotate(270deg)">
-        </button> -->
-        <!-- <div class="col-span-23">
-            text text
-        </div> -->
+<middle class="py-10">
+    <h1 class="text-5xl font-bold">CREDITSTORE</h1>
+    <div class="box">
+        <p class="text-right"><Credits class="text-3xl">{Math.round($credits)}</Credits> credits</p>
 
-<style>
-    .sideBar{
-        background-color: blue;
-    }
-    .options{
-        border-top: none;
-        border-bottom: none;
-        border-left: none;
-        border-right-width: 4px;
-        border-radius: 0;
-        border-color: black;
-    }
-    .arrow{
-        height:4vh;
-        margin-top: calc((100vh - 68px) / 6);
-        margin-bottom: calc((100vh - 68px) / 6);
-    }
-    
-</style>
+        <label>Category: <select bind:value={category}>
+            <option value="All">All</option>
+            {#each categories as c}
+                <option value={c}>{c}</option>
+            {/each}
+            <option value="None">None</option>
+        </select></label>
+    </div>
+    <div class="mt-3 text-center">
+        <div class="grid grid-cols-2">
+            {#each ["purchase", "your items"] as t}
+                <button
+                    class="border-white border-b-0 border-x-0 rounded-b-none bg-gradient-to-b from-black/50 to-transparent font-bold uppercase"
+                    class:opacity-50={tab!=t}
+                    on:click={()=>{tab=t}}
+                >{t}</button>
+            {/each}
+        </div>
+        <br>
+        {#if tab=="purchase"}
+            <div class="w-80">
+                <p transition:slide class="font-bold">Click item to purchase</p>
+                {#each data.items as item}
+                    {#if (category === "All" || category == item.category) && item.stock !== 0 && !purchased(item.name)}
+                        <div transition:slide class="h-2"/>
+                        <Item {item} user={data.user} credits={$credits} bind:loading={loading}/>
+                    {/if}
+                {/each}
+            </div>
+        {:else if tab=="your items"}
+            <div class="w-80">
+                <p transition:slide class="font-bold">To recieve an item, show<br>this to an informatics member</p>
+                {#each data.receipts as receipt}
+                    {#if getItem(receipt)!==false && (category === "All" || category == getItem(receipt)?.category)}
+                        <div transition:slide class="h-2"/>
+                        <Purchased item={getItem(receipt)}/>
+                    {/if}
+                {/each}
+            </div>
+        {/if}
+    </div>
+</middle>
+

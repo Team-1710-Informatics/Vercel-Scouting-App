@@ -1,22 +1,14 @@
 <script>
     import { enhance } from "$app/forms";
     import { slide } from "svelte/transition";
-    import { PUBLIC_X_TBA_AUTHKEY } from "$env/static/public";
     import Credits from "$lib/components/visual/Credits.svelte";
+    import tba from "$lib/modules/tba";
 
 
     export let ticket;
 
     async function results(key){
-        const results = await fetch(`https://www.thebluealliance.com/api/v3/match/${key}/simple`,{
-            headers:{
-                "X-TBA-Auth-Key":PUBLIC_X_TBA_AUTHKEY
-            }
-        });
-
-        let o = await results.json();
-
-        if(key==="2023mose_sf3m1") o.winning_alliance = "red";
+        let o = await tba(`match/${key}/simple`);
 
         return (o);
     }
