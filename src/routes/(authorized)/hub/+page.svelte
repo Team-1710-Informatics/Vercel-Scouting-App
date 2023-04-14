@@ -8,6 +8,7 @@
         ["Data", '/data/2023', 2, 'border-rose-600 bg-gradient-to-bl from-rose-600 to-red-300'],
         ["Pit Scouting", '/pit-scout/nav', 6, 'border-orange-600 bg-gradient-to-b from-orange-500 to-yellow-300'],
         ["Scout Match", '/scout/2023', 6, 'submit'],
+        ["Scouting API", '/apidocs', 6, '']
     ]
 
     if(data.team === 1710){

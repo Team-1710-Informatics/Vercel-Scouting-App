@@ -36,7 +36,8 @@ const scoutEntry2023 = new Schema({
             engageAuto: Boolean,
             dockedMatch: Boolean,
             engageMatch: Boolean,
-            parked: Boolean
+            parked: Boolean,
+            supercharged: Boolean
         }
     },
     postgame:{

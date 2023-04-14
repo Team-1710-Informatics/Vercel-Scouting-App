@@ -13,6 +13,7 @@
         {q:"Robot fully on CHARGING STATION at end of MATCH?", name:"dockedMatch", answer:null, time:0},
         {q:"CHARGING STATION balanced at end of MATCH?", name:"engageMatch", answer:null, time:0, dependent:"dockedMatch"},
         {q:"Robot parked in starting area at end of MATCH?", name:"parked", answer:null, time:0, exclusive:"dockedMatch"},
+        {q:"The grid is filled out ENTIRELY?", name:"supercharged", answer:null, time:0}
     ]
 
     $: {

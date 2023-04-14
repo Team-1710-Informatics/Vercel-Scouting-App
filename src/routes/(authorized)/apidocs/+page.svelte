@@ -42,7 +42,7 @@
         Each parameter is shown/explained in curly brackets.
     </p>
     <br>
-    <Teach arrow={arrow}/>
+    <Teach {arrow} newBox=newBox/>
     <h1 style="font-size:larger;">Server:</h1>
     <strong style="color:beige;">www.team1710scouting.vercel.app/api</strong>
 
@@ -156,19 +156,6 @@
         padding:2vh;
         color:yellow;
     }
-    /* .newBox{
-        background-color: rgb(31 41 55);
-        background-image: linear-gradient(to bottom, rgb(31 41 55), rgb(12, 25, 45));
-        border-color: rgb(255 255 255);
-        color: white;
-        border-radius: 0.5rem;
-        border-width: 1px;
-        padding: 0.75rem;
-        margin:0.5rem;
-        width: 55vw;
-
-        box-shadow: 0px 0px 3px 1px white;
-    } */
     .box-extension{
         border-width:4px;
         box-shadow: 10px 7px 5px  rgb(39, 43, 48);

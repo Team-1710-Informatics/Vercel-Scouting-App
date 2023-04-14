@@ -376,8 +376,12 @@ export function gridLayout(e:any){
     e.game.actions.forEach((a:any)=>{
         if(a.action === "place"){
             console.log(a.type);
-            out[a.node.y][a.node.x] = a.type;
+            if(!out[a.node.y][a.node.x]) out[a.node.y][a.node.x] = {
+                type:a.type,
+                supercharged:"none"
+            };
         }
+        if(a.action === "intake" && )
     });
 
     return out;

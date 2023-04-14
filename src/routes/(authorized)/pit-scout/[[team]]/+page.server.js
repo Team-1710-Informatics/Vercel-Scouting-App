@@ -48,10 +48,10 @@ export const actions = {
         const db = new pitdata2023(output);
         await db.save();
 
-        await credits.transaction(output.scout, 200, `Pit scouted ${output.team}`);
+        await credits.transaction(output.scout, 450, `Pit scouted ${output.team}`);
 
         if(output.otherScouts != "none")
-            await credits.transaction(output.otherScouts, 200, `Co-pit scouted ${output.team}`);
+            await credits.transaction(output.otherScouts, 450, `Co-pit scouted ${output.team}`);
 
 
         throw redirect(307, "/pit-scout/nav");
