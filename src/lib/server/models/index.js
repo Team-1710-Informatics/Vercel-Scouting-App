@@ -164,7 +164,7 @@ const ticket = new Schema({
     alliance:String,
     timestamp:Number,
     resolved:Boolean
-})
+});
 
 export const ScambleTicket = mongoose.model("ticket",ticket);
 
@@ -172,6 +172,6 @@ const portfolio = new Schema({
     user:String,
     portfolio:{},
     times:{}
-})
+});
 
 export const Portfolio = mongoose.model("portfolio",portfolio);
