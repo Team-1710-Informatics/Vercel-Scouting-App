@@ -12,7 +12,6 @@
     ]
 
     if(data.team === 1710){
-        
         links.unshift(["Scamble", '/scamble/bets', 3, 
             'text-white border-slate-800 bg-gradient-to-t from-slate-800 to-teal-300'
         ],["Store", '/store', 3, 
