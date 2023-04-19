@@ -1,6 +1,7 @@
 <script>
     import CompetitionSelector from '$lib/components/search/CompetitionSelector.svelte';
     import tba from '$lib/modules/tba';
+    import rules from "./Rules.ts";
 
     export let data;
 
@@ -24,6 +25,13 @@
 </script>
 
 <center class="py-10">
+    <h6>Pit Scouting</h6>
+    <div class="box p-1 mb-4 mx-1">
+        <h6>Rules</h6>
+        <pre class="text-left">
+            {rules.index}
+        </pre>
+    </div>
     <div class="box">
         <h6>Competition</h6>
         <CompetitionSelector bind:event={event} events={data.events}/>
@@ -38,7 +46,7 @@
         {/each}
     </div>
     <br>
-    <p>Not Scouted</p>
+    <p>Not Scouted:</p>
     <div class="grid grid-cols-3 gap-2 w-fit">
         {#each teams as team}
             {#if !scouted(team.team_number)}
