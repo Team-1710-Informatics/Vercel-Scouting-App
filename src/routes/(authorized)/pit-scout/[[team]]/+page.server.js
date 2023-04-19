@@ -45,7 +45,7 @@ export const actions = {
 
         output.scout = locals.user.username;
 
-        if(pitdata2023.findOne({team:output["team"], event:output["event"]})){
+        if(await pitdata2023.findOne({team:output["team"], event:output["event"]})){
             throw redirect(307, "/pit-scout/nav");
         }
 
