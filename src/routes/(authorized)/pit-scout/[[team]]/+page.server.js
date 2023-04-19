@@ -45,15 +45,18 @@ export const actions = {
 
         output.scout = locals.user.username;
 
-        if(!pitdata2023.findOne({team:+output["team"], event:output["event"]})){
-            const db = new pitdata2023(output);
-            await db.save();
-
-            await credits.transaction(output.scout, 350, `Pit scouted ${output.team}`);
-
-            if(output.otherScouts != "none")
-                await credits.transaction(output.otherScouts, 350, `Co-pit scouted ${output.team}`);
+        if(pitdata2023.findOne({team:output["team"], event:output["event"]})){
+            throw redirect(307, "/pit-scout/nav");
         }
+
+        const db = new pitdata2023(output);
+        await db.save();
+
+        await credits.transaction(output.scout, 350, `Pit scouted ${output.team}`);
+
+        if(output.otherScouts != "none")
+            await credits.transaction(output.otherScouts, 350, `Co-pit scouted ${output.team}`);
+    
 
         throw redirect(307, "/pit-scout/nav");
     }
