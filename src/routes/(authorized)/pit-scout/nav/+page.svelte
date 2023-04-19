@@ -28,9 +28,11 @@
     <h6>Pit Scouting</h6>
     <div class="box p-1 mb-4 mx-1">
         <h6>Rules</h6>
-        <pre class="text-left">
-            {rules.index}
-        </pre>
+        <div class="text-left">
+            {#each rules as rule}
+                {rule}<br>
+            {/each}
+        </div>
     </div>
     <div class="box">
         <h6>Competition</h6>
