@@ -96,8 +96,8 @@
             </div>
             <h1 class="heading">Robot Specifics</h1>
             <label class="pt-4">Drivetrain Type:<input class="label" type="text" name="drivetrain"></label><br>
-            <label class="pt-4">Frame Perimeter:<input class="label" type="text" name="framePerimeter"></label><br>
-            <label class="pt-4">Robot Weight:<input class="label" type="text" name="weight"></label><br>
+            <label class="pt-4">Frame Perimeter (W/O Bumpers):<input class="label" type="text" name="framePerimeter"></label><br>
+            <label class="pt-4">Robot Weight (W/O Bumpers ):<input class="label" type="text" name="weight"></label><br>
             <label>Top Speed:<input class="label" type="text" name="topSpeed"></label><br>
             <h1 class="heading">Finishing</h1>
             <label>Other Thoughts:<input class="label" type="text" name="thoughts" bind:value={otherThoughts}></label><br>
