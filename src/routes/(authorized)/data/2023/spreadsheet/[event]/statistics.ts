@@ -142,6 +142,21 @@ export default {
         });
         return(total/count);
     },
+    Average_pieces_scored(team:number, data:any[]){
+        let matches = 0;
+        let count = 0;
+        data.forEach(e=>{
+            if(e.team != team) return;
+            matches++;
+            e.game.actions.forEach((a:any)=>{
+                if(a.action === 'place')
+                    count++;
+                if(a.action === 'intake' && typeof a.location == "object")
+                    count--;
+            })
+        })
+        return count / matches;
+    },
     Cube_score_rate(team:number, data:any[]){
         let cubeNum = 0;
         let count = 0;
