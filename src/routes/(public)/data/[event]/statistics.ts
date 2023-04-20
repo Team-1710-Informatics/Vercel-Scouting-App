@@ -1,5 +1,3 @@
-import { element } from "svelte/internal";
-
 export default {
     Team_number(team:number, data:any[]){
         return team;
@@ -158,7 +156,7 @@ export default {
         });
         return(cubeNum/count);
     },
-    Average_cycle_time(team:number, data:any[]){
+    Average_half_cycle_time(team:number, data:any[]){
         let cycleTimes:any[]=[];
         let result=0;
         data.forEach(e=>{
@@ -166,25 +164,63 @@ export default {
             if(e.team!=team)return;
             let startTime=0;
             let endTime=0;
+            let cycles=0;
             e.game.actions.forEach((a:any)=>{
                 if(a.action=="intake"&&a.time>0&&cycleEngaged==false){
                     cycleEngaged=true;
                     startTime=a.time;
                 }
+
                 if(a.action=="place"&&cycleEngaged){
                     cycleEngaged=false;
                     endTime=a.time;
-                    console.log(endTime, startTime);
                     cycleTimes.push(endTime-startTime);
+                    cycles++;
                 }
             });
+            if(cycles==0) cycleTimes.push(153000);
         });
+        
+        
         cycleTimes.forEach(e=>{
             result+=e;
         });
+
         return(result/(cycleTimes.length*1000));
     },
-    Favorite_placement_level(team:number, data:any[]){
+    Average_cycle_downtime(team:number, data:any[]){
+        let cycleTimes:any[]=[];
+        let result=0;
+        data.forEach(e=>{
+            let cycleEngaged=false;
+            if(e.team!=team)return;
+            let startTime=0;
+            let endTime=0;
+            let cycles=0;
+            e.game.actions.forEach((a:any)=>{
+                if(a.action=="place"&&a.time>0&&cycleEngaged==false){
+                    cycleEngaged=true;
+                    startTime=a.time;
+                }
+
+                if(a.action=="intake"&&cycleEngaged){
+                    cycleEngaged=false;
+                    endTime=a.time;
+                    cycleTimes.push(endTime-startTime);
+                    cycles++;
+                }
+            });
+            if(cycles==0) cycleTimes.push(153000);
+        });
+        
+        
+        cycleTimes.forEach(e=>{
+            result+=e;
+        });
+
+        return(result/(cycleTimes.length*1000));
+    },
+    Favorite_piece_placement(team:number, data:any[]){
         let resultIndex=0;
         let count=0;
         let array=[0, 0, 0]
@@ -224,7 +260,7 @@ export default {
     //     });
     //     return(loadZone/total);
     // },
-    // Average_auto_score_rate(team:number, data:any[]){
+    // // Average_auto_score_rate(team:number, data:any[]){
     //     let count = 0;
     //     let score = 0;
     //     data.forEach(e=>{
@@ -234,6 +270,16 @@ export default {
     //     });
     //     return(score/count);
     // },
+    Standard_Score_Deviation(team:number, data:any[]){
+        let scores:any[]=[];
+        data.forEach(e=>{
+            if(e.team != team) return;
+            let score = teamScore(e);
+            scores.push(score);
+        });
+
+        return stdDev(scores);
+    },
     // Strategy(team:number, data:any[]){
     //     let stratIndex=0;
     //     let allStrat=[0, 0, 0, 0, 0, 0];
@@ -260,29 +306,72 @@ export default {
     //     if(stratIndex==5)result="breakdown";
     //     return result;
     // },
+    Matches_Scouted(team:number, data:any[]){
+        let scouted=0;
+        data.forEach(e=>{
+            if(e.team!=team) return;
+            scouted++;
+        });
+        return scouted;
+    },
+}
+function links(e:any){
+    let grid = gridLayout(e);
+    let links = 0;
+    grid.forEach(row=>{
+        let consecutive = 0;
+        row.forEach(node=>{
+            if(node){
+                consecutive++;
+                if(consecutive == 3){
+                    links++;
+                    consecutive = 0;
+                }
+            }
+        })
+    })
+
+    return links;
 }
 export function teamScore(e:any){
     let count = 0;
-    e.game.actions.forEach((a:any)=>{
-        if(a.action === 'place') {
-            switch(a.node.y){
-                case 0: count+= 5; break;
-                case 1: count+= 3; break;
-                case 2: count+= 2; break;
-            }
-            if(a.time - e.game.start <= 18000) count++;
-        }
-        if(a.action === 'intake' && typeof a.location != "string"){
-            switch(a.location.y){
-                case 0: count-= 5; break;
-                case 1: count-= 3; break;
-                case 2: count-= 2; break;
-            }
-        }
+    let grid = gridLayout(e);
+    grid[0].forEach((a:any)=>{
+        if(!a)return;
+        count+=5;
+        if(a.supercharged != "none") count+=3;
+        if(a.auto) count++;
     });
+    grid[1].forEach((a:any)=>{
+        if(!a)return;
+        count+=3;
+        if(a.supercharged != "none") count+=3;
+        if(a.auto) count++;
+    });
+    grid[2].forEach((a:any)=>{
+        if(!a)return;
+        count+=2;
+        if(a.supercharged != "none") count+=3;
+        if(a.auto) count++;
+    });
+        // if(a.action === 'place') {
+        //     switch(a.node.y){
+        //         case 0: count+= 5; break;
+        //         case 1: count+= 3; break;
+        //         case 2: count+= 2; break;
+        //     }
+        //     if(a.time - e.game.start <= 18000) count++;
+        // }
+
+        // if(a.action === 'intake' && typeof a.location != "string"){
+        //     switch(a.location.y){
+        //         case 0: count-= 5; break;
+        //         case 1: count-= 3; break;
+        //         case 2: count-= 2; break;
+        //     }
+        // }
 
     // count += links(e) * 5;
-
     if(e.game.untimed.mobile) count += 3;
     if(e.game.untimed.dockedAuto){
         count += 8;
@@ -296,6 +385,7 @@ export function teamScore(e:any){
 
     return(count);
 }
+
 function autoScore(e:any){
     let count = 0;
     e.game.actions.forEach((a:any)=>{
@@ -330,34 +420,25 @@ function autoScore(e:any){
     return(count);
 }
 export function gridLayout(e:any){
-    let out = [Array(9),Array(9),Array(9)]
+    let out = [Array(9),Array(9),Array(9),Array(9)]
     e.game.actions.forEach((a:any)=>{
         if(a.action === "place"){
-            console.log(a.type);
-            if(a.node.y < 3 && a.node.x < 9)
-            out[a.node.y][a.node.x] = a.type;
+            if(!out[a.node.y][a.node.x]) out[a.node.y][a.node.x] = {
+                auto: (a.time - e.game.start <= 18000),
+                type:a.type,
+                supercharged:"none",
+            };
+            else if(out[a.node.y][a.node.x]) out[a.node.y][a.node.x].supercharged = a.type;
         }
-    })
+        if(a.action === "intake" && typeof a.location == "object" && out[a.location.y][a.location.x]?.supercharged=="none"){ //if taken from grid and not supercharged
+            out[a.location.y][a.location.x]=undefined;
+        }
+        if(a.action === "intake" && typeof a.location == "object" && out[a.location.y][a.location.x]?.supercharged!="none" && out[a.location.y][a.location.x]){ //if taken from grid and supercharged
+            out[a.location.y][a.location.x].supercharged="none";
+        }
+    });
 
     return out;
-}
-function links(e:any){
-    let grid = gridLayout(e);
-    let links = 0;
-    grid.forEach(row=>{
-        let consecutive = 0;
-        row.forEach(node=>{
-            if(node){
-                consecutive++;
-                if(consecutive == 3){
-                    links++;
-                    consecutive = 0;
-                }
-            }
-        })
-    })
-
-    return links;
 }
 
 function findMode(array:any[]){
@@ -381,4 +462,20 @@ function findMode(array:any[]){
 
     });
     return biggestValuesKey;
+}
+
+function stdDev(arr:any){
+    let mean = arr.reduce((acc:any, curr:any)=>{
+        return acc + curr;
+    }, 0) / arr.length;
+
+    arr = arr.map((k:any)=>{
+        return(k-mean)**2;
+    });
+    
+    let sum = arr.reduce((acc:any, curr:any)=> acc + curr, 0);
+
+    let variance = (sum / arr.length);
+
+    return Math.sqrt(sum/arr.length);
 }
