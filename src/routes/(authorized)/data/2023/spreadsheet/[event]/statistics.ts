@@ -438,12 +438,12 @@ export function gridLayout(e:any){
     let out = [Array(9),Array(9),Array(9),Array(9)]
     e.game.actions.forEach((a:any)=>{
         if(a.action === "place"){
-            if(!out[a.node.y][a.node.x]) out[a.node.y][a.node.x] = {
+            if(out[a.node.y] && !out[a.node.y][a.node.x]) out[a.node.y][a.node.x] = {
                 auto: (a.time - e.game.start <= 18000),
                 type:a.type,
                 supercharged:"none",
             };
-            else if(out[a.node.y][a.node.x]) out[a.node.y][a.node.x].supercharged = a.type;
+            else if(out[a.node.y] && out[a.node.y][a.node.x] && out[a.node.y][a.node.x]) out[a.node.y][a.node.x].supercharged = a.type;
         }
         if(a.action === "intake" && typeof a.location == "object" && out[a.location.y][a.location.x]?.supercharged=="none"){ //if taken from grid and not supercharged
             out[a.location.y][a.location.x]=undefined;

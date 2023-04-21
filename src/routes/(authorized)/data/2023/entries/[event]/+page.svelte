@@ -61,17 +61,17 @@
                         {#if entry.postgame.thoughts}<p>Scout thoughts: {entry.postgame.thoughts}</p>{/if}
                         <div class="flex flex-row items-middle gap-2">
                             <div class="grid grid-cols-9">
-                                {#each gridLayout(entry) as row}
+                                {#each gridLayout(entry) as row, i}{#if i < 3}
                                     {#each row as node}
                                         <div class="w-8 h-8 border-white border">
-                                            {#if node==="cube"}
+                                            {#if node?.type==="cube"}
                                                 <img src={cube}/>
-                                            {:else if node==="cone"}
+                                            {:else if node?.type==="cone"}
                                                 <img src={cone}/>
                                             {/if}
                                         </div>
                                     {/each}
-                                {/each}
+                                    {/if}{/each}
                             </div>
                             <!-- <Starting alliance={entry.alliance} value={entry.pregame.start} display={true}/> -->
                         </div>
