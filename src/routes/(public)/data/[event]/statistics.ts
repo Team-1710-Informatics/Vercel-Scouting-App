@@ -438,7 +438,7 @@ export function gridLayout(e:any){
     let out = [Array(9),Array(9),Array(9),Array(9)]
     e.game.actions.forEach((a:any)=>{
         if(a.action === "place"){
-            if(out[a.node.y] && out[a.node.y][a.node.x] && !out[a.node.y][a.node.x]) out[a.node.y][a.node.x] = {
+            if(out[a.node.y] && out[a.node.y] && !out[a.node.y][a.node.x]) out[a.node.y][a.node.x] = {
                 auto: (a.time - e.game.start <= 18000),
                 type:a.type,
                 supercharged:"none",
