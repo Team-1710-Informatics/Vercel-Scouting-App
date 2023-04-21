@@ -62,7 +62,8 @@
     }
 
     $: teams = teams.sort((a,b)=>{
-        return (+stats[sortFunction](b,data.entries))-(+stats[sortFunction](a,data.entries))*(ascending?-1:1);
+        if(first&&last){}
+        return ((+stats[sortFunction](b,data.entries.filter(matfil)))-(+stats[sortFunction](a,data.entries.filter(matfil))))*(ascending? -1 : 1);
     })
 </script>
 
@@ -76,7 +77,25 @@
         Filter teams: 
         <input type="text" bind:value={show}>
     </label></div>
-    <br>
+    <label>
+        <input type="radio" name="positive" bind:group={positive} value={true}>
+        Include
+    </label>
+    <label>
+        <input type="radio" name="positive" bind:group={positive} value={false}>
+        Exclude
+    </label>    
+    <br><br>
+    <div>Filter matches:</div>
+    <label>
+        From:
+        <input class="w-24" type="number" bind:value={first}>
+    </label>
+    <label>
+        To:
+        <input class="w-24" type="number" bind:value={last}>
+    </label>    
+    <br><br>
     <div class="flex flex-row w-fit gap-1">
         <p>Sort:</p>
         <select bind:value={sortFunction}>
@@ -124,7 +143,7 @@
     </div>
     <br>
     <div class="opacity-50">*Score calculations do not include links</div>
-    <button on:click={tableToCSV} class="font-bold bg-gradient-to-t from-teal-800  to-teal-400 border-black py-2">Export sheet</button>
+    <button on:click={tableToCSV} class="font-bold bg-gradient-to-t from-teal-800  to-teal-400 border-black">Export sheet</button>
 </center>
 
 <table bind:this={output} hidden>
