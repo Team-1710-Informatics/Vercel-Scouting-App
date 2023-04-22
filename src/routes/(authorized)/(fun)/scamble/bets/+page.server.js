@@ -122,7 +122,7 @@ async function punchTicket(t){
 
         // Add a bonus for payout calculation
         let effective = all[i].amount
-            + Math.sqrt(all[i].amount)*5;
+            + Math.sqrt(all[i].amount)*20;
 
         sums[all[i].alliance] += effective;
         sums.total += effective;
