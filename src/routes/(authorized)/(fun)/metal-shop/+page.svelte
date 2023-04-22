@@ -17,7 +17,7 @@
         credits.set(c);
     }
 
-    console.log(data.tourmaline)
+    console.log(data)
 
     $: {
         if(form?.bismuth){
@@ -42,7 +42,7 @@
         },{
             name:"tungsten",
             cost:4000,
-            upgrade:"Bismuth",
+            upgrade:"bismuth",
             upgradeAble:(data?.bismuth<4?true:false),
         },{
             name:"tourmaline",
@@ -62,6 +62,7 @@
 <middle class="py-10">
     <h5 class="mb-5 text-6xl">METAL SHOP</h5>
     <p class="mb-5 text-2xl text-teal-400 font-bold"><Credits class="mb-5 text-3xl">{Math.trunc($credits)}</Credits> credits</p>
+    <i>refresh after each purchase</i>
     <div class="grid grid-cols-2 gap-x-1">
         {#each metals as metal}
             <form class="mb-5 text-xs" method=POST action=?/metalAdd use:enhance={() => {
@@ -84,6 +85,7 @@
                         loading = false;
                     };
                 }}>
+                    <input hidden value={metal.name} name="type"/>
                     <input hidden value={metal.upgrade} name="upgrader"/>
                     <button class="font-bold bg-gradient-to-t from-slate-800 to-emerald-800 p-3 w-40" disabled={metal?.upgradeAble}>Buy 1 {metal.name}<br>for 4 {metal.upgrade}</button>
                 </form>

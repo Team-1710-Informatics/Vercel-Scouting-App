@@ -41,7 +41,7 @@ export const actions = {
         let newMetal = (user?.[upgrader]??0); //amount of the cost they have (if cost bismuth, amount of bismuth they have)
 
         let addition = {};
-        addition[upgrader] = (user.stats?.[input.get("upgrader")]??0)-4;
+        addition[input.get("upgrader")] = (user.stats?.[input.get("upgrader")]??0)-4;
         addition[input.get("type")] = (user.stats?.[input.get("type")]??0)+1;
 
         user.stats = {

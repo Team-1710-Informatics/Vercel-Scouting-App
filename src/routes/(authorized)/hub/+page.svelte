@@ -18,9 +18,9 @@
             'font-bold bg-gradient-to-t from-emerald-800 to-emerald-500 border-black'
         ],["Stocks", '/scamble/stocks', 3, 
             'text-black font-serif border-black bg-gradient-to-b from-white to-gray-400'
-        ]/*,["Metalshop", '/metal-shop', 3, 
+        ],["Metalshop", '/metal-shop', 3, 
             'font-bold bg-gradient-to-t from-slate-800 to-emerald-700 border-black'
-        ]*/)
+        ])
     }
 
     if(data.permissions.includes("admin")){
