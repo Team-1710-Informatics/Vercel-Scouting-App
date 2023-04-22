@@ -3,6 +3,12 @@
     import stats from "./statistics"
 
     let teams = [];
+    let first = 1;
+    let last = 999;
+
+    function matfil(e){
+        return e.match >= first && e.match <= last;
+    }
 
     let show="";
     $: showteams=show.split(" ");
@@ -56,7 +62,8 @@
     }
 
     $: teams = teams.sort((a,b)=>{
-        return ((+stats[sortFunction](b,data.entries))-(+stats[sortFunction](a,data.entries)))*(ascending? -1 : 1);
+        if(first&&last){}
+        return ((+stats[sortFunction](b,data.entries.filter(matfil)))-(+stats[sortFunction](a,data.entries.filter(matfil))))*(ascending? -1 : 1);
     })
 </script>
 
@@ -78,7 +85,17 @@
         <input type="radio" name="positive" bind:group={positive} value={false}>
         Exclude
     </label>    
-    <br>
+    <br><br>
+    <div>Filter matches:</div>
+    <label>
+        From:
+        <input class="w-24" type="number" bind:value={first}>
+    </label>
+    <label>
+        To:
+        <input class="w-24" type="number" bind:value={last}>
+    </label>    
+    <br><br>
     <div class="flex flex-row w-fit gap-1">
         <p>Sort:</p>
         <select bind:value={sortFunction}>
@@ -112,20 +129,20 @@
                 {/each}
             </tr>
 
-            {#each teams as team, i (team)}
+            {#key first}{#key last}{#each teams as team, i (team)}
                 <tr class="divide-x" animate:flip>
                     {#if showteams?.[0]=="" || (showteams.includes(""+team) && positive) || (!showteams.includes(""+team) && !positive)}
                         <td>{i+1}.</td>
                         {#each columns as col}
-                            <td class:font-bold={col=="Team_number"}>{(typeof stats[col](team,data.entries)==="number" && stats[col](team,data.entries) != Math.trunc(stats[col](team,data.entries)))?parseFloat(stats[col](team,data.entries)).toFixed(2):stats[col](team,data.entries)}</td>
+                            <td class:font-bold={col=="Team_number"}>{(typeof stats[col](team,data.entries.filter(matfil))==="number" && stats[col](team,data.entries.filter(matfil)) != Math.trunc(stats[col](team,data.entries.filter(matfil))))?parseFloat(stats[col](team,data.entries.filter(matfil))).toFixed(2):stats[col](team,data.entries.filter(matfil))}</td>
                         {/each}
                     {/if}
-                    
                 </tr>
-            {/each}
+            {/each}{/key}{/key}
         </table>
     </div>
     <br>
+    <div class="opacity-50">*Score calculations do not include links</div>
     <button on:click={tableToCSV} class="font-bold bg-gradient-to-t from-teal-800  to-teal-400 border-black">Export sheet</button>
 </center>
 
