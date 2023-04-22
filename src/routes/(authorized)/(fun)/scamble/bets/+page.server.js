@@ -129,7 +129,7 @@ async function punchTicket(t){
     }
 
     let effective = t.amount
-        + Math.sqrt(t.amount)*5;
+        + Math.sqrt(t.amount)*20;
 
     let portion = effective/sums[t.alliance];
 
