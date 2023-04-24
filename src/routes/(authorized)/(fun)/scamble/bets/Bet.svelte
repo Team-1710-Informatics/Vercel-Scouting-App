@@ -4,7 +4,7 @@
     import { enhance } from "$app/forms";
     import { fade, slide } from "svelte/transition";
 
-    const MIN = 1000;
+    const MIN = 10;
     function max(c){
         let o = c-MIN;
 

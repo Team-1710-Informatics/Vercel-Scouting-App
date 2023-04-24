@@ -20,7 +20,7 @@ export async function load({ locals }){
 
 export const actions = {
     bet: async function({request, locals}){
-        const MIN = 1000;
+        const MIN = 10;
         function max(c){
             let o = c-MIN;
     
@@ -122,14 +122,14 @@ async function punchTicket(t){
 
         // Add a bonus for payout calculation
         let effective = all[i].amount
-            + Math.sqrt(all[i].amount)*5;
+            + Math.sqrt(all[i].amount)*20;
 
         sums[all[i].alliance] += effective;
         sums.total += effective;
     }
 
     let effective = t.amount
-        + Math.sqrt(t.amount)*5;
+        + Math.sqrt(t.amount)*20;
 
     let portion = effective/sums[t.alliance];
 

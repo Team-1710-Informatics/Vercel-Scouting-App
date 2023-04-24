@@ -61,5 +61,7 @@
         <Countdown until={nextComp().date} />
         <p style="color:rgb(174, 172, 172); font-size:10px">until</p>
         <b>{nextComp().name}</b>
+    {:else}
+        <p>Happy Holidays</p>
     {/if}
 </middle>
