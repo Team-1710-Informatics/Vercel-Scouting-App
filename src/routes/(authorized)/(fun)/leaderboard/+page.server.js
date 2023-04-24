@@ -10,7 +10,10 @@ export async function load({ locals }){
             uname: item.username,
             stats:{
                 credits: item.credits,
-                bismuth: item.stats?.bismuth??0
+                bismuth: item.stats?.bismuth??0,
+                tungsten: item.stats?.tungsten??0,
+                tourmaline: item.stats?.tourmaline??0,
+                welmanite: item.stats?.welmanite??0,
             }
         });
     })
