@@ -34,7 +34,7 @@
                 {name:"# of shifts", type:"number"}
             ],
             calculate:function(){
-                return this.fields[0]?.answer * 480;
+                return this.fields[0]?.answer * 350;
             },
             reason:function(){ return "Pit crew" }
         },
