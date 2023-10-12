@@ -11,4 +11,5 @@ vite.config.ts.timestamp-*
 inactive
 /src/routes/test
 /.vscode
+/.idea
 LICENSE.md
