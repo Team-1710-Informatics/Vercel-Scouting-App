@@ -2,6 +2,9 @@
     /**
      * This is a component for quickly creating input tag based forms
      * Should not be used for more complicated input methods
+     * 
+     * values to pass in are data and form itself for props, type of action, the title, and array of objects
+     * as shown below for each input in the form
     */
     import { slide } from 'svelte/transition';
     import { enhance } from '$app/forms';
