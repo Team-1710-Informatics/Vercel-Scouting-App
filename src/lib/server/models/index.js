@@ -92,8 +92,40 @@ scoutEntry2023.methods.getIndividualScore=function(){
     return score;
 };
 
-export const ScoutData = mongoose.model("2023entry", scoutEntry2023);
+export const oldScoutData = mongoose.model("2023entry", scoutEntry2023);
 
+const scoutEntry2024 = new Schema({
+    event: {type: String, match:/(\d{4})\w+/},
+    match: Number,
+    alliance: {type: String, match:/red|blue/},
+    team: Number,
+    scout: String,
+    submission: Number,
+    pregame: {
+        start: {x:Number,y:Number},
+        preload: Boolean
+    },
+    game:{
+        actions: Array,
+        untimed: {
+            exitAuto: Boolean,
+            hangMatch: Boolean,
+            parkMatch: Boolean,
+            harmony: Boolean,
+            spotlight: Boolean
+        }
+    },
+    postgame:{
+        strategy:Array,
+        rating: {type: Number, min: 0, max: 10},
+        driverSkill: {type: Number, min: 0, max: 10},
+        defenseSkill: {type: Number, min: 0, max: 10},
+        speed: {type: Number, min: 0, max: 10},
+        thoughts: String
+    }
+});
+
+export const ScoutData = mongoose.model("2024entry", scoutEntry2024);
 
 const transaction = new Schema({
     user:String,
