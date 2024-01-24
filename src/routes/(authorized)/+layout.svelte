@@ -5,15 +5,15 @@
     export let data;
 </script>
 
-<div class="header w-full text-3xl grid grid-cols-4 p-4 font-extrabold">
-    <div class="col-span-3 flex flex-row">
-        <a href="/hub"><img src={logo} width=36px alt="1710" class="mr-3"/></a> Scouting
+<div class="header w-full flex flex-rows-8 p-4 font-extrabold">
+    <div class="grow flex flex-row">
+        <a href="/hub"><img src={logo} width=36px alt="1710" class="mr-3"/></a><a href="/hub" class="text-3xl">Scouting</a>
     </div>
-    <div class="text-base leading-9 justify-self-end">
-        <Dropdown name={data.user.name.first} options={[
-            {name:"Hub", href:"/hub"},
-            {name:"Logout", href:"/logout"},
-        ]}/>
+    <div class="rounded-2xl border-slate-900 border-2 bg-slate-800 py-2 lg:px-5 sm:px-2 lg:ml-2 mr-1 text-center">
+        <a href="/hub">Hub</a>
+    </div>
+    <div class="rounded-2xl border-slate-900 border-2 bg-slate-800 py-2 lg:px-5 sm:px-2 lg:mr-2 ml-1 text-center">
+        <a href="/login">Logout</a>
     </div>
 </div>
 
