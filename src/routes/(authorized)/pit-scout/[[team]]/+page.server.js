@@ -1,5 +1,5 @@
 import { X_TBA_AUTHKEY } from "$env/static/private";
-import { pitdata2023, User } from "$lib/server/models";
+import { pitdata2024, User } from "$lib/server/models";
 import credits from "$lib/server/user/credi";
 import { redirect } from "@sveltejs/kit";
 
@@ -35,9 +35,9 @@ export const actions = {
     default: async function({request,locals}){
         const input = await request.formData();
 
-        let output = {}
+        let output = {};
 
-        const items = ["event","team","intakeCube","intakeCone","shelfStation","chuteStation","floorStation","floor","placeHigh","placeMid","placeLow","mainStrategy","autoStrategy","averageScore","defenseCapability","defenseExperience","chargeStationMain","chargeStationAuto","piecePreferance",,"drivetrain","topSpeed","framePerimeter","weight","thoughts","otherScouts"]
+        const items = ["length","width","height","sizeUnit","weight","weightUnit", "speed", "speedUnit", "driveTrain", "otherDriveTrain", "intakeType", "otherIntake", "shooterType", "wheelType", "otherShooter", "speakerScore", "ampScore", "trapScore", "shootingDistance", "climbingAbility", "maxAutoScore", "autoStrategy", "buddyClimb", "scorePreference", "scoringAbility", "ampUse", "intakeLocation"]
 
         items.forEach(item=>{
             output[item]=input.get(item)
@@ -45,11 +45,11 @@ export const actions = {
 
         output.scout = locals.user.username;
 
-        if(await pitdata2023.findOne({team:output["team"], event:output["event"]})){
+        if(await pitdata2024.findOne({team:output["team"], event:output["event"]})){
             throw redirect(307, "/pit-scout/nav");
         }
 
-        const db = new pitdata2023(output);
+        const db = new pitdata2024(output);
         await db.save();
 
         await credits.transaction(output.scout, 350, `Pit scouted ${output.team}`);
@@ -57,7 +57,6 @@ export const actions = {
         if(output.otherScouts != "none")
             await credits.transaction(output.otherScouts, 350, `Co-pit scouted ${output.team}`);
     
-
         throw redirect(307, "/pit-scout/nav");
     }
 }
