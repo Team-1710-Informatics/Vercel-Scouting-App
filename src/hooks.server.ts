@@ -1,7 +1,8 @@
-import { MONGODB_MAIN } from '$env/static/private';
+import { MONGODB_MAIN, MONGODB_COMMUNITY } from '$env/static/private';
 
 import mongoose from 'mongoose';
 import { User } from '$lib/server/models';
+import { dev } from '$app/environment';
 
 import { redirect, type Handle } from "@sveltejs/kit";
 
@@ -10,6 +11,9 @@ import { DateTime } from 'luxon';
 import tba from '$lib/modules/tba';
 
 await mongoose.connect(MONGODB_MAIN);
+
+// if(dev) await mongoose.connect(MONGODB_COMMUNITY);
+// else if(!dev) await mongoose.connect(MONGODB_MAIN);
 
 export const handle = (async function({ event, resolve }) {
     const token = event.cookies.get("session");

@@ -67,7 +67,7 @@
     })
 </script>
 
-<center class="pt-10 px-11">
+<center class="pt-10 px-10">
     <div class="grid grid-cols-2 w-fit gap-1">
         <button class="font-bold bg-gradient-to-t from-green-800 to-green-400 border-green-900" on:click={()=>{columns.push("AverageScore");columns=columns}}>Add column</button>
         <button class="font-bold bg-gradient-to-t from-red-800 to-red-400 border-red-900" on:click={()=>{columns.pop ("AverageScore");columns=columns}}>Remove column</button>

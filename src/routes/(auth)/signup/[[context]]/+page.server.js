@@ -68,7 +68,9 @@ export const actions = {
         if(data?.error) { return fail(400, data); }
         
         //Check team authkey
+        console.log(+data.team)
         const team = await Team.findOne({ number:+data.team });
+        console.log(team)
         if(!team || team?.authkey != data.auth){
             data.error = "Invalid authkey!";
             return fail(400, data);

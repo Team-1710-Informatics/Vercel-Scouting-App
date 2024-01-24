@@ -15,7 +15,7 @@ const team = new Schema({
     authkey: String
 });
 
-export const Team = mongoose.model("Team", team);
+export const Team = mongoose.model("team", team);
 
 const scoutEntry2023 = new Schema({
     event: {type: String, match:/(\d{4})\w+/},
