@@ -1,6 +1,6 @@
 <script>
     import MatchSelector from "$lib/components/search/MatchSelector.svelte";
-    import {teamScore, gridLayout} from "../../spreadsheet/[event]/statistics";
+    import {team_score, gridLayout} from "../../spreadsheet/[event]/statistics";
     import StarRating from "$lib/components/ui/StarRating.svelte";
     import cube from "$lib/assets/scout/2023/cube.png";
     import cone from "$lib/assets/scout/2023/cone.png";
@@ -53,7 +53,7 @@
                 {#each res.data as entry}
                     <middle class="box m-6">
                         <p>Scouted by <span class="font-bold">{entry.scout}</span></p>
-                        <p>Approx. Scouted score: {teamScore(entry)}</p>
+                        <p>Approx. Scouted score: {team_score(entry)}</p>
                         <div class="w-fit"><StarRating rating={entry.postgame.rating}/></div>
                         {#if entry.postgame?.driverSkill}
                             <div class="w-fit"><StarRating rating={entry.postgame.driverSkill}/></div>

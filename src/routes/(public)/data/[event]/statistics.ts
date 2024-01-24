@@ -1,8 +1,8 @@
 export default {
-    Team_number(team:number, data:any[]){
+    team_number(team:number, data:any[]){
         return team;
     },
-    Average_score(team:number, data:any[]){
+    average_sccore(team:number, data:any[]){
         let count = 0;
         let score = 0;
         data.forEach(e=>{
@@ -12,7 +12,7 @@ export default {
         })
         return(score/count);
     },
-    Max_score(team:number, data:any[]){
+    max_score(team:number, data:any[]){
         let max = 0;
         data.forEach(e=>{
             if(e.team != team) return;
@@ -23,7 +23,7 @@ export default {
         });
         return(max);
     },
-    Mobility_rate(team:number, data:any[]){
+    mobility_rate(team:number, data:any[]){
         let count = 0;
         let mobileCount = 0;
         data.forEach(e=>{
@@ -33,7 +33,7 @@ export default {
         });
         return(mobileCount/count);
     },
-    Dock_auto_rate(team:number, data:any[]){
+    dock_auto_rate(team:number, data:any[]){
         let count = 0;
         let mobileCount = 0;
         data.forEach(e=>{
@@ -100,7 +100,7 @@ export default {
 
     //     return(count/(matches.length));
     // },
-    Dock_match_rate(team:number, data:any[]){
+    dock_match_rate(team:number, data:any[]){
         let count = 0;
         let mobileCount = 0;
         data.forEach(e=>{
@@ -110,7 +110,7 @@ export default {
         });
         return(mobileCount/count);
     },
-    Engaged_auto_rate(team:number, data:any[]){
+    engaged_auto_rate(team:number, data:any[]){
         let count = 0;
         let mobileCount = 0;
         data.forEach(e=>{
@@ -120,7 +120,7 @@ export default {
         });
         return(mobileCount/count);
     },
-    Engaged_match_rate(team:number, data:any[]){
+    engaged_match_rate(team:number, data:any[]){
         let count = 0;
         let mobileCount = 0;
         data.forEach(e=>{
@@ -142,7 +142,7 @@ export default {
     //     });
     //     return(total/count);
     // },
-    Average_pieces_scored(team:number, data:any[]){
+    average_note_score(team:number, data:any[]){
         let matches = 0;
         let count = 0;
         data.forEach(e=>{
@@ -157,7 +157,7 @@ export default {
         })
         return count / matches;
     },
-    Cube_score_rate(team:number, data:any[]){
+    cube_score_rate(team:number, data:any[]){
         let cubeNum = 0;
         let count = 0;
         data.forEach(e=>{
@@ -285,7 +285,7 @@ export default {
     //     });
     //     return(score/count);
     // },
-    Standard_Score_Deviation(team:number, data:any[]){
+    score_std_dev(team:number, data:any[]){
         let scores:any[]=[];
         data.forEach(e=>{
             if(e.team != team) return;
@@ -321,7 +321,7 @@ export default {
     //     if(stratIndex==5)result="breakdown";
     //     return result;
     // },
-    Matches_Scouted(team:number, data:any[]){
+    matches_scouted(team:number, data:any[]){
         let scouted=0;
         data.forEach(e=>{
             if(e.team!=team) return;

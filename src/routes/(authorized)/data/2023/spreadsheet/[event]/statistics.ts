@@ -1,29 +1,42 @@
+// Rewriting quite a bit of this ~ Sam
+
+// Plan is to turn the functions below into more rigid functions that only take in the data.
+// - The data filtering will be done before the function is called
+// - Will allow for more API calls
+// - Will allow for greater flexibility
+
+// Future plans
+// - Positivity rating
+// - Normalized ratings
+// - Normalized positivity
+// - Quartile ranges
+
 export default {
-    Team_number(team:number, data:any[]){
+    team_number(team:number, data:any[]){
         return team;
     },
-    Average_score(team:number, data:any[]){
+    average_sccore(team:number, data:any[]){
         let count = 0;
         let score = 0;
         data.forEach(e=>{
             if(e.team != team) return;
-            score += teamScore(e);
+            score += team_score(e);
             count++;
         })
         return(score/count);
     },
-    Max_score(team:number, data:any[]){
+    max_score(team:number, data:any[]){
         let max = 0;
         data.forEach(e=>{
             if(e.team != team) return;
-            let score = teamScore(e);
+            const score = team_score(e);
             if(score > max){
                 max = score;
             }
         });
         return(max);
     },
-    Mobility_rate(team:number, data:any[]){
+    mobility_rate(team:number, data:any[]){
         let count = 0;
         let mobileCount = 0;
         data.forEach(e=>{
@@ -33,7 +46,7 @@ export default {
         });
         return(mobileCount/count);
     },
-    Dock_auto_rate(team:number, data:any[]){
+    dock_auto_rate(team:number, data:any[]){
         let count = 0;
         let mobileCount = 0;
         data.forEach(e=>{
@@ -100,7 +113,7 @@ export default {
 
     //     return(count/(matches.length));
     // },
-    Dock_match_rate(team:number, data:any[]){
+    dock_match_rate(team:number, data:any[]){
         let count = 0;
         let mobileCount = 0;
         data.forEach(e=>{
@@ -110,7 +123,7 @@ export default {
         });
         return(mobileCount/count);
     },
-    Engaged_auto_rate(team:number, data:any[]){
+    engaged_auto_rate(team:number, data:any[]){
         let count = 0;
         let mobileCount = 0;
         data.forEach(e=>{
@@ -120,7 +133,7 @@ export default {
         });
         return(mobileCount/count);
     },
-    Engaged_match_rate(team:number, data:any[]){
+    engaged_match_rate(team:number, data:any[]){
         let count = 0;
         let mobileCount = 0;
         data.forEach(e=>{
@@ -130,7 +143,7 @@ export default {
         });
         return(mobileCount/count);
     },
-    Driver_skill(team:number, data:any[]){
+    driver_skill(team:number, data:any[]){
         let count = 0;
         let total = 0;
         data.forEach(e=>{
@@ -142,7 +155,7 @@ export default {
         });
         return(total/count);
     },
-    Average_pieces_scored(team:number, data:any[]){
+    average_note_score(team:number, data:any[]){
         let matches = 0;
         let count = 0;
         data.forEach(e=>{
@@ -157,7 +170,7 @@ export default {
         })
         return count / matches;
     },
-    Cube_score_rate(team:number, data:any[]){
+    cube_score_rate(team:number, data:any[]){
         let cubeNum = 0;
         let count = 0;
         data.forEach(e=>{
@@ -171,8 +184,8 @@ export default {
         });
         return(cubeNum/count);
     },
-    Average_cycle_time(team:number, data:any[]){
-        let cycleTimes:any[]=[];
+    average_cycle_times(team:number, data:any[]){
+        const cycleTimes:any[] = [];
         let result=0;
         data.forEach(e=>{
             let cycleEngaged=false;
@@ -203,8 +216,8 @@ export default {
 
         return(result/(cycleTimes.length*1000));
     },
-    Average_dead_time(team:number, data:any[]){
-        let cycleTimes:any[]=[];
+    average_dead_time(team:number, data:any[]){
+        const cycleTimes:any[] = [];
         let result=0;
         data.forEach(e=>{
             let cycleEngaged=false;
@@ -235,11 +248,11 @@ export default {
 
         return(result/(cycleTimes.length*1000));
     },
-    Average_element_placement(team:number, data:any[]){
-        let resultIndex=0;
-        let count=0;
-        let array=[0, 0, 0]
-        let result="";
+    average_element_placement(team:number, data:any[]){
+        const array= [0, 0, 0]
+        let resultIndex= 0;
+        let count= 0;
+        let result= "";
         data.forEach(e=>{
             if(e.team!=team) return;
             e.game.actions.forEach((a:any)=>{
@@ -261,7 +274,7 @@ export default {
         }
         return(result);
     },
-    Loading_zone_intake_rate(team:number, data:any[]){
+    loading_intake_rate(team:number, data:any[]){
         let loadZone = 0;
         let total = 0;
         data.forEach(e=>{
@@ -275,29 +288,30 @@ export default {
         });
         return(loadZone/total);
     },
-    Average_auto_score_rate(team:number, data:any[]){
+    average_auto_score(team:number, data:any[]){
         let count = 0;
         let score = 0;
         data.forEach(e=>{
             if(e.team != team) return;
-            score += autoScore(e);
+            score += auto_score(e);
             count++;
         });
         return(score/count);
     },
-    Standard_Score_Deviation(team:number, data:any[]){
-        let scores:any[]=[];
+    score_std_dev(team:number, data:any[]){
+        const scores:any[]=[];
         data.forEach(e=>{
             if(e.team != team) return;
-            let score = teamScore(e);
+            const score = team_score(e);
             scores.push(score);
         });
 
-        return stdDev(scores);
+        return std_dev(scores);
     },
-    Strategy(team:number, data:any[]){
-        let stratIndex=0;
-        let allStrat=[0, 0, 0, 0, 0, 0];
+    strategy(team:number, data:any[]){
+        const allStrat= [0, 0, 0, 0, 0, 0];
+
+        let stratIndex= 0;
         let result = "";
         data.forEach(e=>{
             if(e.team!=team) return;
@@ -321,7 +335,7 @@ export default {
         if(stratIndex==5)result="breakdown";
         return result;
     },
-    Matches_Scouted(team:number, data:any[]){
+    matches_scouted(team:number, data:any[]){
         let scouted=0;
         data.forEach(e=>{
             if(e.team!=team) return;
@@ -330,45 +344,51 @@ export default {
         return scouted;
     },
 }
-function links(e:any){
-    let grid = gridLayout(e);
-    let links = 0;
-    grid.forEach(row=>{
-        let consecutive = 0;
-        row.forEach(node=>{
-            if(node){
-                consecutive++;
-                if(consecutive == 3){
-                    links++;
-                    consecutive = 0;
-                }
-            }
-        })
-    })
 
-    return links;
-}
-export function teamScore(e:any){
+// Deprecating. Used in 2023's game
+// function links(e:any){
+//     const grid = grid_layout(e);
+//
+//     let links = 0;
+//     grid.forEach(row=>{
+//         let consecutive = 0;
+//         row.forEach(node=>{
+//             if(node){
+//                 consecutive++;
+//                 if(consecutive == 3){
+//                     links++;
+//                     consecutive = 0;
+//                 }
+//             }
+//         })
+//     })
+//
+//     return links;
+// }
+export function team_score(e:any){
     let count = 0;
-    let grid = gridLayout(e);
-    grid[0].forEach((a:any)=>{
-        if(!a)return;
-        count+=5;
-        if(a.supercharged != "none") count+=3;
-        if(a.auto) count++;
-    });
-    grid[1].forEach((a:any)=>{
-        if(!a)return;
-        count+=3;
-        if(a.supercharged != "none") count+=3;
-        if(a.auto) count++;
-    });
-    grid[2].forEach((a:any)=>{
-        if(!a)return;
-        count+=2;
-        if(a.supercharged != "none") count+=3;
-        if(a.auto) count++;
-    });
+
+    // !! Needs to be heavily redone and fixed for this year's game
+
+    // let grid = gridLayout(e);
+    // grid[0].forEach((a:any)=>{
+    //     if(!a)return;
+    //     count+=5;
+    //     if(a.supercharged != "none") count+=3;
+    //     if(a.auto) count++;
+    // });
+    // grid[1].forEach((a:any)=>{
+    //     if(!a)return;
+    //     count+=3;
+    //     if(a.supercharged != "none") count+=3;
+    //     if(a.auto) count++;
+    // });
+    // grid[2].forEach((a:any)=>{
+    //     if(!a)return;
+    //     count+=2;
+    //     if(a.supercharged != "none") count+=3;
+    //     if(a.auto) count++;
+    // });
         // if(a.action === 'place') {
         //     switch(a.node.y){
         //         case 0: count+= 5; break;
@@ -401,7 +421,7 @@ export function teamScore(e:any){
     return(count);
 }
 
-function autoScore(e:any){
+function auto_score(e:any){
     let count = 0;
     e.game.actions.forEach((a:any)=>{
         if(a.time - e.game.start > 18000) return;
@@ -434,52 +454,59 @@ function autoScore(e:any){
 
     return(count);
 }
-export function gridLayout(e:any){
-    let out = [Array(9),Array(9),Array(9),Array(9)]
-    e.game.actions.forEach((a:any)=>{
-        if(a.action === "place"){
-            if(out[a.node.y] && !out[a.node.y][a.node.x]) out[a.node.y][a.node.x] = {
-                auto: (a.time - e.game.start <= 18000),
-                type:a.type,
-                supercharged:"none",
-            };
-            else if(out[a.node.y] && out[a.node.y][a.node.x] && out[a.node.y][a.node.x]) out[a.node.y][a.node.x].supercharged = a.type;
-        }
-        if(a.action === "intake" && typeof a.location == "object" && out[a.location.y][a.location.x]?.supercharged=="none"){ //if taken from grid and not supercharged
-            out[a.location.y][a.location.x]=undefined;
-        }
-        if(a.action === "intake" && typeof a.location == "object" && out[a.location.y][a.location.x]?.supercharged!="none" && out[a.location.y][a.location.x]){ //if taken from grid and supercharged
-            out[a.location.y][a.location.x].supercharged="none";
-        }
-    });
 
-    return out;
-}
+// Deprecated from 2023's game
 
-function findMode(array:any[]){
-    let object:any = {};
-    for(let i=0; i<array.length; i++){
-        if(object[array[i]]){
-            object[array[i]] += 1;
-        } else {
-            object[array[i]] = 1;
-        }
-    }
-    let biggestValue = -1;
-    let biggestValuesKey = -1;
+// export function gridLayout(e:any){
+//     let out = [Array(9),Array(9),Array(9),Array(9)]
+//     e.game.actions.forEach((a:any)=>{
+//         if(a.action === "place"){
+//             if(out[a.node.y] && !out[a.node.y][a.node.x]) out[a.node.y][a.node.x] = {
+//                 auto: (a.time - e.game.start <= 18000),
+//                 type:a.type,
+//                 supercharged:"none",
+//             };
+//             else if(out[a.node.y] && out[a.node.y][a.node.x] && out[a.node.y][a.node.x]) out[a.node.y][a.node.x].supercharged = a.type;
+//         }
+//         if(a.action === "intake" && typeof a.location == "object" && out[a.location.y][a.location.x]?.supercharged=="none"){ //if taken from grid and not supercharged
+//             out[a.location.y][a.location.x]=undefined;
+//         }
+//         if(a.action === "intake" && typeof a.location == "object" && out[a.location.y][a.location.x]?.supercharged!="none" && out[a.location.y][a.location.x]){ //if taken from grid and supercharged
+//             out[a.location.y][a.location.x].supercharged="none";
+//         }
+//     });
+//
+//     return out;
+// }
 
-    Object.keys(object).forEach((key:any)=>{
-        let value = object[key];
-        if(value > biggestValue) {
-            biggestValue = value;
-            biggestValuesKey = key;
-        }
+// Unused
 
-    });
-    return biggestValuesKey;
-}
+// function findMode(array:any[]){
+//     let object:any = {};
+//     for(let i=0; i<array.length; i++){
+//         if(object[array[i]]){
+//             object[array[i]] += 1;
+//         } else {
+//             object[array[i]] = 1;
+//         }
+//     }
+//     let biggestValue = -1;
+//     let biggestValuesKey = -1;
+//
+//     Object.keys(object).forEach((key:any)=>{
+//         let value = object[key];
+//         if(value > biggestValue) {
+//             biggestValue = value;
+//             biggestValuesKey = key;
+//         }
+//
+//     });
+//     return biggestValuesKey;
+// }
 
-function stdDev(arr:any){
+
+// Planning to rewrite because this doesn't work and you don't calculate std dev like this (I think)
+function std_dev(arr:any){
     let mean = arr.reduce((acc:any, curr:any)=>{
         return acc + curr;
     }, 0) / arr.length;
