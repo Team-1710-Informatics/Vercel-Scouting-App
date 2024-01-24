@@ -1,5 +1,5 @@
 import tba from "$lib/modules/tba";
-import { ScoutData } from "$lib/server/models";
+import { oldScoutData as ScoutData } from "$lib/server/models";
 import credits from "$lib/server/user/credi";
 import stats from "$lib/server/user/stats";
 import { redirect } from "@sveltejs/kit";
