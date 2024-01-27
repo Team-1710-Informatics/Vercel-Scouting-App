@@ -14,7 +14,7 @@
     $: key = `${meta.event}_qm${meta.match}`;
 </script>
 
-<div class="h-full">
+<div class="h-full pt-5">
     <u class="underline font-bold text-3xl">Pre-Match</u>
     <div class="boxing">
         <div class="grid grid-cols-4">

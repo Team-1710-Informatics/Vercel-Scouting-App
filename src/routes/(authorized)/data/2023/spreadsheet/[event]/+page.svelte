@@ -67,10 +67,10 @@
     })
 </script>
 
-<center class="pt-10 px-11">
+<center class="pt-10 px-12">
     <div class="grid grid-cols-2 w-fit gap-1">
-        <button class="font-bold bg-gradient-to-t from-green-800 to-green-400 border-green-900" on:click={()=>{columns.push("AverageScore");columns=columns}}>Add column</button>
-        <button class="font-bold bg-gradient-to-t from-red-800 to-red-400 border-red-900" on:click={()=>{columns.pop ("AverageScore");columns=columns}}>Remove column</button>
+        <button class="font-bold bg-gradient-to-t from-green-800 to-green-400 border-green-900 rounded-md" on:click={()=>{columns.push("AverageScore");columns=columns}}>Add column</button>
+        <button class="font-bold bg-gradient-to-t from-red-800 to-red-400 border-red-900 rounded-md" on:click={()=>{columns.pop ("AverageScore");columns=columns}}>Remove column</button>
     </div>
     <br>
     <div><label>
@@ -91,19 +91,20 @@
         From:
         <input class="w-24" type="number" bind:value={first}>
     </label>
+    <br>
     <label>
         To:
         <input class="w-24" type="number" bind:value={last}>
     </label>    
     <br><br>
-    <div class="flex flex-row w-fit gap-1">
-        <p>Sort:</p>
+    <div class="w-fit"><label>
+        Sort:
         <select bind:value={sortFunction}>
             {#each Object.keys(stats) as func}
                 <option value={func}>{func}</option>
             {/each}
         </select>
-    </div>
+    </label></div>
     <label>
         <input type="radio" name="sort" bind:group={ascending} value={false}>
         Descending
@@ -143,7 +144,7 @@
     </div>
     <br>
     <div class="opacity-50">*Score calculations do not include links</div>
-    <button on:click={tableToCSV} class="font-bold bg-gradient-to-t from-teal-800  to-teal-400 border-black">Export sheet</button>
+    <button on:click={tableToCSV} class="font-bold bg-gradient-to-t from-teal-800  to-teal-400 border-black rounded-md">Export sheet</button>
 </center>
 
 <table bind:this={output} hidden>
