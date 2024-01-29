@@ -158,6 +158,42 @@ scheduleItem.methods.getIndividualStatus=function(username){
 
 export const Schedule = mongoose.model("Schedule", scheduleItem);
 
+const pitscout2024 = new Schema({
+    event: String,
+    team: Number,
+    scout: String,
+    length: Number,
+    width: Number,
+    height: Number,
+    sizeUnit: String,
+    weight: Number,
+    weightUnit: String,
+    speed: Number,
+    speedUnit: String,
+    driveTrain: String,
+    otherDriveTrain: String,
+    intakeType: String,
+    otherIntake: String,
+    shooterType: String,
+    wheelType: String,
+    otherShooter: String,
+    speakerScore: Boolean,
+    ampScore: Boolean,
+    trapScore: Boolean,
+    shootingDistance: Number,
+    distanceUnit: String,
+    climbingAbility: String,
+    maxAutoScore: Number,
+    autoStrategy: String,
+    buddyClimb: Boolean,
+    scorePreference: String,
+    scoringAbility: String, 
+    ampUse: String,
+    intakeLocation: String,
+});
+
+export const pitdata2024 = mongoose.model("2024pitdata", pitscout2024);
+
 const pitscout2023 = new Schema({
     event: String,
     team: Number,
