@@ -21,7 +21,7 @@ export async function load({ locals, fetch }){
         scouted.push({team:e.team,event:e.event});
     })
 
-    const events = (await fetch(`https://thebluealliance.com/api/v3/events/2023`,{
+    const events = (await fetch(`https://thebluealliance.com/api/v3/events/2024`,{
         headers:{
             "X-TBA-Auth-Key":X_TBA_AUTHKEY
         }
