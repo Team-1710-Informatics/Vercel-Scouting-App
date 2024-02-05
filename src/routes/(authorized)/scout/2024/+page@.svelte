@@ -5,7 +5,7 @@
 
     export let data, form;
 
-    let step = 2;
+    let step = 0;
 
     function safetynet(e:Event){
         e.preventDefault();

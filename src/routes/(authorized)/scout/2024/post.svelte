@@ -10,8 +10,9 @@
         ["🤝 RECIEVE & PLACE", "place", false, "#33cc33"],
         ["🚚 TRANSPORTER", "transport", false, "#f03a17"],
         ["🧱 DEFENSE", "defense", false, "#f7894a"],
-        ["💞 Moral support", "moral", false],
-        ["💔 brokedown", "breakdown", false],
+        ["💞 Moral Support", "moral", false],
+        ["💔 Brokedown", "breakdown", false],
+        ["🚫 No Show", "noShow", false]
     ];
 
     let thoughts, rating, driverSkill, speed, defense;
