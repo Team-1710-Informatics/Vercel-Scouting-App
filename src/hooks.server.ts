@@ -17,6 +17,9 @@ try {
 	console.error("Error connecting to MongoDB:", error);
 }
 
+// if(dev) await mongoose.connect(MONGODB_COMMUNITY);
+// else if(!dev) await mongoose.connect(MONGODB_MAIN);
+
 export const handle = (async function({ event, resolve }) {
     const token = event.cookies.get("session");
 
