@@ -26,8 +26,6 @@
         y:undefined
     }
 
-    console.log(pointer.y);
-
     let styleAdd;
 
     $: style=`

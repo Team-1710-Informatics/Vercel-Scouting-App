@@ -37,6 +37,7 @@
 </script>
 
 <svelte:window bind:innerWidth/>
+<main style="overflow-y:hidden;">
 <div class="h-full">
     <u class="underline font-bold text-3xl">Pre-Match</u>
     <div class="boxing">
@@ -86,6 +87,7 @@
         {/if}
     </div>
 </div>
+</main>
 
 <style>
     .boxing{

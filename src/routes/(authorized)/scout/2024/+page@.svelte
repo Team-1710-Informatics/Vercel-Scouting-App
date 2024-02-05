@@ -3,9 +3,9 @@
     import Match from "./Match.svelte";
     import Post from "./Post.svelte";
 
-    export let data;
+    export let data, form;
 
-    let step = 0;
+    let step = 2;
 
     function safetynet(e:Event){
         e.preventDefault();
@@ -32,26 +32,32 @@
         preload: Boolean
     }={
         startPosition:{x:NaN,y:NaN},
-        preload: false
+        preload: true
     };
 
     let game:any={};
 
     let postgame:any={};
 
+    $: h = 0;
+
     //all of these positions are compiled in postgame component upon submission
 </script>
 
-<svelte:window on:beforeunload={safetynet}/> <!--prevents data loss on page reload-->
-<main style="overflow-y:hidden;">
-<center class="h-screen"  style="background-image:linear-gradient(0.3turn, #363131, #242a34, #000000);">
+<svelte:window on:beforeunload={safetynet} bind:innerHeight={h}/> <!--prevents data loss on page reload-->
+
+<center class="h-full background" style="min-height:{h}px">
     {#if step == 0}
         <Pre bind:meta={meta} events={data.events} bind:pregame={pregame} on:advance={()=>{step++}}/>
     {:else if step == 1}
-        <Match on:advance={()=>{step++}}/>
+        <Match bind:meta bind:pregame bind:game on:advance={()=>{step++}}/>
     {:else if step == 2}
-        <Post/>
+        <Post bind:meta bind:pregame bind:game bind:postgame {form}/>
     {/if}
 </center>
-</main>
 
+<style>
+    .background{
+        background-image:linear-gradient(0.3turn, #363131, #242a34, #000000);
+    }
+</style>

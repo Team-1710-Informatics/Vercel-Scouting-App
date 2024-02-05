@@ -100,19 +100,20 @@ const scoutEntry2024 = new Schema({
     alliance: {type: String, match:/red|blue/},
     team: Number,
     scout: String,
-    submission: Number,
     pregame: {
         start: {x:Number,y:Number},
         preload: Boolean
     },
     game:{
+        start:Number,
         actions: Array,
         untimed: {
             exitAuto: Boolean,
             hangMatch: Boolean,
             parkMatch: Boolean,
-            harmony: Boolean,
-            spotlight: Boolean
+            harmony: Number,
+            spotlight: Boolean,
+            spotlightAttempt: Boolean
         }
     },
     postgame:{
