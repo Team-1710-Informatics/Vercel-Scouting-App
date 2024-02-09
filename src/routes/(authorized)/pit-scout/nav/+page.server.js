@@ -3,7 +3,7 @@ import tba from "$lib/modules/tba";
 import { pitdata2023 } from "$lib/server/models";
 
 export async function load({ locals, fetch }){
-    // const res = await fetch(`https://thebluealliance.com/api/v3/events/2023`,{
+    // const res = await fetch(`https://thebluealliance.com/api/v3/events/2024`,{
     //     headers:{
     //         "X-TBA-Auth-Key":X_TBA_AUTHKEY
     //     }

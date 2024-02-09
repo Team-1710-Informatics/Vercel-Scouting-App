@@ -6,7 +6,7 @@ import { dev } from '$app/environment';
 
 import { redirect, type Handle } from "@sveltejs/kit";
 
-@ts-ignore
+// @ts-ignore
 import { DateTime } from 'luxon';
 import tba from '$lib/modules/tba';
 try {
@@ -31,12 +31,12 @@ export const handle = (async function({ event, resolve }) {
         throw redirect(307, "/logout");
     }
 
-    let res = dev ? [1,2] : await tba(`team/frc${user.team}/events/${new Date().getFullYear()}`);
+    let res = await tba(`team/frc${user.team}/events/${new Date().getFullYear()}`);
     let c, n;
-    if(!dev){
+    // if(!dev){
         c = currComp(res);
         n = nextComp(res);
-    }
+    // }
 
     event.locals.user = {
         username: user.username,
@@ -47,10 +47,10 @@ export const handle = (async function({ event, resolve }) {
         preferences: user.preferences,
         permissions: user.permissions
     }
-    if(!dev){
+    // if(!dev){
         event.locals.competition = c;
         event.locals.nextCompetition = n;
-    }
+    // }
     
     let response = await resolve(event);
     response.headers.append('Access-Control-Allow-Origin', `https://team1710.com`);

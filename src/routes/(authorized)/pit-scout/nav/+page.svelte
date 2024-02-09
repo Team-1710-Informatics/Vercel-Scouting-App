@@ -6,9 +6,12 @@
     export let data;
 
     let teams=[];
-    let event = data.current?.key??undefined
+    let event = data.current?.key??undefined;
+
     async function teamRes(eventKey){
-        teams = await tba(`event/${eventKey}/teams/simple`);
+        if(eventKey){
+            teams = await tba(`event/${eventKey}/teams/simple`);
+        }
     }
 
     function scouted(team){
@@ -36,7 +39,7 @@
     </div>
     <div class="box">
         <h6>Competition</h6>
-        <CompetitionSelector bind:event={event} events={data.events}/>
+        <CompetitionSelector bind:event={event} events={data.events}/>{event}
     </div>
     <br>
     <p>Already scouted:</p>

@@ -73,6 +73,7 @@
             <button on:click={()=>{disabled=true;}} class="submit" disabled={!(meta.event && meta.match && meta.team && meta.alliance)}>Next</button>
         {:else}
             <div in:slide>
+                <button class="rounded border-2 bg-slate-800">No Show</button>
                 <Starting alliance={meta.alliance} bind:value={pregame.startPosition}/>
                 <div class="flex flex-row w-fit my-2">
                     <b class="mr-6 self-center">Preload:</b>

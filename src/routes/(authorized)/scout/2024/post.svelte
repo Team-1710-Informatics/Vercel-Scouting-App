@@ -42,7 +42,12 @@
     });
 
     let loading = false;
+
+    let online = false;
+    let qrDisable = true;
 </script>
+
+<svelte:window bind:online/>
 
 <center class="w-full py-10">
     <h5 class="mb-2">Submit Entry</h5>
@@ -80,22 +85,27 @@
             <h6>Final Thoughts</h6>
             <textarea class="h-20" bind:value={thoughts}/>
         </div>
-        <form method="POST" use:enhance={() => {
-            loading = true;
-            //@ts-ignore
-
-            return async ({ update }) => {
-                await update();
-                loading = false;
-            };
-        }}>
-            <input type="text" hidden name="data" value={final} />
-            <button disabled={loading || postgame.strategy.length == 0} on:click={()=>console.log(postgame)} class="mt-2 submit">{loading ? "Loading..." : "Submit"}</button>
-        </form>
-        <!-- {form?.status} -->
-        {#if form?.status === "offline"}
+        {#if qrDisable}
+            <form method="POST" use:enhance={(cancel) => {
+                loading = true;
+                //@ts-ignore
+                if(!online){
+                    qrDisable = false;
+                    cancel();
+                }
+                return async ({ update, cancel }) => {
+                    await update();
+                    loading = false;
+                };
+            }}>
+                <input type="text" hidden name="data" value={final} />
+                <button disabled={loading || postgame.strategy.length == 0} on:click={()=>{return;}} class="mt-2 submit">{loading ? "Loading..." : "Submit"}</button>
+            </form>
+        {:else if !qrDisable || form?.success==="offline"}
             <h1 class="py-1">Show this QR to a head scout</h1>
-            <QRCode content={form?.info}/>
+            <QRCode content={final}/>
+            <br>
+            <a href="/hub" class="rounded border-2 p-2 submit">Hub</a>
         {/if}
     </div>
 </center>
