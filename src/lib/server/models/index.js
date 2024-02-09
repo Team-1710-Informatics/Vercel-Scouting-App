@@ -158,6 +158,30 @@ scheduleItem.methods.getIndividualStatus=function(username){
 
 export const Schedule = mongoose.model("Schedule", scheduleItem);
 
+const scouts = new Schema({
+    name: String,
+    team: Number,
+    alliance: String,
+    shift: Number
+});
+
+export const scout = mongoose.model("scout", scouts);
+
+const shifts = new Schema({
+    leadScout: String,
+    time: String,
+    shift: Number
+});
+
+export const shift = mongoose.model("shift", shifts);
+
+const backups = new Schema({ 
+    name: String,
+    shift: Number
+});
+
+export const backup = mongoose.model("backup", backups);
+
 const pitscout2024 = new Schema({
     event: String,
     team: Number,

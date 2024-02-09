@@ -6,7 +6,7 @@ import { dev } from '$app/environment';
 
 import { redirect, type Handle } from "@sveltejs/kit";
 
-//@ts-ignore
+@ts-ignore
 import { DateTime } from 'luxon';
 import tba from '$lib/modules/tba';
 try {

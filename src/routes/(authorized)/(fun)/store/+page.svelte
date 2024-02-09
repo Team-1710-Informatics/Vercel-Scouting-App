@@ -1,104 +1,42 @@
-<script lang=ts>
-    import { PUBLIC_HOST } from "$env/static/public";
-    import Credits from "$lib/components/visual/Credits.svelte";
-    import { tweened } from "svelte/motion";
-    import Item from "./Item.svelte";
-    import Purchased from "./Purchased.svelte";
-    import { slide } from "svelte/transition";
+<script lang="ts">
+    import Product from "./Product.svelte";
+    
+    let page = 0;
 
-    export let data;
-    export let form;
+    const items:[string, number, number][] = [ //example items to test with, the data types in order are Name, Price, and amount Available
+        ["Black 1710 Shirt", 1000, 5],
+        ["Black 1710 Draw String Bag", 2000, 3],
+        ["Black 1710 Socks", 5000, 4]
+    ]
 
-    function purchased(item:string){
-        for(let i=0;i<data.receipts.length;i++) {
-            if(data.receipts[i].item === item)
-                return true;
-        }
-        return false;
-    }
-
-    function getItem(receipt:Receipt){
-        for(let i=0;i<data.items.length;i++) {
-            if(data.items[i].name === receipt.item)
-                return data.items[i];
-        }
-        return false;
-    }
-
-    const categories:string[] = [];
-    let category:string = "All";
-
-    data.items.forEach((i:Merchandise)=>{
-        if(!categories.includes(i.category)){
-            categories.push(i.category);
-        }
-    })
-
-    let credits = tweened(0);
-
-    async function loadCredits(){
-        const o = await fetch(`${PUBLIC_HOST}/internal/credits/${data.user.username}`);
-        
-        credits.set(await o.json());
-    }
-
-    $: if(form){
-        data.items = form.items;
-        data.receipts = form.receipts;
-    };
-
-    $: { form; loadCredits(); }
-
-    let loading = false;
-
-    let tab = "purchase";
 </script>
-
-<middle class="py-10">
-    <h1 class="text-5xl font-bold">CREDITSTORE</h1>
-    <div class="box">
-        <p class="text-right"><Credits class="text-3xl">{Math.round($credits)}</Credits> credits</p>
-
-        <label>Category: <select bind:value={category}>
-            <option value="All">All</option>
-            {#each categories as c}
-                <option value={c}>{c}</option>
-            {/each}
-            <option value="None">None</option>
-        </select></label>
+<middle>
+    <div class="text-xl rounded-lg px-5 py-4 mt-6 mb-3 bg-gradient-to-br from-slate-900 to-slate-800">
+        Store
     </div>
-    <div class="mt-3 text-center">
-        <div class="grid grid-cols-2">
-            {#each ["purchase", "your items"] as t}
-                <button
-                    class="border-white border-b-0 border-x-0 rounded-b-none bg-gradient-to-b from-black/50 to-transparent font-bold uppercase"
-                    class:opacity-50={tab!=t}
-                    on:click={()=>{tab=t}}
-                >{t}</button>
-            {/each}
+    <div class="rounded-lg px-5 py-4 mt-3 mb-2 bg-gradient-to-br from-slate-900 to-slate-800">
+        # Credits
+    </div>
+    <div class="rounded-lg px-5 py-4 my-5 bg-gradient-to-br from-slate-900 to-slate-800">
+        <div class="m-0 mb-3 grid grid-cols-2 grid-rows-1">
+            <div class="text-right">
+                <button class="h-16 w-24 m-1 mr-2 border-sky-700 border-2 font-bold bg-gradient-to-br from-sky-700 to-slate-800 rounded-lg hover:bg-gradient-to-tl" on:click={()=>{page = 0;}}>Purchase</button>
+            </div>
+            <div>
+                <button class="h-16 w-24 m-1 ml-2 border-sky-700 border-2 font-bold bg-gradient-to-br from-sky-700 to-slate-800 rounded-lg hover:bg-gradient-to-tl" on:click={()=>{page = 1;}}>Your Items</button>
+            </div>
         </div>
-        <br>
-        {#if tab=="purchase"}
-            <div class="w-80">
-                <p transition:slide class="font-bold">Click item to purchase</p>
-                {#each data.items as item}
-                    {#if (category === "All" || category == item.category) && item.stock !== 0 && !purchased(item.name)}
-                        <div transition:slide class="h-2"/>
-                        <Item {item} user={data.user} credits={$credits} bind:loading={loading}/>
-                    {/if}
-                {/each}
-            </div>
-        {:else if tab=="your items"}
-            <div class="w-80">
-                <p transition:slide class="font-bold">To recieve an item, show<br>this to an informatics member</p>
-                {#each data.receipts as receipt}
-                    {#if getItem(receipt)!==false && (category === "All" || category == getItem(receipt)?.category)}
-                        <div transition:slide class="h-2"/>
-                        <Purchased item={getItem(receipt)}/>
-                    {/if}
-                {/each}
-            </div>
+        {#if page == 0}
+            {#each items as item}
+                <Product
+                name={item[0]}
+                price={item[1]}
+                stock={item[2]}
+                />
+            {/each}
+        {/if}
+        {#if page == 1}
+            
         {/if}
     </div>
 </middle>
-
