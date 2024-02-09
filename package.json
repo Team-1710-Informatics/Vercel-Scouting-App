@@ -26,6 +26,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@castlenine/svelte-qrcode": "^1.1.0",
 		"@sveltejs/adapter-vercel": "^1.0.4",
 		"@tailwindcss/line-clamp": "^0.4.2",
 		"@zerodevx/svelte-json-view": "^1.0.3",
@@ -37,6 +38,7 @@
 		"mongoose": "^6.9.2",
 		"nodemailer": "^6.9.0",
 		"postcss": "^8.4.21",
+		"qrcode": "^1.5.3",
 		"socket.io": "^4.5.4",
 		"tailwindcss": "^3.2.4",
 		"ts-node": "^10.9.1"

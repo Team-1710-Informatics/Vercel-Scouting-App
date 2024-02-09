@@ -4,7 +4,7 @@ import credits from "$lib/server/user/credi";
 import { redirect } from "@sveltejs/kit";
 
 export async function load({ locals, fetch, params }){
-    const res = await fetch(`https://thebluealliance.com/api/v3/events/2023`,{
+    const res = await fetch(`https://thebluealliance.com/api/v3/events/2024`,{
         headers:{
             "X-TBA-Auth-Key":X_TBA_AUTHKEY
         }

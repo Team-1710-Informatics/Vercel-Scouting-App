@@ -43,7 +43,7 @@
     <div class="grid grid-cols-3 gap-2 w-fit">
         {#each data.scouted as team}
             {#if team.team > 0 && team.event === event}
-                <div><a href="../data/2023/team/{team.event}/{team.team}" class="text-blue-500 underline hover:text-white">{team.team}</a></div>
+                <div><a href="../data/2024/team/{team.event}/{team.team}" class="text-blue-500 underline hover:text-white">{team.team}</a></div>
             {/if}
         {/each}
     </div>

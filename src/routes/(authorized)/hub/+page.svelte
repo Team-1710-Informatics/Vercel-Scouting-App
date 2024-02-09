@@ -4,10 +4,10 @@
     export let data:any;
 
     const links:[string, string, number, number, number?, string?][] = [
-        ["Scout Match", '/scout/2023', 6, 2, , ''],
+        ["Scout Match", '/scout/2024', 6, 2, , ''],
         ["Pit Scouting", '/pit-scout/nav', 6, 3, , ''],
         ["Leaderboard", '/leaderboard', 4, 6, , ''],
-        ["Data", '/data/2023', 2, 6, , ''],
+        ["Data", '/data/2024', 2, 6, , ''],
         ["Scouting API", '/apidocs', 6, 7, 10, '']
     ]
 
