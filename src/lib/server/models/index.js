@@ -187,6 +187,7 @@ const pitscout2024 = new Schema({
     event: String,
     team: Number,
     scout: String,
+    otherScouts: String,
     length: Number,
     width: Number,
     height: Number,
