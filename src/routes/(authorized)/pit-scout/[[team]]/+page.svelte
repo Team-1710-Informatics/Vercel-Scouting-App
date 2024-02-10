@@ -47,20 +47,20 @@ const scorePreference:[string, string][] = [ //first string is for name second i
 ]
 
 const scoreAbility = [ //first string is for name second is for value
-    "Very well",
-    "Okay",
-    "Very bad"
+    ["Very well", "veryWell"],
+    ["Okay", "okay"],
+    ["Very bad", "veryBad"]
 ]
 
 const intakePreference = [ //first string is for name second is for value
-    "Wing",
-    "Center",
-    "Source"
+    ["Wing", "wing"],
+    ["Center", "center"],
+    ["Source", "source"]
 ]
 
 const ampUse = [
-    "Amplify",
-    "Coop"
+    ["Amplify", "amplify"],
+    ["Coop", "coop"]
 ]
 
 const scoring:[string, string][] = [
@@ -88,6 +88,41 @@ const speed = [
     "mi",
     "km"
 ]
+
+let index={
+    event: String,
+    team: Number,
+    scout: String,
+    otherScouts: String,
+    length: Number,
+    width: Number,
+    height: Number,
+    sizeUnit: String,
+    weight: Number,
+    weightUnit: String,
+    speed: Number,
+    speedUnit: String,
+    driveTrain: String,
+    otherDriveTrain: String,
+    intakeType: String,
+    otherIntake: String,
+    shooterType: String,
+    wheelType: String,
+    otherShooter: String,
+    speakerScore: false,
+    ampScore: false,
+    trapScore: false,
+    shootingDistance: Number,
+    distanceUnit: String,
+    climbingAbility: String,
+    maxAutoScore: Number,
+    autoStrategy: String,
+    buddyClimb: Boolean,
+    scorePreference: String,
+    scoringAbility: String, 
+    ampUse: String,
+    intakeLocation: String,
+};
 </script>
 <middle>
     <div class="rounded-lg px-5 py-4 my-5 bg-gradient-to-br from-slate-900 to-slate-800">
@@ -100,158 +135,156 @@ const speed = [
     <div class="rounded-lg px-5 py-4 my-5 bg-gradient-to-br from-slate-900 to-slate-800">
         <div class="text-center mx-auto">page {page} of 3</div>
         <hr class="mt-4 mb-2"/>
-        <form method="POST">
-            {#if page == 1}
-                <div>
-                    <label for="otherScouts">Scouting partner:</label> 
-                        <select name="otherScouts">
-                            <option value="none">None</option>
-                            {#each data.members as member}
-                                <option value={member.username}>{member.name.first} {member.name.last}</option>
-                            {/each}
+        {#if page == 1}
+            <div>
+                <label for="otherScouts">Scouting partner:</label> 
+                    <select name="otherScouts" bind:value={index.otherScouts}>
+                        <option value="none">None</option>
+                        {#each data.members as member}
+                            <option value={member.username}>{member.name.first} {member.name.last}</option>
+                        {/each}
                     </select>
-                    <div class="grid grid-rows-2 grid-cols-3">
-                        <div class="row-start-1 row-span-1 col-start-1 col-span-2">
-                            <label for="size">Length and Width?</label><br>
-                            <input type="number" name="length" size="5"> x <input type="number" name="width" size="5"><br>
-                        </div>
-                        <div class="row-start-2 row-span-1 col-start-1 col-span-2">
-                            <label for="height">Height?</label><br>
-                            <input type="number" name="height" size="5"><br>
-                        </div>
-                        <div class="row-start-2 row-span-1 col-start-3 col-span-1 text-right">
-                            <select name="sizeUnit">
-                                {#each dimensions as dimension}
-                                    <option value={dimension}>{dimension}</option>
-                                {/each}
-                            </select>
-                        </div>
+                <div class="grid grid-rows-2 grid-cols-3">
+                    <div class="row-start-1 row-span-1 col-start-1 col-span-2">
+                        <label for="size">Length and Width?</label><br>
+                        <input bind:value={index.length} type="number" name="length" size="5"> x <input type="number" bind:value={index.width} name="width" size="5"><br>
                     </div>
-                    <div class="grid grid-cols-2 grid-rows-2">
-                        <div class="col-start-1 row-start-1">
-                            <label for="weight">Weight?</label><br>
-                        </div>
-                        <div class="col-start-1 row-start-2">
-                            <input type="number" name="weight" size="5">
-                        </div>
-                        <div class="col-start-2  row-start-2 text-right">
-                            <select name="weightUnit">
-                                {#each weight as weight}
-                                    <option value={weight}>{weight}</option>
-                                {/each}
-                            </select>
-                        </div><br>
+                    <div class="row-start-2 row-span-1 col-start-1 col-span-2">
+                        <label for="height">Height?</label><br>
+                        <input bind:value={index.height} type="number" name="height" size="5"><br>
                     </div>
-                    <hr class="mb-2 mt-4"/>
-                    <div class="grid grid-cols-2 grid-rows-2">
-                        <div class="col-start-1 row-start-1">
-                            <label for="speed">Speed?</label><br>
-                            <input type="number" name="speed" size="5"><br>
-                            <label for="">Drive train?</label><br>
-                        </div>
-                        <div class="col-start-1 col-span-2 row-start-2">
-                            {#each drivetrains as module}
-                                <input type="radio" name="drivetrain" value={module[1]} bind:group={driveTrain}/>{module[0]}
-                                {#if driveTrain == "other" && module[1] == "other"}
-                                    <input class="ml-3" type="text" name="otherDriveTrain" size="10"/>
-                                {/if}
-                                <br>
+                    <div class="row-start-2 row-span-1 col-start-3 col-span-1 text-right">
+                        <select name="sizeUnit" bind:value={index.sizeUnit}>
+                            {#each dimensions as dimension}
+                                <option value={dimension}>{dimension}</option>
                             {/each}
-                        </div>
-                        <div class="col-start-2 row-start-1 text-right">
+                        </select>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 grid-rows-2">
+                    <div class="col-start-1 row-start-1">
+                        <label for="weight">Weight?</label><br>
+                    </div>
+                    <div class="col-start-1 row-start-2">
+                        <input type="number" bind:value={index.weight} name="weight" size="5">
+                    </div>
+                    <div class="col-start-2  row-start-2 text-right">
+                        <select name="weightUnit" bind:value={index.weightUnit}>
+                            {#each weight as weight}
+                                <option value={weight}>{weight}</option>
+                            {/each}
+                        </select>
+                    </div><br>
+                </div>
+                <hr class="mb-2 mt-4"/>
+                <div class="grid grid-cols-2 grid-rows-2">
+                    <div class="col-start-1 row-start-1">
+                        <label for="speed">Speed?</label><br>
+                        <input type="number" name="speed" size="5" bind:value={index.speed}><br>
+                        <label for="">Drive train?</label><br>
+                    </div>
+                    <div class="col-start-1 col-span-2 row-start-2">
+                        {#each drivetrains as module}
+                            <input type="radio" name="drivetrain" value={module[1]} bind:group={index.driveTrain}/>{module[0]}
+                            {#if index.driveTrain.toString() === "other" && module[1] == "other"}
+                                <input class="ml-3" type="text" name="otherDriveTrain" size="10" bind:value={index.otherDriveTrain}/>
+                            {/if}
                             <br>
-                            <select name="speedUnit">
-                                {#each speed as speed}
-                                    <option value={speed}>{speed}</option>
-                                {/each}
-                            </select>
-                            /hr
-                        </div>
+                        {/each}
+                    </div>
+                    <div class="col-start-2 row-start-1 text-right">
+                        <br>
+                        <select name="speedUnit" bind:value={index.speedUnit}>
+                            {#each speed as speed}
+                                <option value={speed}>{speed}</option>
+                            {/each}
+                        </select>
+                        /hr
                     </div>
                 </div>
-            {:else if page == 2}
-                <div>
-                    <label for="">Intake type?</label><br>
-                    {#each intakes as intake}
-                        <input type="radio" name="intakeType" value={intake[1]} bind:group={otherIntake}/>{intake[0]}
-                        {#if otherIntake == "other" && intake[1] == "other"}
-                            <input class="ml-3" type="text" name="otherIntake" size="10"/>
-                        {/if}
-                        <br>
-                    {/each}
-                    <hr class="mb-2 mt-4"/>
-                    <label for="">Shooter type?</label><br>
-                    {#each shooters as shooter}
-                        <input type="radio" name="shooterType" value={shooter[1]} bind:group={otherShooter}/>{shooter[0]}
-                        {#if otherShooter == "other" && shooter[1] == "other"}
-                            <input class="ml-3" type="text" name="otherShooter" size="10"/>
-                        {/if}
-                        {#if otherShooter == "wheels" && shooter[1] == "wheels"}
-                            Type?<input  class="ml-3" type="text" name="wheelType" size="10"/>
-                        {/if}
-                        <br>
-                    {/each}
-                    <hr class="mb-2 mt-4"/>
-                    <label for="">Where can they score?</label><br>
-                    {#each scoring as score}
-                        <input name={score[1]} value={true} type="Checkbox"/> {score[0]}<br>
-                    {/each}
-                    <div class="grid grid-cols-1 grid-rows-2">
-                        <div class="row-start-1">
-                            <label for="shootingDistance">Max shooting distance?</label><br>
-                        </div>
-                        <div class="row-start-2">
-                            <input type="number" name="shootingDistance" size="5">
-                        </div>
-                        <div class="row-start-2">
-                            <select name="distanceUnit">
-                                {#each distance as distance}
-                                    <option >{distance}</option>
-                                {/each}
-                            </select>
-                        </div><br>
+            </div>
+        {:else if page == 2}
+            <div>
+                <label for="">Intake type?</label><br>
+                {#each intakes as intake}
+                    <input type="radio" name="intakeType" value={intake[1]} bind:group={index.intakeType}/>{intake[0]}
+                    {#if index.intakeType.toString() == "other" && intake[1] == "other"}
+                        <input bind:value={index.otherIntake} class="ml-3" type="text" name="otherIntake" size="10"/>
+                    {/if}
+                    <br>
+                {/each}
+                <hr class="mb-2 mt-4"/>
+                <label for="">Shooter type?</label><br>
+                {#each shooters as shooter}
+                    <input type="radio" name="shooterType" value={shooter[1]} bind:group={index.shooterType}/>{shooter[0]}
+                    {#if index.shooterType.toString() == "other" && shooter[1] == "other"}
+                        <input bind:value={index.otherShooter} class="ml-3" type="text" name="otherShooter" size="10"/>
+                    {/if}
+                    {#if index.shooterType.toString() == "wheels" && shooter[1] == "wheels"}
+                        Type?<input bind:value={index.wheelType} class="ml-3" type="text" name="wheelType" size="10"/>
+                    {/if}
+                    <br>
+                {/each}
+                <hr class="mb-2 mt-4"/>
+                <label for="">Where can they score?</label><br>
+                <input value={true} bind:checked={index.speakerScore} type="checkbox"/>Speaker<br>
+                <input value={true} bind:checked={index.ampScore} type="checkbox"/>Amp<br>
+                <input value={true} bind:checked={index.trapScore} type="checkbox"/>Trap<br>
+                <div class="grid grid-cols-1 grid-rows-2">
+                    <div class="row-start-1">
+                        <label for="shootingDistance">Max shooting distance?</label><br>
                     </div>
-                    <hr class="mb-2 mt-4"/>
-                    <label for="">Climbing ability?</label><br>
-                    {#each climbing as climb}
-                        <input type="radio" name="climbingAbility" value={climb[1]}/>{climb[0]}
-                        <br>
-                    {/each}
-                    <label for="maxAuto">Highest number of<br>pieces scored in auto?</label><br>
-                    <input type="number" name="maxAutoScore" size="5"><br>
-                    <hr class="mb-2 mt-4"/>
-                    <label for="autoStrategy">Auto strategy?</label><br>
-                    <textarea name="autoStrategy"></textarea>
+                    <div class="row-start-2">
+                        <input type="number" bind:value={index.shootingDistance} name="shootingDistance" size="5">
+                    </div>
+                    <div class="row-start-2">
+                        <select name="distanceUnit"  bind:value={index.distanceUnit}>
+                            {#each distance as distance}
+                                <option>{distance}</option>
+                            {/each}
+                        </select>
+                    </div><br>
                 </div>
-            {:else if page == 3}
-                <div>
-                    <label for="">Can they buddy climb?</label><br>
-                    {#each buddyClimb as climb}
-                        <input type="radio" name="buddyClimb" value={climb[1]}/>{climb[0]}<br>
-                    {/each}
-                    <hr class="mb-1 mt-2"/>
-                    <label for="">Where do they prefer<br>to score?</label><br>
-                    {#each scorePreference as score}
-                        <input type="radio" name="scorePreference" value={score[1]}/>{score[0]}<br>
-                    {/each}
-                    <hr class="mb-1 mt-2"/>
-                    <label for="">How well can they<br>score there?</label><br>
-                    {#each scoreAbility as score}
-                        <input type="radio" name="scoringAbility" />{score}<br>
-                    {/each}
-                    <hr class="mb-1 mt-2"/>
-                    <label for="">Do they prefer amplify<br>or coop?</label><br>
-                    {#each ampUse as amp}
-                        <input type="radio" name="ampUse" />{amp}<br>
-                    {/each}
-                    <hr class="mb-1 mt-2"/>
-                    <label for="">Where do they usually<br>intake?</label><br>
-                    {#each intakePreference as intake}
-                        <input type="radio" name="intakeLocation"/>{intake}<br>
-                    {/each}
-                </div>
-            {/if}
-        </form>
+                <hr class="mb-2 mt-4"/>
+                <label for="">Climbing ability?</label><br>
+                {#each climbing as climb}
+                    <input type="radio" bind:group={index.climbingAbility} name="climbingAbility" value={climb[1]}/>{climb[0]}
+                    <br>
+                {/each}
+                <label for="maxAuto">Highest number of<br>pieces scored in auto?</label><br>
+                <input type="number" bind:value={index.maxAutoScore} name="maxAutoScore" size="5"><br>
+                <hr class="mb-2 mt-4"/>
+                <label for="autoStrategy">Auto strategy?</label><br>
+                <textarea bind:value={index.autoStrategy} name="autoStrategy"></textarea>
+            </div>
+        {:else if page == 3}
+            <div>
+                <label for="">Can they buddy climb?</label><br>
+                {#each buddyClimb as climb}
+                    <input type="radio" bind:group={index.buddyClimb} name="buddyClimb" value={climb[1]}/>{climb[0]}<br>
+                {/each}
+                <hr class="mb-1 mt-2"/>
+                <label for="">Where do they prefer<br>to score?</label><br>
+                {#each scorePreference as score}
+                    <input type="radio" bind:group={index.scorePreference} name="scorePreference" value={score[1]}/>{score[0]}<br>
+                {/each}
+                <hr class="mb-1 mt-2"/>
+                <label for="">How well can they<br>score there?</label><br>
+                {#each scoreAbility as score}
+                    <input type="radio" name="scoringAbility" bind:group={index.scoringAbility}  value={score[1]}/>{score[0]}<br>
+                {/each}
+                <hr class="mb-1 mt-2"/>
+                <label for="">Do they prefer amplify<br>or coop?</label><br>
+                {#each ampUse as amp}
+                    <input type="radio" name="ampUse" bind:group={index.ampUse}  value={amp[1]}/>{amp[0]}<br>
+                {/each}
+                <hr class="mb-1 mt-2"/>
+                <label for="">Where do they usually<br>intake?</label><br>
+                {#each intakePreference as intake}
+                    <input type="radio" name="intakeLocation" bind:group={index.intakeLocation} value={intake[1]}/>{intake[0]}<br>
+                {/each}
+            </div>
+        {/if}
 
         <hr class="my-4"/>
 
@@ -271,7 +304,10 @@ const speed = [
                 </div>
             {:else if page == 3}
                 <div class="text-center col-start-2">
-                    <button class="border-sky-800 border-2 font-bold bg-gradient-to-br from-sky-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl" type="submit" value="Submit" on:click={()=>{page == 1;}}>Submit</button>
+                    <form method="POST">
+                        <input type="text" hidden name="data" value={JSON.stringify(index)} />
+                        <button class="border-sky-800 border-2 font-bold bg-gradient-to-br from-sky-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl" type="submit" value="Submit" on:click={()=>{page == 1;console.log(index);}}>Submit</button>
+                    </form>
                 </div>
             {/if}
         </div>

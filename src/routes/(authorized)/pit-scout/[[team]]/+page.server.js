@@ -10,6 +10,8 @@ export async function load({ locals, fetch, params }){
         }
     });
 
+    console.log(params);
+
     const events = await res.json();
 
     let result = JSON.parse(JSON.stringify(await User.find({ team:locals.user.team })));
@@ -32,31 +34,51 @@ export async function load({ locals, fetch, params }){
 }
 
 export const actions = {
-    default: async function({request,locals}){
+    default: async function({request,locals,params}){
         const input = await request.formData();
 
-        let output = {};
+        const data = JSON.parse(input.get("data"));
 
-        const items = ["length","width","height","sizeUnit","weight","weightUnit", "speed", "speedUnit", "driveTrain", "otherDriveTrain", "intakeType", "otherIntake", "shooterType", "wheelType", "otherShooter", "speakerScore", "ampScore", "trapScore", "shootingDistance", "climbingAbility", "maxAutoScore", "autoStrategy", "buddyClimb", "scorePreference", "scoringAbility", "ampUse", "intakeLocation"]
+        // let output = {};
 
-        items.forEach(item=>{
-            output[item]=input.get(item)
-        })
+        // const items = ["otherScouts","length","width","height","sizeUnit","weight","weightUnit", "speed", "speedUnit", "driveTrain", "otherDriveTrain", "intakeType", "otherIntake", "shooterType", "wheelType", "otherShooter", "speakerScore", "ampScore", "trapScore", "shootingDistance", "climbingAbility", "maxAutoScore", "autoStrategy", "buddyClimb", "scorePreference", "scoringAbility", "ampUse", "intakeLocation"]
 
-        output.scout = locals.user.username;
+        // items.forEach(item=>{
+        //     output[item]=input.get(item)
+        // })
 
-        if(await pitdata2024.findOne({team:output["team"], event:output["event"]})){
-            throw redirect(307, "/pit-scout/nav");
+        const otherData = {
+            event: locals.competition,
+            team: params?.team,
+            scout: locals.user.username
+        };
+
+        const final = {
+            ...otherData,
+            ...data
+        };
+
+        console.log(otherData);
+        console.log(data);
+        console.log(final);
+
+        if(await pitdata2024.findOne({team:final["team"], event:final["event"]})){
+            throw redirect(307, "/pit-scout");
         }
 
-        const db = new pitdata2024(output);
+        const db = new pitdata2024(final);
         await db.save();
 
-        await credits.transaction(output.scout, 350, `Pit scouted ${output.team}`);
+        if(final.otherScouts == "none"){
+            await credits.transaction(final.scout, 350, `Pit scouted ${final.team}`);
+        }
 
-        if(output.otherScouts != "none")
-            await credits.transaction(output.otherScouts, 350, `Co-pit scouted ${output.team}`);
+        if(final.otherScouts != "none"){
+            await credits.transaction(final.scout, 350, `Pit scouted ${final.team}`);
+            await credits.transaction(final.otherScouts, 350, `Co-pit scouted ${final.team}`);
+        }
     
-        throw redirect(307, "/pit-scout/nav");
+        console.log('test')
+        throw redirect(303, "/pit-scout/nav");
     }
 }
