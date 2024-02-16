@@ -112,6 +112,8 @@
 
 <style>
     .boxing{
+        margin-top: 1rem;
+        margin-bottom: 1rem;
         border: 5px #363131;
         border-radius: 8%;
         background-color:#171c26;
