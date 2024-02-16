@@ -112,7 +112,6 @@
 
 <style>
     .boxing{
-        @apply my-4;
         border: 5px #363131;
         border-radius: 8%;
         background-color:#171c26;
