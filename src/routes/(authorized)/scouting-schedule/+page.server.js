@@ -1,1 +1,61 @@
-import { MONGODB_COMMUNITY } from "$env/static/private";
+import { schedulePositions } from "$lib/server/models";
+
+export async function load() {
+    const data = await schedulePositions.find();
+
+    let leads = [];
+    let scouts = [];
+    let backups = [];
+
+    data.forEach(e => {
+        if (e.position == 'Lead Scout'){
+            leads.push(e);
+        }
+        if (e.position == 'scout'){
+            scouts.push(e);
+        }
+        if (e.position == 'Backup'){
+            backups.push(e);
+        }
+    })
+
+    let day = [];
+
+    leads.forEach(e => {
+        day.push(e.day);
+    })
+
+    let uniqueDay = [...new Set(day)].sort();
+
+    let days = JSON.stringify(uniqueDay);
+
+    let shifts = [];
+    let scout = [];
+    let backup = [];
+
+    for(let i = 0; i < uniqueDay.length; i++){
+        leads.forEach(e => {
+            if(e.day == uniqueDay[i])
+            shifts.push({day: uniqueDay[i], shift: e.shift, name: e.name});
+        })
+        scouts.forEach(e => { 
+            if(e.day == uniqueDay[i])
+            scout.push({day: uniqueDay[i], shift: e.shift, name: e.name,  team: e.team});
+        })
+        backups.forEach(e => { 
+            if(e.day == uniqueDay[i])
+            backup.push({day: uniqueDay[i], shift: e.shift, name: e.name});
+        })
+    }
+
+    let shift = JSON.stringify(shifts);
+    let s = JSON.stringify(scout);
+    let b = JSON.stringify(backup);
+
+    return {
+        days:days,
+        shifts:shift,
+        scouts:s,
+        backups:b
+    }
+}

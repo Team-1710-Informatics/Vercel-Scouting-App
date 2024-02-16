@@ -1,6 +1,6 @@
 <script lang=ts>
     //@ts-ignore;
-    import Countdown from "$lib/components/Countdown.svelte";
+    import Countdown from "$lib/components/Countdown.svelte"
 
     type Competition = {
         name:string,
@@ -9,6 +9,9 @@
     }
 
     export let events:Competition[];
+    export let lead:any;
+    export let scouts:any;
+    export let backups:any;
 
     function nextComp() : Competition | null {
         let next = null;
@@ -34,6 +37,7 @@
 
         let elapsed = now - curr.date;
         let n = Math.floor(elapsed / (1000 * 3600 * 24)) + 1;
+        console.log(n);
         let day:string;
         switch(n){
             // I don't think comps are ever this long, but may as well cover all the bases
@@ -51,6 +55,18 @@
 
         return [curr,day];
     }
+
+    function format(time:string){
+        const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const originalDate = new Date(time);
+        const formattedTime = originalDate.toLocaleString('en-US', {
+            timeZone: timeZone,
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: true
+        });
+        return(formattedTime);
+    }
 </script>
 
 <middle class="text-center">
@@ -64,4 +80,64 @@
     {:else}
         <p>Happy Holidays</p>
     {/if}
+    {#if lead.name != ''}
+        <div class="p-2 bg-slate-800 rounded-xl">
+            <table>
+                <th>Next Shift</th>
+                <tr>
+                    <table>
+                        <tr>
+                            <th>Time</th>
+                            <th>Lead Scout</th>
+                            <th>Scouts</th>
+                            <th>Backups</th>
+                        </tr>
+                        <tr>
+                            <td>{format(lead.start)}<br>to<br>{format(lead.end)}</td>
+                            <td>{lead.name}</td>
+                            <td>
+                                <table>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Team</th>
+                                    </tr>
+                                    {#each scouts as scout}
+                                        <tr>
+                                            <td>{scout.name}</td>
+                                            {#if scout.team == 'Blue3' || scout.team == 'Blue2' || scout.team == 'Blue1'}
+                                                <td class="bg-sky-700">{scout.team}</td>
+                                            {:else if scout.team == 'Red3' || scout.team == 'Red2' || scout.team == 'Red1'}
+                                                <td class="bg-rose-700">{scout.team}</td>
+                                            {/if}
+                                        </tr>
+                                    {/each}
+                                </table>
+                            </td>
+                            <td>
+                                <div class="flex-col">
+                                    {#each backups as backup}
+                                        <div>
+                                            {backup.name}
+                                        </div>
+                                    {/each}
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </tr>
+            </table>
+        </div>
+    {/if}
 </middle>
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+    }
+
+    td, th {
+        border: 2px solid black;
+        text-align: center;
+        padding: 8px;
+    }
+</style>
