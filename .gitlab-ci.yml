@@ -4,7 +4,7 @@ stages:
 sync_to_github:
   stage: sync
   script:
-    - git remote add github <github_repository_url>
+    - git remote add github https://github.com/Team-1710-Informatics/Vercel-Scouting-App.git
     - git fetch --all
     - git push github --mirror
 
