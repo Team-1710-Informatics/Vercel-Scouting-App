@@ -1,14 +1,12 @@
 stages:
-  - sync
+  - deploy
 
-sync_to_github:
-  stage: sync
+deploy_to_github:
+  stage: deploy
   script:
-    - mkdir -p ~/.ssh
-    - echo "StrictHostKeyChecking no" >> ~/.ssh/config
-    - git remote add github git@github.com:Team-1710-Informatics/Vercel-Scouting-App.git
-    - git fetch --all
-    - git push github --mirror
-
+    - git remote add github https://github.com/Team-1710-Informatics/Vercel-Scouting-App.git
+    - git push github $CI_COMMIT_SHA:refs/heads/master
+  only:
+    - master  # or whichever branch you want to trigger the pipeline for
 
 #This is only or CI/CD piepline between gitlab and github repository. Delete to delete connection
