@@ -14,6 +14,7 @@ export async function load({ locals }){
                 tungsten: item.stats?.tungsten??0,
                 tourmaline: item.stats?.tourmaline??0,
                 welmanite: item.stats?.welmanite??0,
+                matches_scouted: item.stats?.matches_scouted??0
             }
         });
     })

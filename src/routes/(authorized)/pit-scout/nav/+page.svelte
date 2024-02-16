@@ -39,7 +39,7 @@
     </div>
     <div class="box">
         <h6>Competition</h6>
-        <CompetitionSelector bind:event={event} events={data.events}/>{event}
+        <CompetitionSelector bind:event={event} events={data.events}/>
     </div>
     <br>
     <p>Already scouted:</p>

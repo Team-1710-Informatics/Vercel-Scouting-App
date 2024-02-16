@@ -8,9 +8,9 @@
     let step = 0;
 
     function safetynet(e:Event){
-        // e.preventDefault();
+        e.preventDefault();
         
-        // return "Are you sure you want to leave? Scouting data will be lost."
+        return "Are you sure you want to leave? Scouting data will be lost."
     }
 
     let meta:{ //meta is all background data
