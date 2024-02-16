@@ -1,0 +1,11 @@
+stages:
+  - sync
+
+sync_to_github:
+  stage: sync
+  script:
+    - git remote add github <github_repository_url>
+    - git fetch --all
+    - git push github --mirror
+
+#This is only or CI/CD piepline between gitlab and github repository. Delete to delete connection
