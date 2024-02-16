@@ -4,8 +4,11 @@ stages:
 sync_to_github:
   stage: sync
   script:
+    - mkdir -p ~/.ssh
+    - echo "StrictHostKeyChecking no" >> ~/.ssh/config
     - git remote add github git@github.com:Team-1710-Informatics/Vercel-Scouting-App.git
     - git fetch --all
     - git push github --mirror
+
 
 #This is only or CI/CD piepline between gitlab and github repository. Delete to delete connection
