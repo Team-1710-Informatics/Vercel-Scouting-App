@@ -73,10 +73,8 @@
             <button on:click={()=>{disabled=true;}} class="submit" disabled={!(meta.event && meta.match && meta.team && meta.alliance)}>Next</button>
         {:else}
             <div in:slide>
-                <button class="rounded border-2 bg-slate-800">No Show</button>
                 <Starting alliance={meta.alliance} bind:value={pregame.startPosition}/>
                 <div class="flex flex-row w-fit my-2">
-                    <b class="mr-6 self-center">Preload:</b>
                     {#each loadImgs as img}
                         <button class="bg-none border-none opacity-50" class:opacity-100={pregame.preload===img.value} class:bg-white={pregame.preload===img.value} on:click={()=>{pregame.preload=img.value}}>
                             <img width=28px height=28px alt={img.value} src={img.src} style={img?.style}>

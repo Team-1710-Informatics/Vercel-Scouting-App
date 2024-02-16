@@ -8,8 +8,8 @@ import { fail } from "@sveltejs/kit";
 export async function load({ locals, url }) {
     if(!locals.user) throw redirect(307, "/login");
 
-    // const events = await tba(`events/2024`);
-    const events = [];
+    const events = await tba(`events/2024`);
+    // const events = [];
 
     return{
         events,

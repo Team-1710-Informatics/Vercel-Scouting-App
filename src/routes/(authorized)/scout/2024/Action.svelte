@@ -61,7 +61,6 @@
         }
         active_action=0;
         active_action=active_action;
-        console.log(log);
     }
     
     let active_action=0;

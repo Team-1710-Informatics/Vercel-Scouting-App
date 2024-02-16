@@ -116,7 +116,10 @@ async function create(data) {
         },
         credits: 100,
         team: +data.team,
-        stats: { joined: Math.floor(Date.now()/1000) },
+        stats: { 
+            joined: Math.floor(Date.now()/1000),
+            matches_scouted:0
+        },
         preferences: { theme: "dark" },
         permissions: [],
         flags: { verification_key:key }
