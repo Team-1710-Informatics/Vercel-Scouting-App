@@ -9,4 +9,4 @@ deploy_to_github:
   only:
     - master  # or whichever branch you want to trigger the pipeline for
 
-#This is only or CI/CD piepline between gitlab and github repository. Delete to delete connection
+#This is only for CI/CD piepline between gitlab and github repository. Delete to delete connection
