@@ -1,12 +1,12 @@
 stages:
-  - deploy
+  - sync
 
 deploy_to_github:
-  stage: deploy
+  stage: sync
   script:
-    - git remote add github https://github.com/Team-1710-Informatics/Vercel-Scouting-App.git
-    - git push github $CI_COMMIT_SHA:refs/heads/master
+    - git remote add github "https://$GITHUB_TOKEN@github.com/Team-1710-Informatics/Vercel-Scouting-App.git"
+    - git push github $CI_COMMIT_SHA:refs/heads/main
   only:
-    - master  # or whichever branch you want to trigger the pipeline for
+    - main  # or whichever branch you want to trigger the pipeline for
 
 #This is only for CI/CD piepline between gitlab and github repository. Delete to delete connection
