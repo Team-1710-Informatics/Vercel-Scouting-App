@@ -4,7 +4,7 @@ stages:
 deploy_to_github:
   stage: sync
   script:
-    - git remote add github https://github.com/Team-1710-Informatics/Vercel-Scouting-App.git
+    - git remote add github "https://$GITHUB_TOKEN@github.com/Team-1710-Informatics/Vercel-Scouting-App.git"
     - git push github $CI_COMMIT_SHA:refs/heads/main
   only:
     - main  # or whichever branch you want to trigger the pipeline for
