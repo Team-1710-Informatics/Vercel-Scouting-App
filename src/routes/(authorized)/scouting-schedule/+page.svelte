@@ -5,6 +5,18 @@
     const scouts = JSON.parse(data.scouts)
     const backups = JSON.parse(data.backups)
     let selected = days[0];
+
+    function format(time){
+        const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const originalDate = new Date(time);
+        const formattedTime = originalDate.toLocaleString('en-US', {
+            timeZone: timeZone,
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: true
+        });
+        return(formattedTime);
+    }
 </script>
 <middle>
     <div class="bg-gray-800 flex flex-row gap-2 p-2 my-2 rounded-3xl">  
@@ -25,7 +37,7 @@
             {#each shifts as shift}
                 {#if shift.day == selected}
                     <tr>
-                        <td>{shift.start}<br>to<br>{shift.end}</td>
+                        <td>{format(shift.start)}<br>to<br>{format(shift.end)}</td>
                         <td>{shift.name}</td>
                         <td>
                             <table>
