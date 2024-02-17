@@ -44,10 +44,10 @@
         <div class="grid grid-cols-4">
             {#if !condition}
                 <b class="justify-self-start">Event:</b>
-                <div class="col-span-3 justify-self-end"><CompetitionSelector class="w-16" events={[{short_name:"!Practice Scouting",key:"2024practice"},{short_name:"!Practice Scouting",key:"2024practice"},{short_name:"week0comp",key:"week0comp"},...events]} bind:event={meta.event} {disabled} /> </div>
+                <div class="col-span-3 justify-self-end"><CompetitionSelector class="w-16" events={[{short_name:"!Practice Scouting",key:"2024practice"},{short_name:"!Practice Scouting",key:"2024practice"},...events]} bind:event={meta.event} {disabled} /> </div>
             {:else if condition}
                 <b class="col-span-4 mx-auto">Event:</b>
-                <div class="col-span-4 mx-auto"><CompetitionSelector class="w-16" events={[{short_name:"!Practice Scouting",key:"2024practice"},{short_name:"!Practice Scouting",key:"2024practice"},{short_name:"week0comp",key:"week0comp"},...events]} bind:event={meta.event} {disabled} /> </div>
+                <div class="col-span-4 mx-auto"><CompetitionSelector class="w-16" events={[{short_name:"!Practice Scouting",key:"2024practice"},{short_name:"!Practice Scouting",key:"2024practice"},...events]} bind:event={meta.event} {disabled} /> </div>
             {/if}
             <b class="justify-self-start mx-auto col-span-2">Match:</b>
             <b class="justify-self-end mx-auto col-span-2">Team:</b>
