@@ -20,7 +20,6 @@
     
     let start;
     let dozerCoords;
-    let active=false;
     let pointer = {
         x:undefined,
         y:undefined
@@ -37,7 +36,6 @@
 
     function setStarting(event){
         if(disabled) return;
-        if(!active)return;
         rect = start.getBoundingClientRect();
         value.x=Math.trunc(event.clientX-rect.left-5);
         value.y=Math.trunc(event.clientY-rect.top-2);
@@ -56,6 +54,8 @@
             position:absolute;
             top:${pointer.y - 2}px;
             left:${pointer.x - 5}px;
+            pointer-events: none;
+            touch-action: none;
         `
         style=`
             position:absolute;
@@ -63,14 +63,16 @@
             left:${pointer.x - 40}px;
             width:80px;
             height:80px;
-            pointer-events: none;`
+            pointer-events: none;
+            touch-action: none;
+            `
     }
 </script>
 <svelte:window bind:innerHeight/>
 
 {#if !disabled}
     <h1 class="text-xl mb-4"><b>Select Starting Position</b></h1>
-    <img class="img" alt="" src={imgs[alliance]} draggable=false bind:this={start} on:touchstart={()=>{active=true}} on:touchend={()=>{active=false;}} on:mousedown={()=>{active=true}} on:mouseup={()=>{active=false; }} on:pointermove={setStarting} on:keydown={()=>{return}}/>
+    <img class="img" alt="" src={imgs[alliance]} draggable=false bind:this={start} on:click={setStarting} on:keydown={()=>{return}}/>
     <h1 class="text-xs">Drag on the Field to Place Robot</h1>
     {#if pointer.y}
         <img id="dozer" {style} alt="" draggable=false src={dozer} bind:this={dozerCoords}/>
