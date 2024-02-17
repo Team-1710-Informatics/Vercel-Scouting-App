@@ -29,7 +29,7 @@
 
 <center class="py-10">
     <h6>Pit Scouting</h6>
-    <div class="p-1 mb-4 mx-1">
+    <div class="bg-gradient-to-br from-slate-900 to-slate-800 text-center p-2 rounded-lg">
         <h6>Rules</h6>
         <div class="text-left">
             {#each rules as rule}
@@ -37,7 +37,7 @@
             {/each}
         </div>
     </div>
-    <div class="">
+    <div class="bg-gradient-to-br from-slate-900 to-slate-800 text-center p-2 rounded-lg">
         <h6>Competition</h6>
         <CompetitionSelector bind:event={event} events={data.events}/>
     </div>
