@@ -48,7 +48,7 @@ export async function load({ locals }){
     let previewScouts = [];
     let previewBackups = [];
     leads.forEach(e => {
-        let targetTime = new Date('2024-03-13T14:30:00.000Z');
+        let targetTime = new Date();
         let startTime = new Date(e.start);
         let endTime = new Date(e.end);
         if(isTimeInRange(startTime, endTime, targetTime)){

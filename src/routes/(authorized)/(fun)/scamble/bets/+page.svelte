@@ -35,14 +35,14 @@
 </script>
 <middle class="py-10">
     <p class="font-black text-6xl"><ColorSwappingText text={"SCAMBLE"}/></p>
-    <div class="box">
+    <div>
         <p class="font-extrabold text-xl text-center">Select a Match</p>
         <hr>
         <MatchSelector event={data.competition?.key??data.last??null} events={data.events} bind:match={match}/>
     </div>
     <Tickets tickets={data.tickets}/>
     <div class="h-8"/>
-    <div class="font-bold bg-gradient-to-t from-slate-900 to-slate-700 text-center p-2 border-2 rounded-lg border-white mb-2 text-2xl text-teal-500"
+    <div class="font-bold bg-gradient-to-br from-slate-900 to-slate-800 text-center p-2 rounded-lg mb-2 text-2xl text-teal-500"
         
         class:rounded-b-none={match}
         style="max-width:96vw; width:300px"
@@ -57,13 +57,13 @@
                 {#if !ticketExists(match.key)}
                     <Bet {data} bind:match={match} />
                 {:else}
-                    <p class="font-bold bg-gradient-to-b from-slate-900 to-slate-800 text-center p-2 border-2 rounded-lg rounded-t-none border-white mt-2" style="max-width:96vw; width:300px">
+                    <p class="font-bold bg-gradient-to-br from-slate-900 to-slate-800 text-center p-2 rounded-lg" style="max-width:96vw; width:300px">
                         You bet <Credits>{ticketExists(match.key).amount}</Credits> credits on {ticketExists(match.key).alliance}
                     </p>
                 {/if}
             {/key}
         {:else if match?.winning_alliance != undefined}
-            <p class={`font-bold p-2 mt-2 rounded-b-lg border-2 border-white bg-gradient-to-b ${
+            <p class={`font-bold p-2 mt-2 rounded-lg bg-gradient-to-br ${
                 match.winning_alliance==="blue"?
                 "from-blue-700 to-blue-400":
                 match.winning_alliance==="red"?

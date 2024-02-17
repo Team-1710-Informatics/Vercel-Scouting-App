@@ -10,26 +10,26 @@
     let upcomingScouts = JSON.parse(data.previewScouts);
     let upcomingBackups = JSON.parse(data.previewBackups);
 
-    const links:[string, string, number, number, number?, string?, string?][] = [ // name, path, width, order, 
-        ["Scout Match", '/scout/2024', 6, 2, , ''],
-        ["Pit Scouting", '/pit-scout/nav', 6, 3, , ''],
-        ["Leaderboard", '/leaderboard', 4, 8, , ''],
-        ["Data", '/data/2024', 2, 8, , ''],
-        ["Scouting API", '/apidocs', 6, 9, 10, '']
+    const links:[string, string, number, number, number?, boolean?][] = [ // name, path, width, order, 
+        ["Scout Match", '/scout/2024', 6, 2, , false],
+        ["Pit Scouting", '/pit-scout/nav', 6, 3, , false],
+        ["Leaderboard", '/leaderboard', 4, 8, , false],
+        ["Data", '/data/2024', 2, 8, , false],
+        ["Scouting API", '/apidocs', 6, 9, 10, false]
     ]
 
     if(data.team === 1710){
         links.unshift(
-        // ["Scamble", '/scamble/bets', 3, 6, , ''],
-        ["Store", '/store', 6, 6, , ''],
-        // ["Stocks", '/scamble/stocks', 3, 7, , ''],
-        ["Metalshop", '/metal-shop', 6,7, , ''],
-        ["Scouting Schedule", '/scouting-schedule', 6, 4, , ''],
-        ["Pit Schedule", '/pit-schedule', 6, 5, , ''])
+        ["Scamble", '/scamble/bets', 3, 6, , true],
+        ["Store", '/store', 3, 6, , false],
+        ["Stocks", '/scamble/stocks', 3, 7, , false],
+        ["Metalshop", '/metal-shop', 3,7, , false],
+        ["Scouting Schedule", '/scouting-schedule', 6, 4, , true],
+        ["Pit Schedule", '/pit-schedule', 6, 5, , true])
     }
 
     if(data.permissions.includes("admin")){
-        links.unshift(["Admin", "/admin", 6, 1, , '', ''])
+        links.unshift(["Admin", "/admin", 6, 1, , false])
     }
 
     let secret = 0;
@@ -54,9 +54,13 @@
     <div class="grid grid-cols-6 w-60 gap-2">
         {#each links as link}
             {#if link[0] == "Admin"}
-                <a href={link[1]} class="border-rose-800 border-2 font-bold bg-gradient-to-br from-rose-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl"style="grid-column: span {link[2]} / span {link[2]}; grid-row: start {link[3]}; margin-bottom: {link[4]}px;"><button class={link?.[5]+" w-full py-3"}>{link[0]}</button></a>
+                <a href={link[1]} class="border-rose-800 border-2 font-bold bg-gradient-to-br from-rose-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl"style="grid-column: span {link[2]} / span {link[2]}; grid-row: start {link[3]}; margin-bottom: {link[4]}px;"><button class={"w-full py-3"}>{link[0]}</button></a>
             {:else}
-                <a href={link[1]} class="border-sky-800 border-2 font-bold bg-gradient-to-br from-sky-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl"style="grid-column: span {link[2]} / span {link[2]}; grid-row: start {link[3]}; margin-bottom: {link[4]}px;"><button class={link?.[5]+" w-full py-3"}>{link[0]}</button></a>
+                {#if link[5] == true}
+                    <a href={link[1]} class="border-sky-800 border-2 font-bold bg-gradient-to-br from-sky-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl"style="grid-column: span {link[2]} / span {link[2]}; grid-row: start {link[3]}; margin-bottom: {link[4]}px;"><button disabled class={"w-full py-3"}>{link[0]}</button></a>
+                {:else}
+                    <a href={link[1]} class="border-sky-800 border-2 font-bold bg-gradient-to-br from-sky-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl"style="grid-column: span {link[2]} / span {link[2]}; grid-row: start {link[3]}; margin-bottom: {link[4]}px;"><button class={"w-full py-3"}>{link[0]}</button></a>
+                {/if}
             {/if}
         {/each}
     </div>

@@ -36,15 +36,15 @@ export async function load() {
     for(let i = 0; i < uniqueDay.length; i++){
         leads.forEach(e => {
             if(e.day == uniqueDay[i])
-            shifts.push({day: uniqueDay[i], shift: e.shift, name: e.name});
+            shifts.push({day: uniqueDay[i], start: e.start, end: e.end, name: e.name});
         })
         scouts.forEach(e => { 
             if(e.day == uniqueDay[i])
-            scout.push({day: uniqueDay[i], shift: e.shift, name: e.name,  team: e.team});
+            scout.push({day: uniqueDay[i], start: e.start, end: e.end, name: e.name, team: e.team});
         })
         backups.forEach(e => { 
             if(e.day == uniqueDay[i])
-            backup.push({day: uniqueDay[i], shift: e.shift, name: e.name});
+            backup.push({day: uniqueDay[i], start: e.start, end: e.end, name: e.name});
         })
     }
 

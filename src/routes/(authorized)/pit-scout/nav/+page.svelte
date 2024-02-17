@@ -29,7 +29,7 @@
 
 <center class="py-10">
     <h6>Pit Scouting</h6>
-    <div class="box p-1 mb-4 mx-1">
+    <div class="p-1 mb-4 mx-1">
         <h6>Rules</h6>
         <div class="text-left">
             {#each rules as rule}
@@ -37,7 +37,7 @@
             {/each}
         </div>
     </div>
-    <div class="box">
+    <div class="">
         <h6>Competition</h6>
         <CompetitionSelector bind:event={event} events={data.events}/>
     </div>

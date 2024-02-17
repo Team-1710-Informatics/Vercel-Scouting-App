@@ -5,6 +5,18 @@
     const scouts = JSON.parse(data.scouts)
     const backups = JSON.parse(data.backups)
     let selected = days[0];
+
+    function format(time){
+        const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const originalDate = new Date(time);
+        const formattedTime = originalDate.toLocaleString('en-US', {
+            timeZone: timeZone,
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: true
+        });
+        return(formattedTime);
+    }
 </script>
 <middle>
     <div class="bg-gray-800 flex flex-row gap-2 p-2 my-2 rounded-3xl">  
@@ -25,7 +37,7 @@
             {#each shifts as shift}
                 {#if shift.day == selected}
                     <tr>
-                        <td>{shift.shift}</td>
+                        <td>{format(shift.start)}<br>to<br>{format(shift.end)}</td>
                         <td>{shift.name}</td>
                         <td>
                             <table>
@@ -34,7 +46,7 @@
                                     <th>Team</th>
                                 </tr>
                                 {#each scouts as scout}
-                                    {#if scout.day == selected && scout.shift == shift.shift}
+                                    {#if scout.day == selected && scout.start == shift.start && scout.end == shift.end}
                                         <tr>
                                             {#if scout.team == 'Blue1'}
                                                 <td>{scout.name}</td>
@@ -77,7 +89,7 @@
                         </td>
                         <td>
                             {#each backups as backup}
-                                {#if backup.day == selected && backup.shift == shift.shift}
+                                {#if backup.day == selected && backup.start == shift.start && backup.end == shift.end}
                                     {backup.name}<br>
                                 {/if}
                             {/each}
