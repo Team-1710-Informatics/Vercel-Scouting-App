@@ -57,7 +57,7 @@
 <middle class="py-10">
     <h1 class="text-5xl font-bold">CREDITSTORE</h1>
     <div class="box">
-        <p class="text-right"><Credits class="text-3xl">{Math.round($credits)}</Credits> credits</p>
+        <p class="text-right"><Credits class="text-3xl">{Math.trunc($credits)}</Credits> credits</p>
 
         <label>Category: <select bind:value={category}>
             <option value="All">All</option>
