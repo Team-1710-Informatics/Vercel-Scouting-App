@@ -6,4 +6,3 @@ export async function GET({ params }) {
     jason.forEach(e=>{delete e.postgame;})
     return json(jason);
 }
-

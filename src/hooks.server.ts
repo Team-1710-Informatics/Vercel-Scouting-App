@@ -1,15 +1,24 @@
-import { MONGODB_MAIN } from '$env/static/private';
+import { MONGODB_MAIN, MONGODB_COMMUNITY } from '$env/static/private';
 
 import mongoose from 'mongoose';
 import { User } from '$lib/server/models';
+import { dev } from '$app/environment';
 
 import { redirect, type Handle } from "@sveltejs/kit";
 
-//@ts-ignore
+// @ts-ignore
 import { DateTime } from 'luxon';
 import tba from '$lib/modules/tba';
+try {
+	if (dev) await mongoose.connect(MONGODB_COMMUNITY);
+	else if (!dev) await mongoose.connect(MONGODB_MAIN);
+	console.log("Connected to MongoDB");
+} catch (error) {
+	console.log("Error connecting to MongoDB:", error);
+}
 
-await mongoose.connect(MONGODB_MAIN);
+// if(dev) await mongoose.connect(MONGODB_COMMUNITY);
+// else if(!dev) await mongoose.connect(MONGODB_MAIN);
 
 export const handle = (async function({ event, resolve }) {
     const token = event.cookies.get("session");
@@ -23,9 +32,11 @@ export const handle = (async function({ event, resolve }) {
     }
 
     let res = await tba(`team/frc${user.team}/events/${new Date().getFullYear()}`);
-    
-    let c = currComp(res);
-    let n = nextComp(res);
+    let c, n;
+    if(!dev){
+        c = currComp(res);
+        n = nextComp(res);
+    }
 
     event.locals.user = {
         username: user.username,
@@ -36,9 +47,10 @@ export const handle = (async function({ event, resolve }) {
         preferences: user.preferences,
         permissions: user.permissions
     }
-
-    event.locals.competition = c;
-    event.locals.nextCompetition = n;
+    if(!dev){
+        event.locals.competition = c;
+        event.locals.nextCompetition = n;
+    }
     
     let response = await resolve(event);
     response.headers.append('Access-Control-Allow-Origin', `https://team1710.com`);

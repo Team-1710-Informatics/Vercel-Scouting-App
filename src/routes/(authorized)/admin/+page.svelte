@@ -131,5 +131,6 @@
     {/each}
     <br>
     <br>
-    <a href="/admin/history"><button>Credit history</button></a>
+    <a href="/admin/history"><button class="submit my-1">Credit history</button></a>
+    <a href="/admin/store"><button class="submit my-1">Add a store item</button></a>
 </middle>

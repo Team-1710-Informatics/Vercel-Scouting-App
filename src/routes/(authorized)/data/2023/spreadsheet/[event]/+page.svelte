@@ -169,137 +169,84 @@
     let showGraph = false;
 </script>
 
-<div class="flex flex-col lg:flex-row justify-items-center">
-    <center class="pt-1 lg:basis-1/3">
-        <div class="grid grid-cols-2 w-fit gap-1">
-            <button class="font-bold bg-gradient-to-t from-green-800 to-green-400 border-green-900" on:click={add_column}>Add column</button>
-            <button class="font-bold bg-gradient-to-t from-red-800 to-red-400 border-red-900" on:click={remove_column}>Remove column</button>
-        </div>
-        <br>
-        <div><label>
-            Filter teams:
-            <input type="text" bind:value={show}>
-        </label></div>
-        <label>
-            <input type="radio" name="positive" bind:group={positive} value={true}>
-            Include
-        </label>
-        <label>
-            <input type="radio" name="positive" bind:group={positive} value={false}>
-            Exclude
-        </label>
-        <br><br>
-        <div>Filter matches:</div>
-        <label>
-            From:
-            <input class="w-24" type="number" bind:value={first}>
-        </label>
-        <label>
-            To:
-            <input class="w-24" type="number" bind:value={last}>
-        </label>
-        <br><br>
-        <div class="flex flex-row items-center w-fit p-4">
-            <input type="checkbox" id="graph-switch" class="relative w-11 h-6 p-px bg-gray-100 border-transparent text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-blue-600 disabled:opacity-50 disabled:pointer-events-none checked:bg-none checked:text-blue-600 checked:border-blue-600 focus:checked:border-blue-600 dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-600 before:inline-block before:w-5 before:h-5 before:bg-white checked:before:bg-blue-200 before:translate-x-0 checked:before:translate-x-full before:rounded-full before:shadow before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-gray-400 dark:checked:before:bg-blue-200"
-                   on:click={() => showGraph = !showGraph}>
-            <label for="graph-switch" class="text-sm">Toggle Graphing</label>
-        </div>
-        {#if !showGraph}
-            <button on:click={tableToCSV} class="font-bold bg-gradient-to-t from-teal-800  to-teal-400 border-black">Export sheet</button>
-        {/if}
-        <table>
-            {#if values}
-                {#each values as value}
-                    <tr>
-                        {#each value as subvalue}
-                            <th>{subvalue}</th>
-                        {/each}
-                    </tr>
+<center class="pt-10">
+    <div class="grid grid-cols-2 w-fit gap-1">
+        <button class="font-bold bg-gradient-to-t from-green-800 to-green-400 border-green-900" on:click={()=>{columns.push("Average_score");columns=columns}}>Add column</button>
+        <button class="font-bold bg-gradient-to-t from-red-800 to-red-400 border-red-900" on:click={()=>{columns.pop ("Average_score");columns=columns}}>Remove column</button>
+    </div>
+    <br>
+    <div><label>
+        Filter teams: 
+        <input type="text" bind:value={show}>
+    </label></div>
+    <label>
+        <input type="radio" name="positive" bind:group={positive} value={true}>
+        Include
+    </label>
+    <label>
+        <input type="radio" name="positive" bind:group={positive} value={false}>
+        Exclude
+    </label>    
+    <br><br>
+    <div>Filter matches:</div>
+    <label>
+        From:
+        <input class="w-24" type="number" bind:value={first}>
+    </label>
+    <label>
+        To:
+        <input class="w-24" type="number" bind:value={last}>
+    </label>    
+    <br><br>
+    <div class="flex flex-row w-fit gap-1">
+        <p>Sort:</p>
+        <select bind:value={sortFunction}>
+            {#each Object.keys(stats) as func}
+                <option value={func}>{func}</option>
+            {/each}
+        </select>
+    </div>
+    <label>
+        <input type="radio" name="sort" bind:group={ascending} value={false}>
+        Descending
+    </label>
+    <label>
+        <input type="radio" name="sort" bind:group={ascending} value={true}>
+        Ascending
+    </label>
+    <br>
+    <br>
+    <div class="box overflow-x-scroll max-w-full">
+        <table class="divide-y divide-white">
+            <tr>
+                <th>#</th>
+                {#each columns as col}
+                    <th>
+                        <select class="text-xs" style="max-width:80px" bind:value={col}>
+                            {#each Object.keys(stats) as func}
+                                <option value={func}>{func}</option>
+                            {/each}
+                        </select>
+                    </th>
                 {/each}
-            {/if}
-        </table>
-    </center>
-    <div class="inline-block h-full min-h-[1em] w-0.5 self-stretch bg-neutral-100 opacity-100 dark:opacity-50"></div>
-    <center class="lg:basis-2/3">
-        {#if !showGraph}
-            <div class="flex flex-row w-fit gap-1">
-                <p>Sort:</p>
-                <select bind:value={sortFunction}>
-                    {#each Object.keys(stats) as func}
-                        <option value={func}>{func}</option>
-                    {/each}
-                </select>
-            </div>
-            <label>
-                <input type="radio" name="sort" bind:group={ascending} value={false} on:change={generate_new_data}>
-                Descending
-            </label>
-            <label>
-                <input type="radio" name="sort" bind:group={ascending} value={true} on:change={generate_new_data}>
-                Ascending
-            </label>
-            <br>
-            <br>
-            <div class="box overflow-x-scroll max-w-full">
-                <table class="divide-y divide-white">
-                    <tr>
-                        <th>#</th>
-                        {#each columns as col}
-                            <th>
-                                <select class="text-xs" style="max-width:80px" bind:value={col} on:change={update_graph_data}>
-                                    {#each Object.keys(stats) as func}
-                                        <option value={func}>{func}</option>
-                                    {/each}
-                                </select>
-                            </th>
-                        {/each}
-                    </tr>
+            </tr>
 
-                    {#key first}{#key last}
-                    {#each filtered_teams as team, i (team)}
-                        <tr class="divide-x" animate:flip>
-                            {#if showteams?.[0]=="" || (showteams.includes(""+team) && positive) || (!showteams.includes(""+team) && !positive)}
-                                <td>{i+1}.</td>
-                                {#each columns as col, c}
-                                    <td class:font-bold={col=="Team_number"}>{filtered_data[c][i]}</td>
-                                {/each}
-                            {/if}
-                        </tr>
-                    {/each}{/key}{/key}
-                </table>
-            </div>
-            <br>
-            <p>{filtered_data}</p>
-            <Pagination rows={new_data} teams={teams} perPage={10} bind:trimmedRows={filtered_data} bind:trimmedTeams={filtered_teams}/>
-            <div class="opaczity-50">*Score calculations do not include links</div>
-        {:else}
-            <div class="h-50 max-w-full">
-                X:
-                <select class="text-xs" style="max-width:120px" bind:value={columns[0]} on:change={update_graph_data}>
-                    {#each Object.keys(stats) as func}
-                        <option value={func}>{func}</option>
-                    {/each}
-                </select>
-                Y:
-                <select class="text-xs mb-3" style="max-width:120px" bind:value={columns[1]} on:change={update_graph_data}>
-                    {#each Object.keys(stats) as func}
-                        <option value={func}>{func}</option>
-                    {/each}
-                </select>
-                <Plot
-                        data={graph_data}
-                        layout={{showlegend: false,
-                             title: "Graphing " + columns[0] + " over " + columns[1],
-                             margin: { t: 60, b: 40, l: 40, r: 30 },
-                             xaxis: {showline: true, title: columns[0]},
-                             yaxis: {title: columns[1]}}}
-                        fillParent=true
-                        debounce={250}
-                />
-            </div>
-        {/if}
-    </center>
-</div>
+            {#key first}{#key last}{#each teams as team, i (team)}
+                <tr class="divide-x" animate:flip>
+                    {#if showteams?.[0]=="" || (showteams.includes(""+team) && positive) || (!showteams.includes(""+team) && !positive)}
+                        <td>{i+1}.</td>
+                        {#each columns as col}
+                            <td class:font-bold={col=="Team_number"}>{(typeof stats[col](team,data.entries.filter(matfil))==="number" && stats[col](team,data.entries.filter(matfil)) != Math.trunc(stats[col](team,data.entries.filter(matfil))))?parseFloat(stats[col](team,data.entries.filter(matfil))).toFixed(2):stats[col](team,data.entries.filter(matfil))}</td>
+                        {/each}
+                    {/if}
+                </tr>
+            {/each}{/key}{/key}
+        </table>
+    </div>
+    <br>
+    <div class="opacity-50">*Score calculations do not include links</div>
+    <button on:click={tableToCSV} class="font-bold bg-gradient-to-t from-teal-800  to-teal-400 border-black">Export sheet</button>
+</center>
 
 <table bind:this={output} hidden>
     <tr>
