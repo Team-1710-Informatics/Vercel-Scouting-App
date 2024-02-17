@@ -83,18 +83,19 @@
     {#if lead.name != ''}
         <div class="p-2 bg-slate-800 rounded-xl">
             <table>
-                <th>Next Shift</th>
+                <tr>
+                    <th>Next Shift</th>
+                </tr>
+                <tr>
+                    <th>{format(lead.start)} to {format(lead.end)}</th>
+                </tr>
                 <tr>
                     <table>
                         <tr>
-                            <th>Time</th>
-                            <th>Lead Scout</th>
                             <th>Scouts</th>
                             <th>Backups</th>
                         </tr>
                         <tr>
-                            <td>{format(lead.start)}<br>to<br>{format(lead.end)}</td>
-                            <td>{lead.name}</td>
                             <td>
                                 <table>
                                     <tr>

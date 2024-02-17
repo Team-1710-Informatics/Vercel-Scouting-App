@@ -25,7 +25,7 @@
             {#each shifts as shift}
                 {#if shift.day == selected}
                     <tr>
-                        <td>{shift.shift}</td>
+                        <td>{shift.start}<br>to<br>{shift.end}</td>
                         <td>{shift.name}</td>
                         <td>
                             <table>
@@ -34,7 +34,7 @@
                                     <th>Team</th>
                                 </tr>
                                 {#each scouts as scout}
-                                    {#if scout.day == selected && scout.shift == shift.shift}
+                                    {#if scout.day == selected && scout.start == shift.start && scout.end == shift.end}
                                         <tr>
                                             {#if scout.team == 'Blue1'}
                                                 <td>{scout.name}</td>
@@ -77,7 +77,7 @@
                         </td>
                         <td>
                             {#each backups as backup}
-                                {#if backup.day == selected && backup.shift == shift.shift}
+                                {#if backup.day == selected && backup.start == shift.start && backup.end == shift.end}
                                     {backup.name}<br>
                                 {/if}
                             {/each}
