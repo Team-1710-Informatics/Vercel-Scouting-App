@@ -12,7 +12,7 @@
         {q:"Is your robot parked in the stage zone by the end of the MATCH?", name:"parkMatch", exclusive:"hangMatch", answer:null, time:135},
         {q:"Is your robot hanging on the stage at the end of the MATCH?", name:"hangMatch", exclusive:"parkMatch", answer:null, time:135},
         {q:"Is your spotlight activated on the robot", name:"spotlight", dependent:"hangMatch", exclusive:"parkMatch", answer:null, time:135},
-        {q:"Did your robot's attempt a spotlight?", name:"spotlightAttempt", answer:null, time:135},
+        {q:"Did your robot's human player attempt a spotlight?", name:"spotlightAttempt", answer:null, time:135},
         {q:"Did your robot's team activate a Co-op bonus?", name:"coop", answer:null, time:135},
         {q:"How many robots are hanging on the SAME chain as your robot?", name:"harmony", dependent:"hangMatch", exclusive:"parkMatch", input:true, temp:0, answer:null, time:135},
     ];
