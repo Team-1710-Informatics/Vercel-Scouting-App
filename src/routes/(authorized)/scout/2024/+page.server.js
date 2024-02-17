@@ -28,6 +28,8 @@ export const actions = {
                 await credits.transaction(locals.user.username, 100, `Scouted ${data.event}_qm${data.match}:${data.team}`);
             } else if (data.event != "2024practice") {
                 await credits.transaction(locals.user.username, 20, `Scouted ${data.event}_qm${data.match}:${data.team} (extra)`);
+            } else if (data.event == "2024practice") {
+                await credits.transaction(locals.user.username, 20, `Scouted ${data.event}_qm${data.match}:${data.team} (extra)`)
             }
 
             const db = new ScoutData(data);
