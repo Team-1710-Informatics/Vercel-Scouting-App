@@ -1,6 +1,6 @@
 import { Receipt, StoreItem, User } from "$lib/server/models";
 import { error } from "@sveltejs/kit";
-import type { Actions, PageServerLoad } from "../$types";
+import type { Actions, PageServerLoad } from "./$types";
 import credi from "$lib/server/user/credi";
 
 export const load = (async function({locals}){
