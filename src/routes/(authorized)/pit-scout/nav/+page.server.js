@@ -13,9 +13,6 @@ export async function load({ locals, fetch }){
 
     // console.log(JSON.stringify(teams));
 
-    console.log(fetch);
-    console.log(locals);
-
     let scouted = [];
 
     const entries = await pitdata2024.find();

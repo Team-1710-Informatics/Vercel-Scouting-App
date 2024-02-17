@@ -10,7 +10,7 @@
     let upcomingScouts = JSON.parse(data.previewScouts);
     let upcomingBackups = JSON.parse(data.previewBackups);
 
-    const links:[string, string, number, number, number?, string?][] = [ // name, path, width, order, 
+    const links:[string, string, number, number, number?, string?, string?][] = [ // name, path, width, order, 
         ["Scout Match", '/scout/2024', 6, 2, , ''],
         ["Pit Scouting", '/pit-scout/nav', 6, 3, , ''],
         ["Leaderboard", '/leaderboard', 4, 8, , ''],
@@ -20,16 +20,16 @@
 
     if(data.team === 1710){
         links.unshift(
-        ["Scamble", '/scamble/bets', 3, 6, , ''],
-        ["Store", '/store', 3, 6, , ''],
-        ["Stocks", '/scamble/stocks', 3, 7, , ''],
-        ["Metalshop", '/metal-shop', 3,7, , ''],
+        // ["Scamble", '/scamble/bets', 3, 6, , ''],
+        ["Store", '/store', 6, 6, , ''],
+        // ["Stocks", '/scamble/stocks', 3, 7, , ''],
+        ["Metalshop", '/metal-shop', 6,7, , ''],
         ["Scouting Schedule", '/scouting-schedule', 6, 4, , ''],
         ["Pit Schedule", '/pit-schedule', 6, 5, , ''])
     }
 
     if(data.permissions.includes("admin")){
-        links.unshift(["Admin", "/admin", 6, 1, , ''])
+        links.unshift(["Admin", "/admin", 6, 1, , '', ''])
     }
 
     let secret = 0;
