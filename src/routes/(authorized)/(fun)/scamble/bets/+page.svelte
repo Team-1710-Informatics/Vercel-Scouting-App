@@ -35,7 +35,7 @@
 </script>
 <middle class="py-10">
     <p class="font-black text-6xl"><ColorSwappingText text={"SCAMBLE"}/></p>
-    <div class="box">
+    <div>
         <p class="font-extrabold text-xl text-center">Select a Match</p>
         <hr>
         <MatchSelector event={data.competition?.key??data.last??null} events={data.events} bind:match={match}/>
