@@ -60,7 +60,7 @@
     {#if !started}
         <button class="w-fit mx-auto my-4 text-3xl border-2 rounded border-black bg-slate-600" on:click={()=>{started=true;clear();}}>Start Painting!</button>
     {/if}
-    <canvas width={innerWidth-50} height=400 class="mx-auto border-2 border-black" bind:this={canvas} 
+    <canvas width={innerWidth-50} height=400 class="mx-auto border-2 border-black touch-none" bind:this={canvas} 
         on:touchstart={()=>{active=true;document.body.style.overflow = 'hidden';}} 
         on:touchend={()=>{active=false;document.body.style.overflow = 'auto';}} 
         on:mousedown={()=>{active=true;}} 
