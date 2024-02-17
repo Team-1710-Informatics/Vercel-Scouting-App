@@ -20,4 +20,4 @@
     </div>
 {/if}
 
-<button class="rounded-t-none border-t-0 border-white bg-gradient-to-t from-slate-700 to-slate-800 w-60" on:click={()=>{show=true}}>My bets</button>
+<button class="rounded-lg my-2 bg-gradient-to-br from-slate-800 to-slate-900 w-60" on:click={()=>{show=true}}>My bets</button>
