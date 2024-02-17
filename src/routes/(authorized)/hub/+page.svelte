@@ -20,7 +20,7 @@
 
     if(data.team === 1710){
         links.unshift(
-        ["Scamble", '/scamble/bets', 3, 6, , true],
+        ["Scamble", '/scamble/bets', 3, 6, , false],
         ["Store", '/store', 3, 6, , false],
         ["Stocks", '/scamble/stocks', 3, 7, , false],
         ["Metalshop", '/metal-shop', 3,7, , false],
