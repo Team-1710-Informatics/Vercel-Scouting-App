@@ -23,12 +23,11 @@ export const actions = {
     })
 
     console.log(url);
+
+    const { blobs } = await list({
+      access: 'public',
+      token: BLOB_READ_WRITE_TOKEN,
+    })
+    console.log(blobs);
   },
-}
-export async function load() {
-  const { blobs } = await list({
-    access: 'public',
-    token: BLOB_READ_WRITE_TOKEN,
-  })
-  console.log(blobs);
 }
