@@ -1,5 +1,6 @@
 import { error } from '@sveltejs/kit';
 import { put } from '@vercel/blob';
+import { list } from '@vercel/blob';
 import { BLOB_READ_WRITE_TOKEN } from '$env/static/private';
 
 export const actions = {
@@ -22,7 +23,12 @@ export const actions = {
     })
 
     console.log(url);
-
-    return { uploaded: url }
   },
+}
+export async function load() {
+  const { blobs } = await list({
+    access: 'public',
+    token: BLOB_READ_WRITE_TOKEN,
+  })
+  console.log(blobs);
 }

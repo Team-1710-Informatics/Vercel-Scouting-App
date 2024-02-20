@@ -1,6 +1,5 @@
 <script lang="ts">
   import { enhance } from '$app/forms';
-  export let form;
 
   let file: File | null = null;
 
@@ -95,22 +94,6 @@
       >
         <p class="text-sm">Confirm upload</p>
       </button>
-      {#if form && !file}
-        <div class="p-2">
-          <p class="font-semibold text-gray-900">File uploaded!</p>
-          <p class="mt-1 text-sm text-gray-500">
-            Your file has been uploaded to{' '}
-            <a
-              class="font-medium text-gray-900 underline"
-              href={form.uploaded}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {form.uploaded}
-            </a>
-          </p>
-        </div>
-      {/if}
     </form>
   </div>
 </main>
