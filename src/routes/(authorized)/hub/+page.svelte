@@ -3,12 +3,19 @@
 
     export let data:any;
 
+    let previewLead = {name: '', start: '', end: '', day: ''};
+    if(data.previewLead != ''){
+        previewLead = JSON.parse(data.previewLead);
+    }
+    let previewScouts = JSON.parse(data.previewScouts);
+    let previewBackups = JSON.parse(data.previewBackups);
+
     let upcomingLead = {name: '', start: '', end: '', day: ''};
     if(data.previewLead != ''){
-        upcomingLead = JSON.parse(data.previewLead);
+        upcomingLead = JSON.parse(data.upcomingLead);
     }
-    let upcomingScouts = JSON.parse(data.previewScouts);
-    let upcomingBackups = JSON.parse(data.previewBackups);
+    let upcomingScouts = JSON.parse(data.upcomingScouts);
+    let upcomingBackups = JSON.parse(data.upcomingBackups);
 
     const links:[string, string, number, number, number?, boolean?][] = [ // name, path, width, order, 
         ["Scout Match", '/scout/2024', 6, 2, , false],
@@ -46,7 +53,7 @@
             document.location.href = "/logofy";
         }
     }} on:keypress={()=>{}}>
-        <CompetitionTracker events={data.events} lead={upcomingLead} scouts={upcomingScouts} backups={upcomingBackups}/>
+        <CompetitionTracker events={data.events} lead={previewLead} scouts={previewScouts} backups={previewBackups} upcomingLead={upcomingLead} upcomingScouts={upcomingScouts} upcomingBackups={upcomingBackups}/>
     </div>
     {#if data.permissions.includes("investor")}
         <div class="rounded-lg px-3 py-2 text-sm mb-3 bg-gradient-to-br from-slate-900 to-slate-800">Pleasure doing business with you,<br>{data.user.first} {data.user.last}</div>
