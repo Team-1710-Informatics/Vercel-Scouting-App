@@ -111,9 +111,11 @@
             </a>
           </p>
         </div>
-        <div>
-          {JSON.stringify(form.blobs)}
-        </div>
+        {#each form.blobs as blob}
+          <div>
+            {JSON.stringify(blob)}
+          </div>
+        {/each}
       {/if}
     </form>
   </div>
