@@ -97,9 +97,22 @@
         <p class="text-sm">Confirm upload</p>
       </button>
     </form>
-    {#if data.url}
-      {data.url}
-    {/if} 
+    {#if data.url && !file}
+        <div class="p-2">
+          <p class="font-semibold text-gray-900">File uploaded!</p>
+          <p class="mt-1 text-sm text-gray-500">
+            Your file has been uploaded to{' '}
+            <a
+              class="font-medium text-gray-900 underline"
+              href={data.url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {data.url}
+            </a>
+          </p>
+        </div>
+      {/if}
     {#if data.blobs}
       {data.blobs}
     {/if}
