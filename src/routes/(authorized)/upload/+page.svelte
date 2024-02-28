@@ -96,7 +96,7 @@
       >
         <p class="text-sm">Confirm upload</p>
       </button>
-      {#if form.url && !file}
+      {#if form && !file}
         <div class="p-2">
           <p class="font-semibold text-gray-900">File uploaded!</p>
           <p class="mt-1 text-sm text-gray-500">
@@ -111,9 +111,9 @@
             </a>
           </p>
         </div>
-      {/if}
-      {#if form.blobs}
-        {form.blobs}
+        <div>
+          {form.blobs}
+        </div>
       {/if}
     </form>
   </div>
