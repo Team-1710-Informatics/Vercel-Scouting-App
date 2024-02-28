@@ -113,7 +113,7 @@
         </div>
         {#each form.blobs as blob}
           <div>
-            <img src={blob.url} alt={blob.pathname}>
+            {JSON.stringify(blob)}
           </div>
         {/each}
       {/if}
