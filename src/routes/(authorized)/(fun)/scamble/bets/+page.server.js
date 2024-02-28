@@ -129,7 +129,7 @@ async function punchTicket(t){
     }//end loop
 
     let effective = t.amount
-        + Math.sqrt(t.amount)*20; //user payout for calculation
+        + Math.sqrt(t.amount)*10; //user payout for calculation
 
     let portion = effective/sums[t.alliance]; //ratio user winnings to total bet alliance winnings
 

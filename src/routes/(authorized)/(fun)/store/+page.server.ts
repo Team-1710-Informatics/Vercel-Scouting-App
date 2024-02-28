@@ -4,7 +4,7 @@ import type { Actions, PageServerLoad } from "./$types";
 import credi from "$lib/server/user/credi";
 
 export const load = (async function({locals}){
-    // return await getInfo(locals.user.username);
+    return await getInfo(locals.user.username);
 }) satisfies PageServerLoad
 
 export const actions = {

@@ -46,7 +46,7 @@
 
 <svelte:window on:beforeunload={safetynet} bind:innerHeight={h}/> <!--prevents data loss on page reload-->
 
-<center class="h-full background" style="min-height:{h}px">
+<center class="h-full background overflow-y-hidden" style="min-height:{h}px">
     {#if step == 0}
         <Pre bind:meta={meta} events={data.events} bind:pregame={pregame} on:advance={()=>{step++}}/>
     {:else if step == 1}
