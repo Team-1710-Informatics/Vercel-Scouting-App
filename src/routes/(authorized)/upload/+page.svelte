@@ -1,4 +1,6 @@
 <script lang="ts">
+  export let data:any;
+
   import { enhance } from '$app/forms';
 
   let file: File | null = null;
@@ -95,5 +97,11 @@
         <p class="text-sm">Confirm upload</p>
       </button>
     </form>
+    {#if data.url}
+      {data.url}
+    {/if} 
+    {#if data.blobs}
+      {data.blobs}
+    {/if}
   </div>
 </main>
