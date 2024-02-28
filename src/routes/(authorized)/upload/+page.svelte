@@ -38,7 +38,6 @@
             Accepted formats: .png, .jpg, .gif, .mp4
           </p>
         </div>
-        <input type="text" name="name"/>
         <label
           for="image-upload"
           class="group relative mt-2 flex h-72 cursor-pointer flex-col items-center justify-center rounded-md border border-gray-300 bg-white shadow-sm transition-all hover:bg-gray-50"
