@@ -12,3 +12,4 @@ inactive
 /src/routes/test
 /.vscode
 LICENSE.md
+.vercel
