@@ -12,6 +12,9 @@
     export let lead:any;
     export let scouts:any;
     export let backups:any;
+    export let upcomingLead:any;
+    export let upcomingScouts:any;
+    export let upcomingBackups:any;
 
     function nextComp() : Competition | null {
         let next = null;
@@ -84,7 +87,7 @@
         <div class="p-2 bg-slate-800 rounded-xl">
             <table>
                 <tr>
-                    <th>Next Shift</th>
+                    <th>Current Shift</th>
                 </tr>
                 <tr>
                     <th>{format(lead.start)} to {format(lead.end)}</th>
@@ -117,6 +120,55 @@
                             <td>
                                 <div class="flex-col">
                                     {#each backups as backup}
+                                        <div>
+                                            {backup.name}
+                                        </div>
+                                    {/each}
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </tr>
+            </table>
+        </div>
+    {/if}
+    {#if upcomingLead.name != ''}
+        <div class="p-2 bg-slate-800 rounded-xl">
+            <table>
+                <tr>
+                    <th>Next Shift</th>
+                </tr>
+                <tr>
+                    <th>{format(upcomingLead.start)} to {format(upcomingLead.end)}</th>
+                </tr>
+                <tr>
+                    <table>
+                        <tr>
+                            <th>Scouts</th>
+                            <th>Backups</th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Team</th>
+                                    </tr>
+                                    {#each upcomingScouts as scout}
+                                        <tr>
+                                            <td>{scout.name}</td>
+                                            {#if scout.team == 'Blue3' || scout.team == 'Blue2' || scout.team == 'Blue1'}
+                                                <td class="bg-sky-700">{scout.team}</td>
+                                            {:else if scout.team == 'Red3' || scout.team == 'Red2' || scout.team == 'Red1'}
+                                                <td class="bg-rose-700">{scout.team}</td>
+                                            {/if}
+                                        </tr>
+                                    {/each}
+                                </table>
+                            </td>
+                            <td>
+                                <div class="flex-col">
+                                    {#each upcomingBackups as backup}
                                         <div>
                                             {backup.name}
                                         </div>

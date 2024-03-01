@@ -68,6 +68,48 @@ export async function load({ locals }){
     let p = JSON.stringify(previewLead);
     let s = JSON.stringify(previewScouts);
     let b = JSON.stringify(previewBackups);
+
+    function isOneHourOrLessBefore(timestamp1, timestamp2) {
+        // Convert the timestamps to Date objects
+        const date1 = new Date(timestamp1);
+        const date2 = new Date(timestamp2);
+
+        // Calculate the time difference in milliseconds
+        const timeDifference = date2 - date1;
+
+        // Check if the time difference is one hour or less and greater than 0
+        const oneHourInMilliseconds = 60 * 60 * 1000; // 1 hour = 60 minutes * 60 seconds * 1000 milliseconds
+        return timeDifference > 0 && timeDifference <= oneHourInMilliseconds
+    }
+
+    let upcomingLead = {name: '', start: '', end: ''};
+
+    leads.forEach(e => {
+        let timestamp1 = new Date();
+        let timestamp2 = new Date(e.start);
+        if(isOneHourOrLessBefore(timestamp1, timestamp2)){
+            upcomingLead = e;
+        }
+    })
+
+    let upcomingScouts = [];
+    let upcomingBackups = [];
+
+    scouts.forEach(e => {
+        if(e.day == upcomingLead.day && e.start == upcomingLead.start && e.end == upcomingLead.end){
+            upcomingScouts.push(e);
+        }
+    })
+     backups.forEach(e => {
+        if(e.day == upcomingLead.day && e.start == upcomingLead.start && e.end == upcomingLead.end){
+            upcomingBackups.push(e);
+        }
+    })
+
+    let x = JSON.stringify(upcomingLead);
+    let y = JSON.stringify(upcomingScouts);
+    let z = JSON.stringify(upcomingBackups);
+
     return {
         events: events,
         permissions: locals.user.permissions,
@@ -75,6 +117,9 @@ export async function load({ locals }){
         team: locals.user.team,
         previewLead: p,
         previewScouts: s,
-        previewBackups: b
+        previewBackups: b,
+        upcomingLead: x,
+        upcomingScouts: y,
+        upcomingBackups: z
     };
 }
