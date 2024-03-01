@@ -2,6 +2,7 @@
     import { enhance } from "$app/forms";
     import QRCode from "@castlenine/svelte-qrcode";
     import StarRating from "$lib/components/ui/StarRating.svelte";
+    import { dev } from "$app/environment";
 
     export let meta, pregame, game, postgame, form;
 
@@ -26,12 +27,15 @@
         }(),
         rating,
         driverSkill,
-        defense:function(){
+        defenseSkill:function(){
             if(strategies[3][2])return defense;
             else return null;
         }(),
         speed,
-        thoughts
+        thoughts: function(){
+            if(thoughts!=="" && thoughts)return thoughts;
+            else return null;
+        }()
     };
 
     $:final = JSON.stringify({
@@ -89,7 +93,7 @@
             <form method="POST" use:enhance={(cancel) => {
                 loading = true;
                 //@ts-ignore
-                if(!online){
+                if(!online && !dev){
                     qrDisable = false;
                     cancel();
                 }
@@ -99,7 +103,7 @@
                 };
             }}>
                 <input type="text" hidden name="data" value={final} />
-                <button disabled={loading || postgame.strategy.length == 0} on:click={()=>{return;}} class="mt-2 submit">{loading ? "Loading..." : "Submit"}</button>
+                <button disabled={loading || postgame.strategy.length == 0} on:click={()=>{console.log(final)}} class="mt-2 submit">{loading ? "Loading..." : "Submit"}</button>
             </form>
         {:else if !qrDisable || form?.success==="offline"}
             <h1 class="py-1">Show this QR to a head scout</h1>
