@@ -11,12 +11,13 @@
     export let alliance;
     export let disabled=false;
 
-    export let value = {
+    export let startValue = {
         x:NaN,
         y:NaN
     };
 
     let innerHeight;
+    let active = false;
     
     let start;
     let dozerCoords;
@@ -36,9 +37,11 @@
 
     function setStarting(event){
         if(disabled) return;
+        if(!active) return;
+        console.log(event.clientX);
         rect = start.getBoundingClientRect();
-        value.x=Math.trunc(event.clientX-rect.left-5);
-        value.y=Math.trunc(event.clientY-rect.top-2);
+        startValue.x=Math.trunc(event.clientX-rect.left-5);
+        startValue.y=Math.trunc(event.clientY-rect.top-2);
 
         pointer = {
             x:event.clientX,
@@ -72,7 +75,7 @@
 
 {#if !disabled}
     <h1 class="text-xl mb-4"><b>Select Starting Position</b></h1>
-    <img class="img" alt="" src={imgs[alliance]} draggable=false bind:this={start} on:click={setStarting} on:keydown={()=>{return}}/>
+    <img class="img" alt="" src={imgs[alliance]} draggable=false bind:this={start} on:pointerdown={()=>{active=true}} on:touchstart={()=>{active=true}} on:pointerup={()=>{active=false}} on:touchend={()=>{active=false}} on:pointermove={setStarting}/>
     <h1 class="text-xs">Drag on the Field to Place Robot</h1>
     {#if pointer.y}
         <img id="dozer" {style} alt="" draggable=false src={dozer} bind:this={dozerCoords}/>
@@ -84,5 +87,6 @@
     .img{
         height:30vh;
         width:100px;
+        touch-action:none;
     }
 </style>

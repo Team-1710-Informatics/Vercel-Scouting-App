@@ -254,7 +254,7 @@ let index={
                 <label for="maxAuto">Highest number of<br>pieces scored in auto?</label><br>
                 <input type="number" bind:value={index.maxAutoScore} name="maxAutoScore" size="5"><br>
                 <hr class="mb-2 mt-4"/>
-                <label for="autoStrategy">Auto strategy?</label><br>
+                <label for="autoStrategy">Auto strategy? What notes do they go for if any?</label><br>
                 <textarea bind:value={index.autoStrategy} name="autoStrategy"></textarea>
             </div>
         {:else if page == 3}

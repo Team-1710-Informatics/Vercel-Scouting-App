@@ -13,3 +13,4 @@ inactive
 /.vscode
 /.idea
 LICENSE.md
+.vercel
