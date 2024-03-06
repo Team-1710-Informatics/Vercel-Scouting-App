@@ -82,7 +82,7 @@
         <button on:click={()=>{behavior("drop")}} class="bg-slate-700 actionButton" disabled={!state.started || !location || !inv}>Drop<img src={x} class="opacity-40 x ml-2" alt=""/></button>
     </div>
     <div class="grid grid-rows-2">
-        <button on:click={()=>{behavior("score")}} class="bg-orange-900 actionButton" disabled={!state.started || !location  || !inv}>Score<img src={output} class="opacity-40 otherIcons ml-2" alt=""/></button>
+        <button on:click={()=>{behavior("score")}} class="bg-orange-900 actionButton" disabled={!state.started || !location || location=="center" || location=="source" || !inv}>Score<img src={output} class="opacity-40 otherIcons ml-2" alt=""/></button>
         <button on:click={()=>{behavior("miss")}} class="bg-stone-700 actionButton" disabled={!state.started || !location  || !inv}>Miss<img src={x} class="opacity-40 x ml-2" alt=""/></button>
     </div>
 </div>
