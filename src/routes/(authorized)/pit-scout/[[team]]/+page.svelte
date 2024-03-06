@@ -13,7 +13,7 @@ let otherIntake = "";
 let otherShooter = "";
 
 const bumperaccount:[string, string][] = [
-    ['Including bumper', 'includes']
+    ['Including bumper', 'includes'],
     ['Excluding bumper', 'excludes']
 ]
 
