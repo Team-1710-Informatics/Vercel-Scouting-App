@@ -40,8 +40,8 @@
         if(!active) return;
         console.log(event.clientX);
         rect = start.getBoundingClientRect();
-        startValue.x=Math.trunc(event.clientX-rect.left-5);
-        startValue.y=Math.trunc(event.clientY-rect.top-2);
+        startValue.x=Math.trunc(event.clientX-rect.left);
+        startValue.y=Math.trunc(event.clientY-rect.top);
 
         pointer = {
             x:event.clientX,

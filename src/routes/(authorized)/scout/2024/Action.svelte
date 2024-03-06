@@ -3,46 +3,60 @@
     import intake from "$lib/assets/icons/input.svg";
     import x from "$lib/assets/icons/x.svg";
     import output from "$lib/assets/icons/output.svg";
-    import {clickOutside} from "$lib/modules/clickOutside";
+    import { onMount } from "svelte";
+
+    import center from "$lib/assets/scout/2024/center.jpg";
+
+    import redAmp from "$lib/assets/scout/2024/redAmp.jpg";
+    import redSource from "$lib/assets/scout/2024/redSource.jpg";
+    import redSpeaker from "$lib/assets/scout/2024/redSpeaker.jpg";
+    import redTrap from "$lib/assets/scout/2024/redTrap.jpg";
+
+    import blueAmp from "$lib/assets/scout/2024/blueAmp.jpg";
+    import blueSource from "$lib/assets/scout/2024/blueSource.jpg";
+    import blueSpeaker from "$lib/assets/scout/2024/blueSpeaker.jpg";
+    import blueTrap from "$lib/assets/scout/2024/blueTrap.jpg";
 
     export let log = [];
     export let inv;
     export let state;
     export let amplified = false;
+    export let meta;
 
-    const actions = [
-        {
-            name:"intake",
-            location:[
-                "source","center","amp","speaker","other"
-            ],
-            start:"col-start-1",
-            src:intake,
+    let location;
 
-        },{
-            name:"drop",
-            location:[
-                "source","center","amp", "speaker", "other/miss"
-            ],
-            start:"col-start-2",
-            src:x,
-        },{
-            name:"score",
-            location:[
-                "amp","speaker","trap"
-            ],
-            start:"col-start-3",
-            src:output
-        }
-    ];
+    // const actions = [
+    //     {
+    //         name:"intake",
+    //         location:[
+    //             "source","center","amp","speaker","other"
+    //         ],
+    //         start:"col-start-1",
+    //         src:intake,
 
-    function behavior(spot){
-        let actionType=actions[active_action-1].name;
+    //     },{
+    //         name:"drop",
+    //         location:[
+    //             "source","center","amp", "speaker", "other/miss"
+    //         ],
+    //         start:"col-start-2",
+    //         src:x,
+    //     },{
+    //         name:"score",
+    //         location:[
+    //             "amp","speaker","trap"
+    //         ],
+    //         start:"col-start-3",
+    //         src:output
+    //     }
+    // ];
+
+    function behavior(actionType){
         if(actionType=="score"){
             log.push({
                 time:state.time,
                 action:actionType,
-                location:spot,
+                location,
                 amplified:amplified,
                 phase:state.phase
             });
@@ -52,21 +66,74 @@
             log.push({
                 time:state.time,
                 action:actionType,
-                location:spot,
+                location,
                 amplified:amplified,
                 phase:state.phase
             });
-            if(actionType=="drop"){inv=false;inv=inv;}
+            if(actionType=="drop"||actionType=="miss"){inv=false;inv=inv;}
             else if(actionType=="intake"){inv=true;inv=inv;}
         }
-        active_action=0;
-        active_action=active_action;
     }
-    
-    let active_action=0;
 </script>
 
-<div class="grid grid-cols-3">
+<div class="grid grid-cols-2 w-4/5">
+    <div class="grid grid-rows-2">
+        <button on:click={()=>{behavior("intake")}} class="bg-sky-800 actionButton" disabled={!state.started || !location || inv}>Intake<img src={intake} class="opacity-40 ml-2" alt=""/></button>
+        <button on:click={()=>{behavior("drop")}} class="bg-slate-700 actionButton" disabled={!state.started || !location || !inv}>Drop<img src={x} class="opacity-40 x ml-2" alt=""/></button>
+    </div>
+    <div class="grid grid-rows-2">
+        <button on:click={()=>{behavior("score")}} class="bg-orange-900 actionButton" disabled={!state.started || !location  || !inv}>Score<img src={output} class="opacity-40 otherIcons ml-2" alt=""/></button>
+        <button on:click={()=>{behavior("miss")}} class="bg-stone-700 actionButton" disabled={!state.started || !location  || !inv}>Miss<img src={x} class="opacity-40 x ml-2" alt=""/></button>
+    </div>
+</div>
+
+<div class="mt-4 border-2 rounded w-fit p-4 bg-slate-800">
+    <u>Select position:</u>
+    {#if location}{location}{/if}
+    <div class="grid grid-cols-4 z-10 w-full mt-2" style="max-width:600px;">
+        {#if meta.alliance == "blue"}
+            <div class="grid-rows-2 col-span-2">
+                <button class="button w-full" style={location==="amp"?"filter:invert(25%);":""} on:click={()=>location="amp"}><img src={blueAmp} alt="blue amp"/></button>
+                <div class="grid grid-cols-2 -mt-1">
+                    <button class="button w-full h-full" style={location==="speaker"?"filter:invert(25%);":""} on:click={()=>location="speaker"}><img src={blueSpeaker} alt="blue speaker"/></button>
+                    <button class="button h-full" style={location==="trap"?"filter:invert(25%);":""} on:click={()=>location="trap"}><img src={blueTrap} alt="blue trap" class="h-full"/></button>
+                </div>
+            </div>
+            <button class="button" style={location==="center"?"filter:invert(25%);":""} on:click={()=>location="center"}><img src={center} alt="center" class="h-full"/></button>
+            <button class="button" style={location==="source"?"filter:invert(25%);":""} on:click={()=>location="source"}><img src={blueSource} alt="blue source" class="h-full"/></button>
+        {:else if meta.alliance == "red"}
+            <button class="button" style={location==="source"?"filter:invert(25%);":""} on:click={()=>location="source"}><img src={redSource} alt="red source" class="h-full"/></button>
+            <button class="button" style={location==="center"?"filter:invert(25%);":""} on:click={()=>location="center"}><img src={center} alt="center" class="h-full"/></button>
+            <div class="grid-rows-2 col-span-2">
+                <button class="button w-full" style={location==="amp"?"filter:invert(25%);":""} on:click={()=>location="amp"}><img src={redAmp} alt="red amp"/></button>
+                <div class="grid grid-cols-2 -mt-1">
+                    <button class="button w-full" style={location==="trap"?"filter:invert(25%);":""} on:click={()=>location="trap"}><img src={redTrap} alt="red trap" class="h-full"/></button>
+                    <button class="button w-full h-full" style={location==="speaker"?"filter:invert(25%);":""} on:click={()=>location="speaker"}><img src={redSpeaker} alt="red speaker"/></button>
+                </div>
+            </div>
+        {/if}
+    </div>
+</div>
+
+<style>
+    .button{
+        @apply p-0 m-0;
+    }
+    .button:hover{
+        filter:invert(20%)
+    }
+    .actionButton{
+        @apply m-2 rounded border-2 border-black flex flex-row justify-center;
+    }
+    .x{
+        filter: brightness(0) saturate(100%) invert(22%) sepia(99%) saturate(6156%) hue-rotate(356deg) brightness(96%) contrast(117%);
+    }
+    .otherIcons{
+        filter: saturate(100%) invert(50%) sepia(99%) saturate(6156%) hue-rotate(180deg) brightness(96%) contrast(117%);
+    }
+</style>
+
+<!-- <div class="grid grid-cols-3">
     {#each actions as action, i}
         <button class="button1" on:click={()=>{active_action=i+1}} disabled={(action.name=="intake"?inv==true:inv==false)}>
             <b class="font-serif text-sky-100 text-sm">{action.name}</b>
@@ -110,4 +177,4 @@
     .otherIcons{
         filter: saturate(100%) invert(50%) sepia(99%) saturate(6156%) hue-rotate(180deg) brightness(96%) contrast(117%);
     }
-</style>
+</style> -->
