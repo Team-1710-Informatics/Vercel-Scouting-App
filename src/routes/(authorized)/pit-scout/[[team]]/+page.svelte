@@ -12,6 +12,11 @@ let driveTrain = "";
 let otherIntake = "";
 let otherShooter = "";
 
+const bumperaccount:[string, string][] = [
+    ['Including bumper', 'includes']
+    ['Excluding bumper', 'excludes']
+]
+
 const drivetrains:[string, string][] = [ //first string is for name second is for value
     ["Swerve", "swerve"],
     ["Tank", "tank"],
@@ -96,6 +101,7 @@ let index={
     otherScouts: String,
     length: Number,
     width: Number,
+    bumperWidth: Number,
     height: Number,
     sizeUnit: String,
     weight: Number,
@@ -122,6 +128,8 @@ let index={
     scoringAbility: String, 
     ampUse: String,
     intakeLocation: String,
+    notes: String,
+    spotlight: String,
 };
 </script>
 <middle>
@@ -133,7 +141,7 @@ let index={
         selector
     </div>
     <div class="rounded-lg px-5 py-4 my-5 bg-gradient-to-br from-slate-900 to-slate-800">
-        <div class="text-center mx-auto">page {page} of 3</div>
+        <div class="text-center mx-auto">page {page} of 4</div>
         <hr class="mt-4 mb-2"/>
         {#if page == 1}
             <div>
@@ -144,15 +152,20 @@ let index={
                             <option value={member.username}>{member.name.first} {member.name.last}</option>
                         {/each}
                     </select>
-                <div class="grid grid-rows-2 grid-cols-3">
+                <div class="grid grid-rows-3 grid-cols-3">
                     <div class="row-start-1 row-span-1 col-start-1 col-span-2">
                         <label for="size">Length and Width?</label><br>
                         <input bind:value={index.length} type="number" name="length" size="5"> x <input type="number" bind:value={index.width} name="width" size="5"><br>
                     </div>
                     <div class="row-start-2 row-span-1 col-start-1 col-span-2">
+                        <label for="bumperWidth">Bumper Width?</label><br>
+                        <input bind:value={index.bumperWidth} type="number" name="length" size="5">
+                    </div>
+                    <div class="row-start-3 row-span-1 col-start-1 col-span-2">
                         <label for="height">Height?</label><br>
                         <input bind:value={index.height} type="number" name="height" size="5"><br>
                     </div>
+
                     <div class="row-start-2 row-span-1 col-start-3 col-span-1 text-right">
                         <select name="sizeUnit" bind:value={index.sizeUnit}>
                             {#each dimensions as dimension}
@@ -274,16 +287,19 @@ let index={
                     <input type="radio" name="scoringAbility" bind:group={index.scoringAbility}  value={score[1]}/>{score[0]}<br>
                 {/each}
                 <hr class="mb-1 mt-2"/>
-                <label for="">Do they prefer amplify<br>or coop?</label><br>
-                {#each ampUse as amp}
-                    <input type="radio" name="ampUse" bind:group={index.ampUse}  value={amp[1]}/>{amp[0]}<br>
-                {/each}
+                <label for="">How critical is scoring coop<br>to their strategy?</label><br>
+                <textarea bind:value={index.ampUse} name="ampUse"></textarea>
                 <hr class="mb-1 mt-2"/>
                 <label for="">Where do they usually<br>intake?</label><br>
                 {#each intakePreference as intake}
                     <input type="radio" name="intakeLocation" bind:group={index.intakeLocation} value={intake[1]}/>{intake[0]}<br>
                 {/each}
             </div>
+        {:else if page == 4}
+            <label for="notes">Additional Notes</label><br>
+            <textarea bind:value={index.notes} name="notes"></textarea><br>
+            <label for="spotlight">Human Player Spotlight<br>ability?</label><br>
+            <textarea bind:value={index.spotlight} name="spotlightAbility"></textarea>
         {/if}
 
         <hr class="my-4"/>
@@ -303,6 +319,10 @@ let index={
                     <button class="border-sky-800 border-2 font-bold bg-gradient-to-br from-sky-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl" on:click={()=>{page++;}}>Continue</button>
                 </div>
             {:else if page == 3}
+                <div class="text-center col-start-2">
+                    <button class="border-sky-800 border-2 font-bold bg-gradient-to-br from-sky-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl" on:click={()=>{page++;}}>Continue</button>
+                </div>
+            {:else if page == 4}
                 <div class="text-center col-start-2">
                     <form method="POST">
                         <input type="text" hidden name="data" value={JSON.stringify(index)} />
