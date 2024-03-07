@@ -171,6 +171,18 @@ const schedule = new Schema({
 
 export const schedulePositions = mongoose.model("schedules", schedule);
 
+const pitSchedule = new Schema({
+    name: String,
+    team: String,
+    position: String,
+    start: String,
+    end: String,
+    cell: String,
+    day: String,
+});
+
+export const pitSchedulePositions = mongoose.model("pitSchedules", pitSchedule);
+
 const pitscout2024 = new Schema({
     event: String,
     team: Number,

@@ -1,9 +1,10 @@
 <script>
     export let data;
-    const days = JSON.parse(data.days)
-    const shifts = JSON.parse(data.shifts)
-    const scouts = JSON.parse(data.scouts)
-    const backups = JSON.parse(data.backups)
+    const days = JSON.parse(data.days);
+    const shifts = JSON.parse(data.shifts);
+    const scouts = JSON.parse(data.scouts);
+    const backups = JSON.parse(data.backups);
+    let currentUser = JSON.parse(data.user);
     let selected = days[0];
 
     function format(time){
@@ -38,7 +39,11 @@
                 {#if shift.day == selected}
                     <tr>
                         <td>{format(shift.start)}<br>to<br>{format(shift.end)}</td>
-                        <td>{shift.name}</td>
+                        {#if shift.name != currentUser.username}
+                            <td>{shift.name}</td>
+                        {:else if shift.name == currentUser.username}
+                            <td class="bg-slate-700">{shift.name}</td>
+                        {/if}
                         <td>
                             <table>
                                 <tr>
@@ -49,37 +54,61 @@
                                     {#if scout.day == selected && scout.start == shift.start && scout.end == shift.end}
                                         <tr>
                                             {#if scout.team == 'Blue1'}
-                                                <td>{scout.name}</td>
+                                                {#if scout.name != currentUser.username}
+                                                    <td>{scout.name}</td>
+                                                {:else if scout.name == currentUser.username}
+                                                    <td class="bg-slate-700">{scout.name}</td>
+                                                {/if}
                                                 <td class="bg-sky-700">Blue 1</td>
                                             {/if}
                                         </tr>
                                         <tr>
                                             {#if scout.team == 'Blue2'}
-                                                <td>{scout.name}</td>
+                                                {#if scout.name != currentUser.username}
+                                                    <td>{scout.name}</td>
+                                                {:else if scout.name == currentUser.username}
+                                                    <td class="bg-slate-700">{scout.name}</td>
+                                                {/if}
                                                 <td class="bg-sky-700">Blue 2</td>
                                             {/if}
                                         </tr>
                                         <tr>
                                             {#if scout.team == 'Blue3'}
-                                                <td>{scout.name}</td>
+                                                {#if scout.name != currentUser.username}
+                                                    <td>{scout.name}</td>
+                                                {:else if scout.name == currentUser.username}
+                                                    <td class="bg-slate-700">{scout.name}</td>
+                                                {/if}
                                                 <td class="bg-sky-700">Blue 3</td>
                                             {/if}
                                         </tr>
                                         <tr>
                                             {#if scout.team == 'Red1'}
-                                                <td>{scout.name}</td>
+                                                {#if scout.name != currentUser.username}
+                                                    <td>{scout.name}</td>
+                                                {:else if scout.name == currentUser.username}
+                                                    <td class="bg-slate-700">{scout.name}</td>
+                                                {/if}
                                                 <td class="bg-rose-700">Red 1</td>
                                             {/if}
                                         </tr>
                                         <tr>
                                             {#if scout.team == 'Red2'}
-                                                <td>{scout.name}</td>
+                                                {#if scout.name != currentUser.username}
+                                                    <td>{scout.name}</td>
+                                                {:else if scout.name == currentUser.username}
+                                                    <td class="bg-slate-700">{scout.name}</td>
+                                                {/if}
                                                 <td class="bg-rose-700">Red 2</td>
                                             {/if}
                                         </tr>
                                         <tr>
                                             {#if scout.team == 'Red3'}
-                                                <td>{scout.name}</td>
+                                                {#if scout.name != currentUser.username}
+                                                    <td>{scout.name}</td>
+                                                {:else if scout.name == currentUser.username}
+                                                    <td class="bg-slate-700">{scout.name}</td>
+                                                {/if}
                                                 <td class="bg-rose-700">Red 3</td>
                                             {/if}
                                         </tr>
@@ -90,7 +119,11 @@
                         <td>
                             {#each backups as backup}
                                 {#if backup.day == selected && backup.start == shift.start && backup.end == shift.end}
-                                    {backup.name}<br>
+                                    {#if backup.name != currentUser.username}
+                                        <td>{backup.name}</td>
+                                    {:else if backup.name == currentUser.username}
+                                        <td class="bg-slate-700">{backup.name}</td>
+                                    {/if}<br>
                                 {/if}
                             {/each}
                         </td>
