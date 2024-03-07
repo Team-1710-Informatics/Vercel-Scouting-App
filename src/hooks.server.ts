@@ -32,6 +32,7 @@ export const handle = (async function({ event, resolve }) {
     }
 
     let res = await tba(`team/frc${user.team}/events/${new Date().getFullYear()}`);
+    // let res = {}
     let c, n;
     if(!dev){
         c = currComp(res);

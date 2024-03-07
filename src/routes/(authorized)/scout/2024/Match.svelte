@@ -11,6 +11,7 @@
     export let meta;
     export let pregame;
     export let game;
+    export let amplified;
 
     let inv = pregame.preload;
     let log = [];
@@ -54,8 +55,6 @@
         log = log;
     }
 
-    let amplified;
-
     let state = {
         time: 0,
         started: false,
@@ -67,8 +66,8 @@
 <h5>Scouting {meta.team}</h5>
 <Timer bind:state/> <br>
 <Amplify bind:amplified {state}/>
-<Action bind:log bind:inv {amplified} {state}/>
 <Inventory {inv} />
+<Action bind:log bind:inv {amplified} {state} {meta}/>
 <Questions {state} bind:answers={untimed} />
 <button on:click={()=>{
         game = {

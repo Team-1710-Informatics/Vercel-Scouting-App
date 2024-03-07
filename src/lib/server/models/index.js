@@ -101,7 +101,7 @@ const scoutEntry2024 = new Schema({
     team: Number,
     scout: String,
     pregame: {
-        start: {x:Number,y:Number},
+        startPosition: {x:Number,y:Number},
         preload: Boolean
     },
     game:{
@@ -113,6 +113,7 @@ const scoutEntry2024 = new Schema({
             parkMatch: Boolean,
             harmony: Number,
             spotlight: Boolean,
+            coop: Boolean,
             spotlightAttempt: Boolean
         }
     },

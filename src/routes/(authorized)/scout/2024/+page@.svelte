@@ -41,16 +41,18 @@
 
     $: h = 0;
 
+    let amplified:any;
+
     //all of these positions are compiled in postgame component upon submission
 </script>
 
 <svelte:window on:beforeunload={safetynet} bind:innerHeight={h}/> <!--prevents data loss on page reload-->
 
-<center class="h-full background overflow-y-hidden" style="min-height:{h}px">
+<center class='h-full overflow-y-hidden {amplified?'background-2':'background'}' style="min-height:{h}px">
     {#if step == 0}
         <Pre bind:meta={meta} events={data.events} bind:pregame={pregame} on:advance={()=>{step++}}/>
     {:else if step == 1}
-        <Match bind:meta bind:pregame bind:game on:advance={()=>{step++}}/>
+        <Match bind:meta bind:pregame bind:game bind:amplified on:advance={()=>{step++}}/>
     {:else if step == 2}
         <Post bind:meta bind:pregame bind:game bind:postgame {form}/>
     {/if}
@@ -58,6 +60,16 @@
 
 <style>
     .background{
-        background-image:linear-gradient(0.3turn, #363131, #242a34, #000000);
+        background:linear-gradient(0.3turn, #363131, #242a34, #000000);
+        /* Your main background gradient */
+        /* linear-gradient(to right, black, black); */
+    }
+    .background-2{
+        background:
+        linear-gradient(to top left, rgba(255, 255, 255, 0.3) 0%, transparent 30%) top left,
+        linear-gradient(to top right, rgba(255, 255, 255, 0.3) 0%, transparent 30%) top right,
+        linear-gradient(to bottom left, rgba(255, 255, 255, 0.3) 0%, transparent 30%) bottom left,
+        linear-gradient(to bottom right, rgba(255, 255, 255, 0.3) 0%, transparent 30%) bottom right,
+        linear-gradient(0.3turn, #363131, #242a34, #000000);
     }
 </style>
