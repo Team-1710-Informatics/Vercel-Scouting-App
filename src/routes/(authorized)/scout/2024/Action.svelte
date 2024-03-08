@@ -5,17 +5,17 @@
     import output from "$lib/assets/icons/output.svg";
     import { onMount } from "svelte";
 
-    import center from "$lib/assets/scout/2024/center.jpg";
+    import center from "$lib/assets/scout/2024/center.png";
 
-    import redAmp from "$lib/assets/scout/2024/redAmp.jpg";
-    import redSource from "$lib/assets/scout/2024/redSource.jpg";
-    import redSpeaker from "$lib/assets/scout/2024/redSpeaker.jpg";
-    import redTrap from "$lib/assets/scout/2024/redTrap.jpg";
+    import redAmp from "$lib/assets/scout/2024/redAmp.png";
+    import redSource from "$lib/assets/scout/2024/redSource.png";
+    import redSpeaker from "$lib/assets/scout/2024/redSpeaker.png";
+    import redTrap from "$lib/assets/scout/2024/redTrap.png";
 
-    import blueAmp from "$lib/assets/scout/2024/blueAmp.jpg";
-    import blueSource from "$lib/assets/scout/2024/blueSource.jpg";
-    import blueSpeaker from "$lib/assets/scout/2024/blueSpeaker.jpg";
-    import blueTrap from "$lib/assets/scout/2024/blueTrap.jpg";
+    import blueAmp from "$lib/assets/scout/2024/blueAmp.png";
+    import blueSource from "$lib/assets/scout/2024/blueSource.png";
+    import blueSpeaker from "$lib/assets/scout/2024/blueSpeaker.png";
+    import blueTrap from "$lib/assets/scout/2024/blueTrap.png";
 
     export let log = [];
     export let inv;
