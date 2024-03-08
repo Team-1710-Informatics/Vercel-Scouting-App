@@ -1,4 +1,4 @@
-import { schedulePositions } from "$lib/server/models";
+import { schedulePositions, User } from "$lib/server/models";
 
 export async function load({ locals }) {
     const data = await schedulePositions.find();
@@ -51,13 +51,17 @@ export async function load({ locals }) {
     let shift = JSON.stringify(shifts);
     let s = JSON.stringify(scout);
     let b = JSON.stringify(backup);
-    let user = JSON.stringify(locals.user);
+
+    const user = await User.find();
+
+    let users = JSON.stringify(user);
 
     return {
         days:days,
         shifts:shift,
         scouts:s,
         backups:b,
-        user: user
+        user: locals.user,
+        users: users
     }
 }
