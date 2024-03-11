@@ -93,22 +93,22 @@
     <div class="grid grid-cols-4 z-10 w-full mt-2" style="max-width:600px;">
         {#if meta.alliance == "blue"}
             <div class="grid-rows-2 col-span-2">
-                <button class="button w-full" style={location==="amp"?"filter:invert(25%);":""} on:click={()=>location="amp"}><img src={blueAmp} alt="blue amp"/></button>
+                <button class="button w-full" style={location==="amp"?"filter:invert(25%);":""} on:click={()=>location="amp"}><img src={blueAmp} alt="blue amp" class="amp"/></button>
                 <div class="grid grid-cols-2 -mt-1">
-                    <button class="button w-full h-full" style={location==="speaker"?"filter:invert(25%);":""} on:click={()=>location="speaker"}><img src={blueSpeaker} alt="blue speaker"/></button>
-                    <button class="button h-full" style={location==="trap"?"filter:invert(25%);":""} on:click={()=>location="trap"}><img src={blueTrap} alt="blue trap" class="h-full"/></button>
+                    <button class="button w-full h-full" style={location==="speaker"?"filter:invert(25%);":""} on:click={()=>location="speaker"}><img src={blueSpeaker} alt="blue speaker" class="img2"/></button>
+                    <button class="button h-full" style={location==="trap"?"filter:invert(25%);":""} on:click={()=>location="trap"}><img src={blueTrap} alt="blue trap" class="img2"/></button>
                 </div>
             </div>
-            <button class="button" style={location==="center"?"filter:invert(25%);":""} on:click={()=>location="center"}><img src={center} alt="center" class="h-full"/></button>
-            <button class="button" style={location==="source"?"filter:invert(25%);":""} on:click={()=>location="source"}><img src={blueSource} alt="blue source" class="h-full"/></button>
+            <button class="button" style={location==="center"?"filter:invert(25%);":""} on:click={()=>location="center"}><img src={center} alt="center" class="img1"/></button>
+            <button class="button" style={location==="source"?"filter:invert(25%);":""} on:click={()=>location="source"}><img src={blueSource} alt="blue source" class="img1"/></button>
         {:else if meta.alliance == "red"}
-            <button class="button" style={location==="source"?"filter:invert(25%);":""} on:click={()=>location="source"}><img src={redSource} alt="red source" class="h-full"/></button>
-            <button class="button" style={location==="center"?"filter:invert(25%);":""} on:click={()=>location="center"}><img src={center} alt="center" class="h-full"/></button>
+            <button class="button" style={location==="source"?"filter:invert(25%);":""} on:click={()=>location="source"}><img src={redSource} alt="red source" class="img1"/></button>
+            <button class="button" style={location==="center"?"filter:invert(25%);":""} on:click={()=>location="center"}><img src={center} alt="center" class="img1"/></button>
             <div class="grid-rows-2 col-span-2">
-                <button class="button w-full" style={location==="amp"?"filter:invert(25%);":""} on:click={()=>location="amp"}><img src={redAmp} alt="red amp"/></button>
+                <button class="button w-full" style={location==="amp"?"filter:invert(25%);":""} on:click={()=>location="amp"}><img src={redAmp} alt="red amp" class="amp"/></button>
                 <div class="grid grid-cols-2 -mt-1">
-                    <button class="button w-full" style={location==="trap"?"filter:invert(25%);":""} on:click={()=>location="trap"}><img src={redTrap} alt="red trap" class="h-full"/></button>
-                    <button class="button w-full h-full" style={location==="speaker"?"filter:invert(25%);":""} on:click={()=>location="speaker"}><img src={redSpeaker} alt="red speaker"/></button>
+                    <button class="button w-full" style={location==="trap"?"filter:invert(25%);":""} on:click={()=>location="trap"}><img src={redTrap} alt="red trap" class="img2"/></button>
+                    <button class="button w-full h-full" style={location==="speaker"?"filter:invert(25%);":""} on:click={()=>location="speaker"}><img src={redSpeaker} alt="red speaker" class="img2"/></button>
                 </div>
             </div>
         {/if}
@@ -130,6 +130,18 @@
     }
     .otherIcons{
         filter: saturate(100%) invert(50%) sepia(99%) saturate(6156%) hue-rotate(180deg) brightness(96%) contrast(117%);
+    }
+    .img1{
+        height:30vh;
+        width:100%;
+    }
+    .img2{
+        height:20vh;
+        width:100%;
+    }
+    .amp{
+        height: 10vh;
+        width:100%;
     }
 </style>
 
