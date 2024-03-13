@@ -1,8 +1,8 @@
 export default {
-    Team_number(team:number, data:any[]){
+    TeamNumber(team:number, data:any[]){
         return team;
     },
-    Average_score(team:number, data:any[]){
+    AverageScore(team:number, data:any[]){
         let count = 0;
         let score = 0;
         data.forEach(e=>{
@@ -12,7 +12,7 @@ export default {
         })
         return(score/count);
     },
-    Max_score(team:number, data:any[]){
+    MaxScore(team:number, data:any[]){
         let max = 0;
         data.forEach(e=>{
             if(e.team != team) return;
@@ -23,7 +23,7 @@ export default {
         });
         return(max);
     },
-    Mobility_rate(team:number, data:any[]){
+    MobilityRate(team:number, data:any[]){
         let count = 0;
         let mobileCount = 0;
         data.forEach(e=>{
@@ -33,16 +33,19 @@ export default {
         });
         return(mobileCount/count);
     },
-    Dock_auto_rate(team:number, data:any[]){
-        let count = 0;
-        let mobileCount = 0;
-        data.forEach(e=>{
-            if(e.team != team) return;
-            if(e.game.untimed.dockedAuto) mobileCount++;
-            count++;
-        });
-        return(mobileCount/count);
-    },
+
+    // DockAutoRate(team:number, data:any[]){
+    //    let count = 0;
+    //    let mobileCount = 0;
+    //    data.forEach(e=>{
+    //        if(e.team != team) return;
+    //        if(e.game.untimed.dockedAuto) mobileCount++;
+    //        count++;
+    //    });
+    //    return(mobileCount/count);
+    // },
+
+
     // Alliance_engaged_auto_rate(team:number, data:any[]){
     //     let matches:any[] = [];
     //     let cache:any[] = [];
@@ -100,49 +103,57 @@ export default {
 
     //     return(count/(matches.length));
     // },
-    Dock_match_rate(team:number, data:any[]){
-        let count = 0;
-        let mobileCount = 0;
-        data.forEach(e=>{
-            if(e.team != team) return;
-            if(e.game.untimed.dockedMatch) mobileCount++;
-            count++;
-        });
-        return(mobileCount/count);
-    },
-    Engaged_auto_rate(team:number, data:any[]){
-        let count = 0;
-        let mobileCount = 0;
-        data.forEach(e=>{
-            if(e.team != team) return;
-            if(e.game.untimed.engageAuto) mobileCount++;
-            count++;
-        });
-        return(mobileCount/count);
-    },
-    Engaged_match_rate(team:number, data:any[]){
-        let count = 0;
-        let mobileCount = 0;
-        data.forEach(e=>{
-            if(e.team != team) return;
-            if(e.game.untimed.engageMatch) mobileCount++;
-            count++;
-        });
-        return(mobileCount/count);
-    },
-    // Driver_skill(team:number, data:any[]){
-    //     let count = 0;
-    //     let total = 0;
-    //     data.forEach(e=>{
-    //         if(e.team != team) return;
-    //         if(e.postgame?.driverSkill){
-    //             count++;
-    //             total += e.postgame.driverSkill;
-    //         }
-    //     });
-    //     return(total/count);
+
+
+    // DockMatchRate(team:number, data:any[]){
+    //    let count = 0;
+    //    let mobileCount = 0;
+    //    data.forEach(e=>{
+    //        if(e.team != team) return;
+    //        if(e.game.untimed.dockedMatch) mobileCount++;
+    //        count++;
+    //    });
+    //    return(mobileCount/count);
     // },
-    Average_pieces_scored(team:number, data:any[]){
+
+
+    // EngagedAutoRate(team:number, data:any[]){
+    //    let count = 0;
+    //    let mobileCount = 0;
+    //    data.forEach(e=>{
+    //        if(e.team != team) return;
+    //        if(e.game.untimed.engageAuto) mobileCount++;
+    //        count++;
+    //    });
+    //    return(mobileCount/count);
+    // },
+
+
+    // EngagedMatchRate(team:number, data:any[]){
+    //    let count = 0;
+    //    let mobileCount = 0;
+    //    data.forEach(e=>{
+    //        if(e.team != team) return;
+    //        if(e.game.untimed.engageMatch) mobileCount++;
+    //        count++;
+    //    });
+    //    return(mobileCount/count);
+    // },
+
+
+    DriverSkill(team:number, data:any[]){
+        let count = 0;
+        let total = 0;
+        data.forEach(e=>{
+            if(e.team != team) return;
+            if(e.postgame?.driverSkill){
+                count++;
+                total += e.postgame.driverSkill;
+            }
+        });
+        return(total/count);
+    },
+    AveragePiecesScored(team:number, data:any[]){
         let matches = 0;
         let count = 0;
         data.forEach(e=>{
@@ -157,21 +168,25 @@ export default {
         })
         return count / matches;
     },
-    Cube_score_rate(team:number, data:any[]){
-        let cubeNum = 0;
-        let count = 0;
-        data.forEach(e=>{
-            if(e.team != team) return;
-            e.game.actions.forEach((a:any)=>{
-                if(a.action === 'place'){
-                    if(a.type=="cube") cubeNum++;
-                    count++;
-                }
-            });
-        });
-        return(cubeNum/count);
-    },
-    Average_half_cycle_time(team:number, data:any[]){
+
+    //Change to note? will do when scout form is done
+    // CubeScoreRate(team:number, data:any[]){
+    //    let cubeNum = 0;
+    //    let count = 0;
+    //    data.forEach(e=>{
+    //        if(e.team != team) return;
+    //        e.game.actions.forEach((a:any)=>{
+    //            if(a.action === 'place'){
+    //                if(a.type=="cube") cubeNum++;
+    //                count++;
+    //            }
+    //        });
+    //    });
+    //    return(cubeNum/count);
+    // },
+
+
+    AverageCycleTime(team:number, data:any[]){
         let cycleTimes:any[]=[];
         let result=0;
         data.forEach(e=>{
@@ -203,7 +218,7 @@ export default {
 
         return(result/(cycleTimes.length*1000));
     },
-    Average_cycle_downtime(team:number, data:any[]){
+    AverageDeadTime(team:number, data:any[]){
         let cycleTimes:any[]=[];
         let result=0;
         data.forEach(e=>{
@@ -235,7 +250,7 @@ export default {
 
         return(result/(cycleTimes.length*1000));
     },
-    Favorite_piece_placement(team:number, data:any[]){
+    AverageElementPlacement(team:number, data:any[]){
         let resultIndex=0;
         let count=0;
         let array=[0, 0, 0]
@@ -261,31 +276,31 @@ export default {
         }
         return(result);
     },
-    // Loading_zone_intake_rate(team:number, data:any[]){
-    //     let loadZone = 0;
-    //     let total = 0;
-    //     data.forEach(e=>{
-    //         if(e.team!=team) return;
-    //         e.game.actions.forEach((a:any)=>{
-    //             if(a.action=="intake"){
-    //                 if(a.location=="zone") loadZone++;
-    //                 total++;
-    //             }
-    //         });
-    //     });
-    //     return(loadZone/total);
-    // },
-    // // Average_auto_score_rate(team:number, data:any[]){
-    //     let count = 0;
-    //     let score = 0;
-    //     data.forEach(e=>{
-    //         if(e.team != team) return;
-    //         score += autoScore(e);
-    //         count++;
-    //     });
-    //     return(score/count);
-    // },
-    Standard_Score_Deviation(team:number, data:any[]){
+    LoadingZoneIntakeRate(team:number, data:any[]){
+        let loadZone = 0;
+        let total = 0;
+        data.forEach(e=>{
+            if(e.team!=team) return;
+            e.game.actions.forEach((a:any)=>{
+                if(a.action=="intake"){
+                    if(a.location=="zone") loadZone++;
+                    total++;
+                }
+            });
+        });
+        return(loadZone/total);
+    },
+    AverageAutoScoreRate(team:number, data:any[]){
+        let count = 0;
+        let score = 0;
+        data.forEach(e=>{
+            if(e.team != team) return;
+            score += autoScore(e);
+            count++;
+        });
+        return(score/count);
+    },
+    StandardScoreDeviation(team:number, data:any[]){
         let scores:any[]=[];
         data.forEach(e=>{
             if(e.team != team) return;
@@ -295,33 +310,33 @@ export default {
 
         return stdDev(scores);
     },
-    // Strategy(team:number, data:any[]){
-    //     let stratIndex=0;
-    //     let allStrat=[0, 0, 0, 0, 0, 0];
-    //     let result = "";
-    //     data.forEach(e=>{
-    //         if(e.team!=team) return;
-    //         e.postgame.strategy.forEach((a:any)=>{
-    //             switch(a){
-    //                 case "cycle": allStrat[0]++; break;
-    //                 case "place": allStrat[1]++; break;
-    //                 case "transport": allStrat[2]++; break;
-    //                 case "defense": allStrat[3]++; break;
-    //                 case "moral": allStrat[4]++; break;
-    //                 case "breakdown": allStrat[5]++; break;
-    //             }
-    //         });
-    //     });
-    //     stratIndex=allStrat.indexOf(Math.max(...allStrat));
-    //     if(stratIndex==0)result="full cycle";
-    //     if(stratIndex==1)result="place";
-    //     if(stratIndex==2)result="transport";
-    //     if(stratIndex==3)result="defense";
-    //     if(stratIndex==4)result="moral support";
-    //     if(stratIndex==5)result="breakdown";
-    //     return result;
-    // },
-    Matches_Scouted(team:number, data:any[]){
+    Strategy(team:number, data:any[]){
+        let stratIndex=0;
+        let allStrat=[0, 0, 0, 0, 0, 0];
+        let result = "";
+        data.forEach(e=>{
+            if(e.team!=team) return;
+            e.postgame.strategy.forEach((a:any)=>{
+                switch(a){
+                    case "cycle": allStrat[0]++; break;
+                    case "place": allStrat[1]++; break;
+                    case "transport": allStrat[2]++; break;
+                    case "defense": allStrat[3]++; break;
+                    case "moral": allStrat[4]++; break;
+                    case "breakdown": allStrat[5]++; break;
+                }
+            });
+        });
+        stratIndex=allStrat.indexOf(Math.max(...allStrat));
+        if(stratIndex==0)result="full cycle";
+        if(stratIndex==1)result="place";
+        if(stratIndex==2)result="transport";
+        if(stratIndex==3)result="defense";
+        if(stratIndex==4)result="moral support";
+        if(stratIndex==5)result="breakdown";
+        return result;
+    },
+    MatchesScouted(team:number, data:any[]){
         let scouted=0;
         data.forEach(e=>{
             if(e.team!=team) return;
@@ -438,7 +453,7 @@ export function gridLayout(e:any){
     let out = [Array(9),Array(9),Array(9),Array(9)]
     e.game.actions.forEach((a:any)=>{
         if(a.action === "place"){
-            if(out[a.node.y] && out[a.node.y] && !out[a.node.y][a.node.x]) out[a.node.y][a.node.x] = {
+            if(out[a.node.y] && !out[a.node.y][a.node.x]) out[a.node.y][a.node.x] = {
                 auto: (a.time - e.game.start <= 18000),
                 type:a.type,
                 supercharged:"none",
