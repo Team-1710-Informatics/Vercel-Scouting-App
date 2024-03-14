@@ -95,9 +95,6 @@ const speed = [
 ]
 
 let index:{
-    event: string,
-    team: number|null,
-    scout: string|null,
     otherScouts: string,
     length: number|null,
     width: number|null,
@@ -131,9 +128,6 @@ let index:{
     notes: string,
     spotlight: string,
 }={
-    event: "",
-    team: null,
-    scout: null,
     otherScouts: "",
     length: null,
     width: null,
