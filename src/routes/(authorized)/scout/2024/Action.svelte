@@ -4,6 +4,7 @@
     import x from "$lib/assets/icons/x.svg";
     import output from "$lib/assets/icons/output.svg";
     import { onMount } from "svelte";
+    import { flip } from "svelte/animate";
 
     import center from "$lib/assets/scout/2024/center.png";
 
@@ -24,6 +25,7 @@
     export let meta;
 
     let location;
+    let rotateDiv;
 
     // const actions = [
     //     {
@@ -50,6 +52,20 @@
     //         src:output
     //     }
     // ];
+
+    let rotate=0;
+    function flipField(){
+        if(rotate==0)rotate=180;
+        else if(rotate==180)rotate=0;
+        // if(rotate==false){
+        //     rotateDiv.classList.toggle('rotate_180');
+        //     rotate=true;
+        // }
+        // else if(rotate==true){
+        //     rotateDiv.classList.toggle('rotate_0');
+        //     rotate=false;
+        // }
+    }
 
     function behavior(actionType){
         if(actionType=="score"){
@@ -90,7 +106,7 @@
 <div class="mt-4 border-2 rounded w-fit p-4 bg-slate-800">
     <u>Select position:</u>
     {#if location}{location}{/if}
-    <div class="grid grid-cols-4 z-10 w-full mt-2" style="max-width:600px;">
+    <div class="grid grid-cols-4 z-10 w-full mt-2" style="max-width:600px;transform:rotate({rotate}deg)" bind:this={rotateDiv}>
         {#if meta.alliance == "blue"}
             <div class="grid-rows-2 col-span-2">
                 <button class="button w-full" style={location==="amp"?"filter:invert(25%);":""} on:click={()=>location="amp"}><img src={blueAmp} alt="blue amp" class="amp"/></button>
@@ -113,6 +129,7 @@
             </div>
         {/if}
     </div>
+    <button class="mx-auto border-2 rounded mt-2" on:click={flipField}>Flip Field</button>
 </div>
 
 <style>
@@ -142,6 +159,28 @@
     .amp{
         height: 10vh;
         width:100%;
+    }
+    @keyframes rotate180 {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(180deg);
+    }
+    }
+    @keyframes rotate0 {
+    from {
+        transform: rotate(180deg);
+    }
+    to {
+        transform: rotate(0deg);
+    }
+    }
+    .rotate_180{
+        animation: rotate180 1s ease-in-out forwards;
+    }
+    .rotate_0{
+        animation: rotate0 1s ease-in-out forwards;
     }
 </style>
 
