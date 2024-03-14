@@ -85,7 +85,7 @@
 
 <style>
     .img{
-        height:30vh;
+        height:250px;
         width:100px;
         touch-action:none;
     }

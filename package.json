@@ -39,6 +39,7 @@
 		"mongodb": "^4.17.2",
 		"mongoose": "^6.9.2",
 		"nodemailer": "^6.9.0",
+		"plotly.js": "^2.30.0",
 		"plotly.js-dist": "^2.29.0",
 		"postcss": "^8.4.21",
 		"qrcode": "^1.5.3",
