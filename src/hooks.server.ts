@@ -10,8 +10,8 @@ import { redirect, type Handle } from "@sveltejs/kit";
 import { DateTime } from 'luxon';
 import tba from '$lib/modules/tba';
 try {
-	if (dev) await mongoose.connect(MONGODB_COMMUNITY);
-	else if (!dev) await mongoose.connect(MONGODB_MAIN);
+	if (!dev) await mongoose.connect(MONGODB_COMMUNITY);
+	else if (dev) await mongoose.connect(MONGODB_MAIN);
 	console.log("Connected to MongoDB");
 } catch (error) {
 	console.log("Error connecting to MongoDB:", error);
@@ -34,7 +34,7 @@ export const handle = (async function({ event, resolve }) {
     let res = await tba(`team/frc${user.team}/events/${new Date().getFullYear()}`);
     // let res = {}
     let c, n;
-    if(!dev){
+    if(dev){
         c = currComp(res);
         n = nextComp(res);
     }
@@ -48,7 +48,7 @@ export const handle = (async function({ event, resolve }) {
         preferences: user.preferences,
         permissions: user.permissions
     }
-    if(!dev){
+    if(dev){
         event.locals.competition = c;
         event.locals.nextCompetition = n;
     }

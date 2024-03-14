@@ -48,7 +48,7 @@ export const actions = {
         // })
 
         const otherData = {
-            event: locals.competition,
+            event: locals.competition?.key??null,
             team: params?.team,
             scout: locals.user.username
         };
@@ -58,12 +58,10 @@ export const actions = {
             ...data
         };
 
-        console.log(otherData);
-        console.log(data);
         console.log(final);
 
         if(await pitdata2024.findOne({team:final["team"], event:final["event"]})){
-            throw redirect(307, "/pit-scout");
+            throw redirect(301, "/pit-scout");
         }
 
         const db = new pitdata2024(final);
@@ -79,6 +77,6 @@ export const actions = {
         }
     
         console.log('test')
-        throw redirect(303, "/pit-scout/nav");
+        throw redirect(301, "/pit-scout/nav");
     }
 }

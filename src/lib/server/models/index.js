@@ -185,12 +185,13 @@ const pitSchedule = new Schema({
 export const pitSchedulePositions = mongoose.model("pitSchedules", pitSchedule);
 
 const pitscout2024 = new Schema({
-    event: String,
-    team: Number,
-    scout: String,
+    team:Number,
+    event:String,
+    scout:String,
     otherScouts: String,
     length: Number,
     width: Number,
+    bumperWidth: Number,
     height: Number,
     sizeUnit: String,
     weight: Number,
@@ -217,6 +218,8 @@ const pitscout2024 = new Schema({
     scoringAbility: String, 
     ampUse: String,
     intakeLocation: String,
+    notes: String,
+    spotlight: String
 });
 
 export const pitdata2024 = mongoose.model("2024pitdata", pitscout2024);
