@@ -31,7 +31,7 @@
         ["Store", '/store', 3, 6, , false],
         ["Stocks", '/scamble/stocks', 3, 7, , false],
         ["Metalshop", '/metal-shop', 3,7, , false],
-        ["Scouting Schedule", '/scouting-schedule', 6, 4, , true],
+        ["Scouting Schedule", '/scouting-schedule', 6, 4, , false],
         ["Pit Schedule", '/pit-schedule', 6, 5, , true])
     }
 

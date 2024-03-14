@@ -134,7 +134,7 @@
                         </td>
                         <td>
                             {#each backups as backup}
-                                {#if backup.day == selected && backup.start == shift.start && backup.end == shift.end}
+                                {#if backup.day == selected && backup.start == shift.start && backup.end == shift.end && backup.name != ""}
                                     {#if backup.name != data.user.username}
                                         <td>{findName(backup.name)}</td>
                                     {:else if backup.name == data.user.username}
