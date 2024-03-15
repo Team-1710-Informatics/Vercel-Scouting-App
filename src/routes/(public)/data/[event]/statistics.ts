@@ -167,16 +167,6 @@ export default {
         });
         return(score/count);
     },
-    Average_tele_points_scored(team:number, data:any[]){
-        let count = 0;
-        let score = 0;
-        data.forEach(e=>{
-            if(e.team != team) return;
-            score += (teamScore(e) - autoScore(e));
-            count++;
-        });
-        return(score/count);
-    },
     Tele_speaker_score_rate(team:number, data:any[]){
         let speakerNum = 0;
         let count = 0;
