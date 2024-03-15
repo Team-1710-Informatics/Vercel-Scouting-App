@@ -70,6 +70,19 @@
         });
         return(formattedTime);
     }
+    let itsBasicallyOneAMAndIDontKnowWhatToNameThis:any = [];
+    backups.forEach((e:any)=>{
+        itsBasicallyOneAMAndIDontKnowWhatToNameThis.push(e.name);
+    })
+    const isNothing = (currentValue:string) => currentValue == "";
+    function backupCheck() {
+        if(itsBasicallyOneAMAndIDontKnowWhatToNameThis.every(isNothing) == true){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
 </script>
 
 <middle class="text-center">
@@ -96,7 +109,9 @@
                     <table>
                         <tr>
                             <th>Scouts</th>
-                            <th>Backups</th>
+                            {#if backupCheck()}
+                                <th>Backups</th>
+                            {/if}
                         </tr>
                         <tr>
                             <td>
@@ -117,15 +132,17 @@
                                     {/each}
                                 </table>
                             </td>
-                            <td>
-                                <div class="flex-col">
-                                    {#each backups as backup}
-                                        <div>
-                                            {backup.name}
-                                        </div>
-                                    {/each}
-                                </div>
-                            </td>
+                            {#if backupCheck()}
+                                <td>
+                                    <div class="flex-col">
+                                        {#each backups as backup}
+                                            <div>
+                                                {backup.name}
+                                            </div>
+                                        {/each}
+                                    </div>
+                                </td>
+                            {/if}
                         </tr>
                     </table>
                 </tr>
@@ -145,7 +162,9 @@
                     <table>
                         <tr>
                             <th>Scouts</th>
-                            <th>Backups</th>
+                            {#if backupCheck()}
+                                <th>Backups</th>
+                            {/if}
                         </tr>
                         <tr>
                             <td>
@@ -166,15 +185,17 @@
                                     {/each}
                                 </table>
                             </td>
-                            <td>
-                                <div class="flex-col">
-                                    {#each upcomingBackups as backup}
-                                        <div>
-                                            {backup.name}
-                                        </div>
-                                    {/each}
-                                </div>
-                            </td>
+                            {#if backupCheck()}
+                                <td>
+                                    <div class="flex-col">
+                                        {#each upcomingBackups as backup}
+                                            <div>
+                                                {backup.name}
+                                            </div>
+                                        {/each}
+                                    </div>
+                                </td>
+                            {/if}
                         </tr>
                     </table>
                 </tr>

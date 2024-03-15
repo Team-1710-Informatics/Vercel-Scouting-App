@@ -34,6 +34,19 @@
             return name[1] + " " + name[0]
         }
     }
+    let itsBasicallyOneAMAndIDontKnowWhatToNameThis:any = [];
+    backups.forEach((e:any)=>{
+        itsBasicallyOneAMAndIDontKnowWhatToNameThis.push(e.name);
+    })
+    const isNothing = (currentValue:string) => currentValue == "";
+    function backupCheck() {
+        if(itsBasicallyOneAMAndIDontKnowWhatToNameThis.every(isNothing) == true){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
 </script>
 <middle>
     <div class="bg-gray-800 flex flex-row gap-2 p-2 my-2 rounded-3xl">  
@@ -49,7 +62,9 @@
                 <th>Time</th>
                 <th>Lead Scout</th>
                 <th>Scouts</th>
-                <th>Backups</th>
+                {#if backupCheck()}
+                    <th>Backups</th>
+                {/if}
             </tr>
             {#each shifts as shift}
                 {#if shift.day == selected}
@@ -132,17 +147,19 @@
                                 {/each}
                             </table>
                         </td>
-                        <td>
-                            {#each backups as backup}
-                                {#if backup.day == selected && backup.start == shift.start && backup.end == shift.end && backup.name != ""}
-                                    {#if backup.name != data.user.username}
-                                        <td>{findName(backup.name)}</td>
-                                    {:else if backup.name == data.user.username}
-                                        <td class="bg-slate-700">{findName(backup.name)}</td>
-                                    {/if}<br>
-                                {/if}
-                            {/each}
-                        </td>
+                        {#if backupCheck()}
+                            <td>
+                                {#each backups as backup}
+                                    {#if backup.day == selected && backup.start == shift.start && backup.end == shift.end && backup.name != ""}
+                                        {#if backup.name != data.user.username}
+                                            <td>{findName(backup.name)}</td>
+                                        {:else if backup.name == data.user.username}
+                                            <td class="bg-slate-700">{findName(backup.name)}</td>
+                                        {/if}<br>
+                                    {/if}
+                                {/each}
+                            </td>
+                        {/if}
                     </tr>
                 {/if}
             {/each}
