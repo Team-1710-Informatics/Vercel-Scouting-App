@@ -139,20 +139,6 @@ export default {
     //    });
     //    return(mobileCount/count);
     // },
-
-
-    DriverSkill(team:number, data:any[]){
-        let count = 0;
-        let total = 0;
-        data.forEach(e=>{
-            if(e.team != team) return;
-            if(e.postgame?.driverSkill){
-                count++;
-                total += e.postgame.driverSkill;
-            }
-        });
-        return(total/count);
-    },
     AveragePiecesScored(team:number, data:any[]){
         let matches = 0;
         let count = 0;
@@ -309,34 +295,34 @@ export default {
 
         return stdDev(scores);
     },
-    Strategy(team:number, data:any[]){
-        let stratIndex=0;
-        let allStrat=[0, 0, 0, 0, 0, 0, 0];
-        let result = "";
-        data.forEach(e=>{
-            if(e.team!=team) return;
-            e.postgame.strategy.forEach((a:any)=>{
-                switch(a){
-                    case "cycle": allStrat[0]++; break;
-                    case "place": allStrat[1]++; break;
-                    case "transport": allStrat[2]++; break;
-                    case "defense": allStrat[3]++; break;
-                    case "moral": allStrat[4]++; break;
-                    case "breakdown": allStrat[5]++; break;
-                    case "noShow": allStrat[6]++; break;
-                }
-            });
-        });
-        stratIndex=allStrat.indexOf(Math.max(...allStrat));
-        if(stratIndex==0)result="full cycle";
-        if(stratIndex==1)result="place";
-        if(stratIndex==2)result="transport";
-        if(stratIndex==3)result="defense";
-        if(stratIndex==4)result="moral support";
-        if(stratIndex==5)result="breakdown";
-        if(stratIndex==6)result="no show";
-        return result;
-    },
+    // Strategy(team:number, data:any[]){
+    //     let stratIndex=0;
+    //     let allStrat=[0, 0, 0, 0, 0, 0, 0];
+    //     let result = "";
+    //     data.forEach(e=>{
+    //         if(e.team!=team) return;
+    //         e.postgame.strategy.forEach((a:any)=>{
+    //             switch(a){
+    //                 case "cycle": allStrat[0]++; break;
+    //                 case "place": allStrat[1]++; break;
+    //                 case "transport": allStrat[2]++; break;
+    //                 case "defense": allStrat[3]++; break;
+    //                 case "moral": allStrat[4]++; break;
+    //                 case "breakdown": allStrat[5]++; break;
+    //                 case "noShow": allStrat[6]++; break;
+    //             }
+    //         });
+    //     });
+    //     stratIndex=allStrat.indexOf(Math.max(...allStrat));
+    //     if(stratIndex==0)result="full cycle";
+    //     if(stratIndex==1)result="place";
+    //     if(stratIndex==2)result="transport";
+    //     if(stratIndex==3)result="defense";
+    //     if(stratIndex==4)result="moral support";
+    //     if(stratIndex==5)result="breakdown";
+    //     if(stratIndex==6)result="no show";
+    //     return result;
+    // },
     MatchesScouted(team:number, data:any[]){
         let scouted=0;
         data.forEach(e=>{
