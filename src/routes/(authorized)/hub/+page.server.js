@@ -1,6 +1,6 @@
 import tba from '$lib/modules/tba';
 import { DateTime } from 'luxon';
-import { schedulePositions } from "$lib/server/models";
+import { schedulePositions, User } from "$lib/server/models";
 
 export async function load({ locals }){
     const scheduleData = await schedulePositions.find();
@@ -110,6 +110,10 @@ export async function load({ locals }){
     let y = JSON.stringify(upcomingScouts);
     let z = JSON.stringify(upcomingBackups);
 
+    const user = await User.find();
+
+    let users = JSON.stringify(user);
+
     return {
         events: events,
         permissions: locals.user.permissions,
@@ -120,6 +124,8 @@ export async function load({ locals }){
         previewBackups: b,
         upcomingLead: x,
         upcomingScouts: y,
-        upcomingBackups: z
+        upcomingBackups: z,
+        user: locals.user,
+        users: users
     };
 }
