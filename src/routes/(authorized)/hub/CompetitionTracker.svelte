@@ -15,6 +15,8 @@
     export let upcomingLead:any;
     export let upcomingScouts:any;
     export let upcomingBackups:any;
+    export let users:any;
+    export let user:any;
 
     function nextComp() : Competition | null {
         let next = null;
@@ -83,6 +85,22 @@
             return true;
         }
     }
+
+    function findName(username:any){
+        let name = [''];
+        users.forEach((e:any) =>{
+            if(e.username == username){
+                name.unshift(e.name.first);
+                name.unshift(e.name.last);
+            }
+        })
+        if(name[0] == ''){
+            return username
+        }
+        else{
+            return name[1] + " " + name[0]
+        }
+    }
 </script>
 
 <middle class="text-center">
@@ -122,7 +140,11 @@
                                     </tr>
                                     {#each scouts as scout}
                                         <tr>
-                                            <td>{scout.name}</td>
+                                            {#if scout.name == user.username}
+                                                <td class="bg-slate-700">{findName(scout.name)}</td>
+                                            {:else}
+                                                <td>{findName(scout.name)}</td>
+                                            {/if}
                                             {#if scout.team == 'Blue3' || scout.team == 'Blue2' || scout.team == 'Blue1'}
                                                 <td class="bg-sky-700">{scout.team}</td>
                                             {:else if scout.team == 'Red3' || scout.team == 'Red2' || scout.team == 'Red1'}
@@ -136,9 +158,15 @@
                                 <td>
                                     <div class="flex-col">
                                         {#each backups as backup}
-                                            <div>
-                                                {backup.name}
-                                            </div>
+                                            {#if backup.name == user.username}
+                                                <div class="bg-slate-700">
+                                                    {findName(backup.name)}
+                                                </div>
+                                            {:else}
+                                                <div>
+                                                    {findName(backup.name)}
+                                                </div>
+                                            {/if}
                                         {/each}
                                     </div>
                                 </td>
@@ -175,7 +203,11 @@
                                     </tr>
                                     {#each upcomingScouts as scout}
                                         <tr>
-                                            <td>{scout.name}</td>
+                                            {#if scout.name == user.username}
+                                                <td class="bg-slate-700">{findName(scout.name)}</td>
+                                            {:else}
+                                                <td>{findName(scout.name)}</td>
+                                            {/if}
                                             {#if scout.team == 'Blue3' || scout.team == 'Blue2' || scout.team == 'Blue1'}
                                                 <td class="bg-sky-700">{scout.team}</td>
                                             {:else if scout.team == 'Red3' || scout.team == 'Red2' || scout.team == 'Red1'}
@@ -189,9 +221,15 @@
                                 <td>
                                     <div class="flex-col">
                                         {#each upcomingBackups as backup}
-                                            <div>
-                                                {backup.name}
-                                            </div>
+                                            {#if backup.name == user.username}
+                                                <div class="bg-slate-700">
+                                                    {findName(backup.name)}
+                                                </div>
+                                            {:else}
+                                                <div>
+                                                    {findName(backup.name)}
+                                                </div>
+                                            {/if}
                                         {/each}
                                     </div>
                                 </td>
