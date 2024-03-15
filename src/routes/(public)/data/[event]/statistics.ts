@@ -28,7 +28,7 @@ export default {
         let mobileCount = 0;
         data.forEach(e=>{
             if(e.team != team) return;
-            if(e.game.untimed.mobile) mobileCount++;
+            if(e.game.untimed.exitAuto) mobileCount++;
             count++;
         });
         return(mobileCount/count);
@@ -160,10 +160,9 @@ export default {
             if(e.team != team) return;
             matches++;
             e.game.actions.forEach((a:any)=>{
-                if(a.action === 'place')
+                if(a.action === 'score'){
                     count++;
-                if(a.action === 'intake' && typeof a.location == "object")
-                    count--;
+                }
             })
         })
         return count / matches;
@@ -186,96 +185,96 @@ export default {
     // },
 
 
-    AverageCycleTime(team:number, data:any[]){
-        let cycleTimes:any[]=[];
-        let result=0;
-        data.forEach(e=>{
-            let cycleEngaged=false;
-            if(e.team!=team)return;
-            let startTime=0;
-            let endTime=0;
-            let cycles=0;
-            e.game.actions.forEach((a:any)=>{
-                if(a.action=="intake"&&a.time>0&&cycleEngaged==false){
-                    cycleEngaged=true;
-                    startTime=a.time;
-                }
+    // AverageCycleTime(team:number, data:any[]){
+    //     let cycleTimes:any[]=[];
+    //     let result=0;
+    //     data.forEach(e=>{
+    //         let cycleEngaged=false;
+    //         if(e.team!=team)return;
+    //         let startTime=0;
+    //         let endTime=0;
+    //         let cycles=0;
+    //         e.game.actions.forEach((a:any)=>{
+    //             if(a.action=="intake"&&a.time>0&&cycleEngaged==false){
+    //                 cycleEngaged=true;
+    //                 startTime=a.time;
+    //             }
 
-                if(a.action=="place"&&cycleEngaged){
-                    cycleEngaged=false;
-                    endTime=a.time;
-                    cycleTimes.push(endTime-startTime);
-                    cycles++;
-                }
-            });
-            if(cycles==0) cycleTimes.push(153000);
-        });
+    //             if(a.action=="place"&&cycleEngaged){
+    //                 cycleEngaged=false;
+    //                 endTime=a.time;
+    //                 cycleTimes.push(endTime-startTime);
+    //                 cycles++;
+    //             }
+    //         });
+    //         if(cycles==0) cycleTimes.push(153000);
+    //     });
         
         
-        cycleTimes.forEach(e=>{
-            result+=e;
-        });
+    //     cycleTimes.forEach(e=>{
+    //         result+=e;
+    //     });
 
-        return(result/(cycleTimes.length*1000));
-    },
-    AverageDeadTime(team:number, data:any[]){
-        let cycleTimes:any[]=[];
-        let result=0;
-        data.forEach(e=>{
-            let cycleEngaged=false;
-            if(e.team!=team)return;
-            let startTime=0;
-            let endTime=0;
-            let cycles=0;
-            e.game.actions.forEach((a:any)=>{
-                if(a.action=="place"&&a.time>0&&cycleEngaged==false){
-                    cycleEngaged=true;
-                    startTime=a.time;
-                }
+    //     return(result/(cycleTimes.length*1000));
+    // },
+    // AverageDeadTime(team:number, data:any[]){
+    //     let cycleTimes:any[]=[];
+    //     let result=0;
+    //     data.forEach(e=>{
+    //         let cycleEngaged=false;
+    //         if(e.team!=team)return;
+    //         let startTime=0;
+    //         let endTime=0;
+    //         let cycles=0;
+    //         e.game.actions.forEach((a:any)=>{
+    //             if(a.action=="place"&&a.time>0&&cycleEngaged==false){
+    //                 cycleEngaged=true;
+    //                 startTime=a.time;
+    //             }
 
-                if(a.action=="intake"&&cycleEngaged){
-                    cycleEngaged=false;
-                    endTime=a.time;
-                    cycleTimes.push(endTime-startTime);
-                    cycles++;
-                }
-            });
-            if(cycles==0) cycleTimes.push(153000);
-        });
+    //             if(a.action=="intake"&&cycleEngaged){
+    //                 cycleEngaged=false;
+    //                 endTime=a.time;
+    //                 cycleTimes.push(endTime-startTime);
+    //                 cycles++;
+    //             }
+    //         });
+    //         if(cycles==0) cycleTimes.push(153000);
+    //     });
         
         
-        cycleTimes.forEach(e=>{
-            result+=e;
-        });
+    //     cycleTimes.forEach(e=>{
+    //         result+=e;
+    //     });
 
-        return(result/(cycleTimes.length*1000));
-    },
-    AverageElementPlacement(team:number, data:any[]){
-        let resultIndex=0;
-        let count=0;
-        let array=[0, 0, 0]
-        let result="";
-        data.forEach(e=>{
-            if(e.team!=team) return;
-            e.game.actions.forEach((a:any)=>{
-                if(a.action=="place"){
-                    switch(a.node.y){
-                        case 0: array[0]+=1; break;
-                        case 1: array[1]+=1; break;
-                        case 2: array[2]+=1; break;
-                    }
-                    count++;
-                }
-            });
-        });
-        resultIndex=array.indexOf(Math.max(...array));
-        switch(resultIndex){
-            case 0: result="high"; break;
-            case 1: result="mid"; break;
-            case 2: result="low"; break;
-        }
-        return(result);
-    },
+    //     return(result/(cycleTimes.length*1000));
+    // },
+    // AverageElementPlacement(team:number, data:any[]){
+    //     let resultIndex=0;
+    //     let count=0;
+    //     let array=[0, 0, 0]
+    //     let result="";
+    //     data.forEach(e=>{
+    //         if(e.team!=team) return;
+    //         e.game.actions.forEach((a:any)=>{
+    //             if(a.action=="place"){
+    //                 switch(a.node.y){
+    //                     case 0: array[0]+=1; break;
+    //                     case 1: array[1]+=1; break;
+    //                     case 2: array[2]+=1; break;
+    //                 }
+    //                 count++;
+    //             }
+    //         });
+    //     });
+    //     resultIndex=array.indexOf(Math.max(...array));
+    //     switch(resultIndex){
+    //         case 0: result="high"; break;
+    //         case 1: result="mid"; break;
+    //         case 2: result="low"; break;
+    //     }
+    //     return(result);
+    // },
     LoadingZoneIntakeRate(team:number, data:any[]){
         let loadZone = 0;
         let total = 0;
@@ -283,7 +282,7 @@ export default {
             if(e.team!=team) return;
             e.game.actions.forEach((a:any)=>{
                 if(a.action=="intake"){
-                    if(a.location=="zone") loadZone++;
+                    if(a.location=="source") loadZone++;
                     total++;
                 }
             });
@@ -312,7 +311,7 @@ export default {
     },
     Strategy(team:number, data:any[]){
         let stratIndex=0;
-        let allStrat=[0, 0, 0, 0, 0, 0];
+        let allStrat=[0, 0, 0, 0, 0, 0, 0];
         let result = "";
         data.forEach(e=>{
             if(e.team!=team) return;
@@ -324,6 +323,7 @@ export default {
                     case "defense": allStrat[3]++; break;
                     case "moral": allStrat[4]++; break;
                     case "breakdown": allStrat[5]++; break;
+                    case "noShow": allStrat[6]++; break;
                 }
             });
         });
@@ -334,6 +334,7 @@ export default {
         if(stratIndex==3)result="defense";
         if(stratIndex==4)result="moral support";
         if(stratIndex==5)result="breakdown";
+        if(stratIndex==6)result="no show";
         return result;
     },
     MatchesScouted(team:number, data:any[]){
@@ -345,108 +346,45 @@ export default {
         return scouted;
     },
 }
-function links(e:any){
-    let grid = gridLayout(e);
-    let links = 0;
-    grid.forEach(row=>{
-        let consecutive = 0;
-        row.forEach(node=>{
-            if(node){
-                consecutive++;
-                if(consecutive == 3){
-                    links++;
-                    consecutive = 0;
-                }
-            }
-        })
-    })
-
-    return links;
-}
 export function teamScore(e:any){
     let count = 0;
-    let grid = gridLayout(e);
-    grid[0].forEach((a:any)=>{
-        if(!a)return;
-        count+=5;
-        if(a.supercharged != "none") count+=3;
-        if(a.auto) count++;
+    e.game.actions.forEach((a:any)=>{
+        if(a.action!=="score")return;
+        if(a.phase=="auto"){
+            switch(a.location){
+                case "speaker":count+=5;break;
+                case "amp":count+=2;break;
+                case "trap":count+=5;break;
+            }
+        }else if(a.phase=="teleOp"){
+            switch(a.location){
+                case "speaker":count+=2;break;
+                case "amp":count+=1;break;
+                case "trap":count+=5;break;
+            }
+        }
     });
-    grid[1].forEach((a:any)=>{
-        if(!a)return;
-        count+=3;
-        if(a.supercharged != "none") count+=3;
-        if(a.auto) count++;
-    });
-    grid[2].forEach((a:any)=>{
-        if(!a)return;
-        count+=2;
-        if(a.supercharged != "none") count+=3;
-        if(a.auto) count++;
-    });
-        // if(a.action === 'place') {
-        //     switch(a.node.y){
-        //         case 0: count+= 5; break;
-        //         case 1: count+= 3; break;
-        //         case 2: count+= 2; break;
-        //     }
-        //     if(a.time - e.game.start <= 18000) count++;
-        // }
-
-        // if(a.action === 'intake' && typeof a.location != "string"){
-        //     switch(a.location.y){
-        //         case 0: count-= 5; break;
-        //         case 1: count-= 3; break;
-        //         case 2: count-= 2; break;
-        //     }
-        // }
-
-    // count += links(e) * 5;
-    if(e.game.untimed.mobile) count += 3;
-    if(e.game.untimed.dockedAuto){
-        count += 8;
-        if(e.game.untimed.engageAuto) count += 4;
-    }
-    if(e.game.untimed.dockedMatch){
-        count += 6;
-        if(e.game.untimed.engageMatch) count += 4;
-    }
-    if(e.game.untimed.parked) count += 2;
-
+    if(e.game.untimed.exitAuto)count+=2;
+    if(e.game.untimed.hangMatch)count+=3;
+    if(e.game.untimed.parkMatch)count+=1;
+    count+=e.game.untimed.harmony;
     return(count);
 }
 
 function autoScore(e:any){
     let count = 0;
     e.game.actions.forEach((a:any)=>{
-        if(a.time - e.game.start > 18000) return;
-        if(a.action === 'place') {
-            switch(a.node.y){
-                case 0: count+= 6; break;
-                case 1: count+= 4; break;
-                case 2: count+= 3; break;
-            }
-        }
-        if(a.action === 'intake' && typeof a.location != "string"){
-            switch(a.location.y){
-                case 0: count-= 5; break;
-                case 1: count-= 3; break;
-                case 2: count-= 2; break;
+        if(a.action!=="score")return;
+        if(a.phase=="auto"){
+            switch(a.location){
+                case "speaker":count+=5;break;
+                case "amp":count+=2;break;
+                case "trap":count+=5;break;
             }
         }
     });
 
-    if(e.game.untimed.mobile) count += 3;
-    if(e.game.untimed.dockedAuto){
-        count += 8;
-        if(e.game.untimed.engageAuto) count += 4;
-    }
-    if(e.game.untimed.dockedMatch){
-        count += 6;
-        if(e.game.untimed.engageMatch) count += 4;
-    }
-    if(e.game.untimed.parked) count += 2;
-
+    if(e.game.untimed.exitAuto)count+=2;
     return(count);
 }
 export function gridLayout(e:any){
