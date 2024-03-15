@@ -1,8 +1,8 @@
 export default {
-    Team_Number(team:number, data:any[]){
+    TeamNumber(team:number, data:any[]){
         return team;
     },
-    Average_Score(team:number, data:any[]){
+    AverageScore(team:number, data:any[]){
         let count = 0;
         let score = 0;
         data.forEach(e=>{
@@ -12,7 +12,7 @@ export default {
         })
         return(score/count);
     },
-    Max_Score(team:number, data:any[]){
+    MaxScore(team:number, data:any[]){
         let max = 0;
         data.forEach(e=>{
             if(e.team != team) return;
@@ -60,9 +60,6 @@ export default {
         })
         return count / matches;
     },
-
-    
-
     // AverageCycleTime(team:number, data:any[]){
     //     let cycleTimes:any[]=[];
     //     let result=0;
@@ -318,7 +315,7 @@ export default {
         return scouted;
     },
 }
-export function teamScore(e:any){
+function teamScore(e:any){
     let count = 0;
     e.game.actions.forEach((a:any)=>{
         if(a.phase=="auto") return;

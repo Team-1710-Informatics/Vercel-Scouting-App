@@ -167,6 +167,7 @@ export default {
         });
         return(score/count);
     },
+
     Tele_speaker_score_rate(team:number, data:any[]){
         let speakerNum = 0;
         let count = 0;
