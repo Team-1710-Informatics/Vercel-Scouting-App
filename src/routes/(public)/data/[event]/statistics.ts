@@ -349,88 +349,95 @@ export default {
 export function teamScore(e:any){
     let count = 0;
     e.game.actions.forEach((a:any)=>{
-        if(a.action!=="score")return;
-        if(a.phase=="auto"){
+        if(a.phase=="auto") return;
+        if(a.action === 'score') {
             switch(a.location){
-                case "speaker":count+=5;break;
-                case "amp":count+=2;break;
-                case "trap":count+=5;break;
-            }
-        }else if(a.phase=="teleOp"){
-            switch(a.location){
-                case "speaker":count+=2;break;
-                case "amp":count+=1;break;
-                case "trap":count+=5;break;
+                case "amp": count+= 1; break;
+                case "trap": count+= 5; break;
+                case "speaker": switch(a.amplified){
+                    case true: count+= 5; break;
+                    case false: count+= 2; break;
+                } break;
             }
         }
     });
-    if(e.game.untimed.exitAuto)count+=2;
-    if(e.game.untimed.hangMatch)count+=3;
-    if(e.game.untimed.parkMatch)count+=1;
     count+=e.game.untimed.harmony;
+    if(e.game.untimed.parkMatch){
+        count+= 1;
+    }
+    if(e.game.untimed.hangMatch){
+        switch(e.game.untimed.spotlight) {
+            case true: count+= 4; break;
+            case false: count+= 3; break;
+        }
+    }
+
+    count + autoScore(e);
+    
     return(count);
 }
 
 function autoScore(e:any){
     let count = 0;
     e.game.actions.forEach((a:any)=>{
-        if(a.action!=="score")return;
-        if(a.phase=="auto"){
+        if(a.phase!=="auto") return;
+        if(a.action === 'place') {
             switch(a.location){
-                case "speaker":count+=5;break;
-                case "amp":count+=2;break;
-                case "trap":count+=5;break;
+                case "amp": count+= 2; break;
+                case "speaker": count+= 5; break;
             }
         }
     });
+    if(e.game.untimed.exitAuto){
+        count+= 2;
+    }
 
-    if(e.game.untimed.exitAuto)count+=2;
     return(count);
 }
-export function gridLayout(e:any){
-    let out = [Array(9),Array(9),Array(9),Array(9)]
-    e.game.actions.forEach((a:any)=>{
-        if(a.action === "place"){
-            if(out[a.node.y] && !out[a.node.y][a.node.x]) out[a.node.y][a.node.x] = {
-                auto: (a.time - e.game.start <= 18000),
-                type:a.type,
-                supercharged:"none",
-            };
-            else if(out[a.node.y] && out[a.node.y][a.node.x] && out[a.node.y][a.node.x]) out[a.node.y][a.node.x].supercharged = a.type;
-        }
-        if(a.action === "intake" && typeof a.location == "object" && out[a.location.y][a.location.x]?.supercharged=="none"){ //if taken from grid and not supercharged
-            out[a.location.y][a.location.x]=undefined;
-        }
-        if(a.action === "intake" && typeof a.location == "object" && out[a.location.y][a.location.x]?.supercharged!="none" && out[a.location.y][a.location.x]){ //if taken from grid and supercharged
-            out[a.location.y][a.location.x].supercharged="none";
-        }
-    });
+// export function gridLayout(e:any){
+//     let out = [Array(9),Array(9),Array(9),Array(9)]
+//     e.game.actions.forEach((a:any)=>{
+//         if(a.action === "place"){
+//             if(out[a.node.y] && !out[a.node.y][a.node.x]) out[a.node.y][a.node.x] = {
+//                 auto: (a.time - e.game.start <= 18000),
+//                 type:a.type,
+//                 supercharged:"none",
+//             };
+//             else if(out[a.node.y] && out[a.node.y][a.node.x] && out[a.node.y][a.node.x]) out[a.node.y][a.node.x].supercharged = a.type;
+//         }
+//         if(a.action === "intake" && typeof a.location == "object" && out[a.location.y][a.location.x]?.supercharged=="none"){ //if taken from grid and not supercharged
+//             out[a.location.y][a.location.x]=undefined;
+//         }
+//         if(a.action === "intake" && typeof a.location == "object" && out[a.location.y][a.location.x]?.supercharged!="none" && out[a.location.y][a.location.x]){ //if taken from grid and supercharged
+//             out[a.location.y][a.location.x].supercharged="none";
+//         }
+//     });
 
-    return out;
-}
+//     return out;
+// }
 
-function findMode(array:any[]){
-    let object:any = {};
-    for(let i=0; i<array.length; i++){
-        if(object[array[i]]){
-            object[array[i]] += 1;
-        } else {
-            object[array[i]] = 1;
-        }
-    }
-    let biggestValue = -1;
-    let biggestValuesKey = -1;
+// function findMode(array:any[]){
+//     let object:any = {};
+//     for(let i=0; i<array.length; i++){
+//         if(object[array[i]]){
+//             object[array[i]] += 1;
+//         } else {
+//             object[array[i]] = 1;
+//         }
+//     }
+//     let biggestValue = -1;
+//     let biggestValuesKey = -1;
 
-    Object.keys(object).forEach((key:any)=>{
-        let value = object[key];
-        if(value > biggestValue) {
-            biggestValue = value;
-            biggestValuesKey = key;
-        }
+//     Object.keys(object).forEach((key:any)=>{
+//         let value = object[key];
+//         if(value > biggestValue) {
+//             biggestValue = value;
+//             biggestValuesKey = key;
+//         }
 
-    });
-    return biggestValuesKey;
-}
+//     });
+//     return biggestValuesKey;
+// }
 
 function stdDev(arr:any){
     let mean = arr.reduce((acc:any, curr:any)=>{
