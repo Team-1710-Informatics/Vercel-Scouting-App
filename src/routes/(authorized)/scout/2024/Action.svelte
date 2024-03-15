@@ -26,45 +26,10 @@
 
     let location;
     let rotateDiv;
-
-    // const actions = [
-    //     {
-    //         name:"intake",
-    //         location:[
-    //             "source","center","amp","speaker","other"
-    //         ],
-    //         start:"col-start-1",
-    //         src:intake,
-
-    //     },{
-    //         name:"drop",
-    //         location:[
-    //             "source","center","amp", "speaker", "other/miss"
-    //         ],
-    //         start:"col-start-2",
-    //         src:x,
-    //     },{
-    //         name:"score",
-    //         location:[
-    //             "amp","speaker","trap"
-    //         ],
-    //         start:"col-start-3",
-    //         src:output
-    //     }
-    // ];
-
-    let rotate=0;
+    let rotate=false;
+    
     function flipField(){
-        if(rotate==0)rotate=180;
-        else if(rotate==180)rotate=0;
-        // if(rotate==false){
-        //     rotateDiv.classList.toggle('rotate_180');
-        //     rotate=true;
-        // }
-        // else if(rotate==true){
-        //     rotateDiv.classList.toggle('rotate_0');
-        //     rotate=false;
-        // }
+        rotate=!rotate;
     }
 
     function behavior(actionType){
@@ -106,7 +71,7 @@
 <div class="mt-4 border-2 rounded w-fit p-4 bg-slate-800">
     <u>Select position:</u>
     {#if location}{location}{/if}
-    <div class="grid grid-cols-4 z-10 w-full mt-2" style="max-width:600px;transform:rotate({rotate}deg)" bind:this={rotateDiv}>
+    <div class="grid grid-cols-4 z-10 w-full mt-2 {rotate ? 'rotated':''}" style="max-width:600px;transition:transform 0.5s ease;" bind:this={rotateDiv}>
         {#if meta.alliance == "blue"}
             <div class="grid-rows-2 col-span-2">
                 <button class="button w-full" style={location==="amp"?"filter:invert(25%);":""} on:click={()=>location="amp"}><img src={blueAmp} alt="blue amp" class="amp"/></button>
@@ -160,72 +125,7 @@
         height: 10vh;
         width:100%;
     }
-    @keyframes rotate180 {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(180deg);
-    }
-    }
-    @keyframes rotate0 {
-    from {
-        transform: rotate(180deg);
-    }
-    to {
-        transform: rotate(0deg);
-    }
-    }
-    .rotate_180{
-        animation: rotate180 1s ease-in-out forwards;
-    }
-    .rotate_0{
-        animation: rotate0 1s ease-in-out forwards;
+    .rotated{
+        transform:rotate(180deg);
     }
 </style>
-
-<!-- <div class="grid grid-cols-3">
-    {#each actions as action, i}
-        <button class="button1" on:click={()=>{active_action=i+1}} disabled={(action.name=="intake"?inv==true:inv==false)}>
-            <b class="font-serif text-sky-100 text-sm">{action.name}</b>
-            <img src={action.src} class="h-5 mx-auto opacity-40 {action.name==="drop"?"x":"otherIcons"}" alt=""/>
-        </button>
-    {/each}
-</div>
-<div class="grid grid-cols-3 w-full fixed z-10 pointer-events-none">
-    {#if active_action}
-        <div style="grid-column-start:{active_action};" transition:slide use:clickOutside on:click_outside={()=>{active_action=0;}}>
-            {#each actions[active_action-1].location as location, i}
-                <button style="min-width:85%;" class="button2 {i===0?"rounded-t":""}" on:click={()=>behavior(location)} disabled={!state.started}>{location}</button>
-            {/each}
-        </div>
-    {/if}
-</div>
-
-<style>
-    button{
-        background-image:none;
-    }
-    button:hover{
-        /* background-color:cadetblue; */
-        border-color:white;
-    }
-    .button1{
-        min-width: 95%;
-        border-top-width:3px;
-        border-left-width:3px;
-        border-right-width:3px;
-        background-color:#242436;
-        @apply mx-auto py-3 rounded-none border-black border-b-0 flex flex-col;
-    }
-    .button2{
-        background-color:#353547;
-        @apply pointer-events-auto m-auto py-2 text-sm rounded-none relative border-neutral-900 px-0 border-x-4 border-y-2;
-    }
-    .x{
-        filter: brightness(0) saturate(100%) invert(22%) sepia(99%) saturate(6156%) hue-rotate(356deg) brightness(96%) contrast(117%);
-    }
-    .otherIcons{
-        filter: saturate(100%) invert(50%) sepia(99%) saturate(6156%) hue-rotate(180deg) brightness(96%) contrast(117%);
-    }
-</style> -->
