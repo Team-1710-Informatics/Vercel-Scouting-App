@@ -506,7 +506,7 @@ export default {
 export function teamScore(e:any){
     let count = 0;
     e.game.actions.forEach((a:any)=>{
-        if(a.time - e.game.start < 18000) return;
+        if(a.phase==="auto")return;
         if(a.action === 'score') {
             switch(a.location){
                 case "amp": count+= 1; break;
@@ -518,9 +518,7 @@ export function teamScore(e:any){
             }
         }
     });
-    if(e.game.untimed.harmony){
-        count+= 2;
-    }
+    count+=e.game.untimed.harmony;
     if(e.game.untimed.parkMatch){
         count+= 1;
     }
@@ -539,7 +537,7 @@ export function teamScore(e:any){
 function autoScore(e:any){
     let count = 0;
     e.game.actions.forEach((a:any)=>{
-        if(a.time - e.game.start > 18000) return;
+        if(a.phase!=="auto") return;
         if(a.action === 'score') {
             switch(a.location){
                 case "amp": count+= 2; break;
