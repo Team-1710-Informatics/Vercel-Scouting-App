@@ -21,6 +21,15 @@
 
     let users =  JSON.parse(data.users);
 
+    function isAdmin() {
+        if(data.permissions.includes('admin')){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
     const links:[string, string, number, number, number?, boolean?][] = [ // name, path, width, order, bottom margin, disabled
         ["Scout Match", '/scout/2024', 6, 2, , false],
         ["Pit Scouting", '/pit-scout/nav', 6, 3, , false],
@@ -65,10 +74,12 @@
     <div class="grid grid-cols-6 w-60 gap-2">
         {#each buttons as button}
             {#if button.name == "Admin"}
-                {#if button.disabled == false}
-                    <a href={button.link} class="border-rose-800 border-2 font-bold bg-gradient-to-br from-rose-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl" style="grid-column: span {button.width} / span {button.width}; grid-row: start {button.order}; margin-bottom: {button.bMargin}px;"><button class={"w-full py-3"}>{button.name}</button></a>
-                {:else}
-                    <a href={button.link} class="border-rose-800 border-2 font-bold bg-gradient-to-br from-rose-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl" style="grid-column: span {button.width} / span {button.width}; grid-row: start {button.order}; margin-bottom: {button.bMargin}px;"><button disabled class={"w-full py-3"}>{button.name}</button></a>
+                {#if isAdmin() == true}
+                    {#if button.disabled == false}
+                        <a href={button.link} class="border-rose-800 border-2 font-bold bg-gradient-to-br from-rose-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl" style="grid-column: span {button.width} / span {button.width}; grid-row: start {button.order}; margin-bottom: {button.bMargin}px;"><button class={"w-full py-3"}>{button.name}</button></a>
+                    {:else}
+                        <a href={button.link} class="border-rose-800 border-2 font-bold bg-gradient-to-br from-rose-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl" style="grid-column: span {button.width} / span {button.width}; grid-row: start {button.order}; margin-bottom: {button.bMargin}px;"><button disabled class={"w-full py-3"}>{button.name}</button></a>
+                    {/if}
                 {/if}
             {:else}
                 {#if button.team == true}
