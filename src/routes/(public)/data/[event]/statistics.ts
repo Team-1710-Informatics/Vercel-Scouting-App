@@ -23,7 +23,7 @@ export default {
         });
         return(max);
     },
-    MobilityRate(team:number, data:any[]){
+    AutoMobilityRate(team:number, data:any[]){
         let count = 0;
         let mobileCount = 0;
         data.forEach(e=>{
@@ -33,20 +33,7 @@ export default {
         });
         return(mobileCount/count);
     },
-
-    // DriverSkill(team:number, data:any[]){
-    //     let count = 0;
-    //     let total = 0;
-    //     data.forEach(e=>{
-    //         if(e.team != team) return;
-    //         if(e.postgame?.driverSkill){
-    //             count++;
-    //             total += e.postgame.driverSkill;
-    //         }
-    //     });
-    //     return(total/count);
-    // },
-    AveragePiecesScored(team:number, data:any[]){
+    Average_Pieces_Scored(team:number, data:any[]){
         let matches = 0;
         let count = 0;
         data.forEach(e=>{
@@ -60,9 +47,6 @@ export default {
         })
         return count / matches;
     },
-
-    
-
     // AverageCycleTime(team:number, data:any[]){
     //     let cycleTimes:any[]=[];
     //     let result=0;
@@ -167,7 +151,6 @@ export default {
         });
         return(score/count);
     },
-
     Tele_speaker_score_rate(team:number, data:any[]){
         let speakerNum = 0;
         let count = 0;
@@ -214,23 +197,59 @@ export default {
         });
         return(trapNum/count);
     },
-    Auto_speaker_score_rate(team:number, data:any[]){
-        let speakerNum = 0;
+    Tele_Speaker_Avg_Score(team:number, data:any[]){
+        let trapNum = 0;
         let count = 0;
         data.forEach(e=>{
             if(e.team != team) return;
             e.game.actions.forEach((a:any)=>{
-                if(a.phase!=="auto")return;
+                if(a.phase!=="teleOp")return;
                 if(a.action === 'score'){
-                    if(a.location=="speaker") speakerNum++;
-                    count++;
+                    if(a.location=="speaker"){
+                        trapNum+=2;
+                        // switch(a.amplified){
+                        //     case true:trapNum+=5;
+                        //     case false:trapNum+=2;
+                        // }
+                    }
                 }
             });
+            count++;
         });
-        let final:any = speakerNum/count;
-        if(!final)final="no score";
-        return(final);
+        return(trapNum/count);
     },
+    Tele_Amp_Avg_Score(team:number, data:any[]){
+        let ampNum = 0;
+        let count = 0;
+        data.forEach(e=>{
+            if(e.team != team) return;
+            e.game.actions.forEach((a:any)=>{
+                if(a.phase!=="teleOp")return;
+                if(a.action === 'score'){
+                    if(a.location=="amp") ampNum+=1;
+                }
+            });
+            count++;
+        });
+        return(ampNum/count);
+    },
+    // Auto_speaker_score_rate(team:number, data:any[]){
+    //     let speakerNum = 0;
+    //     let count = 0;
+    //     data.forEach(e=>{
+    //         if(e.team != team) return;
+    //         e.game.actions.forEach((a:any)=>{
+    //             if(a.phase!=="auto")return;
+    //             if(a.action === 'score'){
+    //                 if(a.location=="speaker") speakerNum++;
+    //                 count++;
+    //             }
+    //         });
+    //     });
+    //     let final:any = speakerNum/count;
+    //     if(!final)final="no score";
+    //     return(final);
+    // },
     // Auto_amp_score_rate(team:number, data:any[]){
     //     let ampNum = 0;
     //     let count = 0;
@@ -262,16 +281,6 @@ export default {
         });
         return(loadZone/total);
     },
-    AverageAutoScoreRate(team:number, data:any[]){
-        let count = 0;
-        let score = 0;
-        data.forEach(e=>{
-            if(e.team != team) return;
-            score += autoScore(e);
-            count++;
-        });
-        return(score/count);
-    },
     StandardScoreDeviation(team:number, data:any[]){
         let scores:any[]=[];
         data.forEach(e=>{
@@ -282,34 +291,6 @@ export default {
 
         return stdDev(scores);
     },
-    // Strategy(team:number, data:any[]){
-    //     let stratIndex=0;
-    //     let allStrat=[0, 0, 0, 0, 0, 0, 0];
-    //     let result = "";
-    //     data.forEach(e=>{
-    //         if(e.team!=team) return;
-    //         e.postgame.strategy.forEach((a:any)=>{
-    //             switch(a){
-    //                 case "cycle": allStrat[0]++; break;
-    //                 case "place": allStrat[1]++; break;
-    //                 case "transport": allStrat[2]++; break;
-    //                 case "defense": allStrat[3]++; break;
-    //                 case "moral": allStrat[4]++; break;
-    //                 case "breakdown": allStrat[5]++; break;
-    //                 case "noShow": allStrat[6]++; break;
-    //             }
-    //         });
-    //     });
-    //     stratIndex=allStrat.indexOf(Math.max(...allStrat));
-    //     if(stratIndex==0)result="full cycle";
-    //     if(stratIndex==1)result="place";
-    //     if(stratIndex==2)result="transport";
-    //     if(stratIndex==3)result="defense";
-    //     if(stratIndex==4)result="moral support";
-    //     if(stratIndex==5)result="breakdown";
-    //     if(stratIndex==6)result="no show";
-    //     return result;
-    // },
     MatchesScouted(team:number, data:any[]){
         let scouted=0;
         data.forEach(e=>{
@@ -319,7 +300,7 @@ export default {
         return scouted;
     },
 }
-export function teamScore(e:any){
+function teamScore(e:any){
     let count = 0;
     e.game.actions.forEach((a:any)=>{
         if(a.phase=="auto") return;
