@@ -38,10 +38,10 @@
     function setStarting(event){
         if(disabled) return;
         if(!active) return;
-        console.log(event.clientX);
+        console.log(startValue.x,startValue.y);
         rect = start.getBoundingClientRect();
         startValue.x=Math.trunc(event.clientX-rect.left);
-        startValue.y=Math.trunc(event.clientY-rect.top);
+        startValue.y=Math.abs(Math.trunc(event.clientY-rect.bottom));
 
         pointer = {
             x:event.clientX,
