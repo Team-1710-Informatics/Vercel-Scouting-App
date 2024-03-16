@@ -184,6 +184,19 @@ const pitSchedule = new Schema({
 
 export const pitSchedulePositions = mongoose.model("pitSchedules", pitSchedule);
 
+const button = new Schema({
+    id: Number,
+    name: String,
+    link: String,
+    width: Number,
+    order: Number,
+    bMargin: Number,
+    disabled: Boolean,
+    team: Boolean
+});
+
+export const buttonConfig = mongoose.model("buttons", button);
+
 const pitscout2024 = new Schema({
     team:Number,
     event:String,

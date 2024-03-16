@@ -3,6 +3,8 @@
 
     export let data:any;
 
+    let buttons = JSON.parse(data.currentButtons);
+
     let previewLead = {name: '', start: '', end: '', day: ''};
     if(data.previewLead != ''){
         previewLead = JSON.parse(data.previewLead);
@@ -19,7 +21,7 @@
 
     let users =  JSON.parse(data.users);
 
-    const links:[string, string, number, number, number?, boolean?][] = [ // name, path, width, order, 
+    const links:[string, string, number, number, number?, boolean?][] = [ // name, path, width, order, bottom margin, disabled
         ["Scout Match", '/scout/2024', 6, 2, , false],
         ["Pit Scouting", '/pit-scout/nav', 6, 3, , false],
         ["Leaderboard", '/leaderboard', 4, 8, , false],
@@ -61,14 +63,26 @@
         <div class="rounded-lg px-3 py-2 text-sm mb-3 bg-gradient-to-br from-slate-900 to-slate-800">Pleasure doing business with you,<br>{data.user.first} {data.user.last}</div>
     {/if}
     <div class="grid grid-cols-6 w-60 gap-2">
-        {#each links as link}
-            {#if link[0] == "Admin"}
-                <a href={link[1]} class="border-rose-800 border-2 font-bold bg-gradient-to-br from-rose-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl"style="grid-column: span {link[2]} / span {link[2]}; grid-row: start {link[3]}; margin-bottom: {link[4]}px;"><button class={"w-full py-3"}>{link[0]}</button></a>
-            {:else}
-                {#if link[5] == true}
-                    <a href={link[1]} class="border-sky-800 border-2 font-bold bg-gradient-to-br from-sky-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl"style="grid-column: span {link[2]} / span {link[2]}; grid-row: start {link[3]}; margin-bottom: {link[4]}px;"><button disabled class={"w-full py-3"}>{link[0]}</button></a>
+        {#each buttons as button}
+            {#if button.name == "Admin"}
+                {#if button.disabled == false}
+                    <a href={button.link} class="border-rose-800 border-2 font-bold bg-gradient-to-br from-rose-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl" style="grid-column: span {button.width} / span {button.width}; grid-row: start {button.order}; margin-bottom: {button.bMargin}px;"><button class={"w-full py-3"}>{button.name}</button></a>
                 {:else}
-                    <a href={link[1]} class="border-sky-800 border-2 font-bold bg-gradient-to-br from-sky-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl"style="grid-column: span {link[2]} / span {link[2]}; grid-row: start {link[3]}; margin-bottom: {link[4]}px;"><button class={"w-full py-3"}>{link[0]}</button></a>
+                    <a href={button.link} class="border-rose-800 border-2 font-bold bg-gradient-to-br from-rose-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl" style="grid-column: span {button.width} / span {button.width}; grid-row: start {button.order}; margin-bottom: {button.bMargin}px;"><button disabled class={"w-full py-3"}>{button.name}</button></a>
+                {/if}
+            {:else}
+                {#if button.team == true}
+                    {#if button.disabled == false}
+                        <a href={button.link} class="border-sky-800 border-2 font-bold bg-gradient-to-br from-sky-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl" style="grid-column: span {button.width} / span {button.width}; grid-row: start {button.order}; margin-bottom: {button.bMargin}px;"><button class={"w-full py-3"}>{button.name}</button></a>
+                    {:else}
+                        <a href={button.link} class="border-sky-800 border-2 font-bold bg-gradient-to-br from-sky-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl" style="grid-column: span {button.width} / span {button.width}; grid-row: start {button.order}; margin-bottom: {button.bMargin}px;"><button disabled class={"w-full py-3"}>{button.name}</button></a>
+                    {/if}
+                {:else if button.team == false}
+                    {#if button.disabled == false}
+                        <a href={button.link} class="border-sky-800 border-2 font-bold bg-gradient-to-br from-sky-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl" style="grid-column: span {button.width} / span {button.width}; grid-row: start {button.order}; margin-bottom: {button.bMargin}px;"><button class={"w-full py-3"}>{button.name}</button></a>
+                    {:else}
+                        <a href={button.link} class="border-sky-800 border-2 font-bold bg-gradient-to-br from-sky-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl" style="grid-column: span {button.width} / span {button.width}; grid-row: start {button.order}; margin-bottom: {button.bMargin}px;"><button disabled class={"w-full py-3"}>{button.name}</button></a>
+                    {/if}
                 {/if}
             {/if}
         {/each}
