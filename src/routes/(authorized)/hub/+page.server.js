@@ -1,9 +1,10 @@
 import tba from '$lib/modules/tba';
 import { DateTime } from 'luxon';
-import { schedulePositions, User } from "$lib/server/models";
+import { schedulePositions, User, buttonConfig } from "$lib/server/models";
 
 export async function load({ locals }){
     const scheduleData = await schedulePositions.find();
+    const buttons = JSON.stringify(await buttonConfig.find());
 
     let leads = [];
     let scouts = [];
@@ -30,13 +31,13 @@ export async function load({ locals }){
     }
 
     let events = [];
-    data.forEach(event=>{
-        events.push({
-            name: event.name,
-            date: timestamp(event.start_date, event.timezone),
-            end: timestamp(event.end_date, event.timezone)
-        });
-    });
+    // data.forEach(event=>{
+    //     events.push({
+    //         name: event.name,
+    //         date: timestamp(event.start_date, event.timezone),
+    //         end: timestamp(event.end_date, event.timezone)
+    //     });
+    // });
     function isTimeInRange(startTime, endTime, targetTime) {
         const startDate = new Date(startTime);
         const endDate = new Date(endTime);
@@ -126,6 +127,7 @@ export async function load({ locals }){
         upcomingScouts: y,
         upcomingBackups: z,
         user: locals.user,
-        users: users
+        users: users,
+        currentButtons: buttons
     };
 }
