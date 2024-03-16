@@ -72,10 +72,12 @@
                 {/if}
             {:else}
                 {#if button.team == true}
-                    {#if button.disabled == false}
-                        <a href={button.link} class="border-sky-800 border-2 font-bold bg-gradient-to-br from-sky-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl" style="grid-column: span {button.width} / span {button.width}; grid-row: start {button.order}; margin-bottom: {button.bMargin}px;"><button class={"w-full py-3"}>{button.name}</button></a>
-                    {:else}
-                        <a href={button.link} class="border-sky-800 border-2 font-bold bg-gradient-to-br from-sky-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl" style="grid-column: span {button.width} / span {button.width}; grid-row: start {button.order}; margin-bottom: {button.bMargin}px;"><button disabled class={"w-full py-3"}>{button.name}</button></a>
+                    {#if data.team == 1710}
+                        {#if button.disabled == false}
+                            <a href={button.link} class="border-sky-800 border-2 font-bold bg-gradient-to-br from-sky-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl" style="grid-column: span {button.width} / span {button.width}; grid-row: start {button.order}; margin-bottom: {button.bMargin}px;"><button class={"w-full py-3"}>{button.name}</button></a>
+                        {:else}
+                            <a href={button.link} class="border-sky-800 border-2 font-bold bg-gradient-to-br from-sky-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl" style="grid-column: span {button.width} / span {button.width}; grid-row: start {button.order}; margin-bottom: {button.bMargin}px;"><button disabled class={"w-full py-3"}>{button.name}</button></a>
+                        {/if}
                     {/if}
                 {:else if button.team == false}
                     {#if button.disabled == false}
