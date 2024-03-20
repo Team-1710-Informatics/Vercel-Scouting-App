@@ -1,67 +1,36 @@
-import { schedulePositions, User } from "$lib/server/models";
+import { schedulePositions, User, scheduleDays } from "$lib/server/models";
 
 export async function load({ locals }) {
-    const data = await schedulePositions.find();
+    const users = await User.find();
+    const schedulepositions = await schedulePositions.find();
+    const scheduledays = await scheduleDays.find();
+
+    let selected = scheduledays[0].id;
 
     let leads = [];
     let scouts = [];
     let backups = [];
 
-    data.forEach(e => {
-        if (e.position == 'Lead Scout'){
-            leads.push(e);
+    schedulepositions.forEach(e=>{
+        if (e.position == "lead") { 
+            leads.push(e)
         }
-        if (e.position == 'scout'){
-            scouts.push(e);
+        if (e.position == "scout") {
+            scouts.push(e)
         }
-        if (e.position == 'Backup'){
-            backups.push(e);
+        if (e.position == "backup") {
+            backups.push(e)
         }
     })
 
-    let day = [];
-
-    leads.forEach(e => {
-        day.push(e.day);
-    })
-
-    let uniqueDay = [...new Set(day)].sort();
-
-    let days = JSON.stringify(uniqueDay);
-
-    let shifts = [];
-    let scout = [];
-    let backup = [];
-
-    for(let i = 0; i < uniqueDay.length; i++){
-        leads.forEach(e => {
-            if(e.day == uniqueDay[i])
-            shifts.push({day: uniqueDay[i], start: e.start, end: e.end, name: e.name});
-        })
-        scouts.forEach(e => { 
-            if(e.day == uniqueDay[i])
-            scout.push({day: uniqueDay[i], start: e.start, end: e.end, name: e.name, team: e.team});
-        })
-        backups.forEach(e => { 
-            if(e.day == uniqueDay[i])
-            backup.push({day: uniqueDay[i], start: e.start, end: e.end, name: e.name});
-        })
-    }
-
-    let shift = JSON.stringify(shifts);
-    let s = JSON.stringify(scout);
-    let b = JSON.stringify(backup);
-
-    const user = await User.find();
-
-    let users = JSON.stringify(user);
-
-    return {
-        days:days,
-        shifts:shift,
-        scouts:s,
-        backups:b,
-        user: locals.user,
-        users: users
+    return{
+        users:JSON.stringify(users),
+        scheduledays:JSON.stringify(scheduledays),
+        selected:selected,
+        leads:JSON.stringify(leads),
+        scouts:JSON.stringify(scouts),
+        backups:JSON.stringify(backups),
+        schedulepositions:JSON.stringify(schedulepositions),
+        user:locals.user.username
     }
 }

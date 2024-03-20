@@ -164,13 +164,25 @@ const schedule = new Schema({
     name: String,
     team: String,
     position: String,
-    start: String,
-    end: String,
-    cell: String,
-    day: String,
+    start: Number,
+    end: Number,  
+    dayId: Number,
+    leadId: Number,
+    id: Number
 });
 
 export const schedulePositions = mongoose.model("schedules", schedule);
+
+const scheduledays = new Schema({
+    name: String,
+    year: String,
+    month: String,
+    day: String,
+    timezone: String,
+    id: Number
+});
+
+export const scheduleDays = mongoose.model("scheduledays", scheduledays);
 
 const pitSchedule = new Schema({
     name: String,

@@ -1,14 +1,28 @@
 <script lang="ts">
     export let data:any;
 
-    let users = JSON.parse(data.users);
-    let scheduledays = JSON.parse(data.scheduledays);
-    let schedulepositions = JSON.parse(data.schedulepositions);
-    let leads = JSON.parse(data.leads);
-    let scouts = JSON.parse(data.scouts);
-    let backups = JSON.parse(data.backups);
+    let u = JSON.parse(data.users);
+    let sd = JSON.parse(data.scheduledays);
+    let sp = JSON.parse(data.schedulepositions);
+    let l = JSON.parse(data.leads);
+    let s = JSON.parse(data.scouts);
+    let b = JSON.parse(data.backups);
+
+    $: users = u;
+    $: scheduledays = sd;
+    $: schedulepositions = sp;
+    $: scouts = s;
+    $: leads = l;
+    $: backups = b;
 
     $: selected = data.selected;
+
+    let times = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24];
+
+    let dates = [{day: 1, value: "01"}, {day: 2, value: "02"}, {day: 3, value: "03"}, {day: 4, value: "04"}, {day: 5, value: "05"}, {day: 6, value: "06"}, {day: 7, value: "07"}, {day: 8, value: "08"}, {day: 9, value: "09"}, {day: 10, value: "10"}, {day: 11, value: "11"}, {day: 1, value: "12"}, {day: 13, value: "13"}, {day: 14, value: "14"}, {day: 15, value: "15"}, {day: 16, value: "16"}, {day: 17, value: "17"}, {day: 18, value: "18"}, {day: 19, value: "19"}, {day: 20, value: "20"}, {day: 21, value: "21"}, {day: 22, value: "22"}, {day: 23, value: "23"}, {day: 24, value: "24"}, {day: 25, value: "25"}, {day: 26, value: "26"}, {day: 27, value: "27"}, {day: 28, value: "28"}, {day: 29, value: "29"}, {day: 30, value: "30"}, {day: 31, value: "31"}, ]
+    let months = [{month: 1, value: "01"}, {month: 2, value: "02"}, {month: 3, value: "03"}, {month: 4, value: "04"}, {month: 5, value: "05"}, {month: 6, value: "06"}, {month: 7, value: "07"}, {month: 8, value: "08"}, {month: 9, value: "09"}, {month: 10, value: "10"}, {month: 11, value: "11"}, {month: 12, value: "12"}, ]
+    let years = [{year: 2024, value: "2024"}, {year: 2025, value: "2025"}, {year: 2026, value: "2026"}, ]
+    let timezones = ["EST", "EDT", "CST", "CDT", "MST", "MDT", "PST", "PDT"]
 
     function findName(username:String){
         let name = [''];
@@ -22,21 +36,15 @@
             return username
         }
         else{
-            return name[1] + " " + name[0].charAt(0)
+            return name[1] + " " + name[0]
         }
     }
 
     const isNothing = (currentValue:string) => currentValue == "";
     function backupCheck() {
         let backup:any = [];
-        let lead:any = [];
-        leads.forEach((e:any)=>{
-            if(e.dayId == selected){
-                lead.push(e.id);
-            }
-        })
         backups.forEach((e:any)=>{
-            if(lead.includes(e.leadId)){
+            if(e.dayId == selected){
                 backup.push(e.name);
             }
         })
@@ -264,18 +272,61 @@
         {#each scheduledays as day}
             {#if selected != day.id && day.id != 0}
                 <button on:click={()=>(selected = day.id)} class="bg-gray-700 rounded-2xl">
-                        {day.name}
+                    <input bind:value={day.name} type="text" class="text-black bg-gray-500 border-0 rounded-2xl px-2"/>
                 </button>
             {/if}
             {#if selected == day.id && day.id != 0}
                 <button on:click={()=>(selected = day.id)} class="bg-gray-800 rounded-2xl">
-                    {day.name}
+                    <input bind:value={day.name} type="text" class="text-black bg-gray-500 border-0 rounded-2xl px-2"/>
                 </button>
+                
             {/if}
         {/each}
-        <a href="/scouting-schedule/edit" class="bg-rose-700 rounded-2xl py-1 px-2">
-            Edit        
+        <button on:click={()=>(newDay())} class="bg-green-700 rounded-2xl">
+            New Button
+        </button>
+        <button on:click={()=>(deleteDay(selected))} class="bg-rose-700 rounded-2xl">
+            Delete Button
+        </button>
+        <form method="POST">
+            <input type="text" hidden name="days" value={JSON.stringify(scheduledays)} />
+            <input type="text" hidden name="leads" value={JSON.stringify(leads)} />
+            <input type="text" hidden name="scouts" value={JSON.stringify(scouts)} />
+            <input type="text" hidden name="backups" value={JSON.stringify(backups)} />
+            <button class="bg-green-700 rounded-2xl submit" type="submit" value="Submit">
+                Submit
+            </button>
+        </form>
+        <a href="/scouting-schedule" class="bg-gray-700 rounded-2xl py-1 px-2">
+            Back        
         </a>
+    </div>
+    <div class="bg-gray-800 gap-2 p-2 my-2 rounded-3xl">
+        {#each scheduledays as day}
+            {#if selected == day.id  && day.name != "hidden"}
+                <select class="text-sm" style="width:60px; text-overflow:ellipsis" bind:value={day.year}>
+                    {#each years as year}
+                        <option value={year.value}>{year.year}</option>
+                    {/each}
+                </select>
+                <select class="text-sm" style="width:45px; text-overflow:ellipsis" bind:value={day.month}>
+                    {#each months as month}
+                        <option value={month.value}>{month.month}</option>
+                    {/each}
+                </select>
+                <select class="text-sm" style="width:45px; text-overflow:ellipsis" bind:value={day.day}>
+                    {#each dates as date}
+                        <option value={date.value}>{date.day}</option>
+                    {/each}
+                </select><br>
+                Timezone
+                <select class="text-sm" style="width:60px; text-overflow:ellipsis" bind:value={day.timezone}>
+                    {#each timezones as timezone}
+                        <option value={timezone}>{timezone}</option>
+                    {/each}
+                </select>
+            {/if}
+        {/each}
     </div>
     <div class="bg-gray-800 gap-2 p-2 my-2 rounded-3xl">
         <table>
@@ -283,51 +334,56 @@
                 <th>Time</th>
                 <th>Lead</th>
                 <th>Scouts</th>
-                {#if backupCheck()}
-                    <th>Backups</th>
-                {/if}
+                <th>Backups</th>
             </tr>
             {#each leads as lead}
                 {#if lead.dayId == selected}
                     <tr>
                         <td>
-                            {formatTime(lead.start)}<br>
-                            to<br>
-                            {formatTime(lead.end)}
-                        </td>
-                        {#if lead.name == data.user}
-                            <td class="bg-slate-700">{findName(lead.name)}</td>
-                        {:else}
-                            <td>{findName(lead.name)}</td>
-                        {/if}
-                        <td>
-                            <table>
-                                {#each scouts as scout}
-                                    {#if scout.leadId == lead.id}
-                                        <tr>
-                                            {#if scout.name == data.user}
-                                                <td class="bg-slate-700">{findName(scout.name)}</td>
-                                            {:else}
-                                                <td>{findName(scout.name)}</td>
-                                            {/if}
-                                            {#if scout.team == 'Blue 3' || scout.team == 'Blue 2' || scout.team == 'Blue 1'}
-                                                <td class="bg-sky-700">{scout.team}</td>
-                                            {:else if scout.team == 'Red 3' || scout.team == 'Red 2' || scout.team == 'Red 1'}
-                                                <td class="bg-rose-700">{scout.team}</td>
-                                            {/if}
-                                        </tr>
-                                    {/if}
+                            <select class="text-sm" style="width:120px; text-overflow:ellipsis" bind:value={lead.start}>
+                                {#each times as time}
+                                    <option value={time}>{formatTime(time)}</option>
                                 {/each}
-                            </table>
+                            </select><br>
+                            to<br>
+                            <select class="text-sm" style="width:120px; text-overflow:ellipsis" bind:value={lead.end}>
+                                {#each times as time}
+                                    <option value={time}>{formatTime(time)}</option>
+                                {/each}
+                            </select>
+                        </td>
+                        <td>
+                            <select class="text-sm" style="width:120px; text-overflow:ellipsis" bind:value={lead.name}>
+                                <option value=""></option>
+                                {#each users as user}
+                                    <option value={user.username}>{user.name.first} {user.name.last}</option>
+                                {/each}
+                            </select><br>
+                            <button on:click={()=>(deleteShift(lead.id))} class="bg-gray-700 rounded-2xl">
+                                Delete Shift
+                            </button>
+                        </td>
+                        <td>
+                            {#each scouts as scout}
+                                {#if scout.leadId == lead.id}
+                                    <select class="text-sm" style="width:120px; text-overflow:ellipsis" bind:value={scout.name}>
+                                        <option value=""></option>
+                                        {#each users as user}
+                                            <option value={user.username}>{user.name.first} {user.name.last}</option>
+                                        {/each}
+                                    </select><br>
+                                {/if}
+                            {/each}
                         </td>
                         <td>
                             {#each backups as backup}
                                 {#if backup.leadId == lead.id}
-                                    {#if backup.name == data.user}
-                                        <td class="bg-slate-700">{findName(backup.name)}</td>
-                                    {:else}
-                                        <td>{findName(backup.name)}</td>
-                                    {/if}<br>
+                                    <select class="text-sm" style="width:120px; text-overflow:ellipsis" bind:value={backup.name}>
+                                        <option value=""></option>
+                                        {#each users as user}
+                                            <option value={user.username}>{user.name.first} {user.name.last}</option>
+                                        {/each}
+                                    </select><br>
                                 {/if}
                             {/each}
                         </td>
