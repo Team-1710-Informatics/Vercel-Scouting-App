@@ -8,7 +8,7 @@
         end:number
     }
 
-    // export let events:Competition[];
+    export let events:Competition[];
     // export let lead:any;
     // export let scouts:any;
     // export let backups:any;
