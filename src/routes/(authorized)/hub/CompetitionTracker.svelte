@@ -8,15 +8,15 @@
         end:number
     }
 
-    export let events:Competition[];
-    export let lead:any;
-    export let scouts:any;
-    export let backups:any;
-    export let upcomingLead:any;
-    export let upcomingScouts:any;
-    export let upcomingBackups:any;
-    export let users:any;
-    export let user:any;
+    // export let events:Competition[];
+    // export let lead:any;
+    // export let scouts:any;
+    // export let backups:any;
+    // export let upcomingLead:any;
+    // export let upcomingScouts:any;
+    // export let upcomingBackups:any;
+    // export let users:any;
+    // export let user:any;
 
     function nextComp() : Competition | null {
         let next = null;
@@ -61,46 +61,46 @@
         return [curr,day];
     }
 
-    function format(time:string){
-        const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-        const originalDate = new Date(time);
-        const formattedTime = originalDate.toLocaleString('en-US', {
-            timeZone: timeZone,
-            hour: 'numeric',
-            minute: 'numeric',
-            hour12: true
-        });
-        return(formattedTime);
-    }
-    let itsBasicallyOneAMAndIDontKnowWhatToNameThis:any = [];
-    backups.forEach((e:any)=>{
-        itsBasicallyOneAMAndIDontKnowWhatToNameThis.push(e.name);
-    })
-    const isNothing = (currentValue:string) => currentValue == "";
-    function backupCheck() {
-        if(itsBasicallyOneAMAndIDontKnowWhatToNameThis.every(isNothing) == true){
-            return false;
-        }
-        else{
-            return true;
-        }
-    }
+    // function format(time:string){
+    //     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    //     const originalDate = new Date(time);
+    //     const formattedTime = originalDate.toLocaleString('en-US', {
+    //         timeZone: timeZone,
+    //         hour: 'numeric',
+    //         minute: 'numeric',
+    //         hour12: true
+    //     });
+    //     return(formattedTime);
+    // }
+    // let itsBasicallyOneAMAndIDontKnowWhatToNameThis:any = [];
+    // backups.forEach((e:any)=>{
+    //     itsBasicallyOneAMAndIDontKnowWhatToNameThis.push(e.name);
+    // })
+    // const isNothing = (currentValue:string) => currentValue == "";
+    // function backupCheck() {
+    //     if(itsBasicallyOneAMAndIDontKnowWhatToNameThis.every(isNothing) == true){
+    //         return false;
+    //     }
+    //     else{
+    //         return true;
+    //     }
+    // }
 
-    function findName(username:any){
-        let name = [''];
-        users.forEach((e:any) =>{
-            if(e.username == username){
-                name.unshift(e.name.first);
-                name.unshift(e.name.last);
-            }
-        })
-        if(name[0] == ''){
-            return username
-        }
-        else{
-            return name[1] + " " + name[0]
-        }
-    }
+    // function findName(username:any){
+    //     let name = [''];
+    //     users.forEach((e:any) =>{
+    //         if(e.username == username){
+    //             name.unshift(e.name.first);
+    //             name.unshift(e.name.last);
+    //         }
+    //     })
+    //     if(name[0] == ''){
+    //         return username
+    //     }
+    //     else{
+    //         return name[1] + " " + name[0]
+    //     }
+    // }
 </script>
 
 <middle class="text-center">
@@ -114,7 +114,7 @@
     {:else}
         <p>Happy Holidays</p>
     {/if}
-    {#if lead.name != ''}
+    <!-- {#if lead.name != ''}
         <div class="p-2 bg-slate-800 rounded-xl">
             <table>
                 <tr>
@@ -239,10 +239,10 @@
                 </tr>
             </table>
         </div>
-    {/if}
+    {/if} -->
 </middle>
 <style>
-    table {
+    /* table {
         font-family: arial, sans-serif;
         border-collapse: collapse;
     }
@@ -251,5 +251,5 @@
         border: 2px solid black;
         text-align: center;
         padding: 8px;
-    }
+    } */
 </style>
