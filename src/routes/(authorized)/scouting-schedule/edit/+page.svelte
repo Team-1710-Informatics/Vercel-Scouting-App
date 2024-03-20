@@ -24,38 +24,6 @@
     let years = [{year: 2024, value: "2024"}, {year: 2025, value: "2025"}, {year: 2026, value: "2026"}, ]
     let timezones = ["EST", "EDT", "CST", "CDT", "MST", "MDT", "PST", "PDT"]
 
-    function findName(username:String){
-        let name = [''];
-        users.forEach((e:any) =>{
-            if(e.username == username){
-                name.unshift(e.name.first);
-                name.unshift(e.name.last);
-            }
-        })
-        if(name[0] == ''){
-            return username
-        }
-        else{
-            return name[1] + " " + name[0]
-        }
-    }
-
-    const isNothing = (currentValue:string) => currentValue == "";
-    function backupCheck() {
-        let backup:any = [];
-        backups.forEach((e:any)=>{
-            if(e.dayId == selected){
-                backup.push(e.name);
-            }
-        })
-        if(backup.every(isNothing) == true){
-            return false;
-        }
-        else{
-            return true;
-        }
-    }
-
     function formatTime(time:any){
         let finalTime = time;
         if(time > 12){
@@ -270,12 +238,12 @@
 <middle>
     <div class="bg-gray-800 flex flex-row gap-2 p-2 my-2 rounded-3xl">  
         {#each scheduledays as day}
-            {#if selected != day.id && day.id != 0}
+            {#if selected != day.id}
                 <button on:click={()=>(selected = day.id)} class="bg-gray-700 rounded-2xl">
                     <input bind:value={day.name} type="text" class="text-black bg-gray-500 border-0 rounded-2xl px-2"/>
                 </button>
             {/if}
-            {#if selected == day.id && day.id != 0}
+            {#if selected == day.id}
                 <button on:click={()=>(selected = day.id)} class="bg-gray-800 rounded-2xl">
                     <input bind:value={day.name} type="text" class="text-black bg-gray-500 border-0 rounded-2xl px-2"/>
                 </button>
@@ -303,7 +271,7 @@
     </div>
     <div class="bg-gray-800 gap-2 p-2 my-2 rounded-3xl">
         {#each scheduledays as day}
-            {#if selected == day.id  && day.name != "hidden"}
+            {#if selected == day.id}
                 <select class="text-sm" style="width:60px; text-overflow:ellipsis" bind:value={day.year}>
                     {#each years as year}
                         <option value={year.value}>{year.year}</option>

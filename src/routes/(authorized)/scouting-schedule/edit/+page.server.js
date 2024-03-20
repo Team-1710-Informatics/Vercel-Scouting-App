@@ -7,7 +7,7 @@ export async function load() {
 
     users.sort((a, b) => a.name.first.localeCompare(b.name.first));
 
-    let selected = scheduledays[1].id;
+    let selected = scheduledays[0].id;
 
     let leads = [];
     let scouts = [];
