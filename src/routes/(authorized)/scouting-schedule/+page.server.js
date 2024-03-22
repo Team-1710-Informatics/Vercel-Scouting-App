@@ -31,6 +31,7 @@ export async function load({ locals }) {
         scouts:JSON.stringify(scouts),
         backups:JSON.stringify(backups),
         schedulepositions:JSON.stringify(schedulepositions),
-        user:locals.user.username
+        user:locals.user.username,
+        permissions:JSON.stringify(locals.user.permissions)
     }
 }

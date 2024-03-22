@@ -184,17 +184,24 @@ const scheduledays = new Schema({
 
 export const scheduleDays = mongoose.model("scheduledays", scheduledays);
 
-const pitSchedule = new Schema({
+const pitschedule = new Schema({
     name: String,
-    team: String,
     position: String,
-    start: String,
-    end: String,
-    cell: String,
-    day: String,
+    start: Number,
+    end: Number,  
+    dayId: Number,
+    leadId: Number,
+    id: Number
 });
 
-export const pitSchedulePositions = mongoose.model("pitSchedules", pitSchedule);
+export const pitSchedulePositions = mongoose.model("pitschedules", pitschedule);
+
+const pitscheduledays = new Schema({
+    name: String,
+    id: Number
+});
+
+export const pitScheduleDays = mongoose.model("pitscheduledays", pitscheduledays);
 
 const button = new Schema({
     id: Number,

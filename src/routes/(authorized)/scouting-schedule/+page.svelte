@@ -73,9 +73,11 @@
                 </button>
             {/if}
         {/each}
-        <a href="/scouting-schedule/edit" class="bg-rose-700 rounded-2xl py-1 px-2">
-            Edit        
-        </a>
+        {#if JSON.parse(data.permissions).includes('admin')}
+            <a href="/scouting-schedule/edit" class="bg-rose-700 rounded-2xl py-1 px-2">
+                Edit        
+            </a>
+        {/if}
     </div>
     <div class="bg-gray-800 gap-2 p-2 my-2 rounded-3xl">
         <table>
