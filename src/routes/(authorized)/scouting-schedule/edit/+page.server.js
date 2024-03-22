@@ -92,7 +92,14 @@ export const actions = {
             if(positionIds.includes(formScouts[i].id) == true){
                 await schedulePositions.updateOne(
                     {id: formScouts[i].id},
-                    formScouts[i]
+                    {
+                        name: formScouts[i].name,
+                        team: formScouts[i].team,
+                        releasing: false,
+                        position: formScouts[i].position,
+                        leadId: formScouts[i].leadId,
+                        id: formScouts[i].id
+                    }
                 );
             }
         }

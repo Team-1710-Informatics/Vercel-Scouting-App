@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { object_without_properties } from "svelte/internal";
+
     export let data:any;
 
     let users = JSON.parse(data.users);
@@ -58,6 +60,12 @@
         }
         return finalTime;
     }
+
+    $: releasing = false;
+    $: infoScout = {};
+    $: infoLead = {};
+    $: pickingUp = false;
+    $: reason = "";
 </script>
 <middle>
     <div class="bg-gray-800 flex flex-row gap-2 p-2 my-2 rounded-3xl">  
@@ -79,6 +87,7 @@
             </a>
         {/if}
     </div>
+    Click on your shift to release it
     <div class="bg-gray-800 gap-2 p-2 my-2 rounded-3xl">
         <table>
             <tr>
@@ -108,7 +117,23 @@
                                     {#if scout.leadId == lead.id}
                                         <tr>
                                             {#if scout.name == data.user}
-                                                <td class="bg-slate-700">{findName(scout.name)}</td>
+                                                {#if scout.releasing == false}
+                                                    <td class="bg-slate-700">
+                                                        <button on:click={()=>{releasing = true, infoScout = scout, infoLead = lead}} class="bg-rose-700 rounded-2xl">
+                                                            {findName(scout.name)}
+                                                        </button>
+                                                    </td>
+                                                {:else}
+                                                    <td class="bg-slate-700">
+                                                        {findName(scout.name)}
+                                                    </td>
+                                                {/if}
+                                            {:else if scout.releasing == true}
+                                                <td>
+                                                    <button on:click={()=>{pickingUp = true, infoScout = scout}} class="bg-green-700 rounded-2xl">
+                                                        {findName(scout.name)}
+                                                    </button>
+                                                </td>
                                             {:else}
                                                 <td>{findName(scout.name)}</td>
                                             {/if}
@@ -122,22 +147,67 @@
                                 {/each}
                             </table>
                         </td>
-                        <td>
-                            {#each backups as backup}
-                                {#if backup.leadId == lead.id}
-                                    {#if backup.name == data.user}
-                                        <td class="bg-slate-700">{findName(backup.name)}</td>
-                                    {:else}
-                                        <td>{findName(backup.name)}</td>
-                                    {/if}<br>
-                                {/if}
-                            {/each}
-                        </td>
+                        {#if backupCheck()}
+                            <td>
+                                {#each backups as backup}
+                                    {#if backup.leadId == lead.id}
+                                        {#if backup.name == data.user}
+                                            <td class="bg-slate-700">{findName(backup.name)}</td>
+                                        {:else}
+                                            <td>{findName(backup.name)}</td>
+                                        {/if}<br>
+                                    {/if}
+                                {/each}
+                            </td>
+                        {/if}
                     </tr>
                 {/if}
             {/each}
         </table>
     </div>
+    {#if releasing == true}
+        <div class=overlay></div>
+        <div class="msg bg-gray-700 h-min py-4 rounded-2xl">
+            <middle>
+                <button on:click={()=>(releasing = false, reason = "", infoScout = {}, infoLead = {})} class="bg-rose-700 mb-2 rounded-2xl">
+                    Back
+                </button>
+                Reason for shift release?
+                <textarea bind:value={reason} class="w-40 h-20"/>
+                <form method="POST" action="?/release">
+                    <input type="text" hidden name="reason" value={JSON.stringify(reason)} />
+                    <input type="text" hidden name="infoScout" value={JSON.stringify(infoScout)} />
+                    <input type="text" hidden name="infoLead" value={JSON.stringify(infoLead)} />
+                    {#if reason == ""}
+                        <button disabled class="bg-green-700 mt-2 rounded-2xl submit" type="submit" value="Submit">
+                            Submit
+                        </button>
+                    {:else}
+                        <button on:click={()=>{location.reload()}} class="bg-green-700 mt-2 rounded-2xl submit" type="submit" value="Submit">
+                            Submit
+                        </button>
+                    {/if}
+                </form>
+            </middle>
+        </div>
+    {/if}
+    {#if pickingUp == true}
+        <div class=overlay></div>
+        <div class="msg bg-gray-700 h-min py-4 rounded-2xl">
+            <middle>
+                <button on:click={()=>(pickingUp = false, infoScout = {})} class="bg-rose-700 mb-2 rounded-2xl">
+                    No... :(
+                </button>
+                Are you sure you want to pick up this shift?
+                <form method="POST" action="?/pickup">
+                    <input type="text" hidden name="info" value={JSON.stringify(infoScout)} />
+                    <button on:click={()=>{location.reload()}} class="bg-green-700 mt-2 rounded-2xl submit" type="submit" value="Submit">
+                        Credits!
+                    </button>
+                </form>
+            </middle>
+        </div>
+    {/if}
 </middle>
 <style>
     table {
@@ -150,4 +220,25 @@
         text-align: left;
         padding: 8px;
     }
+
+.overlay {
+    z-index: 1;
+    width:100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left:0;
+    background-color:black;
+    opacity: 0.4;
+}
+
+.msg {
+    z-index: 2;
+    width: 200px;
+    font-weight: bold;
+    text-align:center;
+    position: fixed;
+    top:40%;
+    opacity: 2;
+}
 </style>

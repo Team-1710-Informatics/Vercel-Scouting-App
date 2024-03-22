@@ -165,7 +165,8 @@ const schedule = new Schema({
     team: String,
     position: String,
     start: Number,
-    end: Number,  
+    end: Number,
+    releasing: Boolean,
     dayId: Number,
     leadId: Number,
     id: Number
@@ -202,6 +203,18 @@ const pitscheduledays = new Schema({
 });
 
 export const pitScheduleDays = mongoose.model("pitscheduledays", pitscheduledays);
+
+const reason = new Schema({
+    name: String,
+    leadId: Number,
+    id: Number,
+    day: String,
+    start: Number,
+    end: Number,
+    reason: String
+});
+
+export const releaseReason = mongoose.model("releases", reason);
 
 const button = new Schema({
     id: Number,

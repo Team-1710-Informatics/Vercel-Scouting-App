@@ -64,6 +64,7 @@
                 name: '',
                 team: 'Blue 1',
                 position: 'scout',
+                releasing: false,
                 leadId: id,
                 id: nextId() + 2
             },
@@ -71,6 +72,7 @@
                 name: '',
                 team: 'Blue 2',
                 position: 'scout',
+                releasing: false,
                 leadId: id,
                 id: nextId() + 3
             },
@@ -78,6 +80,7 @@
                 name: '',
                 team: 'Blue 3',
                 position: 'scout',
+                releasing: false,
                 leadId: id,
                 id: nextId() + 4
             },
@@ -85,6 +88,7 @@
                 name: '',
                 team: 'Red 1',
                 position: 'scout',
+                releasing: false,
                 leadId: id,
                 id: nextId() + 5
             },
@@ -92,6 +96,7 @@
                 name: '',
                 team: 'Red 2',
                 position: 'scout',
+                releasing: false,
                 leadId: id,
                 id: nextId() + 6
             },
@@ -99,6 +104,7 @@
                 name: '',
                 team: 'Red 3',
                 position: 'scout',
+                releasing: false,
                 leadId: id,
                 id: nextId() + 7
             }

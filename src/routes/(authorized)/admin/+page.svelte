@@ -134,4 +134,5 @@
     <a href="/admin/history"><button class="submit my-1">Credit history</button></a>
     <a href="/admin/store"><button class="submit my-1">Add a store item</button></a>
     <a href="/admin/buttons"><button class="submit my-1">Edit Buttons</button></a>
+    <a href="/admin/releases"><button class="submit my-1">Shift Releases</button></a>
 </middle>
