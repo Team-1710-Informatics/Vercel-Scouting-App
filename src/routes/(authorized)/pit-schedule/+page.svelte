@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { is_function } from "svelte/internal";
-
     export let data:any;
 
     let users = JSON.parse(data.users);
@@ -57,6 +55,9 @@
                 Edit        
             </a>
         {/if}
+        <a href="/pit-schedule/pit-tv" class="bg-gray-700 rounded-2xl py-1 px-2">
+            Pit TV      
+        </a>
     </div>
     <div class="bg-gray-800 gap-2 p-2 my-2 rounded-3xl">
         <table>
@@ -83,7 +84,7 @@
                                         <tr>
                                             {#if scout.name == data.user}
                                                 <td class="bg-slate-700">{findName(scout.name)}</td>
-                                            {:else}
+                                            {:else if scout.name != ""}
                                                 <td>{findName(scout.name)}</td>
                                             {/if}
                                             {#if scout.team == 'Blue 3' || scout.team == 'Blue 2' || scout.team == 'Blue 1'}
