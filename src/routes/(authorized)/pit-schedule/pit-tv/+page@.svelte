@@ -1,6 +1,4 @@
 <script lang="ts">
-    import img from '$lib/assets/icons/ahh.png'
-
     export let data:any;
 
     let users = JSON.parse(data.users);
