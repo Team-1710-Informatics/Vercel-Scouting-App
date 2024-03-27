@@ -55,9 +55,6 @@
                 Edit        
             </a>
         {/if}
-        <a href="/pit-schedule/pit-tv" class="bg-gray-700 rounded-2xl py-1 px-2">
-            Pit TV      
-        </a>
     </div>
     <div class="bg-gray-800 gap-2 p-2 my-2 rounded-3xl">
         <table>
