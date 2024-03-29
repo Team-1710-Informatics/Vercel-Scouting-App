@@ -89,7 +89,7 @@
             <h6>Final Thoughts</h6>
             <textarea class="h-20" bind:value={thoughts}/>
         </div>
-        {#if qrDisable}
+        {#if qrDisable && !form?.status}
             <form method="POST" use:enhance={(cancel) => {
                 loading = true;
                 //@ts-ignore
@@ -105,7 +105,7 @@
                 <input type="text" hidden name="data" value={final} />
                 <button disabled={loading || postgame.strategy.length == 0} on:click={()=>{console.log(final)}} class="mt-2 submit">{loading ? "Loading..." : "Submit"}</button>
             </form>
-        {:else if !qrDisable || form?.success==="offline"}
+        {:else if !qrDisable || form?.status==="offline"}
             <h1 class="py-1">Show this QR to a head scout</h1>
             <QRCode content={final}/>
             <br>
