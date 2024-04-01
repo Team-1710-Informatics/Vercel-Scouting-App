@@ -115,11 +115,9 @@
                 <h1 class="col-span-2 text-center underline font-bold text-xl">Strategy</h1>
                 <div class="p-2 flex flex-col text-center">
                     <h1 class="text-center">Main Strat: {stats["Strategy"](data.entries)}</h1>
-                    <h1 class="text-center"></h1>
                 </div>
                 <div class="p-2 flex flex-col text-center">
-                    <h1 class="text-center">Source-Wing Drop Cycletime: {Math.trunc(stats["SourceDropCycle"](data.entries)*100)/100}</h1>
-                    <h1 class="text-center"></h1>
+                    <h1 class="text-center">Breakdown: {Math.trunc(stats["BreakdownRate"](data.entries)*100)}%</h1>
                 </div>
             </div>
             {#if data.pitData!=="none"} <!-- Pit -->

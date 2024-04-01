@@ -286,6 +286,17 @@ export default {
         if(stratIndex==6)result="no show";
         return result;
     },
+    BreakdownRate(data:any[]){
+        let matches = 0;
+        let breakdown = 0;
+        data.forEach(e=>{
+            e.postgame.strategy.forEach(a=>{
+                if(a == "breakdown")breakdown++;
+            });
+            matches++;
+        });
+        return(breakdown/matches)
+    }
 }
 
 function teamScore(e:any){ //input a match, output overall score
