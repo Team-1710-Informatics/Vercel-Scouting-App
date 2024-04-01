@@ -188,8 +188,14 @@ export const scheduleDays = mongoose.model("scheduledays", scheduledays);
 const pitschedule = new Schema({
     name: String,
     position: String,
-    start: Number,
-    end: Number,  
+    start: {
+        half:Boolean,
+        time:Number,
+    },
+    end: {
+        half:Boolean,
+        time:Number,
+    },
     dayId: Number,
     leadId: Number,
     id: Number

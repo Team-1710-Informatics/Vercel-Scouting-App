@@ -15,16 +15,26 @@
 
     $: selected = data.selected;
 
-    let times = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24];
+    let times = [{half:false,time:1},{half:true,time:1},{half:false,time:2},{half:true,time:2},{half:false,time:3},{half:true,time:3},{half:false,time:4},{half:true,time:4},{half:false,time:5},{half:true,time:5},{half:false,time:6},{half:true,time:6},{half:false,time:7},{half:true,time:7},{half:false,time:8},{half:true,time:8},{half:false,time:9},{half:true,time:9},{half:false,time:10},{half:true,time:10},{half:false,time:11},{half:true,time:11},{half:false,time:12},{half:true,time:12},{half:false,time:13},{half:true,time:13},{half:false,time:14},{half:true,time:14},{half:false,time:15},{half:true,time:15},{half:false,time:16},{half:true,time:16},{half:false,time:17},{half:true,time:17},{half:false,time:18},{half:true,time:18},{half:false,time:19},{half:true,time:19},{half:false,time:20},{half:true,time:20},{half:false,time:21},{half:true,time:21},{half:false,time:22},{half:true,time:22},{half:false,time:23},{half:true,time:23},{half:false,time:24},{half:true,time:24}];
 
     function formatTime(time:any){
-        let finalTime = time;
-        if(time > 12){
-            let newTime = time - 12;
-            finalTime  = newTime + ":00 P.M.";
+        let finalTime = time.time;
+        if(time.time > 12){
+            let newTime = time.time - 12;
+            if(!time.half){
+                finalTime  = newTime + ":00 P.M.";
+            }
+            else if(time.half){
+                finalTime  = newTime + ":30 P.M.";
+            }
         }
         else{
-            finalTime = time + ":00 A.M.";
+            if(!time.half){
+                finalTime  = time.time + ":00 A.M.";
+            }
+            else if(time.half){
+                finalTime  = time.time + ":30 A.M.";
+            }
         }
         return finalTime;
     }
@@ -320,7 +330,7 @@
         </table>
     </div>
     <div class="bg-gray-800 flex flex-row gap-2 p-2 my-2 rounded-3xl">
-        <button on:click={()=>(newShift(selected))} class="bg-gray-700 rounded-2xl">
+        <button on:click={()=>{newShift(selected)}} class="bg-gray-700 rounded-2xl">
             Add Shift
         </button>
     </div>

@@ -5,7 +5,7 @@ export async function load({ locals }) {
     const schedulepositions = await pitSchedulePositions.find();
     const scheduledays = await pitScheduleDays.find();
 
-    let selected = scheduledays[0].id;
+    let selected = scheduledays[0]?.id;
 
     let leads = [];
     let scouts = [];

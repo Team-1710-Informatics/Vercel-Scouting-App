@@ -25,13 +25,23 @@
     }
 
     function formatTime(time:any){
-        let finalTime = time;
-        if(time > 12){
-            let newTime = time - 12;
-            finalTime  = newTime + ":00 P.M.";
+        let finalTime = time.time;
+        if(time.time > 12){
+            let newTime = time.time - 12;
+            if(!time.half){
+                finalTime  = newTime + ":00 P.M.";
+            }
+            else if(time.half){
+                finalTime  = newTime + ":30 P.M.";
+            }
         }
         else{
-            finalTime = time + ":00 A.M.";
+            if(!time.half){
+                finalTime  = time.time + ":00 A.M.";
+            }
+            else if(time.half){
+                finalTime  = time.time + ":30 A.M.";
+            }
         }
         return finalTime;
     }
