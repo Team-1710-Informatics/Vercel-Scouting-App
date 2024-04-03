@@ -127,6 +127,7 @@ let index:{
     intakeLocation: string,
     notes: string,
     spotlight: string,
+    programmingLang: string,
 }={
     otherScouts: "",
     length: null,
@@ -160,6 +161,7 @@ let index:{
     intakeLocation: "",
     notes: "",
     spotlight: "",
+    programmingLang: "",
 };
 </script>
 <middle>
@@ -328,6 +330,8 @@ let index:{
         {:else if page == 4}
             <label for="notes">Additional Notes</label><br>
             <textarea bind:value={index.notes} name="notes"></textarea><br>
+            <label for="programmingLang">What programming language<br>do they use for<br>autos?</label><br>
+            <textarea bind:value={index.programmingLang} name="programmingLang"></textarea><br>
             <label for="spotlight">Human Player Spotlight<br>ability?</label><br>
             <textarea bind:value={index.spotlight} name="spotlightAbility"></textarea>
         {/if}
