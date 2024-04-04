@@ -296,6 +296,21 @@ export default {
             matches++;
         });
         return(breakdown/matches)
+    },
+    TimeToCenter(data:any[]){
+        let times = 0;
+        let cycles = 0;
+        data.forEach(e=>{
+            let intaken = false; //intaken to measure only first time they intake from center
+            e.game.actions.forEach(a=>{
+                if(a.action=="intake"&&a.location=="center"&&a.phase=="auto"&&intaken==false){
+                    times+=(153 - a.time); //adds together all times for average time
+                    intaken=true;
+                    cycles++;
+                }
+            });
+        });
+        return(times/cycles) //returns all times over amount of times
     }
 }
 

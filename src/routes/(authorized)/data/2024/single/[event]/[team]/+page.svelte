@@ -108,7 +108,7 @@
                 </div>
                 <div class="p-2 flex flex-col text-center">
                     <h1 class="text-center">Source-Wing Drop Cycletime: {Math.trunc(stats["SourceDropCycle"](data.entries)*100)/100}</h1>
-                    <h1 class="text-center"></h1>
+                    <h1 class="text-center">Auto Time to Center: {Math.trunc(stats["TimeToCenter"](data.entries)*100)/100}</h1>
                 </div>
             </div>
             <div class="grid grid-cols-2 border-b-2 border-stone-800 h-fit"> <!-- Cycles -->
