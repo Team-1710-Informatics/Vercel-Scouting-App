@@ -138,7 +138,7 @@
         {#if innerWidth>800} <!--startpositions calculations. Off for viewport size of <800 -->
         <div class="border-l-4 border-stone-800 grid grid-rows-{startPositionArray.length}"> 
             {#each startPositionArray as value, i}
-                <div class="mx-auto text-center border-t-2 border-b-2 w-full border-stone-800"><h1 class="underline">Auto {i+1}.</h1>
+                <div class="mx-auto text-center border-t-2 border-b-2 w-full border-stone-800"><h1 class="underline">Auto {i+1} : {value.match}</h1>
                     Score: {value.auto}<br>
                     attempted: {value.attempt}<br>
                     <div class="{innerWidth>=650?"grid grid-cols-2":""}">

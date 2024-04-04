@@ -25,6 +25,7 @@ export default {
             positions.push({
                 position:e.pregame.startPosition,
                 alliance:e.alliance,
+                match:e.match,
                 style:'',
                 auto:autoScore(e),
                 attempt,
