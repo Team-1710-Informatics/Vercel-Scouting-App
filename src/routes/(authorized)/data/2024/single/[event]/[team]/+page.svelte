@@ -145,6 +145,7 @@
                         <h1>Center:{value.center}</h1>
                         <h1>Wing:{value.wing}</h1>
                     </div>
+                    Time to Cntr: {value.centerTime}
                 </div>
             {/each}
         </div>

@@ -300,9 +300,9 @@ let index:{
                 <input type="number" bind:value={index.maxAutoScore} name="maxAutoScore" size="5"><br>
                 <hr class="mb-2 mt-4"/>
                 <label for="autoStrategy">Auto strategy? What notes do they go for if any?</label><br>
-                <input value={index.autoStrategy} name="autoStrategy"/><br>
+                <input bind:value={index.autoStrategy} name="autoStrategy"/><br>
                 <label for="autoSoftware">What software do they design their autos with?</label><br>
-                <input value={index.autoSoftware} name="autoSoftware"/>
+                <input bind:value={index.autoSoftware} name="autoSoftware"/>
             </div>
         {:else if page == 3}
             <div>

@@ -14,11 +14,19 @@ export default {
             let attempt = 0;
             let center = 0;
             let wing = 0;
+            let time = 0;
+            let intaken = false;
             e.game.actions.forEach((a:any)=>{
                 if(a.phase!="auto")return;
                 if(a.action=="score")attempt++;
                 if(a.action=="intake"){
-                    if(a.location=="center")center++;
+                    if(a.location=="center"){
+                        center++;
+                        if(!intaken){
+                            time += (153 - a.time);
+                            intaken=true;
+                        }
+                    }
                     if(a.location=="trap"||a.location=="amp"||a.location=="speaker")wing++;
                 }
             });
@@ -30,7 +38,8 @@ export default {
                 auto:autoScore(e),
                 attempt,
                 center,
-                wing
+                wing,
+                centerTime:time,
             });
         });
         return positions;
