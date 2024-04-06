@@ -14,22 +14,32 @@ export default {
             let attempt = 0;
             let center = 0;
             let wing = 0;
+            let time = 0;
+            let intaken = false;
             e.game.actions.forEach((a:any)=>{
                 if(a.phase!="auto")return;
                 if(a.action=="score")attempt++;
                 if(a.action=="intake"){
-                    if(a.location=="center")center++;
+                    if(a.location=="center"){
+                        center++;
+                        if(!intaken){
+                            time += (153 - a.time);
+                            intaken=true;
+                        }
+                    }
                     if(a.location=="trap"||a.location=="amp"||a.location=="speaker")wing++;
                 }
             });
             positions.push({
                 position:e.pregame.startPosition,
                 alliance:e.alliance,
+                match:e.match,
                 style:'',
                 auto:autoScore(e),
                 attempt,
                 center,
-                wing
+                wing,
+                centerTime:time,
             });
         });
         return positions;
@@ -296,6 +306,21 @@ export default {
             matches++;
         });
         return(breakdown/matches)
+    },
+    TimeToCenter(data:any[]){
+        let times = 0;
+        let cycles = 0;
+        data.forEach(e=>{
+            let intaken = false; //intaken to measure only first time they intake from center
+            e.game.actions.forEach(a=>{
+                if(a.action=="intake"&&a.location=="center"&&a.phase=="auto"&&intaken==false){
+                    times+=(153 - a.time); //adds together all times for average time
+                    intaken=true;
+                    cycles++;
+                }
+            });
+        });
+        return(times/cycles) //returns all times over amount of times
     }
 }
 

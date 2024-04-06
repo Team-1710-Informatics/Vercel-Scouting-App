@@ -108,7 +108,7 @@
                 </div>
                 <div class="p-2 flex flex-col text-center">
                     <h1 class="text-center">Source-Wing Drop Cycletime: {Math.trunc(stats["SourceDropCycle"](data.entries)*100)/100}</h1>
-                    <h1 class="text-center"></h1>
+                    <h1 class="text-center">Auto Time to Center: {Math.trunc(stats["TimeToCenter"](data.entries)*100)/100}</h1>
                 </div>
             </div>
             <div class="grid grid-cols-2 border-b-2 border-stone-800 h-fit"> <!-- Cycles -->
@@ -138,13 +138,14 @@
         {#if innerWidth>800} <!--startpositions calculations. Off for viewport size of <800 -->
         <div class="border-l-4 border-stone-800 grid grid-rows-{startPositionArray.length}"> 
             {#each startPositionArray as value, i}
-                <div class="mx-auto text-center border-t-2 border-b-2 w-full border-stone-800"><h1 class="underline">Auto {i+1}.</h1>
+                <div class="mx-auto text-center border-t-2 border-b-2 w-full border-stone-800"><h1 class="underline">Auto {i+1} : {value.match}</h1>
                     Score: {value.auto}<br>
                     attempted: {value.attempt}<br>
                     <div class="{innerWidth>=650?"grid grid-cols-2":""}">
                         <h1>Center:{value.center}</h1>
                         <h1>Wing:{value.wing}</h1>
                     </div>
+                    Time to Cntr: {value.centerTime}
                 </div>
             {/each}
         </div>

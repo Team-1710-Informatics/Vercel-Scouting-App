@@ -270,7 +270,8 @@ const pitscout2024 = new Schema({
     ampUse: String,
     intakeLocation: String,
     notes: String,
-    spotlight: String
+    spotlight: String,
+    autoSoftware: String,
 });
 
 export const pitdata2024 = mongoose.model("2024pitdata", pitscout2024);
