@@ -164,6 +164,30 @@ export default {
         });
         return(score/count);
     },
+    Speaker_Score(team:number, data:any[]){
+        let score = 0;
+        let match = 0;
+        data.forEach(e=>{
+            if(e.team!=team)return;
+            e.game.actions.forEach(a=>{
+                if(a.action=="score"&&a.location=="speaker"&&a.phase=="teleOp")score++;
+            });
+            match++;
+        });
+        return(score/match)
+    },
+    Amp_Score(team:number, data:any[]){
+        let score = 0;
+        let match = 0;
+        data.forEach(e=>{
+            if(e.team!=team)return;
+            e.game.actions.forEach(a=>{
+                if(a.action=="score"&&a.location=="amp"&&a.phase=="teleOp")score++;
+            });
+            match++;
+        });
+        return(score/match)
+    },
     Tele_speaker_score_rate(team:number, data:any[]){
         let speakerNum = 0;
         let count = 0;
