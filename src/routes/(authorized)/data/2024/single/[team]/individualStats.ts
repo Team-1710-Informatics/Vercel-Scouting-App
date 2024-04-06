@@ -139,7 +139,7 @@ export default {
         let match = 0;
         data.forEach(e=>{
             e.game.actions.forEach(a=>{
-                if(a.action=="score"&&a.location=="speaker")score++;
+                if(a.action=="score"&&a.location=="speaker"&&a.phase=="teleOp")score++;
             });
             match++;
         });
