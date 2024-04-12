@@ -113,7 +113,6 @@ const scoutEntry2024 = new Schema({
             parkMatch: Boolean,
             harmony: Number,
             spotlight: Boolean,
-            coop: Boolean,
             spotlightAttempt: Boolean
         }
     },
