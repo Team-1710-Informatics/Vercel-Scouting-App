@@ -69,7 +69,7 @@
         </div>
     </FaceMouse>
     <br>
-    <a href="/hub"><button>Back to Hub</button></a>
+    <a href="/hub"><button class="header rounded-lg">Back to Hub</button></a>
 </center>
 
 <style>

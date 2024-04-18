@@ -74,7 +74,7 @@
                 };
             }}>
                 <input hidden value={metal.name} name="type"/><input hidden value={metal.cost} name="cost"/>
-                <button class="font-bold bg-gradient-to-t from-slate-800 to-emerald-800 p-3 w-40" disabled={$credits < metal.cost || loading}>Buy 1 {metal.name}<br>for {metal.cost} credits</button>
+                <button class="font-bold bg-gradient-to-t from-slate-800 to-emerald-800 p-3 w-40 rounded-lg" disabled={$credits < metal.cost || loading}>Buy 1 {metal.name}<br>for {metal.cost} credits</button>
             </form>
             {#if metal.name != "bismuth"}
                 <form class="mb-5 text-xs" method=POST action=?/metalUpgrade use:enhance={() => {
@@ -87,7 +87,7 @@
                 }}>
                     <input hidden value={metal.name} name="type"/>
                     <input hidden value={metal.upgrade} name="upgrader"/>
-                    <button class="font-bold bg-gradient-to-t from-slate-800 to-emerald-800 p-3 w-40" disabled={metal?.upgradeAble}>Buy 1 {metal.name}<br>for 4 {metal.upgrade}</button>
+                    <button class="font-bold bg-gradient-to-t from-slate-800 to-emerald-800 p-3 w-40 rounded-lg" disabled={metal?.upgradeAble}>Buy 1 {metal.name}<br>for 4 {metal.upgrade}</button>
                 </form>
             {:else}
                 <div/>

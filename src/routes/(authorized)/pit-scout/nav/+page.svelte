@@ -24,9 +24,10 @@
     $: teamRes(event);
 </script>
 
-<center class="py-10">
+<center class="py-10 px-8">
     <h6>Pit Scouting</h6>
-    <div class="box p-1 mb-4 mx-1">
+    <br>
+    <div class="box mb-4 mx-1 text-sm">
         <h6>Rules</h6>
         <div class="text-left">
             {#each rules as rule}
