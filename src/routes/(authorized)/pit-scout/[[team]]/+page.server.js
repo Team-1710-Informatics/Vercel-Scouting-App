@@ -1,14 +1,16 @@
 import { X_TBA_AUTHKEY } from "$env/static/private";
-import { pitdata2023, User } from "$lib/server/models";
+import { pitdata2024, User } from "$lib/server/models";
 import credits from "$lib/server/user/credi";
 import { redirect } from "@sveltejs/kit";
 
 export async function load({ locals, fetch, params }){
-    const res = await fetch(`https://thebluealliance.com/api/v3/events/2023`,{
+    const res = await fetch(`https://thebluealliance.com/api/v3/events/2024`,{
         headers:{
             "X-TBA-Auth-Key":X_TBA_AUTHKEY
         }
     });
+
+    console.log(params);
 
     const events = await res.json();
 
@@ -32,32 +34,49 @@ export async function load({ locals, fetch, params }){
 }
 
 export const actions = {
-    default: async function({request,locals}){
+    default: async function({request,locals,params}){
         const input = await request.formData();
 
-        let output = {}
+        const data = JSON.parse(input.get("data"));
 
-        const items = ["event","team","intakeCube","intakeCone","shelfStation","chuteStation","floorStation","floor","placeHigh","placeMid","placeLow","mainStrategy","autoStrategy","averageScore","defenseCapability","defenseExperience","chargeStationMain","chargeStationAuto","piecePreferance",,"drivetrain","topSpeed","framePerimeter","weight","thoughts","otherScouts"]
+        // let output = {};
 
-        items.forEach(item=>{
-            output[item]=input.get(item)
-        })
+        // const items = ["otherScouts","length","width","height","sizeUnit","weight","weightUnit", "speed", "speedUnit", "driveTrain", "otherDriveTrain", "intakeType", "otherIntake", "shooterType", "wheelType", "otherShooter", "speakerScore", "ampScore", "trapScore", "shootingDistance", "climbingAbility", "maxAutoScore", "autoStrategy", "buddyClimb", "scorePreference", "scoringAbility", "ampUse", "intakeLocation"]
 
-        output.scout = locals.user.username;
+        // items.forEach(item=>{
+        //     output[item]=input.get(item)
+        // })
 
-        if(await pitdata2023.findOne({team:output["team"], event:output["event"]})){
-            throw redirect(307, "/pit-scout/nav");
+        const otherData = {
+            event: locals.competition?.key??null,
+            team: params?.team,
+            scout: locals.user.username
+        };
+
+        const final = {
+            ...otherData,
+            ...data
+        };
+
+        console.log(final);
+
+        if(await pitdata2024.findOne({team:final["team"], event:final["event"]})){
+            throw redirect(301, "/pit-scout");
         }
 
-        const db = new pitdata2023(output);
+        const db = new pitdata2024(final);
         await db.save();
 
-        await credits.transaction(output.scout, 350, `Pit scouted ${output.team}`);
+        if(final.otherScouts == "none"){
+            await credits.transaction(final.scout, 350, `Pit scouted ${final.team}`);
+        }
 
-        if(output.otherScouts != "none")
-            await credits.transaction(output.otherScouts, 350, `Co-pit scouted ${output.team}`);
+        if(final.otherScouts != "none"){
+            await credits.transaction(final.scout, 350, `Pit scouted ${final.team}`);
+            await credits.transaction(final.otherScouts, 350, `Co-pit scouted ${final.team}`);
+        }
     
-
-        throw redirect(307, "/pit-scout/nav");
+        console.log('test')
+        throw redirect(301, "/pit-scout/nav");
     }
 }

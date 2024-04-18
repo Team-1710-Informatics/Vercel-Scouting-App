@@ -9,8 +9,8 @@
     }
 </script>
 
-{#if match}
-    <div class="flex flex-row gap-0 border-x-2 border-white/25">
+{#if match} 
+    <div class="flex flex-row gap-0">
         <div class="disp blue" style="max-width:48vw; width:148px">
             {#each match.alliances.blue.team_keys as team}
                 <div class="text-4xl font-bold">

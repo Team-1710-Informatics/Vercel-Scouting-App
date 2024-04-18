@@ -100,19 +100,20 @@ const scoutEntry2024 = new Schema({
     alliance: {type: String, match:/red|blue/},
     team: Number,
     scout: String,
-    submission: Number,
     pregame: {
-        start: {x:Number,y:Number},
+        startPosition: {x:Number,y:Number},
         preload: Boolean
     },
     game:{
+        start:Number,
         actions: Array,
         untimed: {
             exitAuto: Boolean,
             hangMatch: Boolean,
             parkMatch: Boolean,
-            harmony: Boolean,
-            spotlight: Boolean
+            harmony: Number,
+            spotlight: Boolean,
+            spotlightAttempt: Boolean
         }
     },
     postgame:{
@@ -157,6 +158,122 @@ scheduleItem.methods.getIndividualStatus=function(username){
 }
 
 export const Schedule = mongoose.model("Schedule", scheduleItem);
+
+const schedule = new Schema({
+    name: String,
+    team: String,
+    position: String,
+    start: Number,
+    end: Number,
+    releasing: Boolean,
+    dayId: Number,
+    leadId: Number,
+    id: Number
+});
+
+export const schedulePositions = mongoose.model("schedules", schedule);
+
+const scheduledays = new Schema({
+    name: String,
+    year: String,
+    month: String,
+    day: String,
+    timezone: String,
+    id: Number
+});
+
+export const scheduleDays = mongoose.model("scheduledays", scheduledays);
+
+const pitschedule = new Schema({
+    name: String,
+    position: String,
+    start: {
+        half:Boolean,
+        time:Number,
+    },
+    end: {
+        half:Boolean,
+        time:Number,
+    },
+    dayId: Number,
+    leadId: Number,
+    id: Number
+});
+
+export const pitSchedulePositions = mongoose.model("pitschedules", pitschedule);
+
+const pitscheduledays = new Schema({
+    name: String,
+    id: Number
+});
+
+export const pitScheduleDays = mongoose.model("pitscheduledays", pitscheduledays);
+
+const reason = new Schema({
+    name: String,
+    leadId: Number,
+    id: Number,
+    day: String,
+    start: Number,
+    end: Number,
+    reason: String
+});
+
+export const releaseReason = mongoose.model("releases", reason);
+
+const button = new Schema({
+    id: Number,
+    name: String,
+    link: String,
+    width: Number,
+    order: Number,
+    bMargin: Number,
+    disabled: Boolean,
+    team: Boolean
+});
+
+export const buttonConfig = mongoose.model("buttons", button);
+
+const pitscout2024 = new Schema({
+    team:Number,
+    event:String,
+    scout:String,
+    otherScouts: String,
+    length: Number,
+    width: Number,
+    bumperWidth: Number,
+    height: Number,
+    sizeUnit: String,
+    weight: Number,
+    weightUnit: String,
+    speed: Number,
+    speedUnit: String,
+    driveTrain: String,
+    otherDriveTrain: String,
+    intakeType: String,
+    otherIntake: String,
+    shooterType: String,
+    wheelType: String,
+    otherShooter: String,
+    speakerScore: Boolean,
+    ampScore: Boolean,
+    trapScore: Boolean,
+    shootingDistance: Number,
+    distanceUnit: String,
+    climbingAbility: String,
+    maxAutoScore: Number,
+    autoStrategy: String,
+    buddyClimb: Boolean,
+    scorePreference: String,
+    scoringAbility: String, 
+    ampUse: String,
+    intakeLocation: String,
+    notes: String,
+    spotlight: String,
+    autoSoftware: String,
+});
+
+export const pitdata2024 = mongoose.model("2024pitdata", pitscout2024);
 
 const pitscout2023 = new Schema({
     event: String,

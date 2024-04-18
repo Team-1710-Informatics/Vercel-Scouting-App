@@ -11,5 +11,12 @@
     </div>
     <br>
     <a disabled={!data.competition} href="./2024/spreadsheet/{data.competition}"><button disabled={!data.competition}>Spreadsheet</button></a>
-    <a disabled={!data.competition} href="./2024/entries/{data.competition}"><button disabled={!data.competition}>Database</button></a>
+    <!-- <a disabled={!data.competition} href="./2024/entries/{data.competition}"><button disabled={!data.competition}>Database</button></a> -->
+    <a disabled={!data.competition} href="./2024/single/{data.competition}/1710"><button disabled={!data.competition}>Single</button></a>
 </center>
+
+<style>
+    button{
+        @apply border-2 p-2 border-black rounded bg-slate-700 shadow-lg;
+    }
+</style>

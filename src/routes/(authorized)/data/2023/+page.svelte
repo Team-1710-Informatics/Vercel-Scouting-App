@@ -10,6 +10,6 @@
         <CompetitionSelector events={data.events} bind:event={data.competition} />
     </div>
     <br>
-    <a disabled={!data.competition} href="./2023/spreadsheet/{data.competition}"><button class="otherButton bg-gradient-to-tl" disabled={!data.competition}>Spreadsheet</button></a>
-    <a disabled={!data.competition} href="./2023/entries/{data.competition}"><button class="otherButton bg-gradient-to-tl" disabled={!data.competition}>Database</button></a>
+    <a disabled={!data.competition} href="./2023/spreadsheet/{data.competition}"><button disabled={!data.competition}>Spreadsheet</button></a>
+    <a disabled={!data.competition} href="./2023/entries/{data.competition}"><button disabled={!data.competition}>Database</button></a>
 </center>

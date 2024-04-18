@@ -6,9 +6,12 @@
     export let data;
 
     let teams=[];
-    let event = data.current?.key??undefined
+    let event = data.current?.key??undefined;
+
     async function teamRes(eventKey){
-        teams = await tba(`event/${eventKey}/teams/simple`);
+        if(eventKey){
+            teams = await tba(`event/${eventKey}/teams/simple`);
+        }
     }
 
     function scouted(team){
@@ -26,8 +29,7 @@
 
 <center class="py-10 px-8">
     <h6>Pit Scouting</h6>
-    <br>
-    <div class="box mb-4 mx-1 text-sm">
+    <div class="m-2 w-fit bg-gradient-to-br from-slate-900 to-slate-800 text-center p-4 rounded-lg">
         <h6>Rules</h6>
         <div class="text-left">
             {#each rules as rule}
@@ -35,7 +37,7 @@
             {/each}
         </div>
     </div>
-    <div class="box">
+    <div class="m-2 w-fit bg-gradient-to-br from-slate-900 to-slate-800 text-center p-4 rounded-lg">
         <h6>Competition</h6>
         <CompetitionSelector bind:event={event} events={data.events}/>
     </div>
@@ -44,7 +46,7 @@
     <div class="grid grid-cols-3 gap-2 w-fit">
         {#each data.scouted as team}
             {#if team.team > 0 && team.event === event}
-                <div><a href="../data/2023/team/{team.event}/{team.team}" class="text-blue-500 underline hover:text-white">{team.team}</a></div>
+                <div><a href="../data/2024/team/{team.event}/{team.team}" class="text-blue-500 underline hover:text-white">{team.team}</a></div>
             {/if}
         {/each}
     </div>

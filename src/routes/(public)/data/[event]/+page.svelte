@@ -19,8 +19,8 @@
             teams.push(e.team);
     })
 
-    let columns = ["Team_number", "Average_score"];
-    let sortFunction = "Average_score";
+    let columns = ["TeamNumber", "AverageScore"];
+    let sortFunction = "AverageScore";
     let ascending = false;
     let positive = true;
 
@@ -67,10 +67,10 @@
     })
 </script>
 
-<center class="pt-10">
+<center class="pt-10 px-10">
     <div class="grid grid-cols-2 w-fit gap-1">
-        <button class="font-bold bg-gradient-to-t from-green-800 to-green-400 border-green-900" on:click={()=>{columns.push("Average_score");columns=columns}}>Add column</button>
-        <button class="font-bold bg-gradient-to-t from-red-800 to-red-400 border-red-900" on:click={()=>{columns.pop ("Average_score");columns=columns}}>Remove column</button>
+        <button class="font-bold bg-gradient-to-t from-green-800 to-green-400 border-green-900" on:click={()=>{columns.push("AverageScore");columns=columns}}>Add column</button>
+        <button class="font-bold bg-gradient-to-t from-red-800 to-red-400 border-red-900" on:click={()=>{columns.pop ("AverageScore");columns=columns}}>Remove column</button>
     </div>
     <br>
     <div><label>
@@ -120,7 +120,7 @@
                 <th>#</th>
                 {#each columns as col}
                     <th>
-                        <select class="text-xs" style="max-width:80px" bind:value={col}>
+                        <select class="text-xs" style="max-width:7.5rem" bind:value={col}>
                             {#each Object.keys(stats) as func}
                                 <option value={func}>{func}</option>
                             {/each}
@@ -142,7 +142,6 @@
         </table>
     </div>
     <br>
-    <div class="opacity-50">*Score calculations do not include links</div>
     <button on:click={tableToCSV} class="font-bold bg-gradient-to-t from-teal-800  to-teal-400 border-black">Export sheet</button>
 </center>
 

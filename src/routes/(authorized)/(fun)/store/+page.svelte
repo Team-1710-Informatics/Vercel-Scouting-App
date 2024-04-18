@@ -57,7 +57,7 @@
 <middle class="py-10">
     <h1 class="text-5xl font-bold">CREDITSTORE</h1>
     <div class="box">
-        <p class="text-right"><Credits class="text-3xl">{Math.round($credits)}</Credits> credits</p>
+        <p class="text-right"><Credits class="text-3xl">{Math.trunc($credits)}</Credits> credits</p>
 
         <label>Category: <select bind:value={category}>
             <option value="All">All</option>
@@ -71,7 +71,7 @@
         <div class="grid grid-cols-2">
             {#each ["purchase", "your items"] as t}
                 <button
-                    class="border-white border-b-0 border-x-0 rounded-b-none bg-gradient-to-b from-black/50 to-transparent font-bold uppercase"
+                    class="border-sky-800 border-2 font-bold bg-gradient-to-br from-sky-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl uppercase"
                     class:opacity-50={tab!=t}
                     on:click={()=>{tab=t}}
                 >{t}</button>

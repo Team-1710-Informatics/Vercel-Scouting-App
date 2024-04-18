@@ -6,7 +6,7 @@ import { dev } from '$app/environment';
 
 import { redirect, type Handle } from "@sveltejs/kit";
 
-//@ts-ignore
+// @ts-ignore
 import { DateTime } from 'luxon';
 import tba from '$lib/modules/tba';
 try {
@@ -14,7 +14,7 @@ try {
 	else if (!dev) await mongoose.connect(MONGODB_MAIN);
 	console.log("Connected to MongoDB");
 } catch (error) {
-	console.error("Error connecting to MongoDB:", error);
+	console.log("Error connecting to MongoDB:", error);
 }
 
 // if(dev) await mongoose.connect(MONGODB_COMMUNITY);
@@ -31,7 +31,8 @@ export const handle = (async function({ event, resolve }) {
         throw redirect(307, "/logout");
     }
 
-    let res = dev ? [1,2] : await tba(`team/frc${user.team}/events/${new Date().getFullYear()}`);
+    let res = await tba(`team/frc${user.team}/events/${new Date().getFullYear()}`);
+    // let res = {}
     let c, n;
     if(!dev){
         c = currComp(res);

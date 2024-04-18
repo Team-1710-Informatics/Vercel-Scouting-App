@@ -32,11 +32,11 @@
     ]
 </script>
 
-<div class="flex flex-col gap-0 m-2 w-64 border-2 border-white rounded-lg" transition:slide>
+<div class="flex flex-col gap-0 m-2 w-64 rounded-lg" transition:slide>
     <div class={`rounded-t-lg p-1 bg-gradient-to-t ${ticket.alliance=="red"?"from-red-500 to-rose-400":"from-sky-600 to-sky-400"}`}>
         <p class="text-2xl font-bold">{ticket.match}</p>
     </div>
-    <div class="rounded-b-lg bg-gradient-to-b from-slate-900 to-slate-700 p-2 font-bold">
+    <div class="rounded-b-lg bg-gradient-to-br from-slate-900 to-slate-800 p-2 font-bold">
         <div class="flex flex-row">
             <p class="text-xs self-end mr-1 mb-1">Your bet<br>aligns with:</p>
             <p class={`flex-grow text-center -mt-2 -mr-2 p-1 mb-3 rounded-bl-lg bg-gradient-to-t ${ticket.alliance=="red"?"from-red-700 to-red-500":"from-sky-700 to-sky-600"}`}>

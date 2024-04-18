@@ -10,5 +10,5 @@ export function load({ locals }) {
             admin = true;
     })
 
-    if(!admin) throw redirect(307, "/hub");
+    if(!admin) throw redirect(301, "/hub");
 }

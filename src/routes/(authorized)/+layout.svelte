@@ -13,7 +13,7 @@
         <a href="/hub">Hub</a>
     </div>
     <div class="rounded-2xl border-slate-900 border-2 bg-slate-800 py-2 lg:px-5 sm:px-2 lg:mr-2 ml-1 text-center">
-        <a href="/login">Logout</a>
+        <a href="/logout">Logout</a>
     </div>
 </div>
 

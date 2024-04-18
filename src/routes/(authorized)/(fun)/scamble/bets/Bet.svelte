@@ -32,7 +32,7 @@
 </script>
 
 <div 
-    class="font-bold bg-gradient-to-b from-slate-900 to-slate-800 text-center p-2 border-2 rounded-lg rounded-t-none border-white mt-2" 
+    class="font-bold bg-gradient-to-br from-slate-900 to-slate-800 text-center p-2 rounded-lg rounded-t-none mt-2" 
     style="max-width:96vw; width:300px"
 >
     <center class="flex flex-col">
@@ -51,7 +51,7 @@
                 <input type="number" name="wager" bind:value={wager}/>
                 <input hidden type="text" name="match" bind:value={match.key}/>
                 <p class="opacity-50 text-xs">Max bet: {max(credits)}</p>
-                <div class="grid grid-cols-2 my-2 -mx-2 bg-gradient-to-r border-y-2 border-white/75
+                <div class="grid grid-cols-2 my-2 -mx-2 bg-gradient-to-br border-y-2
                  {alliance==="blue"?"from-blue-600 via-transparent to-red-600/50":"from-blue-600/50 via-transparent to-red-600"}">
                     <label class="accent-blue-500 {alliance==="blue"?"opacity-100 underline decoration-2":"opacity-50"}"><input hidden bind:group={alliance} type="radio" name="alliance" value="blue"/> Blue</label>
                     <label class="accent-red-500 {alliance==="red"?"opacity-100 underline decoration-2":"opacity-50"}"><input hidden bind:group={alliance} type="radio" name="alliance" value="red"/> Red</label>

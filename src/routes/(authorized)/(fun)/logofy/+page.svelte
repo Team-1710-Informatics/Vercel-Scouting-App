@@ -22,4 +22,8 @@
 <middle>
     <textarea bind:value={text}/>
     <input type="range" min=24 max=64 bind:value={size}/>
+    {#if text=="paint"}
+        <a href="/paint"><u>PAINT ME</u></a>
+    {/if}
 </middle>
+
