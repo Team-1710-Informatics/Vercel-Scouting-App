@@ -124,6 +124,35 @@ export default {
 
     //     return(result/(cycleTimes.length*1000));
     // },
+    Shuttle_Time(team:number, data:any[]){
+        let cycleTimes:any[] = [];
+        data.forEach(e=>{
+            if(e.team!=team)return;
+            if(!e.postgame.strategy.includes("transport"))return;
+            let cycleStart = false;
+            let time = 0;
+            e.game.actions.forEach(a=>{
+                if(a.action=="intake"&&a.phase=="teleOp"&&cycleStart==false&&a.location=="source"){
+                    cycleStart=true;
+                    time=a.time;
+                }
+                else if((a.action=="drop")&&a.phase=="teleOp"&&cycleStart==true&&(a.location=="speaker"||a.location=="amp"||a.location=="trap")){
+                    cycleTimes.push((time - a.time));
+                    cycleStart=false;
+                }
+                else if((a.action=="score"||a.action=="miss")&&a.phase=="teleOp"&&cycleStart==true){
+                    cycleStart=false;
+                }
+            });
+        });
+        let cycles = 0;
+        let times = 0;
+        cycleTimes.forEach(e=>{
+            cycles++;
+            times+=e;
+        });
+        return(times/cycles);
+    },
     Average_auto_points_scored(team:number, data:any[]){
         let count = 0;
         let score = 0;
