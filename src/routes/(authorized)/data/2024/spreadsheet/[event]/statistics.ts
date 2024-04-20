@@ -136,7 +136,7 @@ export default {
                     cycleStart=true;
                     time=a.time;
                 }
-                else if((a.action=="drop")&&a.phase=="teleOp"&&cycleStart==true&&(a.location=="speaker"||a.location=="amp"||a.location=="trap")){
+                else if((a.action=="drop")&&a.phase=="teleOp"&&cycleStart==true&&(a.location!="source")){
                     cycleTimes.push((time - a.time));
                     cycleStart=false;
                 }
