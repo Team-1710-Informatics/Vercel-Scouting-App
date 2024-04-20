@@ -153,6 +153,31 @@ export default {
         });
         return(times/cycles);
     },
+    Shuttle_Count(team:number, data:any[]){
+        let cycles = 0;
+        let matches = 0;
+        data.forEach(e=>{
+            if(e.team!=team)return;
+            if(!e.postgame.strategy.includes("transport"))return;
+            let cycleStart = false;
+            e.game.actions.forEach(a=>{
+                if(a.action=="intake"&&a.phase=="teleOp"&&cycleStart==false&&a.location=="source"){
+                    cycleStart=true;
+                }
+                else if((a.action=="drop")&&a.phase=="teleOp"&&cycleStart==true&&(a.location!="source")){
+                    cycles++;
+                    cycleStart=false;
+                }
+                else if((a.action=="score"||a.action=="miss")&&a.phase=="teleOp"&&cycleStart==true){
+                    cycleStart=false;
+                }
+            });
+            matches++;
+        });
+        let returnVal = 0;
+        if(!Number.isNaN(cycles/matches))return(cycles/matches);
+        else return 0;
+    },
     Average_auto_points_scored(team:number, data:any[]){
         let count = 0;
         let score = 0;
