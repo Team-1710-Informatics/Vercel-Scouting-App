@@ -112,7 +112,7 @@
         <p style="color:rgb(174, 172, 172); font-size:10px">until</p>
         <b>{nextComp().name}</b>
     {:else}
-        <p>Happy Holidays</p>
+        <p>Preseason</p>
     {/if}
     <!-- {#if lead.name != ''}
         <div class="p-2 bg-slate-800 rounded-xl">
