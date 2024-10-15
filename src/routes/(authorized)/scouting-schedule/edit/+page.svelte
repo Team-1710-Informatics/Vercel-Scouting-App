@@ -35,9 +35,9 @@
         }
         else{
             if (time % 1 == 0.5) {
-                finalTime  = time - 0.5 + ":30 P.M.";
+                finalTime  = time - 0.5 + ":30 A.M.";
             }
-            finalTime  = time + ":00 P.M.";
+            finalTime  = time + ":00 A.M.";
         }
         return finalTime;
     }
