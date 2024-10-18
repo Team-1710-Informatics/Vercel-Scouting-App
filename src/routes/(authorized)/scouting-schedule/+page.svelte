@@ -54,14 +54,14 @@
         if(time > 12){
             let newTime = time - 12;
             if(time % 1 == 0.5) {
-                finalTime = newTime + ":30 P.M.";
+                finalTime = (newTime - 0.5) + ":30 P.M.";
             } else {
                 finalTime = newTime + ":00 P.M.";
             }
         }
         else{
             if(time % 1 == 0.5) {
-                finalTime = time + ":30 A.M.";
+                finalTime = (time - 0.5) + ":30 A.M.";
             } else {
                 finalTime = time + ":00 A.M.";
             }
