@@ -23,7 +23,7 @@
 {:else}
     <div>
         <select class="text-sm" style="width:210px; text-overflow:ellipsis" bind:value={event} {disabled}>
-            <option value={null}>Select an event...</option>
+            <option value={'2024cttd'}>Cow Town Throwdown</option>
             {#each events as e}
                 <option style="text-overflow:ellipsis" value={e.key}>{e.short_name!=""?e.short_name:e.name}</option>
             {/each}
