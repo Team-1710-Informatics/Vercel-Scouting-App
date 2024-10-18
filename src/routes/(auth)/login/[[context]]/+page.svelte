@@ -13,7 +13,7 @@
 
 <middle>
     
-    <Form {title} {data} {form} action="login" inputs={[
+        <Form {title} {data} {form} action="login" inputs={[
         {label:"Username or Email", placeholder:"Username", type:"text",     name:"username", cols:6},
         {label:"Password", placeholder:"Password",          type:"password", name:"password", cols:6},
     ]}/>

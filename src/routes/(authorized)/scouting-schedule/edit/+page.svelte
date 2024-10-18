@@ -17,7 +17,7 @@
 
     $: selected = data.selected;
 
-    let times = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24];
+    let times = [1,1.5,2,2.5,3,3.5,4,4.5,5,5.5,6,6.5,7,7.5,8,8.5,9,9.5,10,10.5,11,11.5,12,12.5,13,13.5,14,14.5,15,15.5,16,16.5,17,17.5,18,18.5,19,19.5,20,20.5,21,21.5,22,22.5,23,23.5,24];
 
     let dates = [{day: 1, value: "01"}, {day: 2, value: "02"}, {day: 3, value: "03"}, {day: 4, value: "04"}, {day: 5, value: "05"}, {day: 6, value: "06"}, {day: 7, value: "07"}, {day: 8, value: "08"}, {day: 9, value: "09"}, {day: 10, value: "10"}, {day: 11, value: "11"}, {day: 1, value: "12"}, {day: 13, value: "13"}, {day: 14, value: "14"}, {day: 15, value: "15"}, {day: 16, value: "16"}, {day: 17, value: "17"}, {day: 18, value: "18"}, {day: 19, value: "19"}, {day: 20, value: "20"}, {day: 21, value: "21"}, {day: 22, value: "22"}, {day: 23, value: "23"}, {day: 24, value: "24"}, {day: 25, value: "25"}, {day: 26, value: "26"}, {day: 27, value: "27"}, {day: 28, value: "28"}, {day: 29, value: "29"}, {day: 30, value: "30"}, {day: 31, value: "31"}, ]
     let months = [{month: 1, value: "01"}, {month: 2, value: "02"}, {month: 3, value: "03"}, {month: 4, value: "04"}, {month: 5, value: "05"}, {month: 6, value: "06"}, {month: 7, value: "07"}, {month: 8, value: "08"}, {month: 9, value: "09"}, {month: 10, value: "10"}, {month: 11, value: "11"}, {month: 12, value: "12"}, ]
@@ -28,10 +28,19 @@
         let finalTime = time;
         if(time > 12){
             let newTime = time - 12;
-            finalTime  = newTime + ":00 P.M.";
+            if(time % 0.5 == 0) {
+                finalTime = newTime + ":30 P.M.";
+            } else {
+                finalTime = newTime + ":00 P.M.";
+            }
         }
         else{
-            finalTime = time + ":00 A.M.";
+            if(time % 0.5 == 0) {
+                finalTime = time + ":30 A.M.";
+            } else {
+                finalTime = time + ":00 A.M.";
+            }
+
         }
         return finalTime;
     }
