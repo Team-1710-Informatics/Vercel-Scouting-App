@@ -8,7 +8,7 @@
 
     $: selected = data.selected;
 
-    function findName(username:String){
+    function findName(username:string){
         let name = [''];
         users.forEach((e:any) =>{
             if(e.username == username){
