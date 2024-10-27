@@ -1,51 +1,51 @@
 export default {
-    TeamNumber(team: number, data: any[]) {
-        return team
+    TeamNumber(team:number, data:any[]){
+        return team;
     },
-    AverageScore(team: number, data: any[]) {
-        let count = 0
-        let score = 0
-        data.forEach((e) => {
-            if (e.team != team) return
-            score += teamScore(e)
-            count++
+    AverageScore(team:number, data:any[]){
+        let count = 0;
+        let score = 0;
+        data.forEach(e=>{
+            if(e.team != team) return;
+            score += teamScore(e);
+            count++;
         })
-        return score / count
+        return(score/count);
     },
-    MaxScore(team: number, data: any[]) {
-        let max = 0
-        data.forEach((e) => {
-            if (e.team != team) return
-            let score = teamScore(e)
-            if (score > max) {
-                max = score
+    MaxScore(team:number, data:any[]){
+        let max = 0;
+        data.forEach(e=>{
+            if(e.team != team) return;
+            let score = teamScore(e);
+            if(score > max){
+                max = score;
             }
-        })
-        return max
+        });
+        return(max);
     },
-    AutoMobilityRate(team: number, data: any[]) {
-        let count = 0
-        let mobileCount = 0
-        data.forEach((e) => {
-            if (e.team != team) return
-            if (e.game.untimed.exitAuto) mobileCount++
-            count++
-        })
-        return mobileCount / count
+    AutoMobilityRate(team:number, data:any[]){
+        let count = 0;
+        let mobileCount = 0;
+        data.forEach(e=>{
+            if(e.team != team) return;
+            if(e.game.untimed.exitAuto) mobileCount++;
+            count++;
+        });
+        return(mobileCount/count);
     },
-    Average_Pieces_Scored(team: number, data: any[]) {
-        let matches = 0
-        let count = 0
-        data.forEach((e) => {
-            if (e.team != team) return
-            matches++
-            e.game.actions.forEach((a: any) => {
-                if (a.action === 'score') {
-                    count++
+    Average_Pieces_Scored(team:number, data:any[]){
+        let matches = 0;
+        let count = 0;
+        data.forEach(e=>{
+            if(e.team != team) return;
+            matches++;
+            e.game.actions.forEach((a:any)=>{
+                if(a.action === 'score'){
+                    count++;
                 }
             })
         })
-        return count / matches
+        return count / matches;
     },
     // AverageCycleTime(team:number, data:any[]){
     //     let cycleTimes:any[]=[];
@@ -71,7 +71,8 @@ export default {
     //         });
     //         if(cycles==0) cycleTimes.push(153000);
     //     });
-
+        
+        
     //     cycleTimes.forEach(e=>{
     //         result+=e;
     //     });
@@ -102,139 +103,135 @@ export default {
     //         });
     //         if(cycles==0) cycleTimes.push(153000);
     //     });
-
+        
+        
     //     cycleTimes.forEach(e=>{
     //         result+=e;
     //     });
 
     //     return(result/(cycleTimes.length*1000));
     // },
-    Average_auto_points_scored(team: number, data: any[]) {
-        let count = 0
-        let score = 0
-        data.forEach((e) => {
-            if (e.team != team) return
-            score += autoScore(e)
-            count++
-        })
-        return score / count
+    Average_auto_points_scored(team:number, data:any[]){
+        let count = 0;
+        let score = 0;
+        data.forEach(e=>{
+            if(e.team != team) return;
+            score += autoScore(e);
+            count++;
+        });
+        return(score/count);
     },
-    Average_tele_points_scored(team: number, data: any[]) {
-        let count = 0
-        let score = 0
-        data.forEach((e) => {
-            if (e.team != team) return
-            score += teamScore(e) - autoScore(e)
-            count++
-        })
-        return score / count
+    Average_tele_points_scored(team:number, data:any[]){
+        let count = 0;
+        let score = 0;
+        data.forEach(e=>{
+            if(e.team != team) return;
+            score += (teamScore(e) - autoScore(e));
+            count++;
+        });
+        return(score/count);
     },
-    Average_stage_points_scored(team: number, data: any[]) {
-        let score = 0
-        let count = 0
-        data.forEach((e) => {
-            if (e.team != team) return
-            e.game.actions.forEach((a: any) => {
-                if (a.action === 'score') {
-                    if (a.location == 'trap') score += 5
-                }
-            })
-            if (e.game.untimed.harmony) score += e.game.untimed.harmony
-            if (e.game.untimed.parkMatch) score += 1
-            if (e.game.untimed.hangMatch)
-                switch (e.game.untimed.spotlight) {
-                    case true:
-                        score += 4
-                        break
-                    case false:
-                        score += 3
-                        break
-                }
-            count++
-        })
-        return score / count
+    Average_stage_points_scored(team:number, data:any[]){
+        let score = 0;
+        let count = 0;
+        data.forEach(e=>{
+            if(e.team != team) return;
+            e.game.actions.forEach((a:any)=>{
+                if(a.action === 'score'){
+                    if(a.location=="trap") score+=5;
+                };
+            });
+            if(e.game.untimed.harmony) score+= e.game.untimed.harmony;
+            if(e.game.untimed.parkMatch) score+= 1;
+            if(e.game.untimed.hangMatch) switch(e.game.untimed.spotlight){
+                case true: score+= 4; break;
+                case false: score+= 3; break;
+            };
+            count++;
+        });
+        return(score/count);
     },
-    Tele_speaker_score_rate(team: number, data: any[]) {
-        let speakerNum = 0
-        let count = 0
-        data.forEach((e) => {
-            if (e.team != team) return
-            e.game.actions.forEach((a: any) => {
-                if (a.phase == 'teleOp') {
-                    if (a.action === 'score') {
-                        if (a.location == 'speaker') speakerNum++
-                        count++
+    Tele_speaker_score_rate(team:number, data:any[]){
+        let speakerNum = 0;
+        let count = 0;
+        data.forEach(e=>{
+            if(e.team != team) return;
+            e.game.actions.forEach((a:any)=>{
+                if(a.phase=="teleOp"){
+                    if(a.action === 'score'){
+                        if(a.location=="speaker") speakerNum++;
+                        count++;
                     }
                 }
-            })
-        })
-        return speakerNum / count
+            });
+        });
+        return(speakerNum/count);
     },
-    Tele_amp_score_rate(team: number, data: any[]) {
-        let ampNum = 0
-        let count = 0
-        data.forEach((e) => {
-            if (e.team != team) return
-            e.game.actions.forEach((a: any) => {
-                if (a.phase !== 'teleOp') return
-                if (a.action === 'score') {
-                    if (a.location == 'amp') ampNum++
-                    count++
+    Tele_amp_score_rate(team:number, data:any[]){
+        let ampNum = 0;
+        let count = 0;
+        data.forEach(e=>{
+            if(e.team != team) return;
+            e.game.actions.forEach((a:any)=>{
+                if(a.phase!=="teleOp")return;
+                if(a.action === 'score'){
+                    if(a.location=="amp") ampNum++;
+                    count++;
                 }
-            })
-        })
-        return ampNum / count
+            });
+        });
+        return(ampNum/count);
     },
-    Tele_trap_score_rate(team: number, data: any[]) {
-        let trapNum = 0
-        let count = 0
-        data.forEach((e) => {
-            if (e.team != team) return
-            e.game.actions.forEach((a: any) => {
-                if (a.phase !== 'teleOp') return
-                if (a.action === 'score') {
-                    if (a.location == 'trap') trapNum++
-                    count++
+    Tele_trap_score_rate(team:number, data:any[]){
+        let trapNum = 0;
+        let count = 0;
+        data.forEach(e=>{
+            if(e.team != team) return;
+            e.game.actions.forEach((a:any)=>{
+                if(a.phase!=="teleOp")return;
+                if(a.action === 'score'){
+                    if(a.location=="trap") trapNum++;
+                    count++;
                 }
-            })
-        })
-        return trapNum / count
+            });
+        });
+        return(trapNum/count);
     },
-    Tele_Speaker_Avg_Score(team: number, data: any[]) {
-        let trapNum = 0
-        let count = 0
-        data.forEach((e) => {
-            if (e.team != team) return
-            e.game.actions.forEach((a: any) => {
-                if (a.phase !== 'teleOp') return
-                if (a.action === 'score') {
-                    if (a.location == 'speaker') {
-                        trapNum += 2
+    Tele_Speaker_Avg_Score(team:number, data:any[]){
+        let trapNum = 0;
+        let count = 0;
+        data.forEach(e=>{
+            if(e.team != team) return;
+            e.game.actions.forEach((a:any)=>{
+                if(a.phase!=="teleOp")return;
+                if(a.action === 'score'){
+                    if(a.location=="speaker"){
+                        trapNum+=2;
                         // switch(a.amplified){
                         //     case true:trapNum+=5;
                         //     case false:trapNum+=2;
                         // }
                     }
                 }
-            })
-            count++
-        })
-        return trapNum / count
+            });
+            count++;
+        });
+        return(trapNum/count);
     },
-    Tele_Amp_Avg_Score(team: number, data: any[]) {
-        let ampNum = 0
-        let count = 0
-        data.forEach((e) => {
-            if (e.team != team) return
-            e.game.actions.forEach((a: any) => {
-                if (a.phase !== 'teleOp') return
-                if (a.action === 'score') {
-                    if (a.location == 'amp') ampNum += 1
+    Tele_Amp_Avg_Score(team:number, data:any[]){
+        let ampNum = 0;
+        let count = 0;
+        data.forEach(e=>{
+            if(e.team != team) return;
+            e.game.actions.forEach((a:any)=>{
+                if(a.phase!=="teleOp")return;
+                if(a.action === 'score'){
+                    if(a.location=="amp") ampNum+=1;
                 }
-            })
-            count++
-        })
-        return ampNum / count
+            });
+            count++;
+        });
+        return(ampNum/count);
     },
     // Auto_speaker_score_rate(team:number, data:any[]){
     //     let speakerNum = 0;
@@ -270,104 +267,86 @@ export default {
     //     if(!final)final="no score";
     //     return(final);
     // },
-    SourceIntakeRate(team: number, data: any[]) {
-        let loadZone = 0
-        let total = 0
-        data.forEach((e) => {
-            if (e.team != team) return
-            e.game.actions.forEach((a: any) => {
-                if (a.action == 'intake') {
-                    if (a.location == 'source') loadZone++
-                    total++
+    SourceIntakeRate(team:number, data:any[]){
+        let loadZone = 0;
+        let total = 0;
+        data.forEach(e=>{
+            if(e.team!=team) return;
+            e.game.actions.forEach((a:any)=>{
+                if(a.action=="intake"){
+                    if(a.location=="source") loadZone++;
+                    total++;
                 }
-            })
-        })
-        return loadZone / total
+            });
+        });
+        return(loadZone/total);
     },
-    StandardScoreDeviation(team: number, data: any[]) {
-        let scores: any[] = []
-        data.forEach((e) => {
-            if (e.team != team) return
-            let score = teamScore(e)
-            scores.push(score)
-        })
+    StandardScoreDeviation(team:number, data:any[]){
+        let scores:any[]=[];
+        data.forEach(e=>{
+            if(e.team != team) return;
+            let score = teamScore(e);
+            scores.push(score);
+        });
 
-        return stdDev(scores)
+        return stdDev(scores);
     },
-    MatchesScouted(team: number, data: any[]) {
-        let scouted = 0
-        data.forEach((e) => {
-            if (e.team != team) return
-            scouted++
-        })
-        return scouted
+    MatchesScouted(team:number, data:any[]){
+        let scouted=0;
+        data.forEach(e=>{
+            if(e.team!=team) return;
+            scouted++;
+        });
+        return scouted;
     },
 }
-function teamScore(e: any) {
-    let count = 0
-    e.game.actions.forEach((a: any) => {
-        if (a.phase == 'auto') return
-        if (a.action === 'score') {
-            switch (a.location) {
-                case 'amp':
-                    count += 1
-                    break
-                case 'trap':
-                    count += 5
-                    break
-                case 'speaker':
-                    switch (a.amplified) {
-                        case true:
-                            count += 5
-                            break
-                        case false:
-                            count += 2
-                            break
-                    }
-                    break
+function teamScore(e:any){
+    let count = 0;
+    e.game.actions.forEach((a:any)=>{
+        if(a.phase=="auto") return;
+        if(a.action === 'score') {
+            switch(a.location){
+                case "amp": count+= 1; break;
+                case "trap": count+= 5; break;
+                case "speaker": switch(a.amplified){
+                    case true: count+= 5; break;
+                    case false: count+= 2; break;
+                } break;
             }
         }
-    })
-    count += e.game.untimed.harmony
-    if (e.game.untimed.parkMatch) {
-        count += 1
+    });
+    count+=e.game.untimed.harmony;
+    if(e.game.untimed.parkMatch){
+        count+= 1;
     }
-    if (e.game.untimed.hangMatch) {
-        switch (e.game.untimed.spotlight) {
-            case true:
-                count += 4
-                break
-            case false:
-                count += 3
-                break
+    if(e.game.untimed.hangMatch){
+        switch(e.game.untimed.spotlight) {
+            case true: count+= 4; break;
+            case false: count+= 3; break;
         }
     }
 
-    count += autoScore(e)
-
-    return count
+    count += autoScore(e);
+    
+    return(count);
 }
 
-function autoScore(e: any) {
-    let count = 0
-    e.game.actions.forEach((a: any) => {
-        if (a.phase !== 'auto') return
-        if (a.action === 'score') {
-            switch (a.location) {
-                case 'amp':
-                    count += 2
-                    break
-                case 'speaker':
-                    count += 5
-                    break
+function autoScore(e:any){
+    let count = 0;
+    e.game.actions.forEach((a:any)=>{
+        if(a.phase!=="auto") return;
+        if(a.action === 'score') {
+            switch(a.location){
+                case "amp": count+= 2; break;
+                case "speaker": count+= 5; break;
             }
         }
-    })
-    if (e.game.untimed.exitAuto) {
-        count += 2
+    });
+    if(e.game.untimed.exitAuto){
+        count+= 2;
     }
 
-    return count
+    return(count);
 }
 // export function gridLayout(e:any){
 //     let out = [Array(9),Array(9),Array(9),Array(9)]
@@ -414,19 +393,18 @@ function autoScore(e: any) {
 //     return biggestValuesKey;
 // }
 
-function stdDev(arr: any) {
-    let mean =
-        arr.reduce((acc: any, curr: any) => {
-            return acc + curr
-        }, 0) / arr.length
+function stdDev(arr:any){
+    let mean = arr.reduce((acc:any, curr:any)=>{
+        return acc + curr;
+    }, 0) / arr.length;
 
-    arr = arr.map((k: any) => {
-        return (k - mean) ** 2
-    })
+    arr = arr.map((k:any)=>{
+        return(k-mean)**2;
+    });
+    
+    let sum = arr.reduce((acc:any, curr:any)=> acc + curr, 0);
 
-    let sum = arr.reduce((acc: any, curr: any) => acc + curr, 0)
+    let variance = (sum / arr.length);
 
-    let variance = sum / arr.length
-
-    return Math.sqrt(sum / arr.length)
+    return Math.sqrt(sum/arr.length);
 }
