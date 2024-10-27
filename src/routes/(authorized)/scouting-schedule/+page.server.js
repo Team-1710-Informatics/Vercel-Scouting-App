@@ -1,59 +1,54 @@
-import {
-    schedulePositions,
-    User,
-    scheduleDays,
-    releaseReason,
-} from '$lib/server/models'
+import { schedulePositions, User, scheduleDays, releaseReason } from "$lib/server/models";
 
 export async function load({ locals }) {
-    const users = await User.find()
-    const schedulepositions = await schedulePositions.find()
-    const scheduledays = await scheduleDays.find()
+    const users = await User.find();
+    const schedulepositions = await schedulePositions.find();
+    const scheduledays = await scheduleDays.find();
 
-    let selected = scheduledays[0].id
+    let selected = scheduledays[0].id;
 
-    let leads = []
-    let scouts = []
-    let backups = []
+    let leads = [];
+    let scouts = [];
+    let backups = [];
 
-    schedulepositions.forEach((e) => {
-        if (e.position == 'lead') {
+    schedulepositions.forEach(e=>{
+        if (e.position == "lead") { 
             leads.push(e)
         }
-        if (e.position == 'scout') {
+        if (e.position == "scout") {
             scouts.push(e)
         }
-        if (e.position == 'backup') {
+        if (e.position == "backup") {
             backups.push(e)
         }
     })
 
-    return {
-        users: JSON.stringify(users),
-        scheduledays: JSON.stringify(scheduledays),
-        selected: selected,
-        leads: JSON.stringify(leads),
-        scouts: JSON.stringify(scouts),
-        backups: JSON.stringify(backups),
-        schedulepositions: JSON.stringify(schedulepositions),
-        user: locals.user.username,
-        permissions: JSON.stringify(locals.user.permissions),
+    return{
+        users:JSON.stringify(users),
+        scheduledays:JSON.stringify(scheduledays),
+        selected:selected,
+        leads:JSON.stringify(leads),
+        scouts:JSON.stringify(scouts),
+        backups:JSON.stringify(backups),
+        schedulepositions:JSON.stringify(schedulepositions),
+        user:locals.user.username,
+        permissions:JSON.stringify(locals.user.permissions)
     }
 }
 
 export const actions = {
-    release: async function ({ request }) {
-        const input = await request.formData()
-        const days = await scheduleDays.find()
+    release: async function({request}){
+        const input = await request.formData();
+        const days = await scheduleDays.find();
 
-        const reason = JSON.parse(input.get('reason'))
-        const infoScout = JSON.parse(input.get('infoScout'))
-        const infoLead = JSON.parse(input.get('infoLead'))
+        const reason = JSON.parse(input.get("reason"));
+        const infoScout = JSON.parse(input.get("infoScout"));
+        const infoLead = JSON.parse(input.get("infoLead"));
 
-        let day = ''
+        let day = ""
 
-        days.forEach((e) => {
-            if (e.id == infoLead.dayId) {
+        days.forEach(e=>{
+            if(e.id == infoLead.dayId){
                 day = e.name
             }
         })
@@ -65,9 +60,9 @@ export const actions = {
             start: infoLead.start,
             end: infoLead.end,
             id: infoScout.id,
-            reason: reason,
-        })
-        await db.save()
+            reason: reason
+        });
+        await db.save();
 
         await schedulePositions.updateOne(
             {
@@ -76,7 +71,7 @@ export const actions = {
                 releasing: infoScout.releasing,
                 position: infoScout.position,
                 leadId: infoScout.leadId,
-                id: infoScout.id,
+                id: infoScout.id
             },
             {
                 name: infoScout.name,
@@ -84,14 +79,14 @@ export const actions = {
                 releasing: true,
                 position: infoScout.position,
                 leadId: infoScout.leadId,
-                id: infoScout.id,
+                id: infoScout.id
             }
         )
     },
-    pickup: async function ({ request, locals }) {
-        const input = await request.formData()
+    pickup: async function({request, locals}){
+        const input = await request.formData();
 
-        const infoScout = JSON.parse(input.get('info'))
+        const infoScout = JSON.parse(input.get("info"));
 
         await schedulePositions.updateOne(
             {
@@ -100,7 +95,7 @@ export const actions = {
                 releasing: infoScout.releasing,
                 position: infoScout.position,
                 leadId: infoScout.leadId,
-                id: infoScout.id,
+                id: infoScout.id
             },
             {
                 name: locals.user.username,
@@ -108,13 +103,15 @@ export const actions = {
                 releasing: false,
                 position: infoScout.position,
                 leadId: infoScout.leadId,
-                id: infoScout.id,
+                id: infoScout.id
             }
         )
-        await releaseReason.deleteOne({
-            name: infoScout.name,
-            leadId: infoScout.leadId,
-            id: infoScout.id,
-        })
-    },
+        await releaseReason.deleteOne(
+            {
+                name: infoScout.name,
+                leadId: infoScout.leadId,
+                id: infoScout.id
+            }
+        )
+    }
 }

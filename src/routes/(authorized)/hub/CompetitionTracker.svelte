@@ -1,14 +1,14 @@
-<script lang="ts">
+<script lang=ts>
     //@ts-ignore;
-    import Countdown from '$lib/components/Countdown.svelte'
+    import Countdown from "$lib/components/Countdown.svelte"
 
     type Competition = {
-        name: string
-        date: number
-        end: number
+        name:string,
+        date:number,
+        end:number
     }
 
-    export let events: Competition[]
+    export let events:Competition[];
     // export let lead:any;
     // export let scouts:any;
     // export let backups:any;
@@ -18,66 +18,47 @@
     // export let users:any;
     // export let user:any;
 
-    function nextComp(): Competition | null {
-        let next = null
-        let now = Date.now()
-        events.forEach((e) => {
-            if (e.date > now) {
-                if (next == null) next = e
-                else if (next.date > e.date) next = e
+    function nextComp() : Competition | null {
+        let next = null;
+        let now = Date.now();
+        events.forEach(e=>{
+            if(e.date>now){
+                if(next == null) next = e;
+                else if(next.date>e.date) next = e;
             }
-        })
-        return next
+        });
+        return next;
     }
 
-    function currComp(): [Competition, string] | null {
-        let curr = null
-        let now = Date.now()
-        events.forEach((e) => {
-            if (e.date <= now && e.end + 86400000 > now) curr = e
-        })
+    function currComp() : [Competition, string] | null {
+        let curr = null;
+        let now = Date.now();
+        events.forEach(e=>{
+            if(e.date <= now && e.end + 86400000 > now)
+                curr = e;
+        });
 
-        if (!curr) return null
+        if(!curr) return null;
 
-        let elapsed = now - curr.date
-        let n = Math.floor(elapsed / (1000 * 3600 * 24)) + 1
-        console.log(n)
-        let day: string
-        switch (n) {
+        let elapsed = now - curr.date;
+        let n = Math.floor(elapsed / (1000 * 3600 * 24)) + 1;
+        console.log(n);
+        let day:string;
+        switch(n){
             // I don't think comps are ever this long, but may as well cover all the bases
-            case 1:
-                day = 'one'
-                break
-            case 2:
-                day = 'two'
-                break
-            case 3:
-                day = 'three'
-                break
-            case 4:
-                day = 'four'
-                break
-            case 5:
-                day = 'five'
-                break
-            case 6:
-                day = 'six'
-                break
-            case 7:
-                day = 'seven'
-                break
-            case 8:
-                day = 'eight'
-                break
-            case 9:
-                day = 'nine'
-                break
-            default:
-                day = n.toString()
-                break
+            case 1: day = "one";break;
+            case 2: day = "two";break;
+            case 3: day = "three";break;
+            case 4: day = "four";break;
+            case 5: day = "five";break;
+            case 6: day = "six";break;
+            case 7: day = "seven";break;
+            case 8: day = "eight";break;
+            case 9: day = "nine";break;
+            default: day = n.toString();break;
         }
 
-        return [curr, day]
+        return [curr,day];
     }
 
     // function format(time:string){
@@ -260,7 +241,6 @@
         </div>
     {/if} -->
 </middle>
-
 <style>
     /* table {
         font-family: arial, sans-serif;
