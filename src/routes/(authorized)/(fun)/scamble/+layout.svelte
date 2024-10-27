@@ -1,7 +1,7 @@
 <script>
-    import Status from "$lib/components/function/Status.svelte";
+    import Status from '$lib/components/function/Status.svelte'
 
-    export let data;
+    export let data
 </script>
 
 <!-- <Status value="scambling" host={data.host}/> -->

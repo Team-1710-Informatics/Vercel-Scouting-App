@@ -1,43 +1,45 @@
-import { X_TBA_AUTHKEY } from "$env/static/private";
-import { pitdata2024, User } from "$lib/server/models";
-import credits from "$lib/server/user/credi";
-import { redirect } from "@sveltejs/kit";
+import { X_TBA_AUTHKEY } from '$env/static/private'
+import { pitdata2024, User } from '$lib/server/models'
+import credits from '$lib/server/user/credi'
+import { redirect } from '@sveltejs/kit'
 
-export async function load({ locals, fetch, params }){
-    const res = await fetch(`https://thebluealliance.com/api/v3/events/2024`,{
-        headers:{
-            "X-TBA-Auth-Key":X_TBA_AUTHKEY
-        }
-    });
+export async function load({ locals, fetch, params }) {
+    const res = await fetch(`https://thebluealliance.com/api/v3/events/2024`, {
+        headers: {
+            'X-TBA-Auth-Key': X_TBA_AUTHKEY,
+        },
+    })
 
-    console.log(params);
+    console.log(params)
 
-    const events = await res.json();
+    const events = await res.json()
 
-    let result = JSON.parse(JSON.stringify(await User.find({ team:locals.user.team })));
+    let result = JSON.parse(
+        JSON.stringify(await User.find({ team: locals.user.team }))
+    )
 
-    const members = [];
-    result.forEach(m=>{
+    const members = []
+    result.forEach((m) => {
         members.push({
-            username:m.username,
-            name:m.name
+            username: m.username,
+            name: m.name,
         })
     })
 
-    return{
+    return {
         events,
-        competition:locals.competition,
-        scout:locals.user.username,
-        team:params?.team,
-        members
+        competition: locals.competition,
+        scout: locals.user.username,
+        team: params?.team,
+        members,
     }
 }
 
 export const actions = {
-    default: async function({request,locals,params}){
-        const input = await request.formData();
+    default: async function ({ request, locals, params }) {
+        const input = await request.formData()
 
-        const data = JSON.parse(input.get("data"));
+        const data = JSON.parse(input.get('data'))
 
         // let output = {};
 
@@ -48,35 +50,52 @@ export const actions = {
         // })
 
         const otherData = {
-            event: locals.competition?.key??null,
+            event: locals.competition?.key ?? null,
             team: params?.team,
-            scout: locals.user.username
-        };
+            scout: locals.user.username,
+        }
 
         const final = {
             ...otherData,
-            ...data
-        };
-
-        console.log(final);
-
-        if(await pitdata2024.findOne({team:final["team"], event:final["event"]})){
-            throw redirect(301, "/pit-scout");
+            ...data,
         }
 
-        const db = new pitdata2024(final);
-        await db.save();
+        console.log(final)
 
-        if(final.otherScouts == "none"){
-            await credits.transaction(final.scout, 350, `Pit scouted ${final.team}`);
+        if (
+            await pitdata2024.findOne({
+                team: final['team'],
+                event: final['event'],
+            })
+        ) {
+            throw redirect(301, '/pit-scout')
         }
 
-        if(final.otherScouts != "none"){
-            await credits.transaction(final.scout, 350, `Pit scouted ${final.team}`);
-            await credits.transaction(final.otherScouts, 350, `Co-pit scouted ${final.team}`);
+        const db = new pitdata2024(final)
+        await db.save()
+
+        if (final.otherScouts == 'none') {
+            await credits.transaction(
+                final.scout,
+                350,
+                `Pit scouted ${final.team}`
+            )
         }
-    
+
+        if (final.otherScouts != 'none') {
+            await credits.transaction(
+                final.scout,
+                350,
+                `Pit scouted ${final.team}`
+            )
+            await credits.transaction(
+                final.otherScouts,
+                350,
+                `Co-pit scouted ${final.team}`
+            )
+        }
+
         console.log('test')
-        throw redirect(301, "/pit-scout/nav");
-    }
+        throw redirect(301, '/pit-scout/nav')
+    },
 }

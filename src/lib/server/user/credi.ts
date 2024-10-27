@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-import { Transaction, User } from "$lib/server/models";
+import mongoose from 'mongoose'
+import { Transaction, User } from '$lib/server/models'
 
 export default {
     /**
@@ -8,23 +8,22 @@ export default {
      * @param amount The number of credits to add. Use a negative number to remove
      * @param reason The reason for the transaction (e.g. "Scouted a match")
      */
-    transaction: async (username:string, amount:number, reason:string)=>{
-        const user = await User.findOne({ username:username });
-        if(!user?.username) return null;
+    transaction: async (username: string, amount: number, reason: string) => {
+        const user = await User.findOne({ username: username })
+        if (!user?.username) return null
 
         //@ts-ignore
-        let credits = user.credits + amount;
+        let credits = user.credits + amount
 
-        await User.updateOne({ username:username }, { credits:credits });
+        await User.updateOne({ username: username }, { credits: credits })
 
         const log = new Transaction({
-            user:username,
-            amount:amount,
-            reason:reason,
-            time: Date.now()
-        });
+            user: username,
+            amount: amount,
+            reason: reason,
+            time: Date.now(),
+        })
 
-        await log.save();
-    }
-    
+        await log.save()
+    },
 }
