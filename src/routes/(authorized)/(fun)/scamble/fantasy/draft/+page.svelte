@@ -14,19 +14,18 @@
         </form> -->
     </div>
 </center>
-<div>
+<div></div>
 
-</div>
 <style>
     /* .grid-cols-middle{
         grid-column-start: 6;
         grid-column-end: 8;
     } */
-    h1{
-        font-size:xx-large;
-        font-weight:bold;
+    h1 {
+        font-size: xx-large;
+        font-weight: bold;
     }
-    h2{
-        font-size:large;
+    h2 {
+        font-size: large;
     }
 </style>

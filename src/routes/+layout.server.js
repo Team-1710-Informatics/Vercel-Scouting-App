@@ -1,6 +1,5 @@
-export function load({ url }){
-
+export function load({ url }) {
     return {
-        host: url.host
-    };
+        host: url.host,
+    }
 }
