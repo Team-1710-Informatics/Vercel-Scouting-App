@@ -1,38 +1,38 @@
-import mongoose from 'mongoose';
-const { Schema } = mongoose;
+import mongoose from 'mongoose'
+const { Schema } = mongoose
 
 const user = new Schema({
     username: {
-        type:String,
-        required:true,
-        unique:true
+        type: String,
+        required: true,
+        unique: true,
     },
     email: {
-        type:String,
-        required:true,
-        unique:true
+        type: String,
+        required: true,
+        unique: true,
     },
     name: {
         type: {
             first: String,
-            last: String
+            last: String,
         },
-        required:true
+        required: true,
     },
-    password:{
+    password: {
         type: {
             hash: String,
-            salt: String
+            salt: String,
         },
-        required: true
+        required: true,
     },
     credits: {
         type: Number,
-        required: true
+        required: true,
     },
     team: {
         type: Number,
-        required: true
+        required: true,
     },
     stats: {},
     preferences: {},
@@ -40,6 +40,6 @@ const user = new Schema({
     flags: {},
     token: String,
     status: String,
-});
+})
 
-export default mongoose.model("User", user);
+export default mongoose.model('User', user)
