@@ -31,9 +31,9 @@ body {
 
 input, select, textarea {
 	color: black;
-	border-radius: 6px;
-	border: 1px solid gray;
-	padding-left: 2px;
+	border-radius: 0.4rem;
+	border: 0.06rem solid gray;
+	padding-left: 0.13rem;
 }
 
 middle {
@@ -58,18 +58,18 @@ h5 {
 }
 
 button {
-	padding-left: 6px;
-	padding-right: 6px;
-	padding-top: 4px;
-	padding-bottom: 4px;
-	border: 2px solid rgb(29, 78, 216);
+	padding-left: 0.4rem;
+	padding-right: 0.4rem;
+	padding-top: 0.3rem;
+	padding-bottom: 0.3rem;
+	border: 0.13rem solid rgb(29, 78, 216);
 	background-image: linear-gradient(to bottom right, rgb(37, 99, 235), rgb(96, 165, 250));
-	border-radius: 8px;
+	border-radius: 0.5rem;
 }
 
 button:hover {
 	border-color: white;
-	box-shadow: 0px 0px 3px 1px white;
+	box-shadow: 0rem 0rem 0.19rem 0.06rem white;
 }
 
 button:disabled {
@@ -82,11 +82,11 @@ button:disabled {
 	border-color: rgb(255 255 255);
 	color: white;
 	border-radius: 0.5rem;
-	border-width: 1px;
+	border-width: 0.06rem;
 	padding: 0.75rem;
 	width: fit-content;
 
-	box-shadow: 0px 0px 3px 1px white;
+	box-shadow: 0rem 0rem 0.19rem 0.06rem white;
 }
 
 
@@ -118,23 +118,23 @@ button:disabled {
 .error {
 	background-color: rgb(252, 165, 165);
 	color: rgb(239, 68, 68);
-	border: 1px solid rgb(239, 68, 68);
-	border-radius: 8px;
-	padding: 4px;
+	border: 0.06rem solid rgb(239, 68, 68);
+	border-radius: 0.5rem;
+	padding: 0.3rem;
 }
 
 .alert {
 	background-color: rgb(253, 230, 138);
 	color: rgb(245, 158, 11);
-	border: 1px solid rgb(251, 191, 36);
-	border-radius: 8px;
-	padding: 4px;
+	border: 0.06rem solid rgb(251, 191, 36);
+	border-radius: 0.5rem;
+	padding: 0.3rem;
 }
 
 .success {
 	background-color: rgb(134, 239, 172);
 	color: rgb(34, 197, 94);
-	border: 1px solid rgb(34, 197, 94);
-	border-radius: 8px;
-	padding: 4px;
+	border: 0.06rem solid rgb(34, 197, 94);
+	border-radius: 0.5rem;
+	padding: 0.3rem;
 }
