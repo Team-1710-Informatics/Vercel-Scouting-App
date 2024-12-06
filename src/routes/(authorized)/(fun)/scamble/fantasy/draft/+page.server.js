@@ -14,7 +14,6 @@ export const actions = {
 
         if(res.error) throw error(420, 'error with form, team doesnt exist or other error');
         
-
     }
 }
 

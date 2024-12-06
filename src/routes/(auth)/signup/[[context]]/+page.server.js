@@ -68,7 +68,9 @@ export const actions = {
         if(data?.error) { return fail(400, data); }
         
         //Check team authkey
+        console.log(+data.team)
         const team = await Team.findOne({ number:+data.team });
+        console.log(team)
         if(!team || team?.authkey != data.auth){
             data.error = "Invalid authkey!";
             return fail(400, data);
@@ -114,7 +116,10 @@ async function create(data) {
         },
         credits: 100,
         team: +data.team,
-        stats: { joined: Math.floor(Date.now()/1000) },
+        stats: { 
+            joined: Math.floor(Date.now()/1000),
+            matches_scouted:0
+        },
         preferences: { theme: "dark" },
         permissions: [],
         flags: { verification_key:key }

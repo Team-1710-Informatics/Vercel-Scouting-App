@@ -3,6 +3,12 @@
     import stats from "./statistics"
 
     let teams = [];
+    let first = 1;
+    let last = 999;
+
+    function matfil(e){
+        return e.match >= first && e.match <= last;
+    }
 
     let show="";
     $: showteams=show.split(" ");
@@ -13,9 +19,10 @@
             teams.push(e.team);
     })
 
-    let columns = ["Team_number", "Average_score"];
-    let sortFunction = "Average_score";
+    let columns = ["TeamNumber", "AverageScore"];
+    let sortFunction = "AverageScore";
     let ascending = false;
+    let positive = true;
 
     let output;
 
@@ -55,21 +62,40 @@
     }
 
     $: teams = teams.sort((a,b)=>{
-        return (+stats[sortFunction](b,data.entries))-(+stats[sortFunction](a,data.entries))*(ascending?-1:1);
+        if(first&&last){}
+        return ((+stats[sortFunction](b,data.entries.filter(matfil)))-(+stats[sortFunction](a,data.entries.filter(matfil))))*(ascending? -1 : 1);
     })
 </script>
 
-<center class="pt-10">
+<center class="pt-10 px-10">
     <div class="grid grid-cols-2 w-fit gap-1">
-        <button class="font-bold bg-gradient-to-t from-green-800 to-green-400 border-green-900" on:click={()=>{columns.push("Average_score");columns=columns}}>Add column</button>
-        <button class="font-bold bg-gradient-to-t from-red-800 to-red-400 border-red-900" on:click={()=>{columns.pop ("Average_score");columns=columns}}>Remove column</button>
+        <button class="font-bold bg-gradient-to-t from-green-800 to-green-400 border-green-900" on:click={()=>{columns.push("AverageScore");columns=columns}}>Add column</button>
+        <button class="font-bold bg-gradient-to-t from-red-800 to-red-400 border-red-900" on:click={()=>{columns.pop ("AverageScore");columns=columns}}>Remove column</button>
     </div>
     <br>
     <div><label>
         Filter teams: 
         <input type="text" bind:value={show}>
     </label></div>
-    <br>
+    <label>
+        <input type="radio" name="positive" bind:group={positive} value={true}>
+        Include
+    </label>
+    <label>
+        <input type="radio" name="positive" bind:group={positive} value={false}>
+        Exclude
+    </label>    
+    <br><br>
+    <div>Filter matches:</div>
+    <label>
+        From:
+        <input class="w-24" type="number" bind:value={first}>
+    </label>
+    <label>
+        To:
+        <input class="w-24" type="number" bind:value={last}>
+    </label>    
+    <br><br>
     <div class="flex flex-row w-fit gap-1">
         <p>Sort:</p>
         <select bind:value={sortFunction}>
@@ -94,7 +120,7 @@
                 <th>#</th>
                 {#each columns as col}
                     <th>
-                        <select class="text-xs" style="max-width:80px" bind:value={col}>
+                        <select class="text-xs" style="max-width:7.5rem" bind:value={col}>
                             {#each Object.keys(stats) as func}
                                 <option value={func}>{func}</option>
                             {/each}
@@ -103,22 +129,20 @@
                 {/each}
             </tr>
 
-            {#each teams as team, i (team)}
+            {#key first}{#key last}{#each teams as team, i (team)}
                 <tr class="divide-x" animate:flip>
-                    {#if showteams?.[0]=="" || showteams.includes(""+team)}
+                    {#if showteams?.[0]=="" || (showteams.includes(""+team) && positive) || (!showteams.includes(""+team) && !positive)}
                         <td>{i+1}.</td>
                         {#each columns as col}
-                            <td class:font-bold={col=="Team_number"}>{(typeof stats[col](team,data.entries)==="number" && stats[col](team,data.entries) != Math.trunc(stats[col](team,data.entries)))?parseFloat(stats[col](team,data.entries)).toFixed(2):stats[col](team,data.entries)}</td>
+                            <td class:font-bold={col=="Team_number"}>{(typeof stats[col](team,data.entries.filter(matfil))==="number" && stats[col](team,data.entries.filter(matfil)) != Math.trunc(stats[col](team,data.entries.filter(matfil))))?parseFloat(stats[col](team,data.entries.filter(matfil))).toFixed(2):stats[col](team,data.entries.filter(matfil))}</td>
                         {/each}
                     {/if}
-                    
                 </tr>
-            {/each}
+            {/each}{/key}{/key}
         </table>
     </div>
     <br>
-    <div class="opacity-50">*Score calculations do not include links</div>
-    <button on:click={tableToCSV} class="font-bold bg-gradient-to-t from-teal-800  to-teal-400 border-black py-2">Export sheet</button>
+    <button on:click={tableToCSV} class="font-bold bg-gradient-to-t from-teal-800  to-teal-400 border-black">Export sheet</button>
 </center>
 
 <table bind:this={output} hidden>

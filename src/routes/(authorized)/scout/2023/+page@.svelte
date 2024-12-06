@@ -55,7 +55,7 @@
         <div in:fly={{duration:500, delay:500}} out:fly={{duration:500}}>
             <Match {meta} {pregame} bind:game={game} on:advance={()=>{step++}}/>
         </div>
-    {:else if step===2}
+    {:else if step >= 2}
         <div in:fly={{duration:500, delay:500}} out:fly={{duration:500}}>
             <Post bind:meta={meta} bind:pregame={pregame} bind:game={game} bind:postgame={postgame} />
         </div>

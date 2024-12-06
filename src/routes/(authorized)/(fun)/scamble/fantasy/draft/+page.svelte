@@ -5,12 +5,13 @@
     <h1>FANTASY FIRST</h1>
     <h2>Drafting</h2>
     <div class="box">
-        <form method="POST">
+        Coming soon...
+        <!-- <form method="POST">
             <label>
                 team
                 <input name="team" required>
             </label>
-        </form>
+        </form> -->
     </div>
 </center>
 <div>

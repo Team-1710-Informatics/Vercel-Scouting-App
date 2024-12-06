@@ -1,8 +1,21 @@
 <script>
     import { flip } from "svelte/animate";
     import stats from "./statistics"
+    import Plot from 'svelte-plotly.js';
+    import { onMount } from 'svelte';
+    import Pagination from '$lib/components/ui/Pagination.svelte'
+
+    const examples = ['The Pudding is a digital publication that explains ideas debated in culture with visual essays.'.split(' '), 'The Pudding is a digital publication that explains ideas debated in culture with visual essays.'.split(' ')]
+
+    let values;
 
     let teams = [];
+    let first = 1;
+    let last = 999;
+
+    function matfil(e){
+        return e.match >= first && e.match <= last;
+    }
 
     let show="";
     $: showteams=show.split(" ");
@@ -16,6 +29,7 @@
     let columns = ["Team_number", "Average_score"];
     let sortFunction = "Average_score";
     let ascending = false;
+    let positive = true;
 
     let output;
 
@@ -38,6 +52,42 @@
         downloadCSVFile(csvdata);
     }
 
+    function movingAvg(array, count, qualifier){
+
+        // calculate average for subarray
+        var avg = function(array, qualifier){
+
+            var sum = 0, count = 0, val;
+            for (var i in array){
+                val = array[i];
+                if (!qualifier || qualifier(val)){
+                    sum += val;
+                    count++;
+                }
+            }
+
+            return sum / count;
+        };
+
+        var result = [], val;
+
+        // pad beginning of result with null values
+        for (var i=0; i < count-1; i++)
+            result.push(null);
+
+        // calculate average for each subarray and add to result
+        for (var i=0, len=array.length - count; i <= len; i++){
+
+            val = avg(array.slice(i, i + count), qualifier);
+            if (isNaN(val))
+                result.push(null);
+            else
+                result.push(val);
+        }
+
+        return result;
+    }
+
     function downloadCSVFile(csvdata){
         let file = new Blob([csvdata],{
             type: "text/csv"
@@ -55,8 +105,68 @@
     }
 
     $: teams = teams.sort((a,b)=>{
-        return ((+stats[sortFunction](b,data.entries))-(+stats[sortFunction](a,data.entries)))*(ascending ? -1 : 1);
+        if(first&&last){}
+        return ((+stats[sortFunction](b,data.entries.filter(matfil)))-(+stats[sortFunction](a,data.entries.filter(matfil))))*(ascending? -1 : 1);
     })
+
+    $: filtered_teams = []
+
+    function add_column() {
+        columns.push("Average_score");
+        update_graph_data()
+        columns=columns;
+    }
+
+    function remove_column() {
+        columns.pop();
+        update_graph_data()
+        columns=columns;
+    }
+
+    $: graph_data = [{'x': [], 'y': [], type: 'scatter', mode: 'markers'},
+                    {'x': [], 'y': [], type: 'line'}];
+        $: new_data = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+    $: filtered_data = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+
+    function update_graph_data() {
+        graph_data[0]['x'] = []
+        graph_data[0]['y'] = []
+
+        for (const team of teams) {
+            graph_data[0]['x'].push((typeof stats[columns[0]](team, data.entries.filter(matfil)) === "number" && stats[columns[0]](team, data.entries.filter(matfil)) != Math.trunc(stats[columns[0]](team, data.entries.filter(matfil)))) ? parseFloat(stats[columns[0]](team, data.entries.filter(matfil))).toFixed(2) : stats[columns[0]](team, data.entries.filter(matfil)))
+            graph_data[0]['y'].push((typeof stats[columns[1]](team, data.entries.filter(matfil)) === "number" && stats[columns[1]](team, data.entries.filter(matfil)) != Math.trunc(stats[columns[1]](team, data.entries.filter(matfil)))) ? parseFloat(stats[columns[1]](team, data.entries.filter(matfil))).toFixed(2) : stats[columns[1]](team, data.entries.filter(matfil)))
+
+            graph_data[0]['x'] = graph_data[0]['x'].map(element => Number(element));
+            graph_data[0]['y'] = graph_data[0]['y'].map(element => Number(element));
+        }
+        graph_data[1]['x'] = movingAvg(graph_data[0]['x'], 10)
+        graph_data[1]['y'] = movingAvg(graph_data[0]['y'], 10)
+
+        generate_new_data()
+    }
+
+    function generate_new_data() {
+        new_data = []
+        let i = 0
+        console.log(teams)
+        for (const column in columns) {
+            new_data.push([])
+            for (const team of teams) {
+                new_data[i].push((typeof stats[columns[column]](team, data.entries.filter(matfil)) === "number" && stats[columns[column]](team, data.entries.filter(matfil)) != Math.trunc(stats[columns[column]](team, data.entries.filter(matfil)))) ? parseFloat(stats[columns[column]](team, data.entries.filter(matfil))).toFixed(2) : stats[columns[column]](team, data.entries.filter(matfil)))
+            }
+            i++;
+        }
+
+        new_data=new_data;
+        console.log(new_data)
+    }
+    generate_new_data()
+
+    onMount(async () => {
+        update_graph_data()
+    })
+
+    let showGraph = false;
 </script>
 
 <center class="pt-10">
@@ -69,7 +179,25 @@
         Filter teams: 
         <input type="text" bind:value={show}>
     </label></div>
-    <br>
+    <label>
+        <input type="radio" name="positive" bind:group={positive} value={true}>
+        Include
+    </label>
+    <label>
+        <input type="radio" name="positive" bind:group={positive} value={false}>
+        Exclude
+    </label>    
+    <br><br>
+    <div>Filter matches:</div>
+    <label>
+        From:
+        <input class="w-24" type="number" bind:value={first}>
+    </label>
+    <label>
+        To:
+        <input class="w-24" type="number" bind:value={last}>
+    </label>    
+    <br><br>
     <div class="flex flex-row w-fit gap-1">
         <p>Sort:</p>
         <select bind:value={sortFunction}>
@@ -103,20 +231,20 @@
                 {/each}
             </tr>
 
-            {#each teams as team, i (team)}
+            {#key first}{#key last}{#each teams as team, i (team)}
                 <tr class="divide-x" animate:flip>
-                    {#if showteams?.[0]=="" || showteams.includes(""+team)}
+                    {#if showteams?.[0]=="" || (showteams.includes(""+team) && positive) || (!showteams.includes(""+team) && !positive)}
                         <td>{i+1}.</td>
                         {#each columns as col}
-                            <td class:font-bold={col=="Team_number"}>{(typeof stats[col](team,data.entries)==="number" && stats[col](team,data.entries) != Math.trunc(stats[col](team,data.entries)))?parseFloat(stats[col](team,data.entries)).toFixed(2):stats[col](team,data.entries)}</td>
+                            <td class:font-bold={col=="Team_number"}>{(typeof stats[col](team,data.entries.filter(matfil))==="number" && stats[col](team,data.entries.filter(matfil)) != Math.trunc(stats[col](team,data.entries.filter(matfil))))?parseFloat(stats[col](team,data.entries.filter(matfil))).toFixed(2):stats[col](team,data.entries.filter(matfil))}</td>
                         {/each}
                     {/if}
-                    
                 </tr>
-            {/each}
+            {/each}{/key}{/key}
         </table>
     </div>
     <br>
+    <div class="opacity-50">*Score calculations do not include links</div>
     <button on:click={tableToCSV} class="font-bold bg-gradient-to-t from-teal-800  to-teal-400 border-black">Export sheet</button>
 </center>
 

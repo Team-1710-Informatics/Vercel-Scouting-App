@@ -7,5 +7,4 @@
     {#if $page.status == 405}
         <p>Most likely a service issue, just refresh</p>
     {/if}
-    <button class="p-2" on:click={document.location.reload}>Try again</button>
 </middle>

@@ -1,22 +1,16 @@
 <script>
     import ExpandableText from "$lib/components/visual/ExpandableText.svelte";
-    import { PUBLIC_X_TBA_AUTHKEY } from "$env/static/public";
+    import tba from "$lib/modules/tba";
 
     export let match;
 
     async function teamName(key){
-        const results = await fetch(`https://www.thebluealliance.com/api/v3/team/${key}`,{
-            headers:{
-                "X-TBA-Auth-Key":PUBLIC_X_TBA_AUTHKEY
-            }
-        });
-
-        return (await results.json()).nickname;
+        return (await tba(`team/${key}`)).nickname;
     }
 </script>
 
-{#if match}
-    <div class="flex flex-row gap-0 border-x-2 border-white/25">
+{#if match} 
+    <div class="flex flex-row gap-0">
         <div class="disp blue" style="max-width:48vw; width:148px">
             {#each match.alliances.blue.team_keys as team}
                 <div class="text-4xl font-bold">

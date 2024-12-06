@@ -3,11 +3,6 @@ import { json } from '@sveltejs/kit';
 
 export async function GET({ params }) {
     const jason = JSON.parse(JSON.stringify((await ScoutData.find({ event:params.event }))));
+    jason.forEach(e=>{delete e.postgame;})
     return json(jason);
-}
-
-export const _info = {
-    url: "/{event key}",
-    desc: "Displays the raw data for a given match.",
-    ex: "/2023test",
 }

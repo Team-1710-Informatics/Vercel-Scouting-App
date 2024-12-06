@@ -5,9 +5,9 @@ import credi from "$lib/server/user/credi";
 export async function load({ locals }){
     const events = await tba("events/" + new Date().getFullYear());
 
-    const last = (await ScambleTicket.find({user:locals.user.username}).limit(1).sort({$natural:-1}))[0];
+    const last = (await ScambleTicket.find({user:locals.user.username}).limit(1).sort({$natural:-1}))[0]; //find tickets for user
 
-    const tickets = await getTickets(locals.user.username);
+    const tickets = await getTickets(locals.user.username); //check resolved tickets of user
 
     return {
         events,
@@ -20,7 +20,7 @@ export async function load({ locals }){
 
 export const actions = {
     bet: async function({request, locals}){
-        const MIN = 1000;
+        const MIN = 10;
         function max(c){
             let o = c-MIN;
     
@@ -95,45 +95,45 @@ export const actions = {
 
 async function getTickets(user){
     const tickets = JSON.parse(JSON.stringify(
-        await ScambleTicket.find({user,resolved:false})));
+        await ScambleTicket.find({user,resolved:false}))); //find all unresolved tickets
 
-    for(let i = 0; i < tickets.length; i++)   
-        await punchTicket(tickets[i]);
+    for(let i = 0; i < tickets.length; i++)
+        await punchTicket(tickets[i]); //run ticket punch on unresolved tickets if are now resolved
 
     return tickets;
 }
 
 async function punchTicket(t){
-    const all = await ScambleTicket.find({match:t.match});
-    const res = await tba(`match/${t.match}/simple`);
+    const all = await ScambleTicket.find({match:t.match}); //for each unresolved ticket, find all other tickets in that match
+    const res = await tba(`match/${t.match}/simple`); //find tba result for match
 
     let sums = {red:0,blue:0,total:0}
-    let matching = 0;
+    let matching = 0; //amt of alliance matching unresolved bets
 
-    for(let i=0;i<all.length;i++){
+    for(let i=0;i<all.length;i++){ //loop through all unresolved tickets in one match
         //Filter out late bets
         if(
             Math.trunc(all[i].timestamp/1000) > res.actual_time
             && res.actual_time != null
         ) continue;
 
-        // Count matching bets
+        // Count alliance matching unresolved bets
         if(all[i].alliance===t.alliance) matching++;
 
         // Add a bonus for payout calculation
         let effective = all[i].amount
-            + Math.sqrt(all[i].amount)*5;
+            + Math.sqrt(all[i].amount)*20;
 
         sums[all[i].alliance] += effective;
-        sums.total += effective;
-    }
+        sums.total += effective; //both total and alliance values accounting for match winnings
+    }//end loop
 
     let effective = t.amount
-        + Math.sqrt(t.amount)*5;
+        + Math.sqrt(t.amount)*3; //user payout for calculation
 
-    let portion = effective/sums[t.alliance];
+    let portion = effective/sums[t.alliance]; //ratio user winnings to total bet alliance winnings
 
-    t.payout = Math.trunc(portion * sums.total);
+    t.payout = Math.trunc(portion * sums.total); //payout calculation, portion ratio times total winnings
     t.portion = Math.round((effective/sums.total)*100);
     t.sameBetPercentageCredits = Math.round((sums[t.alliance]/sums.total)*100);
     t.sameBetPercentage = Math.round((matching/all.length)*100);
