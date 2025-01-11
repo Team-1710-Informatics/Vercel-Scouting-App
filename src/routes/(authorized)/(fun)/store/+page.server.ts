@@ -2,9 +2,15 @@ import { Receipt, StoreItem, User } from "$lib/server/models";
 import { error } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
 import credi from "$lib/server/user/credi";
+import { dev } from '$app/environment'
 
 export const load = (async function({locals}){
-    return await getInfo(locals.user.username);
+    try {
+        return await getInfo(locals.user.username);
+    }
+    catch(error) {
+        console.log(error)
+    }
 }) satisfies PageServerLoad
 
 export const actions = {

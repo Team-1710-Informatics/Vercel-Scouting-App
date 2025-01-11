@@ -83,7 +83,7 @@
                 <p transition:slide class="font-bold">Click item to purchase</p>
                 {#each data.items as item}
                     {#if (category === "All" || category == item.category) && item.stock !== 0 && !purchased(item.name)}
-                        <div transition:slide class="h-2"/>
+                        <div transition:slide class="h-2 text-white"/>
                         <Item {item} user={data.user} credits={$credits} bind:loading={loading}/>
                     {/if}
                 {/each}

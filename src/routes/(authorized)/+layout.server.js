@@ -5,8 +5,8 @@ export function load({ locals }){
     if(dev){
         return {
             user: {
-                first: "Ben",
-                last: "G",
+                username: "Bnenne",
+                name: "Ben",
                 credits: 10000
             },
         };

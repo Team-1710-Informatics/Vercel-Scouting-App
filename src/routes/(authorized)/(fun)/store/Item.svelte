@@ -38,7 +38,7 @@
         border-bottom: 2px solid white;
         padding: 8px;
 
-        background-image: radial-gradient(ellipse at bottom, rgba(var(--color),0.25) 0%, rgba(255,255,255,0) 70%);
+        background-image: radial-gradient(ellipse at bottom, rgba(var(--color),1) 30%, rgba(255,255,255,0) 100%);
 
         transition: box-shadow 1.5s;
     }
