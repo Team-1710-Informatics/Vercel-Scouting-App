@@ -12,7 +12,7 @@
         "Legendary"
     ]
 
-    let colors = ["0,0,0","16, 124, 194","255, 215, 0"]
+    let colors = ["103,103,103","16, 124, 194","255, 215, 0"]
 
     let category = "Miscellaneous";
     let name = "";
