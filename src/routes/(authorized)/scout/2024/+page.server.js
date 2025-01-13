@@ -25,9 +25,9 @@ export const actions = {
         const input = await request.formData();
         const data = JSON.parse(input.get("data"));
         if (locals.competition?.key == data.event) {
-            await credits.transaction(locals.user.username, 400, `Scouted ${data.event}_qm${data.match}:${data.team}`);
+            await credits.transaction(locals.user.username, 150, `Scouted ${data.event}_qm${data.match}:${data.team}`);
         } else if (data.event != "2024practice") {
-            await credits.transaction(locals.user.username, 100, `Scouted ${data.event}_qm${data.match}:${data.team} (extra)`);
+            await credits.transaction(locals.user.username, 25, `Scouted ${data.event}_qm${data.match}:${data.team} (extra)`);
         }
 
         const db = new ScoutData(data);
