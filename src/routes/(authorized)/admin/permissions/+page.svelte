@@ -40,6 +40,6 @@
         </div>
         <form method="POST">
             <input hidden bind:value={final} name="data" required>
-            <button class="submit" disabled={!(output.user && output.permission)}> Credits</button>
+            <button class="submit" disabled={!(output.user && output.permission)}>Add Permission</button>
         </form>
 </middle>
