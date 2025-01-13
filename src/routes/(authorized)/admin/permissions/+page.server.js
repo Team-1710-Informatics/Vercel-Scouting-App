@@ -29,6 +29,10 @@ export const actions = {
         const dbuser = await User.findOne({username: user});
 
         let dbpermissions = dbuser.permissions
+
+        if (dbpermissions.includes(permission)){
+            return
+        }
         dbpermissions.push(permission)
 
         await User.update({username: dbuser.username}, {permissions: dbpermissions})
