@@ -143,7 +143,6 @@ const scoutEntry2025 = new Schema({
         hangMatch: Boolean,
         parkMatch: Boolean,
         cageLevel: String,
-
     },
     postgame:{
         strategy:Array,
@@ -155,7 +154,7 @@ const scoutEntry2025 = new Schema({
     }
 })
 
-export const ScoutData = mongoose.model("2025entry", scoutEntry2025);
+export const ScoutData = mongoose.model("2024entry", scoutEntry2024);
 
 const transaction = new Schema({
     user:String,
