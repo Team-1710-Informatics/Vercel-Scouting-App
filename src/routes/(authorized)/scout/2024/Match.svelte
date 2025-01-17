@@ -4,7 +4,7 @@
     import Amplify from "./Amplify.svelte";
     import Questions from "./Questions.svelte";
     import Inventory from "./Inventory.svelte";
-    import { createEventDispatcher } from "svelte";
+    import {createEventDispatcher} from "svelte";
 
     const dispatch = createEventDispatcher();
 
@@ -17,39 +17,39 @@
     let log = [];
     let untimed = {};
 
-    $: answered = (()=>{
-        let res=true;
-        ["exitAuto","parkMatch","hangMatch","spotlight","spotlightAttempt","harmony"].forEach(q=>{
-            if(untimed?.[q]==null) res = false;
+    $: answered = (() => {
+        let res = true;
+        ["exitAuto", "parkMatch", "hangMatch", "spotlight", "spotlightAttempt", "harmony"].forEach(q => {
+            if (untimed?.[q] == null) res = false;
         })
         return res;
     })();
 
-    function undo(){
-        if(log.length == 1){ //restart timer if only one thing has been done and is in auto
-            if(log[0].time == -1){
-                state.start=0;
-                state.time=0;
-                state.started=false;
+    function undo() {
+        if (log.length == 1) { //restart timer if only one thing has been done and is in auto
+            if (log[0].time == -1) {
+                state.start = 0;
+                state.time = 0;
+                state.started = false;
                 return;
             }
-        }else if(log.length == 0){ //restart timer if nothing has been done
-            state.start=0;
-            state.time=0;
-            state.started=false;
+        } else if (log.length == 0) { //restart timer if nothing has been done
+            state.start = 0;
+            state.time = 0;
+            state.started = false;
             return;
         }
         log.pop();
-        inv=!inv;
+        inv = !inv;
         log = log;
     }
 
-    if(pregame.preload){
+    if (pregame.preload) {
         log.push({
-            time:-1,
-            action:"intake",
-            location:"preload",
-            phase:"pregame"
+            time: -1,
+            action: "intake",
+            location: "preload",
+            phase: "pregame"
         });
 
         log = log;
@@ -66,10 +66,11 @@
 <h5>Scouting {meta.team}</h5>
 <Timer bind:state/> <br>
 <Amplify bind:amplified {state}/>
-<Inventory {inv} />
-<Action bind:log bind:inv {amplified} {state} {meta}/>
-<Questions {state} bind:answers={untimed} />
-<button on:click={()=>{
+<Inventory {inv}/>
+<Action {amplified} bind:inv bind:log {meta} {state}/>
+<Questions bind:answers={untimed} {state}/>
+<button class="submit my-2"
+        disabled={!(state.started&&state.time==0)||!answered} on:click={()=>{
         game = {
             start:state.start,
             actions:log,
@@ -78,11 +79,11 @@
         console.log(game);
         dispatch("advance");
     }}
-    class="submit my-2" disabled={!(state.started&&state.time==0)||!answered}
 >
-    {(state.started&&state.time==0)?"Next":(state.started)?state.time:"Next"}
+    {(state.started && state.time == 0) ? "Next" : (state.started) ? state.time : "Next"}
 </button>
 
-<button disabled={!state.started} on:click={undo} class="fixed top-0 right-0 bg-gradient-to-bl border-red-700 from-red-600 to-red-400">
+<button class="fixed top-0 right-0 bg-gradient-to-bl border-red-700 from-red-600 to-red-400" disabled={!state.started}
+        on:click={undo}>
     Undo
 </button>
