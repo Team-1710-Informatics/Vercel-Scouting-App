@@ -136,4 +136,5 @@
     <a href="/admin/buttons"><button class="submit my-1">Edit Buttons</button></a>
     <a href="/admin/releases"><button class="submit my-1">Shift Releases</button></a>
     <a href="/admin/permissions"><button class="submit my-1">Edit Permissions</button></a>
+    <a href="/admin/payout"><button class="submit">Media/Pit Payout</button></a>
 </middle>
