@@ -20,16 +20,16 @@ export async function load({ locals }){
 
 export const actions = {
     bet: async function({request, locals}){
-        const MIN = 10;
-        function max(c){
-            let o = c-MIN;
+        const MINIMUM = 10;
+        function max(credits){
+            let output = credits-MINIMUM;
     
-            if(c<MIN*1.5){
-                o=c/3;
+            if(credits<MINIMUM*1.5){
+                output = credits / 3;
             }
     
-            return Math.trunc(o);
-        };
+            return Math.trunc(output);
+        }
 
         const input = await request.formData();
         const wager = input.get("wager");
@@ -128,8 +128,7 @@ async function punchTicket(t){
         sums.total += effective; //both total and alliance values accounting for match winnings
     }//end loop
 
-    let effective = t.amount
-        + Math.sqrt(t.amount)*3; //user payout for calculation
+    let effective = t.amount * 1.1; //user payout for calculation
 
     let portion = effective/sums[t.alliance]; //ratio user winnings to total bet alliance winnings
 
