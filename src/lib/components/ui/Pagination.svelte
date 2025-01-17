@@ -1,45 +1,49 @@
 <script>
-    import Icon from './Icon.svelte';
+    import Icon from './Icon.svelte'
 
-    export let rows;
-    export let teams;
-    export let perPage;
-    export let trimmedRows;
-    export let trimmedTeams;
+    export let rows
+    export let teams
+    export let perPage
+    export let trimmedRows
+    export let trimmedTeams
 
     $: totalRows = rows[0].length
     $: currentPage = 0
     $: totalPages = Math.ceil(totalRows / perPage)
-    $: start =  currentPage * perPage
-    $: end = currentPage === totalPages - 1 ? totalRows - 1 : start + perPage - 1  ;
+    $: start = currentPage * perPage
+    $: end =
+        currentPage === totalPages - 1 ? totalRows - 1 : start + perPage - 1
 
-    $: trimmedRows = rows.map(sublist => sublist.slice(start, end + 1));
+    $: trimmedRows = rows.map((sublist) => sublist.slice(start, end + 1))
     $: trimmedTeams = teams.slice(start, end + 1)
 
-    $: totalRows, currentPage = 0
+    $: totalRows, (currentPage = 0)
     $: currentPage, start, end
 </script>
 
 {#if totalRows && totalRows > perPage}
-    <div class='pagination'>
-        <button on:click={() => currentPage -= 1}
-                disabled={currentPage === 0 ? true : false}
-                aria-label="left arrow icon"
-                aria-describedby="prev">
-            <Icon name = 'arrow' direction="s" />
+    <div class="pagination">
+        <button
+            on:click={() => (currentPage -= 1)}
+            disabled={currentPage === 0 ? true : false}
+            aria-label="left arrow icon"
+            aria-describedby="prev"
+        >
+            <Icon name="arrow" direction="s" />
         </button>
-        <span id='prev' class='sr-only'>Load previous {perPage} rows</span>
+        <span id="prev" class="sr-only">Load previous {perPage} rows</span>
         <p>{start + 1} - {end + 1} of {totalRows}</p>
-        <button on:click={() => currentPage += 1}
-                disabled={currentPage === totalPages - 1 ? true : false}
-                aria-label="right arrow icon"
-                aria-describedby="next">
-            <Icon name = 'arrow' direction='n' />
+        <button
+            on:click={() => (currentPage += 1)}
+            disabled={currentPage === totalPages - 1 ? true : false}
+            aria-label="right arrow icon"
+            aria-describedby="next"
+        >
+            <Icon name="arrow" direction="n" />
         </button>
-        <span id='next' class='sr-only'>Load next {perPage} rows</span>
+        <span id="next" class="sr-only">Load next {perPage} rows</span>
     </div>
 {/if}
-
 
 <style>
     .sr-only {
@@ -64,11 +68,10 @@
     }
 
     .selected {
-        background-color: var(--accent-color)
+        background-color: var(--accent-color);
     }
 
     button {
         display: flex;
     }
-
 </style>

@@ -2,12 +2,12 @@
 // for information about these interfaces
 // and what to do when importing types
 declare namespace App {
-	// interface Error {}
-	interface Locals {
-		user:User,
-		competition:any,
-		nextCompetition:any
-	}
-	// interface PageData {}
-	// interface Platform {}
+    // interface Error {}
+    interface Locals {
+        user: User
+        competition: any
+        nextCompetition: any
+    }
+    // interface PageData {}
+    // interface Platform {}
 }

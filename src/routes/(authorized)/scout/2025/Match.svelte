@@ -1,5 +1,5 @@
 <script>
-    import Timer from "./Timer.svelte";
+    import Timer from './Timer.svelte'
 </script>
 
 <Timer></Timer>
