@@ -8,7 +8,8 @@ export async function load({ locals }){
     result.forEach(m=>{
         members.push({
             username:m.username,
-            name:m.name
+            name:m.name,
+            permissions:m.permissions
         })
     })
 
@@ -21,23 +22,31 @@ export const actions = {
     default: async ({ request })=>{
         const input = await request.formData();
         const data = JSON.parse(input.get("data"));
-        const user = data.user;
+        const user = data.username;
         const permission = data.permission;
 
-        if(typeof data.user != "string" || !(data.user && data.permission)) return;
+        console.log(data.remove)
+
+        if(user === "no user selected") return;
 
         const dbuser = await User.findOne({username: user});
 
         let dbpermissions = dbuser.permissions
 
-        if (dbpermissions.includes(permission)){
-            return
+        if (data.remove) {
+            if (dbpermissions.includes(permission)){
+                let permindex = dbpermissions.indexOf(permission);
+                dbpermissions.splice(permindex, 1);
+                console.log("removed " + permission)
+            }
+
+        } else {
+            if (dbpermissions.includes(permission)){return}
+            dbpermissions.push(permission)
+            console.log("added " + permission)
         }
-        dbpermissions.push(permission)
 
-        await User.update({username: dbuser.username}, {permissions: dbpermissions})
-
-        console.log(dbuser.permissions);
+        await User.updateOne({username: dbuser.username}, {permissions: dbpermissions})
 
     }
 };
