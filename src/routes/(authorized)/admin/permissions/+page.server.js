@@ -24,21 +24,22 @@ export const actions = {
         const user = data.username
         const permission = data.permission
 
-        console.log(data.remove)
-
+        // if none selected, don't run code
         if (user === 'no user selected') return
 
+        // get user from db
         const dbuser = await User.findOne({ username: user })
 
         let dbpermissions = dbuser.permissions
 
+        // if were removing a role, remove role
         if (data.remove) {
             if (dbpermissions.includes(permission)) {
                 let permindex = dbpermissions.indexOf(permission)
                 dbpermissions.splice(permindex, 1)
                 console.log('removed ' + permission)
             }
-        } else {
+        } else { // otherwise add the role
             if (dbpermissions.includes(permission)) {
                 return
             }
@@ -46,6 +47,7 @@ export const actions = {
             console.log('added ' + permission)
         }
 
+        // update the user
         await User.updateOne(
             { username: dbuser.username },
             { permissions: dbpermissions }

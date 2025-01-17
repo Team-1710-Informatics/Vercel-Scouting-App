@@ -7,13 +7,15 @@
         "pit"
     ]
 
-
+    // selected amounts and roles
     $: selected = [];
     $: amount = [];
 
+    // binded to inputs
     let role = "";
     let selectedAmount = 2400;
 
+    // add a role and amount to lists
     function addRole() {
         selected.push(role);
         selected = selected;
@@ -22,6 +24,7 @@
         selectedAmount = 2400;
     }
 
+    // data to pass to backend
     $: data = {
         amount,
         selected
