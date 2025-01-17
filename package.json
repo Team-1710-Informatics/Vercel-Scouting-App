@@ -4,7 +4,7 @@
   "private": true,
   "lint-staged": {
     "hooks.server.ts": [
-      "node check-mongo-code.js"
+      "node check-mongo-code.cjs"
     ]
   },
   "scripts": {
