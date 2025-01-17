@@ -126,7 +126,36 @@ const scoutEntry2024 = new Schema({
     }
 });
 
-export const ScoutData = mongoose.model("2024entry", scoutEntry2024);
+const scoutEntry2025 = new Schema({
+    event: {type: String, match:/(\d{4})\w+/},
+    match: Number,
+    alliance: {type: String, match:/red|blue/},
+    team: Number,
+    scout: String,
+    pregame: {
+        startPosition: {x:Number,y:Number},
+        preload: Boolean
+    },
+    start:Number,
+    actions: Array,
+    untimed: {
+        exitAuto: Boolean,
+        hangMatch: Boolean,
+        parkMatch: Boolean,
+        cageLevel: String,
+
+    },
+    postgame:{
+        strategy:Array,
+        rating: {type: Number, min: 0, max: 10},
+        climbStability: {type: Number, min: 0, max: 10},
+        driverSkill: {type: Number, min: 0, max: 10},
+        speed: {type: Number, min: 0, max: 10},
+        thoughts: String
+    }
+})
+
+export const ScoutData = mongoose.model("2025entry", scoutEntry2025);
 
 const transaction = new Schema({
     user:String,
