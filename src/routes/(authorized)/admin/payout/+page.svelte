@@ -4,7 +4,9 @@
     const roles = [
         "media",
         "admin",
-        "pit"
+        "drive",
+        "pit",
+        "maxwell"
     ]
 
     // selected amounts and roles

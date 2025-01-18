@@ -7,7 +7,7 @@
     // if we are removing or adding
     let remove = false
 
-    const permissions = ['admin', 'media', 'pit', 'maxwell']
+    const permissions = ['admin', 'media', 'pit', 'drive', 'maxwell']
 
     // selected permission
     let permission = 'default'

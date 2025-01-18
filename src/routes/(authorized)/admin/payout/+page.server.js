@@ -32,6 +32,12 @@ export const actions = {
             admins = await User.find({"permissions": "admin"});
         }
 
+        let drivers = [];
+
+        if (data.selected.includes('admin')) {
+            drivers = await User.find({"permissions": "drive"});
+        }
+
         // you can't get paid twice!
         let alreadyPaid = [];
 
@@ -69,6 +75,21 @@ export const actions = {
         payout = data.amount[data.selected.indexOf("admin")]
         for (let i = 0; i < admins.length; i++){
             let user = admins[i];
+            if (alreadyPaid.includes(user.username)) {
+                return
+            } else {
+                alreadyPaid.push(user.username);
+            }
+
+            let creds = user.credits
+            creds += payout;
+            await credits.transaction(user.username, creds, reason);
+        }
+
+        // drive team
+        payout = data.amount[data.selected.indexOf("drive")]
+        for (let i = 0; i < drivers.length; i++){
+            let user = drivers[i];
             if (alreadyPaid.includes(user.username)) {
                 return
             } else {
