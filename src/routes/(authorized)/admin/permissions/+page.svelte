@@ -1,21 +1,27 @@
 <script lang="ts">
     export let data
 
+    // get users
     const list = JSON.parse(data.members)
 
+    // if we are removing or adding
     let remove = false
 
-    const permissions = ['admin', 'media', 'pit', 'maxwell']
+    const permissions = ['admin', 'media', 'pit', 'drive', 'maxwell']
 
+    // selected permission
     let permission = 'default'
 
+    // the user we select
     let user = {
         username: 'default',
         permissions: ['no user selected'],
     }
 
+    // the current username
     $: username = user.username
 
+    // output to pass to backend
     $: output = {
         username,
         permission,
@@ -30,9 +36,7 @@
         Select User to modify:<br />
         <select bind:value={user}>
             {#each list as member}
-                <option value={member}
-                    >{member.name.first} {member.name.last}</option
-                >
+                <option value={member}>{member.name.first} {member.name.last}</option>
             {/each}
         </select>
 
@@ -68,5 +72,5 @@
                 >Edit Permission</button
             >
         </form>
-    </div></middle
->
+    </div>
+</middle>
