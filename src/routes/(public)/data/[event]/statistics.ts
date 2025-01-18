@@ -303,6 +303,7 @@ export default {
         return scouted
     },
 }
+
 function teamScore(e: any) {
     let count = 0
     e.game.actions.forEach((a: any) => {
@@ -369,6 +370,7 @@ function autoScore(e: any) {
 
     return count
 }
+
 // export function gridLayout(e:any){
 //     let out = [Array(9),Array(9),Array(9),Array(9)]
 //     e.game.actions.forEach((a:any)=>{
@@ -414,7 +416,7 @@ function autoScore(e: any) {
 //     return biggestValuesKey;
 // }
 
-function stdDev(arr: any) {
+export function stdDev(arr: any) {
     let mean =
         arr.reduce((acc: any, curr: any) => {
             return acc + curr
