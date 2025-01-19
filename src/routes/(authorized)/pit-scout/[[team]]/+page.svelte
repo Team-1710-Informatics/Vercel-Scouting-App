@@ -8,6 +8,15 @@
 
     let page = 1
 
+    const icebreakers = [
+        "What is your favorite ocean?",
+        "If you could rename any ocean, what would it be and why?",
+        "Would you rather have a jellyfish for a hat or an eel for a scarf?",
+        "What would be a good name for a podcast produced by dolphins?",
+    ]
+
+    const icebreaker = icebreakers[Math.floor(Math.random() * icebreakers.length)]
+
     const drivetrains = [
         "Swerve",
         "Tank",
@@ -148,7 +157,7 @@
         selector
     </div>
     <div
-        class="rounded-lg px-5 py-4 my-5 bg-gradient-to-br from-slate-900 to-slate-800"
+        class="rounded-lg px-5 py-4 my-5 bg-gradient-to-b from-slate-900 to-slate-800 w-1/2"
     >
         <div class="text-center mx-auto">page {page} of 3</div>
         <hr class="mt-4 mb-2" />
@@ -164,6 +173,12 @@
                         >
                     {/each}
                 </select>
+                <hr class="mt-4 mb-2" />
+                <div>
+                    <label for="Icebreaker" class="w-52">Icebreaker: {icebreaker}</label>
+                </div>
+                <hr class="mt-4 mb-2" />
+                <br>
                 <div class="grid grid-rows-1 grid-cols-2">
                     <div class="col-start-1 row-start-1">
                         <label for="size">Length and Width?</label><br />
