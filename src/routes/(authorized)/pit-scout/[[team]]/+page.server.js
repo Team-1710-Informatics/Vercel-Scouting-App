@@ -1,5 +1,5 @@
 import { X_TBA_AUTHKEY } from '$env/static/private'
-import { pitdata2024, User } from '$lib/server/models'
+import { pitdata2025, User } from '$lib/server/models'
 import credits from '$lib/server/user/credi'
 import { redirect } from '@sveltejs/kit'
 
@@ -25,6 +25,8 @@ export async function load({ locals, fetch, params }) {
             name: m.name,
         })
     })
+
+
 
     return {
         events,
@@ -60,10 +62,8 @@ export const actions = {
             ...data,
         }
 
-        console.log(final)
-
         if (
-            await pitdata2024.findOne({
+            await pitdata2025.findOne({
                 team: final['team'],
                 event: final['event'],
             })
@@ -71,7 +71,8 @@ export const actions = {
             throw redirect(301, '/pit-scout')
         }
 
-        const db = new pitdata2024(final)
+        const db = new pitdata2025(final)
+
         await db.save()
 
         if (final.otherScouts == 'none') {
