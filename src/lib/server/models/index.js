@@ -2,6 +2,7 @@ import mongoose from 'mongoose'
 import UserModel from './user'
 import { StoreModel, ReceiptModel } from './credit-store'
 
+
 const { Schema } = mongoose
 
 mongoose.set('strictQuery', true)
@@ -279,6 +280,42 @@ const button = new Schema({
 })
 
 export const buttonConfig = mongoose.model('buttons', button)
+
+const pitscout2025 = new Schema({
+    team: Number,
+    event: String,
+    scout: String,
+    otherScouts: String,
+    length: Number,
+    width: Number,
+    sizeUnit: String,
+    weight: Number,
+    weightUnit: String,
+    driveTrain: String,
+    swerveType: String,
+    otherDriveTrain: String,
+    swerveRatio: String,
+    motorType: String,
+    otherMotorType: String,
+    language: String,
+    autoSoftware: String,
+    autoLogger: String,
+    cageClimbable: String,
+    buddyClimb: Boolean,
+    floorIntake: Boolean,
+    firstCoralLocation: String,
+    autoStartingPos: [],
+    controlPieces: Boolean,
+    scoreLevels: [],
+    framePerimeter: Boolean,
+    bargeNetPractice: Boolean,
+    driverPractice: String,
+    needHelp: String,
+    notes: String,
+    imageLink: String,
+})
+
+export const pitdata2025 = mongoose.model('2025pitdata', pitscout2025)
 
 const pitscout2024 = new Schema({
     team: Number,
