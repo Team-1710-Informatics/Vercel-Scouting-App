@@ -61,6 +61,7 @@
             bind:pregame
             on:advance={() => {
                 step++
+                console.log("Advancing to match")
             }}
         />
     {:else if step == 1}
@@ -69,6 +70,7 @@
             bind:pregame
             bind:game
             on:advance={() => {
+                console.log("Advancing to post")
                 step++
             }}
         />

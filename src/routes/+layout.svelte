@@ -12,6 +12,8 @@
     })
 </script>
 
-<slot />
+<div class="h-screen">
+    <slot />
+</div>
 
 <FakeProgressBar />
