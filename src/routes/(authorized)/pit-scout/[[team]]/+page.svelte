@@ -98,7 +98,7 @@
         autoLogger: string,
         cageClimbable: string,
         buddyClimb: boolean,
-        floorIntake: string,
+        floorIntake: boolean,
         firstCoralLocation: string,
         autoStartingPos: [],
         controlPieces: boolean,
@@ -130,7 +130,7 @@
         autoLogger: '',
         cageClimbable: '',
         buddyClimb: false,
-        floorIntake: '',
+        floorIntake: false,
         firstCoralLocation: '',
         autoStartingPos: [],
         controlPieces: false,
@@ -230,9 +230,9 @@
                     </div>
                 </div>
                 <hr class="mt-4 mb-2" />
-                <br>
-                <label for="swerveTypes">Drivetrain Type</label>
-                <div class="grid grid-cols-2 grid-rows-2">
+                <br />
+                <label for="drivetrainTypes">Drivetrain Type</label>
+                <div class="grid grid-cols-2 grid-rows-1">
                     <div class="col-start-1 col-span-2 row-start-2">
                         <select bind:value={index.driveTrain}>
                             {#each drivetrains as drivetrain}
@@ -263,7 +263,7 @@
                 </div>
                 <hr class="mb-2 mt-4" />
                 <br>
-                <label for="swerveTypes">Motor Type</label>
+                <label for="motorTypes">Motor Type</label>
                 <div class="col-start-1 col-span-2 row-start-2">
                     <select name="motorType" bind:value={index.motorType}>
                         {#each motorTypes as motorType}
@@ -292,7 +292,7 @@
                 <br>
                 <label for="autoSoftwares">Auto Software</label>
                 <div class="col-start-1 col-span-2 row-start-2">
-                    <select name="swerveTypes" bind:value={index.autoSoftware}>
+                    <select name="autoSoftware" bind:value={index.autoSoftware}>
                         {#each autoSoftwares as software}
                             <option value={software}>{software}</option>
                         {/each}
@@ -316,7 +316,7 @@
             </div>
         {:else if page == 2}
             <div>
-                <label for="autoLoggers">Cage depth climbable</label>
+                <label for="cageClimbing">Cage depth climbable</label>
                 <div class="col-start-1 col-span-2 row-start-2">
                     <select name="cageclimbing" bind:value={index.cageClimbable}>
                         {#each cages as cage}
@@ -326,7 +326,7 @@
 
                 </div>
                 <hr class="mb-2 mt-4" />
-                <label for="">Can they buddy climb?</label>
+                <label for="buddyClimb">Can they buddy climb?</label>
                 <br />
                 <div>
                     <input
@@ -343,7 +343,7 @@
                     /> No
                 </div>
                 <hr class="mb-2 mt-4" />
-                <label for="">Can they floor intake?</label>
+                <label for="floor intake">Can they floor intake?</label>
                 <br />
                 <div>
                     <input
@@ -360,7 +360,7 @@
                     /> No
                 </div>
                 <hr class="mb-2 mt-4" />
-                <label for="">Where can they start in auto? (From driver side)</label>
+                <label for="auto start">Where can they start in auto? (From driver perspective)</label>
                 <br />
                 <div>
                     <input type="checkbox" value="Left" bind:group={index.autoStartingPos}> Left
@@ -368,7 +368,13 @@
                     <input type="checkbox" value="Right" bind:group={index.autoStartingPos}> Right
                 </div>
                 <hr class="mb-2 mt-4" />
-                <label for="">Can they control both pieces at once?</label>
+                <label for="piece control">In auto, where is their first coral placed?</label>
+                <br />
+                <div>
+                    --PUT BRANCH SELECTOR HERE--
+                </div>
+                <hr class="mb-2 mt-4" />
+                <label for="piece control">Can they control both pieces at once?</label>
                 <br />
                 <div>
                     <input
@@ -385,7 +391,7 @@
                     /> No
                 </div>
                 <hr class="mb-2 mt-4" />
-                <label for="">What levels can they score on?</label>
+                <label for="score levels">What levels can they score on?</label>
                 <br />
                 <div>
                     <input type="checkbox" value=1 bind:group={index.scoreLevels} /> L1
