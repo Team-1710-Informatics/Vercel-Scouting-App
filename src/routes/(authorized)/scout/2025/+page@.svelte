@@ -51,7 +51,7 @@
 <!--prevents data loss on page reload-->
 
 <center
-    class="h-full overflow-y-hidden {amplified ? 'background-2' : 'background'}"
+    class="h-full bg-local background"
     style="min-height:{h}px"
 >
     {#if step == 0}

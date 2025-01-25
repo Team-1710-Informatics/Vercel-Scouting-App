@@ -9,7 +9,12 @@
     import branchRight1 from "$lib/assets/scout/2025/branchright1.png";
     import branchRight0 from "$lib/assets/scout/2025/branchright0.png";
 
+    import algae from '$lib/assets/scout/2025/algaetransparent.png'
+
     let activeSlice = null;
+
+    export let selected;
+    export let item;
 
     const numSlices = 6;
     const radius = 50; // Radius of the hexagon (half of SVG viewBox size)
@@ -40,31 +45,50 @@
         return `${x},${y}`;
     }).join(' ');
 
-    let reefActive = false;
+    export let reefActive = false;
+
+    let hoveredSlice
 
     const handleClick = (index) => {
-        activeSlice = index;
+        hoveredSlice = index
+        activeSlice = index - 3;
+        if (activeSlice < 0) {
+            if (activeSlice === -1) {
+                activeSlice = 5
+            } else if (activeSlice === -2) {
+                activeSlice = 4
+            } else {
+                activeSlice = 3
+            }
+        }
+
         reefActive = true
+        selected = {location: 'reef', branch: activeSlice}
     };
 
     function scoreReef(level) {
-        console.log("Scored reef at " + level)
-        activeSlice = -1;
-        reefActive = false;
+        // activeSlice = -1;
+        // reefActive = false;
+        selected = {location: "reef", branch: activeSlice}
+        selected.level = level
+        item = "coral"
+    }
+
+    function intakeReef(side) {
+        item = "algae"
+        selected = {location: "reef", branch: activeSlice, level: side}
     }
 </script>
 
-<div>
-    {activeSlice}
-</div>
 <div class="flex flex-row justify-center">
     {#if reefActive}
-        <div class="flex flex-col max-h-20 pt-4">
-            <img class="w-24 branch branch-left" src={branchLeft3} on:click={() => scoreReef(3)}>
-            <img class="w-24 branch branch-left" src={branchLeft2} on:click={() => scoreReef(2)}>
-            <img class="w-24 branch branch-left" src={branchLeft1} on:click={() => scoreReef(1)}>
-            <img class="w-24 branch branch-left" src={branchLeft0} on:click={() => scoreReef(0)}>
+        <div class="flex flex-col max-h-16 pt-4">
+            <img class="w-20 branch branch-left" src={branchLeft3} on:click={() => scoreReef(3)}>
+            <img class="w-20 branch branch-left" src={branchLeft2} on:click={() => scoreReef(2)}>
+            <img class="w-20 branch branch-left" src={branchLeft1} on:click={() => scoreReef(1)}>
+            <img class="w-20 branch branch-left" src={branchLeft0} on:click={() => scoreReef(0)}>
         </div>
+        <img src={algae} class="w-20 h-20 -mx-7 -r-14 mt-2 branch branch-left" on:click={() => intakeReef("left")}>
     {/if}
 
     <div class="hexagon-container">
@@ -78,18 +102,19 @@
                             class="slice"
                             d={path}
                             on:click={() => handleClick(index)}
-                            class:selected={activeSlice===index}
+                            class:selected={hoveredSlice===index}
                     />
                 {/each}
             </g>
         </svg>
     </div>
     {#if reefActive}
-        <div class="flex flex-col max-h-20 pt-4">
-            <img class="w-24 branch branch-right" src={branchRight3} on:click={() => scoreReef(3)}>
-            <img class="w-24 branch branch-right" src={branchRight2} on:click={() => scoreReef(2)}>
-            <img class="w-24 branch branch-right" src={branchRight1} on:click={() => scoreReef(1)}>
-            <img class="w-24 branch branch-right" src={branchRight0} on:click={() => scoreReef(0)}>
+        <img src={algae} class="w-20 h-20 -mx-7 -l-14 mt-2 branch branch-right" on:click={() => intakeReef("right")}>
+        <div class="flex flex-col max-h-14 pt-4">
+            <img class="w-20 branch branch-right" src={branchRight3} on:click={() => scoreReef(3)}>
+            <img class="w-20 branch branch-right" src={branchRight2} on:click={() => scoreReef(2)}>
+            <img class="w-20 branch branch-right" src={branchRight1} on:click={() => scoreReef(1)}>
+            <img class="w-20 branch branch-right" src={branchRight0} on:click={() => scoreReef(0)}>
         </div>
     {/if}
 </div>
@@ -98,8 +123,8 @@
 <style>
     .hexagon-container {
         position: relative;
-        width: 300px;
-        height: 300px;
+        width: 16rem;
+        height: 16rem;
     }
 
     .image-container {

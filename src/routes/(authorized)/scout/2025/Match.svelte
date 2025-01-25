@@ -5,6 +5,10 @@
 
     import {createEventDispatcher} from "svelte";
     import Action from "./Action.svelte";
+    import Inventory from "./Inventory.svelte";
+
+    let algae;
+    let coral;
 
 
     const dispatch = createEventDispatcher();
@@ -60,12 +64,11 @@
         start: 0,
         phase: 'preGame',
     };
-
-
 </script>
 
-<Timer bind:state/> <br/>
-<Action/>
+<Timer bind:state/>
+<div class="h-8"></div>
+<Action bind:state/>
 
 <button
         class="submit my-2"
