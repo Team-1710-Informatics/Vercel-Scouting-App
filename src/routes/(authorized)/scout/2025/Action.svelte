@@ -111,9 +111,15 @@
         <div class="rounded-md shadow-xl bg-fuchsia-500 p-2 w-36 h-10">
             MISS
         </div>
-        <div class="rounded-md shadow-xl bg-blue-400 p-2 w-36 h-10">
-            GROUND INTAKE
+        <div class="flex flex-row gap-2">
+            <div class="basis-1/2 rounded-md shadow-xl bg-blue-400 p-2 h-10">
+                ENDGAME
+            </div>
+            <div class="basis-1/2 rounded-md shadow-xl bg-blue-400 p-2 h-10">
+                GROUND INTAKE
+            </div>
         </div>
+
     </div>
 </div>
 
