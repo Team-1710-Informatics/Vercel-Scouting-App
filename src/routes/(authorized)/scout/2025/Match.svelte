@@ -64,18 +64,21 @@
         start: 0,
         phase: 'preGame',
     };
+
+    let climb
 </script>
 
-<Action bind:state/>
+<Action bind:climb bind:log bind:state/>
 
 <button
         class="submit fixed bottom-0 right-0"
-        disabled={!(state.started && state.time == 0) || !answered}
+        disabled={!(state.started && state.time == 0)}
         on:click={() => {
         game = {
             start: state.start,
             actions: log,
             untimed: untimed,
+            climb: climb
         }
         console.log(game)
         dispatch('advance')
