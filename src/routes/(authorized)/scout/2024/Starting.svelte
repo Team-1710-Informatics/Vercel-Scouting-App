@@ -75,7 +75,7 @@
 <svelte:window bind:innerHeight />
 
 {#if !disabled}
-    <h1 class="text-xl mb-4"><b>Select Starting Position</b></h1>
+    <h1 class="text-xl mt-2 mb-4"><b>Select Starting Position</b></h1>
     <img
         class="img"
         alt=""
