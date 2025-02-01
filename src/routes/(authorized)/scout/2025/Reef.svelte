@@ -3,7 +3,7 @@
     import branchLeft2 from "$lib/assets/scout/2025/branchleft2.png";
     import branchLeft1 from "$lib/assets/scout/2025/branchleft1.png";
     import branchLeft0 from "$lib/assets/scout/2025/branchleft0.png";
-    import reefRed from "$lib/assets/scout/2025/reefred.png";
+    import reefRed from "$lib/assets/scout/2025/reef.png";
     import branchRight3 from "$lib/assets/scout/2025/branchright3.png";
     import branchRight2 from "$lib/assets/scout/2025/branchright2.png";
     import branchRight1 from "$lib/assets/scout/2025/branchright1.png";
@@ -63,8 +63,18 @@
         }
 
         reefActive = true
+        item = "algae"
         selected = {location: 'reef', branch: activeSlice}
     };
+
+    let algae_locations = [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+    ]
 
     function scoreReef(level) {
         // activeSlice = -1;
@@ -74,21 +84,36 @@
         item = "coral"
     }
 
-    function intakeReef(side) {
-        item = "algae"
-        selected = {location: "reef", branch: activeSlice, level: side}
+    export function intakeEvent() {
+        if (algae_locations[activeSlice] === 0) {
+            return false
+        }
+        console.log("yipe")
+        algae_locations[activeSlice] = 0
+        algae_locations = algae_locations
+        return true
     }
 </script>
 
 <div class="flex flex-row justify-center">
     {#if reefActive}
         <div class="flex flex-col max-h-16 pt-4">
-            <img class="w-20 branch branch-left" src={branchLeft3} on:click={() => scoreReef(3)}>
-            <img class="w-20 branch branch-left" src={branchLeft2} on:click={() => scoreReef(2)}>
-            <img class="w-20 branch branch-left" src={branchLeft1} on:click={() => scoreReef(1)}>
-            <img class="w-20 branch branch-left" src={branchLeft0} on:click={() => scoreReef(0)}>
+            <img class="w-20 branch branch-left {reefActive ? '' : 'branch-left-exit'}" src={branchLeft3}
+                 on:click={() => scoreReef(3)}>
+            <img class="w-20 branch branch-left {reefActive ? '' : 'branch-left-exit'}" src={branchLeft2}
+                 on:click={() => scoreReef(2)}>
+            <img class="w-20 branch branch-left {reefActive ? '' : 'branch-left-exit'}" src={branchLeft1}
+                 on:click={() => scoreReef(1)}>
+            <img class="w-20 branch branch-left {reefActive ? '' : 'branch-left-exit'}" src={branchLeft0}
+                 on:click={() => scoreReef(0)}>
         </div>
-        <img src={algae} class="w-20 h-20 -mx-7 -r-14 mt-2 branch branch-left" on:click={() => intakeReef("left")}>
+        {#if algae_locations[activeSlice] === 1}
+            <img src={algae}
+                 class="w-20 h-20 -ml-7 -mr-10 mt-2 branch-left z-20 {reefActive ? '' : 'branch-left-exit'}">
+        {:else}
+            <img src={algae}
+                 class="w-20 h-20 -ml-7 -mr-10 mt-2 branch-left z-20 opacity-5 {reefActive ? '' : 'branch-left-exit'}">
+        {/if}
     {/if}
 
     <div class="hexagon-container">
@@ -109,7 +134,11 @@
         </svg>
     </div>
     {#if reefActive}
-        <img src={algae} class="w-20 h-20 -mx-7 -l-14 mt-2 branch branch-right" on:click={() => intakeReef("right")}>
+        {#if algae_locations[activeSlice] === 1 }
+            <img src={algae} class="w-20 h-20 -mr-7 -ml-10 mt-2 branch-right z-20">
+        {:else}
+            <img src={algae} class="w-20 h-20 -mr-7 -ml-10 mt-2 branch-left z-20 opacity-5">
+        {/if}
         <div class="flex flex-col max-h-14 pt-4">
             <img class="w-20 branch branch-right" src={branchRight3} on:click={() => scoreReef(3)}>
             <img class="w-20 branch branch-right" src={branchRight2} on:click={() => scoreReef(2)}>
@@ -121,6 +150,40 @@
 
 
 <style>
+    @keyframes slideOutLeft {
+        from {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        to {
+            transform: translateX(-100%);
+            opacity: 0;
+        }
+    }
+
+    @keyframes slideOutRight {
+        from {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        to {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+    }
+
+    .branch-left-exit {
+        animation-name: slideOutRight;
+        animation-duration: 0.5s;
+        animation-fill-mode: forwards;
+    }
+
+    .branch-right-exit {
+        animation-name: slideOutLeft;
+        animation-duration: 0.5s;
+        animation-fill-mode: forwards;
+    }
+
     .hexagon-container {
         position: relative;
         width: 16rem;
@@ -174,7 +237,7 @@
         opacity: 0; /* Hidden by default */
         animation-duration: 0.5s; /* Animation duration */
         animation-fill-mode: forwards; /* Keep the final state */
-        filter: brightness(60%);
+        filter: brightness(75%);
         transition: filter 0.3s ease;
     }
 

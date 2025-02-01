@@ -66,12 +66,10 @@
     };
 </script>
 
-<Timer bind:state/>
-<div class="h-8"></div>
 <Action bind:state/>
 
 <button
-        class="submit my-2"
+        class="submit fixed bottom-0 right-0"
         disabled={!(state.started && state.time == 0) || !answered}
         on:click={() => {
         game = {

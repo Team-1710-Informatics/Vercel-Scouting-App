@@ -6,16 +6,18 @@
     export let algae
 </script>
 
-<div class="flex flex-row mt-5 justify-center h-2 m-4  ">
-    <h1 class="my-auto mr-2">Inventory:</h1>
+<div class="flex flex-row justify-center h-fit gap-2">
+    <div class="h-8">
+
+    </div>
     {#if coral}
         <div>
-            <img class="h-12" src={coralImage} alt=""/>
+            <img class="h-10 -my-1 pr-6" src={coralImage} alt=""/>
         </div>
     {/if}
     {#if algae}
         <div>
-            <img class="h-12" src={algaeImage} alt=""/>
+            <img class="h-10 -my-1 pr-6" src={algaeImage} alt=""/>
         </div>
     {/if}
 </div>

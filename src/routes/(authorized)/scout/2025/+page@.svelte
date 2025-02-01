@@ -42,8 +42,6 @@
 
     $: h = 0
 
-    let amplified: any
-
     //all of these positions are compiled in postgame component upon submission
 </script>
 
@@ -51,7 +49,7 @@
 <!--prevents data loss on page reload-->
 
 <center
-    class="h-full bg-local background"
+    class="h-full overflow-y-scroll background"
     style="min-height:{h}px"
 >
     {#if step == 0}
@@ -81,7 +79,7 @@
 
 <style>
     .background {
-        background: linear-gradient(0.3turn, #363131, #242a34, #000000);
+        background: linear-gradient(0.3turn, #323136, #242a34, #000000) fixed;
         /* Your main background gradient */
         /* linear-gradient(to right, black, black); */
     }

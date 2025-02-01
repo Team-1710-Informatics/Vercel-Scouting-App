@@ -73,9 +73,9 @@ button:disabled {
 .box {
     background-color: rgb(31 41 55);
     background-image: linear-gradient(
-        to bottom,
-        rgb(31 41 55),
-        rgb(12, 25, 45)
+            to bottom,
+            rgb(31 41 55),
+            rgb(12, 25, 45)
     );
     border-color: rgb(255 255 255);
     color: white;
@@ -104,20 +104,19 @@ button:disabled {
 .header {
     background-color: rgb(15 23 42);
     background-image: linear-gradient(
-        to bottom,
-        rgb(28, 38, 52),
-        rgb(12, 25, 45)
+            to bottom,
+            rgb(28, 38, 52),
+            rgb(12, 25, 45)
     );
 }
 
 .submit {
     background-image: linear-gradient(
-        to bottom right,
-        rgb(21, 128, 61),
-        rgb(74, 222, 128)
+            to bottom right,
+            rgb(21, 128, 61),
+            rgb(74, 222, 128)
     );
     border-color: rgb(21, 128, 61);
-    border-radius: 8px;
 }
 
 .error {
@@ -150,9 +149,9 @@ button:disabled {
     border-width: 2px;
     font-weight: 700;
     background-image: linear-gradient(
-        to bottom right,
-        rgb(7, 89, 133),
-        rgb(30, 41, 59)
+            to bottom right,
+            rgb(7, 89, 133),
+            rgb(30, 41, 59)
     );
 
     /*"border-sky-800 border-2 font-bold bg-gradient-to-br from-sky-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl*/
