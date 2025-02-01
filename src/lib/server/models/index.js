@@ -407,3 +407,10 @@ const portfolio = new Schema({
 })
 
 export const Portfolio = mongoose.model('portfolio', portfolio)
+
+const teamSelections = new Schema({
+    match: String,
+    teams: []
+})
+
+export const TeamSelections = mongoose.model('teamSelections', teamSelections)
