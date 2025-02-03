@@ -9,6 +9,7 @@ import { redirect, type Handle } from '@sveltejs/kit'
 // @ts-ignore
 import { DateTime } from 'luxon'
 import tba from '$lib/modules/tba'
+
 try {
     if (dev) await mongoose.connect(MONGODB_COMMUNITY)
     else if (!dev) await mongoose.connect(MONGODB_MAIN)

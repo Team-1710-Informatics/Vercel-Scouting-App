@@ -23,10 +23,10 @@
         alliance: 'red' | 'blue' | null
     } = {
         scout: data.scout,
-        event: data.competition?.key ?? null,
-        match: null,
-        team: null,
-        alliance: null,
+        event: data.competition,
+        match: data.match,
+        team: data.team,
+        alliance: data.alliance,
     }
 
     let pregame: {
@@ -55,16 +55,16 @@
     class="h-full overflow-y-hidden {amplified ? 'background-2' : 'background'}"
     style="min-height:{h}px"
 >
-    {#if step == 0}
+    {#if step === 0}
+        <p class="text-2xl font-bold mt-8">Your team is {meta.team.slice(3)}</p>
         <Pre
             bind:meta
-            events={data.events}
             bind:pregame
             on:advance={() => {
                 step++
             }}
         />
-    {:else if step == 1}
+    {:else if step === 1}
         <Match
             bind:meta
             bind:pregame
@@ -74,7 +74,7 @@
                 step++
             }}
         />
-    {:else if step == 2}
+    {:else if step === 2}
         <Post bind:meta bind:pregame bind:game bind:postgame {form} />
     {/if}
 

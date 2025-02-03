@@ -33,38 +33,38 @@
     let h: number
 </script>
 
-<div class="flex flex-row justify-center mt-10">
+<div class="flex flex-row justify-center w-36 mt-1 h-10">
     {#if !state.started}
         <button
-            style="width:150px; height:{h}px; background-color:#F5885F; background-image:none;"
+            style="height:{h}px; background-color:#F5885F; background-image:none;"
             on:click={start}
-            class="bg-gradient-to-br text-lg border rounded border-orange-600 p-1 text-white"
+            class="basis-3/4 bg-gradient-to-br text-lg border rounded border-orange-600 p-1 text-white"
             >Start</button
         >
     {:else if state.time > 138}
         <div
             style="width:150px; height:{h}px"
-            class="text-center text-lg bg-yellow-400 align-middle border border-yellow-600 p-1"
+            class="basis-3/4 text-center text-lg bg-yellow-400 align-middle border border-yellow-600 p-1"
         >
             <p class="text-black font-bold">Auto</p>
         </div>
     {:else if state.time > 135}
         <div
             style="width:150px; height:{h}px"
-            class="text-center text-lg bg-red-400 align-middle border rounded border-red-600 p-1 text-white"
+            class="basis-3/4 text-center text-lg bg-red-400 align-middle border rounded border-red-600 p-1 text-white"
         >
             <p class="text-black font-bold">Pause</p>
         </div>
     {:else}
         <div
             style="width:150px; height:{h}px"
-            class="text-center text-lg bg-green-500 align-middle border rounded border-green-700 p-1"
+            class="basis-3/4 text-center text-lg bg-green-500 align-middle border rounded border-green-700 p-1"
         >
             <p class="font-bold">TeleOp</p>
         </div>
     {/if}
     <p
-        class="bg-white border border-black p-1 rounded text-black font-extrabold text-xl px-1"
+        class="basis-1/4 bg-white border border-black p-1 rounded text-black font-extrabold text-xl px-1"
         bind:offsetHeight={h}
     >
         {toTimer(state.time)}

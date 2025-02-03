@@ -5,6 +5,10 @@
 
     import {createEventDispatcher} from "svelte";
     import Action from "./Action.svelte";
+    import Inventory from "./Inventory.svelte";
+
+    let algae;
+    let coral;
 
 
     const dispatch = createEventDispatcher();
@@ -61,20 +65,20 @@
         phase: 'preGame',
     };
 
-
+    let climb
 </script>
 
-<Timer bind:state/> <br/>
-<Action/>
+<Action bind:climb bind:log bind:state/>
 
 <button
-        class="submit my-2"
-        disabled={!(state.started && state.time == 0) || !answered}
+        class="submit fixed bottom-0 right-0"
+        disabled={!(state.started && state.time == 0)}
         on:click={() => {
         game = {
             start: state.start,
             actions: log,
             untimed: untimed,
+            climb: climb
         }
         console.log(game)
         dispatch('advance')

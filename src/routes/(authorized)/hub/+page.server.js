@@ -25,6 +25,7 @@ export async function load({ locals }) {
     const data = await tba(
         `team/frc${locals.user.team}/events/${new Date().getFullYear()}`
     )
+    console.log('nyan', data)
 
     function timestamp(d, tz) {
         let array = d.split('-')
@@ -33,13 +34,20 @@ export async function load({ locals }) {
     }
 
     let events = []
-    // data.forEach(event=>{
-    //     events.push({
-    //         name: event.name,
-    //         date: timestamp(event.start_date, event.timezone),
-    //         end: timestamp(event.end_date, event.timezone)
-    //     });
-    // });
+    try {
+        data.forEach(event=>{
+            events.push({
+                name: event.name,
+                date: timestamp(event.start_date, event.timezone),
+                end: timestamp(event.end_date, event.timezone)
+            });
+        });
+    }
+    catch (error){
+        console.log('error', error)
+    }
+    console.log('meow', events)
+
     function isTimeInRange(startTime, endTime, targetTime) {
         const startDate = new Date(startTime)
         const endDate = new Date(endTime)
