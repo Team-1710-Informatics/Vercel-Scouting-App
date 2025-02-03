@@ -8,4 +8,5 @@ export default [
     "7. Don't take up too much time and thank them for their time afterwards",
     '8. SAFETY GOGGLES!!!',
     '9. Be respectful at all times',
+    '10. Use the icebreaker!'
 ]

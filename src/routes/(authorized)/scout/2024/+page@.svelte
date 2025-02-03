@@ -2,6 +2,7 @@
     import Pre from './Pre.svelte'
     import Match from './Match.svelte'
     import Post from './Post.svelte'
+    import QRcode from '$lib/components/ui/QR.svelte'
 
     export let data, form
 
@@ -29,7 +30,7 @@
     }
 
     let pregame: {
-        startPosition: { x: number; y: number }
+        startPosition: { x: number; y: number },
         preload: Boolean
     } = {
         startPosition: { x: NaN, y: NaN },
@@ -76,6 +77,7 @@
     {:else if step == 2}
         <Post bind:meta bind:pregame bind:game bind:postgame {form} />
     {/if}
+
 </center>
 
 <style>

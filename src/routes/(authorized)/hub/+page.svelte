@@ -1,25 +1,28 @@
 <script lang="ts">
     import CompetitionTracker from './CompetitionTracker.svelte'
+    import QRcode from '$lib/components/ui/QR.svelte'
 
     export let data: any
 
-    let buttons = JSON.parse(data.currentButtons)
+    let buttons: object = JSON.parse(data.currentButtons)
 
-    let previewLead = { name: '', start: '', end: '', day: '' }
+    let previewLead: object = { name: '', start: '', end: '', day: '' }
+
     if (data.previewLead != '') {
         previewLead = JSON.parse(data.previewLead)
     }
-    let previewScouts = JSON.parse(data.previewScouts)
-    let previewBackups = JSON.parse(data.previewBackups)
 
-    let upcomingLead = { name: '', start: '', end: '', day: '' }
+    let previewScouts: object = JSON.parse(data.previewScouts)
+    let previewBackups: object = JSON.parse(data.previewBackups)
+
+    let upcomingLead: object = { name: '', start: '', end: '', day: '' }
     if (data.previewLead != '') {
         upcomingLead = JSON.parse(data.upcomingLead)
     }
-    let upcomingScouts = JSON.parse(data.upcomingScouts)
-    let upcomingBackups = JSON.parse(data.upcomingBackups)
+    let upcomingScouts: object = JSON.parse(data.upcomingScouts)
+    let upcomingBackups: object = JSON.parse(data.upcomingBackups)
 
-    let users = JSON.parse(data.users)
+    let users: object = JSON.parse(data.users)
 
     function isAdmin() {
         if (data.permissions.includes('admin')) {
