@@ -3,6 +3,6 @@
 </script>
 
 
-<div>
+<div class="w-screen min-h-full grow flex flex-row">
     <AllianceSelection event_key='2024cttd'></AllianceSelection>
 </div>
