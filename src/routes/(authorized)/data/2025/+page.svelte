@@ -14,8 +14,4 @@
 
 <div class="w-screen min-h-full grow flex flex-row">
     <AllianceSelection bind:this={allianceSelection} event_key='2024cttd'></AllianceSelection>
-    <button on:click={getPickedAlliances}>
-        Get Picked Alliances
-    </button>
-    {pickedAlliances}
 </div>
