@@ -153,6 +153,12 @@
         return teamKey.substring(3);
     }
 
+    export function getPickedAlliances() {
+        return picked.rankings.map(alliance =>
+            alliance.slice(0, 3).map(team => team.team_key)
+        );
+    }
+
     onMount(() => {
         getRankings();
     });
