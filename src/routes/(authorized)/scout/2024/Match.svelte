@@ -5,6 +5,7 @@
     import Questions from './Questions.svelte'
     import Inventory from './Inventory.svelte'
     import { createEventDispatcher } from 'svelte'
+    import QRcode from '$lib/components/ui/QR.svelte'
 
     const dispatch = createEventDispatcher()
 
@@ -64,6 +65,12 @@
         log = log
     }
 
+    let showcode = true;
+    function qrcode() {
+        showcode = !showcode;
+        console.log(showcode)
+    }
+
     let state = {
         time: 0,
         started: false,
@@ -99,9 +106,13 @@
 </button>
 
 <button
-    class="fixed top-0 right-0 bg-gradient-to-bl border-red-700 from-red-600 to-red-400"
+    class="fixed top-0 right-0 bg-gradient-to-bl border-red-700 from-red-600 to-red-400 w-16 h-10"
     disabled={!state.started}
     on:click={undo}
 >
     Undo
 </button>
+
+
+
+

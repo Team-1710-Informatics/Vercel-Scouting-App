@@ -1,13 +1,16 @@
 <script lang="ts">
     import CompetitionSelector from '$lib/components/search/CompetitionSelector.svelte'
 
+    // get data about selected match
     export let data
 
     let teamNumber = data.team
     let competition = data.competition?.key ?? null
 
+    // page counter
     let page = 1
 
+    // these icebreakers are randomly selected per scout
     const icebreakers = [
         "What is your favorite ocean?",
         "If you could rename any ocean, what would it be and why?",
@@ -16,6 +19,8 @@
     ]
 
     const icebreaker = icebreakers[Math.floor(Math.random() * icebreakers.length)]
+
+    // lists of options on questions
 
     const drivetrains = [
         "Swerve",
@@ -77,6 +82,7 @@
 
     let scorelevels = [false, false, false, false]
 
+    // data that will be changed by form
     let index: {
         team: number,
         event: string,

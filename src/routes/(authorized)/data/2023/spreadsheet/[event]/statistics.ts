@@ -1,8 +1,10 @@
 export default {
-    Team_number(team: number, data: any[]) {
+    //get team number
+    teamNumber(team: number, data: any[]) {
         return team
     },
-    Average_score(team: number, data: any[]) {
+    // fetch average score given a team
+    averageScore(team: number, data: any[]) {
         let count = 0
         let score = 0
         data.forEach((e) => {
@@ -12,18 +14,20 @@ export default {
         })
         return score / count
     },
-    Max_score(team: number, data: any[]) {
-        let max = 0
+    // get the max score of a team
+    maxScore(team: number, data: any[]) {
+        let maximum = 0
         data.forEach((e) => {
             if (e.team != team) return
-            let score = teamScore(e)
-            if (score > max) {
-                max = score
+            const score = teamScore(e)
+            if (score > maximum) {
+                maximum = score
             }
         })
-        return max
+        return maximum
     },
-    Average_auto_points_scored(team: number, data: any[]) {
+    // get average points scored in auto
+    averageAutoPointsScored(team: number, data: any[]) {
         let count = 0
         let score = 0
         data.forEach((e) => {
@@ -33,7 +37,8 @@ export default {
         })
         return score / count
     },
-    Average_tele_points_scored(team: number, data: any[]) {
+    // get average points scored in tele
+    averageTelePointsScored(team: number, data: any[]) {
         let count = 0
         let score = 0
         data.forEach((e) => {
@@ -43,7 +48,8 @@ export default {
         })
         return score / count
     },
-    Tele_speaker_score_rate(team: number, data: any[]) {
+    // get score rate at speaker
+    teleSpeakerScoreRate(team: number, data: any[]) {
         let speakerNum = 0
         let count = 0
         data.forEach((e) => {
@@ -58,7 +64,8 @@ export default {
         })
         return speakerNum / count
     },
-    Tele_amp_score_rate(team: number, data: any[]) {
+    // score rate at amp in teleOp
+    teleAmpScoreRate(team: number, data: any[]) {
         let ampNum = 0
         let count = 0
         data.forEach((e) => {
@@ -73,7 +80,8 @@ export default {
         })
         return ampNum / count
     },
-    Tele_trap_score_rate(team: number, data: any[]) {
+    // get score rate at trap in tele
+    teleTrapScoreRate(team: number, data: any[]) {
         let trapNum = 0
         let count = 0
         data.forEach((e) => {
@@ -87,7 +95,8 @@ export default {
         })
         return trapNum / count
     },
-    Auto_speaker_score_rate(team: number, data: any[]) {
+    // get score rate at speaker in auto
+    autoSpeakerScoreRate(team: number, data: any[]) {
         let speakerNum = 0
         let count = 0
         data.forEach((e) => {
@@ -102,22 +111,24 @@ export default {
         })
         return speakerNum / count
     },
-    Auto_amp_score_rate(team: number, data: any[]) {
-        let ampNum = 0
+    // get score rate at amp in auto
+    autoAmpScoreRate(team: number, data: any[]) {
+        let ampNumber = 0
         let count = 0
         data.forEach((e) => {
             if (e.team != team) return
             if (e.time - e.game.start > 18000) return
             e.game.actions.forEach((a: any) => {
                 if (a.action === 'place') {
-                    if (a.type == 'amp') ampNum++
+                    if (a.type == 'amp') ampNumber++
                     count++
                 }
             })
         })
-        return ampNum / count
+        return ampNumber / count
     },
-    Chain_park_rate(team: number, data: any[]) {
+    // get rate of chain park
+    chainParkRate(team: number, data: any[]) {
         let park = 0
         let count = 0
         data.forEach((e) => {
@@ -129,7 +140,8 @@ export default {
         })
         return park / count
     },
-    Park_rate(team: number, data: any[]) {
+    // get park rate
+    parkRate(team: number, data: any[]) {
         let park = 0
         let count = 0
         data.forEach((e) => {
@@ -142,7 +154,8 @@ export default {
         })
         return park / count
     },
-    Average_stage_points_scored(team: number, data: any[]) {
+    // get average stage points scored
+    averageStagePointsScored(team: number, data: any[]) {
         let score = 0
         let count = 0
         data.forEach((e) => {
@@ -169,7 +182,8 @@ export default {
         })
         return score / count
     },
-    Average_wing_cycle_time(team: number, data: any[]) {
+    // get average time taken to cycle wing
+    averageWingCycleTime(team: number, data: any[]) {
         let cycleStart = 0
         let cycleStop = 0
         let count = 0
@@ -198,7 +212,8 @@ export default {
         })
         return cycleTime / count
     },
-    Average_center_cycle_time(team: number, data: any[]) {
+    // get average time to cycle center
+    averageCenterCycleTime(team: number, data: any[]) {
         let cycleStart = 0
         let cycleStop = 0
         let count = 0
@@ -227,7 +242,8 @@ export default {
         })
         return cycleTime / count
     },
-    Average_source_cycle_time(team: number, data: any[]) {
+    // get average time to cycle source
+    averageSourceCycleTime(team: number, data: any[]) {
         let cycleStart = 0
         let cycleStop = 0
         let count = 0
@@ -256,7 +272,8 @@ export default {
         })
         return cycleTime / count
     },
-    Driver_skill(team: number, data: any[]) {
+    // fetch driver skill
+    driverSkill(team: number, data: any[]) {
         let count = 0
         let total = 0
         data.forEach((e) => {
@@ -268,7 +285,8 @@ export default {
         })
         return total / count
     },
-    Strategy(team: number, data: any[]) {
+    // get strategy
+    strategy(team: number, data: any[]) {
         let stratIndex = 0
         let allStrat = [0, 0, 0, 0, 0, 0]
         let result = ''
@@ -306,7 +324,8 @@ export default {
         if (stratIndex == 5) result = 'breakdown'
         return result
     },
-    Standard_Score_Deviation(team: number, data: any[]) {
+    // calculate standard score deviation
+    standardScoreDeviation(team: number, data: any[]) {
         let scores: any[] = []
         data.forEach((e) => {
             if (e.team != team) return
@@ -316,7 +335,8 @@ export default {
 
         return stdDev(scores)
     },
-    Matches_Scouted(team: number, data: any[]) {
+    // get matches scouted
+    matchesScouted(team: number, data: any[]) {
         let scouted = 0
         data.forEach((e) => {
             if (e.team != team) return
@@ -324,7 +344,7 @@ export default {
         })
         return scouted
     },
-    // Mobility_rate(team:number, data:any[]){
+    // mobilityRate(team:number, data:any[]){
     //     let count = 0;
     //     let mobileCount = 0;
     //     data.forEach(e=>{
@@ -334,7 +354,7 @@ export default {
     //     });
     //     return(mobileCount/count);
     // },
-    // Dock_auto_rate(team:number, data:any[]){
+    // dockAutoRate(team:number, data:any[]){
     //     let count = 0;
     //     let mobileCount = 0;
     //     data.forEach(e=>{
@@ -344,7 +364,7 @@ export default {
     //     });
     //     return(mobileCount/count);
     // },
-    // Alliance_engaged_auto_rate(team:number, data:any[]){
+    // allianceEngagedAutoRate(team:number, data:any[]){
     //     let matches:any[] = [];
     //     let cache:any[] = [];
     //     let count = 0;
@@ -373,7 +393,7 @@ export default {
     //     return(count/(matches.length));
 
     // },
-    // Alliance_dock_auto_rate(team:number, data:any[]){
+    // allianceDockAutoRate(team:number, data:any[]){
     //     let matches:any[] = [];
     //     let cache:any[] = [];
     //     let count = 0;
@@ -401,7 +421,7 @@ export default {
 
     //     return(count/(matches.length));
     // },
-    // Dock_match_rate(team:number, data:any[]){
+    // dockMatchRate(team:number, data:any[]){
     //     let count = 0;
     //     let mobileCount = 0;
     //     data.forEach(e=>{
@@ -411,7 +431,7 @@ export default {
     //     });
     //     return(mobileCount/count);
     // },
-    // Engaged_auto_rate(team:number, data:any[]){
+    // engagedAutoRate(team:number, data:any[]){
     //     let count = 0;
     //     let mobileCount = 0;
     //     data.forEach(e=>{
@@ -421,7 +441,7 @@ export default {
     //     });
     //     return(mobileCount/count);
     // },
-    // Engaged_match_rate(team:number, data:any[]){
+    // engagedMatchRate(team:number, data:any[]){
     //     let count = 0;
     //     let mobileCount = 0;
     //     data.forEach(e=>{
@@ -431,7 +451,7 @@ export default {
     //     });
     //     return(mobileCount/count);
     // },
-    // Average_pieces_scored(team:number, data:any[]){
+    // averagePiecesScored(team:number, data:any[]){
     //     let matches = 0;
     //     let count = 0;
     //     data.forEach(e=>{
@@ -446,7 +466,7 @@ export default {
     //     })
     //     return count / matches;
     // },
-    // Cube_score_rate(team:number, data:any[]){
+    // cubeScoreRate(team:number, data:any[]){
     //     let cubeNum = 0;
     //     let count = 0;
     //     data.forEach(e=>{
@@ -460,7 +480,7 @@ export default {
     //     });
     //     return(cubeNum/count);
     // },
-    // Average_dead_time(team:number, data:any[]){
+    // averageDeadTime(team:number, data:any[]){
     //     let cycleTimes:any[]=[];
     //     let result=0;
     //     data.forEach(e=>{
@@ -491,7 +511,7 @@ export default {
 
     //     return(result/(cycleTimes.length*1000));
     // },
-    // Average_element_placement(team:number, data:any[]){
+    // averageElementPlacement(team:number, data:any[]){
     //     let resultIndex=0;
     //     let count=0;
     //     let array=[0, 0, 0]
@@ -517,7 +537,7 @@ export default {
     //     }
     //     return(result);
     // },
-    // Loading_zone_intake_rate(team:number, data:any[]){
+    // loadingZoneIntakeRate(team:number, data:any[]){
     //     let loadZone = 0;
     //     let total = 0;
     //     data.forEach(e=>{
@@ -532,6 +552,8 @@ export default {
     //     return(loadZone/total);
     // },
 }
+
+// get team score
 export function teamScore(e: any) {
     let count = 0
     e.game.actions.forEach((a: any) => {
@@ -579,6 +601,7 @@ export function teamScore(e: any) {
     return count
 }
 
+// get auto score
 function autoScore(e: any) {
     let count = 0
     e.game.actions.forEach((a: any) => {
@@ -601,6 +624,7 @@ function autoScore(e: any) {
     return count
 }
 
+// calculate standard deviation
 function stdDev(arr: any) {
     let mean =
         arr.reduce((acc: any, curr: any) => {
