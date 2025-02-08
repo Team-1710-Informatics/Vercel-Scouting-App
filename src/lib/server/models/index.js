@@ -2,7 +2,6 @@ import mongoose from 'mongoose'
 import UserModel from './user'
 import { StoreModel, ReceiptModel } from './credit-store'
 
-
 const { Schema } = mongoose
 
 mongoose.set('strictQuery', true)
@@ -154,12 +153,13 @@ const scoutEntry2025 = new Schema({
     },
     start: Number,
     actions: Array,
-    untimed: {
-        exitAuto: Boolean,
-        hangMatch: Boolean,
-        parkMatch: Boolean,
-        cageLevel: String,
-    },
+    climb: {},
+    // untimed: {
+    //     exitAuto: Boolean,
+    //     hangMatch: Boolean,
+    //     parkMatch: Boolean,
+    //     cageLevel: String,
+    // },
     postgame: {
         strategy: Array,
         rating: { type: Number, min: 0, max: 10 },
@@ -170,7 +170,7 @@ const scoutEntry2025 = new Schema({
     },
 })
 
-export const ScoutData = mongoose.model('2024entry', scoutEntry2024)
+export const ScoutData = mongoose.model('2025entry', scoutEntry2025)
 
 const transaction = new Schema({
     user: String,
@@ -410,7 +410,7 @@ export const Portfolio = mongoose.model('portfolio', portfolio)
 
 const teamSelections = new Schema({
     match: String,
-    teams: []
+    teams: [],
 })
 
 export const TeamSelections = mongoose.model('teamSelections', teamSelections)

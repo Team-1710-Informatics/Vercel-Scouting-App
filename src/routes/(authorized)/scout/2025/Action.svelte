@@ -4,13 +4,20 @@
     import Barge from "./Barge.svelte";
     import Inventory from "./Inventory.svelte";
     import Timer from "./Timer.svelte";
+    import Endgame from "./Endgame.svelte";
 
     export let log = []
     let algae = false;
     let coral = false;
+    let endgame = false;
     export let state
     export let meta
     let item;
+
+    export let climb = {
+        time: 0,
+        type: ''
+    }
 
     let location
     let rotateDiv
@@ -24,6 +31,10 @@
         rotate = !rotate
     }
 
+    function switchEndgame() {
+        endgame = !endgame
+    }
+
     let reefActive = false;
 
     let reef
@@ -33,7 +44,7 @@
         log.push({
             time: state.time,
             action: actionType,
-            location,
+            ...selected,
             phase: state.phase,
         })
         if (actionType == 'score') {
@@ -93,7 +104,12 @@
                 <div class="flex flex-row items-center justify-center w-full h-full -mb-1">
                     <AllianceArea bind:item bind:selected bind:this={allianceArea}/>
                 </div>
-                <Reef bind:item bind:reefActive bind:selected bind:this={reef}/>
+                {#if endgame}
+                    <Endgame bind:climb bind:endgame/>
+                {/if}
+                {#if !endgame}
+                    <Reef bind:item bind:selected bind:this={reef}/>
+                {/if}
             </div>
         </div>
     </div>
@@ -108,18 +124,12 @@
         <div class="rounded-md shadow-xl bg-yellow-400 p-2 w-36 h-10" on:click={() => {behavior("intake")}}>
             INTAKE
         </div>
-        <div class="rounded-md shadow-xl bg-fuchsia-500 p-2 w-36 h-10">
+        <div class="rounded-md shadow-xl bg-fuchsia-500 p-2 w-36 h-10" on:click={() => {behavior("miss")}}>
             MISS
         </div>
-        <div class="flex flex-row gap-2">
-            <div class="basis-1/2 rounded-md shadow-xl bg-blue-400 p-2 h-10">
-                ENDGAME
-            </div>
-            <div class="basis-1/2 rounded-md shadow-xl bg-blue-400 p-2 h-10">
-                GROUND INTAKE
-            </div>
-        </div>
-
+        <button class="rounded-md shadow-xl bg-blue-400 p-2 h-10 w-36" on:click={switchEndgame}>
+            ENDGAME
+        </button>
     </div>
 </div>
 

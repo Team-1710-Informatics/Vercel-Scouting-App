@@ -4,9 +4,10 @@
     import x from '$lib/assets/icons/x.svg'
     import check from '$lib/assets/icons/check.svg'
     import tba from '$lib/modules/tba'
-    import { slide } from 'svelte/transition'
-    import { createEventDispatcher } from 'svelte'
+    import {slide} from 'svelte/transition'
+    import {createEventDispatcher} from 'svelte'
     import Starting from './Starting.svelte'
+
     const dispatch = createEventDispatcher()
 
     export let meta
@@ -35,7 +36,7 @@
     $: condition = innerWidth <= 290
 </script>
 
-<svelte:window bind:innerWidth />
+<svelte:window bind:innerWidth/>
 <!-- <body style="overflow-y:hidden;"> -->
 <div class="h-full">
     <u class="underline font-bold text-3xl">Pre-Match</u>
@@ -45,28 +46,24 @@
                 <b class="justify-self-start">Event:</b>
                 <div class="col-span-3 justify-self-end">
                     <CompetitionSelector
-                        class="w-16"
-                        events={[
-                            {
-                                short_name: '!Practice Scouting',
-                                key: '2024practice',
-                            },
+                            class="w-16"
+                            events={[
                             {
                                 short_name: '!Practice Scouting',
                                 key: '2024practice',
                             },
                             ...events,
                         ]}
-                        bind:event={meta.event}
-                        {disabled}
+                            bind:event={meta.event}
+                            {disabled}
                     />
                 </div>
             {:else if condition}
                 <b class="col-span-4 mx-auto">Event:</b>
                 <div class="col-span-4 mx-auto">
                     <CompetitionSelector
-                        class="w-16"
-                        events={[
+                            class="w-16"
+                            events={[
                             {
                                 short_name: '!Practice Scouting',
                                 key: '2024practice',
@@ -77,8 +74,8 @@
                             },
                             ...events,
                         ]}
-                        bind:event={meta.event}
-                        {disabled}
+                            bind:event={meta.event}
+                            {disabled}
                     />
                 </div>
             {/if}
@@ -86,23 +83,23 @@
             <b class="justify-self-end mx-auto col-span-2">Team:</b>
 
             <div class="justify-self-start col-span-2 mx-auto">
-                <input class="w-16" type="number" bind:value={meta.match} />
+                <input bind:value={meta.match} class="w-16" type="number"/>
             </div>
             <div class="justify-self-end mx-auto col-span-2">
-                <input class="w-16" type="number" bind:value={meta.team} />
+                <input bind:value={meta.team} class="w-16" type="number"/>
             </div>
 
             <b class="justify-self-start col-span-2 mt-4">Alliance:</b>
             {#each ['red', 'blue'] as all}
                 <label class="justify-self-start mt-4">
                     <input
-                        class={all === 'red'
+                            class={all === 'red'
                             ? 'accent-red-600'
                             : 'accent-blue-600'}
-                        type="radio"
-                        bind:group={meta.alliance}
-                        value={all}
-                        {disabled}
+                            type="radio"
+                            bind:group={meta.alliance}
+                            value={all}
+                            {disabled}
                     />
                     <span class="capitalize">{all}</span>
                 </label>
@@ -112,61 +109,63 @@
             <p class="text-xs opacity-50" transition:slide>Loading...</p>
         {:then m}
             <TeamSelector
-                {disabled}
-                match={m}
-                bind:team={meta.team}
-                bind:alliance={meta.alliance}
+                    {disabled}
+                    match={m}
+                    bind:team={meta.team}
+                    bind:alliance={meta.alliance}
             />
         {/await}
-        <br />
+        <br/>
         {#if !disabled}
             <button
-                on:click={() => {
+                    on:click={() => {
                     disabled = true
                 }}
-                class="submit"
-                disabled={!(
+                    class="submit"
+                    disabled={!(
                     meta.event &&
                     meta.match &&
                     meta.team &&
                     meta.alliance
-                )}>Next</button
+                )}>Next
+            </button
             >
         {:else}
             <div in:slide>
                 <Starting
-                    alliance={meta.alliance}
-                    bind:startValue={pregame.startPosition}
+                        alliance={meta.alliance}
+                        bind:startValue={pregame.startPosition}
                 />
                 <div class="flex flex-row w-fit my-2">
                     <b class="mr-6 self-center">Preload:</b>
                     {#each loadImgs as img}
                         <button
-                            class="bg-none border-none opacity-50"
-                            class:opacity-100={pregame.preload === img.value}
-                            class:bg-white={pregame.preload === img.value}
-                            on:click={() => {
+                                class="bg-none border-none opacity-50"
+                                class:opacity-100={pregame.preload === img.value}
+                                class:bg-white={pregame.preload === img.value}
+                                on:click={() => {
                                 pregame.preload = img.value
                             }}
                         >
                             <img
-                                width="28px"
-                                height="28px"
-                                alt={img.value}
-                                src={img.src}
-                                style={img?.style}
+                                    width="28px"
+                                    height="28px"
+                                    alt={img.value}
+                                    src={img.src}
+                                    style={img?.style}
                             />
                         </button>
                     {/each}
                 </div>
                 <button
-                    on:click={() => {
+                        on:click={() => {
                         dispatch('advance')
                     }}
-                    class="submit"
-                    disabled={!pregame.startPosition.x ||
+                        class="submit"
+                        disabled={!pregame.startPosition.x ||
                         (pregame.preload !== true && pregame.preload !== false)}
-                    >Next</button
+                >Next
+                </button
                 >
             </div>
         {/if}

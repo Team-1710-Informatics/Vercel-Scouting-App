@@ -1,8 +1,10 @@
 <script>
     import { enhance } from '$app/forms'
-    import QRCode from '@castlenine/svelte-qrcode'
     import StarRating from '$lib/components/ui/StarRating.svelte'
     import { dev } from '$app/environment'
+    import QRcode from "$lib/components/ui/QR.svelte"
+    import { onMount } from 'svelte'
+    import { compress, decompress } from '$lib/modules/jsoncompress.js'
 
     export let meta, pregame, game, postgame, form
 
@@ -38,17 +40,35 @@
         })(),
     }
 
-    $: final = JSON.stringify({
+    $: final = {
         ...meta,
         pregame,
         game,
         postgame,
-    })
+    }
+
+    let showcode = false;
+    let qrdata;
+
+    onMount(() => {
+        generateQrcode();
+    });
+
+    function generateQrcode() {
+        console.log(final);
+        qrdata = compress(final);
+        console.log(qrdata);
+    }
+
+    function qrcode() {
+        generateQrcode();
+        showcode = !showcode;
+    }
 
     let loading = false
 
     let online = false
-    let qrDisable = true
+    let qrDisable = false
 </script>
 
 <svelte:window bind:online />
@@ -89,38 +109,43 @@
             <h6>Final Thoughts</h6>
             <textarea class="h-20" bind:value={thoughts} />
         </div>
-        {#if qrDisable && !form?.status}
-            <form
-                method="POST"
-                use:enhance={(cancel) => {
-                    loading = true
-                    //@ts-ignore
-                    if (!online && !dev) {
-                        qrDisable = false
-                        cancel()
-                    }
-                    return async ({ update, cancel }) => {
-                        await update()
-                        loading = false
-                    }
-                }}
+        <form
+            method="POST"
+            use:enhance={(cancel) => {
+                   loading = true
+                   //@ts-ignore
+                   if (!online && !dev) {
+                       qrDisable = false
+                       cancel()
+                   }
+                   return async ({ update, cancel }) => {
+                   await update()
+                       loading = false
+                   }
+            }}
             >
-                <input type="text" hidden name="data" value={final} />
+                <input type="text" hidden name="data" value={JSON.stringify(final)} />
                 <button
                     disabled={loading || postgame.strategy.length == 0}
                     on:click={() => {
                         console.log(final)
                     }}
                     class="mt-2 submit"
-                    >{loading ? 'Loading...' : 'Submit'}</button
-                >
-            </form>
-        {:else if !qrDisable || form?.status === 'offline'}
-            <h1 class="py-1">Show this QR to a head scout</h1>
-            <QRCode content={final} />
-            <br />
-            <a href="/hub" class="rounded border-2 p-2 submit">Hub</a>
-        {/if}
+                    >{loading ? 'Loading...' : 'Submit'}</button>
+        </form>
+        <button
+            on:click={qrcode}
+            class="fixed top-0 left-0 bg-gradient-to-bl border-red-700 from-red-600 to-red-400 w-16 text-xs h-10"
+            class:w-screen={showcode}>
+
+            Show QR Code
+            {#if showcode}
+                <QRcode data={qrdata}/>
+            {/if}
+        </button>
+        <br />
+        <a href="/hub" class="rounded border-2 p-2 submit">Hub</a>
+
     </div>
 </center>
 

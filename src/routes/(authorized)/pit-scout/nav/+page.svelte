@@ -3,17 +3,20 @@
     import tba from '$lib/modules/tba'
     import rules from './Rules.ts'
 
+    // get data
     export let data
 
     let teams = []
     let event = data.current?.key ?? undefined
 
+    // check that TBA is accessible
     async function teamRes(eventKey) {
         if (eventKey) {
             teams = await tba(`event/${eventKey}/teams/simple`)
         }
     }
 
+    // check is team has been scouted
     function scouted(team) {
         let scouted = false
         data.scouted.forEach((e) => {

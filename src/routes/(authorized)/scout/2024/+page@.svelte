@@ -9,7 +9,6 @@
 
     function safetynet(e: Event) {
         e.preventDefault()
-
         return 'Are you sure you want to leave? Scouting data will be lost.'
     }
 
@@ -29,7 +28,7 @@
     }
 
     let pregame: {
-        startPosition: { x: number; y: number }
+        startPosition: { x: number; y: number },
         preload: Boolean
     } = {
         startPosition: { x: NaN, y: NaN },
@@ -76,6 +75,7 @@
     {:else if step === 2}
         <Post bind:meta bind:pregame bind:game bind:postgame {form} />
     {/if}
+
 </center>
 
 <style>
