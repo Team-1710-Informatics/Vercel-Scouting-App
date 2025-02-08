@@ -80,13 +80,11 @@
 
 import tokens from "./tokens.json"
 
-export function compress(jsondata) {
-    if (!jsondata) {
+export function compress(data) {
+    if (!data) {
         console.log("No data provided")
         return
     }
-
-    const data = JSON.stringify(jsondata)
 
     const splitdata = data.split('"');
     console.log(splitdata);
@@ -94,8 +92,6 @@ export function compress(jsondata) {
     const keys  = Object.keys(tokens);
 
     const values = Object.values(tokens);
-
-    console.log(values)
 
     let output = '';
 
@@ -111,22 +107,21 @@ export function compress(jsondata) {
         } else {
             output += word.toString();
         }
-        output += '"'
     }
 
-    console.log(output)
+    output += '"'
+
     return output;
 
 }
 
 
-export function decompress(jsondata) {
-    if (!jsondata) {
+export function decompress(data) {
+    if (!data) {
         console.log("no data provided")
         return
     }
 
-    const data = JSON.stringify(jsondata)
     const splitdata = data.split('"');
 
     const keys  = Object.keys(tokens)
@@ -135,14 +130,13 @@ export function decompress(jsondata) {
     let output = '';
 
     for (let i = 0; i < splitdata.length; i++) {
-        if (i in keys) {
-            output += values[i];
+        const word = splitdata[i]
+        if (keys.includes(word)) {
+            output += values[keys.indexOf(word)];
         } else {
-            output += i.toString();
+            output += word.toString();
         }
     }
 
-    console.log(output)
     return output;
-
 }

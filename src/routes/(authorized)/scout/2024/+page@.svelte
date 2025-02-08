@@ -2,7 +2,6 @@
     import Pre from './Pre.svelte'
     import Match from './Match.svelte'
     import Post from './Post.svelte'
-    import QRcode from '$lib/components/ui/QR.svelte'
 
     export let data, form
 
@@ -10,7 +9,6 @@
 
     function safetynet(e: Event) {
         e.preventDefault()
-
         return 'Are you sure you want to leave? Scouting data will be lost.'
     }
 
