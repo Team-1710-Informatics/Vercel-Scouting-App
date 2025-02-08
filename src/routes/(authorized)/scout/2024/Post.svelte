@@ -68,7 +68,7 @@
     let loading = false
 
     let online = false
-    let qrDisable = true
+    let qrDisable = false
 </script>
 
 <svelte:window bind:online />

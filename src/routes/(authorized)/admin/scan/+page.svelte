@@ -41,7 +41,6 @@
 
     function onScanSuccess(decodedText, decodedResult) {
         text = decodedText
-        console.log(text)
 
     }
 
@@ -49,7 +48,7 @@
         console.warn(`Code scan error = ${error}`)
     }
 
-    $: final = JSON.stringify(text)
+    $: final = decompress(text)
 
 </script>
 
