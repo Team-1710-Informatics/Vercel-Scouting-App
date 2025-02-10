@@ -6,37 +6,30 @@ export function compress(data) {
         return
     }
 
-    data = JSON.stringify(data)
-
-    const splitdata = data.split('"');
-    console.log(splitdata);
+    data = JSON.parse(data)
+    const datakeys = Object.keys(data)
+    console.log(datakeys)
 
     const keys  = Object.keys(tokens);
-
     const values = Object.values(tokens);
 
-    let output = '';
-
-    if (!values) {
-        console.log(values)
-        return
-    }
-
-    for (let i = 0; i < splitdata.length; i++) {
-        const word = splitdata[i]
-        if (values.includes(word)) {
-            output += keys[values.indexOf(word)];
+    let output = {};
+    function shortenKeys(data) {
+        if (Array.isArray(data)) {
+            return data.map(item => {shortenKeys(item)})
+        } else if (typeof data === 'object' && data !== null) {
+            return Object.fromEntries(
+                Object.entries(data).map(([key, value]) => [
+                    tokens[key] || key,
+                    shortenKeys(value)
+                ])
+            )
         } else {
-            output += word.toString();
+            return data;
         }
-        output += '"';
     }
 
-    output = output.replace(/\\/g, '');
-
-    output = output.substring(0, output.length - 1);
-
-    return output;
+    return shortenKeys(output);
 
 }
 
@@ -58,11 +51,13 @@ export function decompress(data) {
     output = output.replace(/\\/g, '');
 
     for (let i = 0; i < splitdata.length; i++) {
-        const word = splitdata[i]
+        let word = splitdata[i]
 
         if (word === "") {
             continue;
         }
+
+        word = word.substring(0, word.length - 2);
 
         console.log(word)
         if (keys.includes(word)) {
@@ -77,5 +72,6 @@ export function decompress(data) {
 
     output = output.substring(0, output.length - 1);
 
+    console.log("decompressed ", output);
     return output;
 }
