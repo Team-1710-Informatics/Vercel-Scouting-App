@@ -240,3 +240,12 @@
         {/if}
     </div>
 </div>
+
+<style lang="scss">
+    .draggable-container{
+        background-color: rgba(0, 0, 0, 0.2);
+        box-shadow: inset 0 20px 40px 0 rgb(0 0 0 / 0.5);
+        width: 100%;
+        height: 100%;
+    }
+</style>
