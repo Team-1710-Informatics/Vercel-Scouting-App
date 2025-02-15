@@ -1,8 +1,6 @@
 <script>
     import startingAlgae from '$lib/assets/scout/2025/algaetransparent.png'
     import startingCoral from '$lib/assets/scout/2025/transparentCoral.png'
-    import coralStationLeft from '$lib/assets/scout/2025/coralStationLeft.png'
-    import coralStationRight from '$lib/assets/scout/2025/coralStationRight.png'
 
     let startingPositions = {
         left: ['coral', 'algae'],
@@ -121,34 +119,6 @@
      on:click={() => {select("coral_station_right", 1)}}>
     <img class="h-16 w-16 ml-12" src={startingCoral}>
 </div>
-
-<!--{#if startingPositions.left.length > 0}-->
-<!--    <button on:click={() => {select("alliance", "left")}} class="">-->
-<!--        <img alt="" class="w-12 h-12 ml-8 opacity-40 hover:opacity-60 transition-opacity ease-in"-->
-<!--             class:brightness-200={selected.location==="alliance" ? selected.ground_piece==="left" : null }-->
-<!--             src={startingPositions.left.includes("algae") ? startingAlgae : startingCoral}>-->
-<!--    </button>-->
-<!--{/if}-->
-<!--{#if startingPositions.middle.length > 0}-->
-<!--    <button on:click={() => {select("alliance", "middle")}}>-->
-<!--        <img alt="" class="w-12 h-12 ml-8 opacity-40 hover:opacity-60 transition-opacity ease-in"-->
-<!--             class:brightness-200={selected.location==="alliance" ? selected.ground_piece==="middle" : null}-->
-<!--             src={startingPositions.left.includes("algae") ? startingAlgae : startingCoral}>-->
-<!--    </button>-->
-<!--{/if}-->
-<!--{#if startingPositions.right.length > 0}-->
-<!--    <button on:click={() => {select("alliance", "right")}}>-->
-<!--        <img alt="" class="w-12 h-12 ml-8 opacity-40 hover:opacity-60 transition-opacity ease-in"-->
-<!--             class:brightness-200={selected.location==="alliance" ? selected.ground_piece==="right" : null}-->
-<!--             src={startingPositions.left.includes("algae") ? startingAlgae : startingCoral}>-->
-<!--    </button>-->
-<!--{/if}-->
-<!--<button on:click={() => {select("coral_station_right", 1)}}>-->
-<!--    <img alt="" class="w-12 h-12 opacity-40 hover:opacity-60 transition-opacity ease-in"-->
-<!--         class:brightness-200={selected.location==="coral_station_right"}-->
-<!--         src={coralStationRight}>-->
-<!--</button>-->
-
 
 <style>
     .angled-corner {

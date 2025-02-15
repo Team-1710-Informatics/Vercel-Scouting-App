@@ -49,7 +49,7 @@
 <!--prevents data loss on page reload-->
 
 <center
-    class="h-full overflow-y-scroll background"
+    class="h-full overflow-y-scroll background landscape-phone"
     style="min-height:{h}px"
 >
     {#if step == 0}
@@ -82,33 +82,5 @@
         background: linear-gradient(0.3turn, #323136, #242a34, #000000) fixed;
         /* Your main background gradient */
         /* linear-gradient(to right, black, black); */
-    }
-    .background-2 {
-        background:
-            linear-gradient(
-                    to top left,
-                    rgba(255, 255, 255, 0.3) 0%,
-                    transparent 30%
-                )
-                top left,
-            linear-gradient(
-                    to top right,
-                    rgba(255, 255, 255, 0.3) 0%,
-                    transparent 30%
-                )
-                top right,
-            linear-gradient(
-                    to bottom left,
-                    rgba(255, 255, 255, 0.3) 0%,
-                    transparent 30%
-                )
-                bottom left,
-            linear-gradient(
-                    to bottom right,
-                    rgba(255, 255, 255, 0.3) 0%,
-                    transparent 30%
-                )
-                bottom right,
-            linear-gradient(0.3turn, #363131, #242a34, #000000);
     }
 </style>
