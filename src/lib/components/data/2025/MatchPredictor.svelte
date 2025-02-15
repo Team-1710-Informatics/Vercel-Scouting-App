@@ -6,7 +6,7 @@
     export let teams
 
     let data
-    data = {"matches":[{"red":0,"blue":7,"winner":"red"},{"red":1,"blue":6,"winner":"red"},{"red":2,"blue":5,"winner":"red"},{"red":3,"blue":4,"winner":"blue"},{"red":7,"blue":6,"winner":"red"},{"red":5,"blue":4,"winner":"blue"},{"red":0,"blue":1,"winner":"red"},{"red":2,"blue":3,"winner":"red"},{"red":5,"blue":1,"winner":"blue"},{"red":7,"blue":3,"winner":"red"},{"red":0,"blue":2,"winner":"red"},{"red":5,"blue":7,"winner":"blue"},{"red":2,"blue":5,"winner":"red"},{"red":0,"blue":2,"winner":"red"}],"teams":[["frc7021","frc2129","frc9576"],["frc1710","frc2194","frc967"],["frc8802","frc4230","frc537"],["frc2704","frc7103","frc1675"],["frc2830","frc525","frc8701"],["frc2826","frc1625","frc5586"],["frc6166","frc3082","frc171"],["frc5903","frc6223","frc2202"]]}
+    // data = {"matches":[{"red":0,"blue":7,"winner":"red"},{"red":1,"blue":6,"winner":"red"},{"red":2,"blue":5,"winner":"red"},{"red":3,"blue":4,"winner":"blue"},{"red":7,"blue":6,"winner":"red"},{"red":5,"blue":4,"winner":"blue"},{"red":0,"blue":1,"winner":"red"},{"red":2,"blue":3,"winner":"red"},{"red":5,"blue":1,"winner":"blue"},{"red":7,"blue":3,"winner":"red"},{"red":0,"blue":2,"winner":"red"},{"red":5,"blue":7,"winner":"blue"},{"red":2,"blue":5,"winner":"red"},{"red":0,"blue":2,"winner":"red"}],"teams":[["frc7021","frc2129","frc9576"],["frc1710","frc2194","frc967"],["frc8802","frc4230","frc537"],["frc2704","frc7103","frc1675"],["frc2830","frc525","frc8701"],["frc2826","frc1625","frc5586"],["frc6166","frc3082","frc171"],["frc5903","frc6223","frc2202"]]}
 
     async function eventPrediciton(){
         const response = await ApiService.event(event)
@@ -59,8 +59,10 @@
     function decreaseScale() {
         scale = Math.max(0.1, scale - 0.05);
     }
-
-    export let width, height;
+    $: number = 0
+    async function flipMatch(match) {
+        data = await ApiService.flip(match, data)
+    }
 </script>
 <div style="height: 300px; width: 600px;">
     <div class="flex flex-row mb-2 options rounded-lg border-4 border-black" style="width: 600px;">
@@ -82,24 +84,24 @@
                 <div class="item">
                     <div class="item-parent">
                         <div class="display">
-                            <div class="font-bold text-xl flex flex-row">Finals<div class="grow"></div><img class="h-8 w-8" src={flip} /></div>
+                            <div class="font-bold text-lg">Finals</div>
                             {#if data.matches[13].winner === "red"}
                                 <div class="red-win flex flex-row">
                                     {#each data.teams[data.matches[13].red] as team, i}
                                         {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                     {/each}
                                 </div>
-                                <div class="blue-glow flex flex-row">
+                                <button on:click={()=>{flipMatch(13)}} class="blue-glow flex flex-row">
                                     {#each data.teams[data.matches[13].blue] as team, i}
                                         {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                     {/each}
-                                </div>
+                                </button>
                             {:else}
-                                <div class="red-glow flex flex-row">
+                                <button on:click={()=>{flipMatch(13)}} class="red-glow flex flex-row">
                                     {#each data.teams[data.matches[13].red] as team, i}
                                         {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                     {/each}
-                                </div>
+                                </button>
                                 <div class="blue-win flex flex-row">
                                     {#each data.teams[data.matches[13].blue] as team, i}
                                         {#if i < 3}{team}{#if i < 2}, {/if}{/if}
@@ -120,17 +122,17 @@
                                                     {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                 {/each}
                                             </div>
-                                            <div class="blue-glow flex flex-row">
+                                            <button on:click={()=>{flipMatch(10)}} class="blue-glow flex flex-row">
                                                 {#each data.teams[data.matches[10].blue] as team, i}
                                                     {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                 {/each}
-                                            </div>
+                                            </button>
                                         {:else}
-                                            <div class="red-glow flex flex-row">
+                                            <button on:click={()=>{flipMatch(10)}} class="red-glow flex flex-row">
                                                 {#each data.teams[data.matches[10].red] as team, i}
                                                     {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                 {/each}
-                                            </div>
+                                            </button>
                                             <div class="blue-win flex flex-row">
                                                 {#each data.teams[data.matches[10].blue] as team, i}
                                                     {#if i < 3}{team}{#if i < 2}, {/if}{/if}
@@ -151,17 +153,17 @@
                                                                 {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                             {/each}
                                                         </div>
-                                                        <div class="blue-glow flex flex-row">
+                                                        <button on:click={()=>{flipMatch(6)}} class="blue-glow flex flex-row">
                                                             {#each data.teams[data.matches[6].blue] as team, i}
                                                                 {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                             {/each}
-                                                        </div>
+                                                        </button>
                                                     {:else}
-                                                        <div class="red-glow flex flex-row">
+                                                        <button on:click={()=>{flipMatch(6)}} class="red-glow flex flex-row">
                                                             {#each data.teams[data.matches[6].red] as team, i}
                                                                 {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                             {/each}
-                                                        </div>
+                                                        </button>
                                                         <div class="blue-win flex flex-row">
                                                             {#each data.teams[data.matches[6].blue] as team, i}
                                                                 {#if i < 3}{team}{#if i < 2}, {/if}{/if}
@@ -180,17 +182,17 @@
                                                                     {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                 {/each}
                                                             </div>
-                                                            <div class="blue-glow flex flex-row">
+                                                            <button on:click={()=>{flipMatch(0)}} class="blue-glow flex flex-row">
                                                                 {#each data.teams[data.matches[0].blue] as team, i}
                                                                     {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                 {/each}
-                                                            </div>
+                                                            </button>
                                                         {:else}
-                                                            <div class="red-glow flex flex-row">
+                                                            <button on:click={()=>{flipMatch(0)}} class="red-glow flex flex-row">
                                                                 {#each data.teams[data.matches[0].red] as team, i}
                                                                     {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                 {/each}
-                                                            </div>
+                                                            </button>
                                                             <div class="blue-win flex flex-row">
                                                                 {#each data.teams[data.matches[0].blue] as team, i}
                                                                     {#if i < 3}{team}{#if i < 2}, {/if}{/if}
@@ -208,17 +210,17 @@
                                                                     {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                 {/each}
                                                             </div>
-                                                            <div class="blue-glow flex flex-row">
+                                                            <button on:click={()=>{flipMatch(1)}} class="blue-glow flex flex-row">
                                                                 {#each data.teams[data.matches[1].blue] as team, i}
                                                                     {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                 {/each}
-                                                            </div>
+                                                            </button>
                                                         {:else}
-                                                            <div class="red-glow flex flex-row">
+                                                            <button on:click={()=>{flipMatch(1)}} class="red-glow flex flex-row">
                                                                 {#each data.teams[data.matches[1].red] as team, i}
                                                                     {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                 {/each}
-                                                            </div>
+                                                            </button>
                                                             <div class="blue-win flex flex-row">
                                                                 {#each data.teams[data.matches[1].blue] as team, i}
                                                                     {#if i < 3}{team}{#if i < 2}, {/if}{/if}
@@ -241,17 +243,17 @@
                                                                 {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                             {/each}
                                                         </div>
-                                                        <div class="blue-glow flex flex-row">
+                                                        <button on:click={()=>{flipMatch(7)}} class="blue-glow flex flex-row">
                                                             {#each data.teams[data.matches[7].blue] as team, i}
                                                                 {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                             {/each}
-                                                        </div>
+                                                        </button>
                                                     {:else}
-                                                        <div class="red-glow flex flex-row">
+                                                        <button on:click={()=>{flipMatch(7)}} class="red-glow flex flex-row">
                                                             {#each data.teams[data.matches[7].red] as team, i}
                                                                 {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                             {/each}
-                                                        </div>
+                                                        </button>
                                                         <div class="blue-win flex flex-row">
                                                             {#each data.teams[data.matches[7].blue] as team, i}
                                                                 {#if i < 3}{team}{#if i < 2}, {/if}{/if}
@@ -270,17 +272,17 @@
                                                                     {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                 {/each}
                                                             </div>
-                                                            <div class="blue-glow flex flex-row">
+                                                            <button on:click={()=>{flipMatch(2)}} class="blue-glow flex flex-row">
                                                                 {#each data.teams[data.matches[2].blue] as team, i}
                                                                     {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                 {/each}
-                                                            </div>
+                                                            </button>
                                                         {:else}
-                                                            <div class="red-glow flex flex-row">
+                                                            <button on:click={()=>{flipMatch(2)}} class="red-glow flex flex-row">
                                                                 {#each data.teams[data.matches[2].red] as team, i}
                                                                     {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                 {/each}
-                                                            </div>
+                                                            </button>
                                                             <div class="blue-win flex flex-row">
                                                                 {#each data.teams[data.matches[2].blue] as team, i}
                                                                     {#if i < 3}{team}{#if i < 2}, {/if}{/if}
@@ -298,17 +300,17 @@
                                                                     {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                 {/each}
                                                             </div>
-                                                            <div class="blue-glow flex flex-row">
+                                                            <button on:click={()=>{flipMatch(3)}} class="blue-glow flex flex-row">
                                                                 {#each data.teams[data.matches[3].blue] as team, i}
                                                                     {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                 {/each}
-                                                            </div>
+                                                            </button>
                                                         {:else}
-                                                            <div class="red-glow flex flex-row">
+                                                            <button on:click={()=>{flipMatch(3)}} class="red-glow flex flex-row">
                                                                 {#each data.teams[data.matches[3].red] as team, i}
                                                                     {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                 {/each}
-                                                            </div>
+                                                            </button>
                                                             <div class="blue-win flex flex-row">
                                                                 {#each data.teams[data.matches[3].blue] as team, i}
                                                                     {#if i < 3}{team}{#if i < 2}, {/if}{/if}
@@ -334,17 +336,17 @@
                                                     {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                 {/each}
                                             </div>
-                                            <div class="blue-glow flex flex-row">
+                                            <button on:click={()=>{flipMatch(12)}} class="blue-glow flex flex-row">
                                                 {#each data.teams[data.matches[12].blue] as team, i}
                                                     {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                 {/each}
-                                            </div>
+                                            </button>
                                         {:else}
-                                            <div class="red-glow flex flex-row">
+                                            <button on:click={()=>{flipMatch(12)}} class="red-glow flex flex-row">
                                                 {#each data.teams[data.matches[12].red] as team, i}
                                                     {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                 {/each}
-                                            </div>
+                                            </button>
                                             <div class="blue-win flex flex-row">
                                                 {#each data.teams[data.matches[12].blue] as team, i}
                                                     {#if i < 3}{team}{#if i < 2}, {/if}{/if}
@@ -366,17 +368,17 @@
                                                                     {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                 {/each}
                                                             </div>
-                                                            <div class="blue-glow flex flex-row">
+                                                            <button on:click={()=>{flipMatch(11)}} class="blue-glow flex flex-row">
                                                                 {#each data.teams[data.matches[11].blue] as team, i}
                                                                     {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                 {/each}
-                                                            </div>
+                                                            </button>
                                                         {:else}
-                                                            <div class="red-glow flex flex-row">
+                                                            <button on:click={()=>{flipMatch(11)}} class="red-glow flex flex-row">
                                                                 {#each data.teams[data.matches[11].red] as team, i}
                                                                     {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                 {/each}
-                                                            </div>
+                                                            </button>
                                                             <div class="blue-win flex flex-row">
                                                                 {#each data.teams[data.matches[11].blue] as team, i}
                                                                     {#if i < 3}{team}{#if i < 2}, {/if}{/if}
@@ -397,17 +399,17 @@
                                                                                 {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                             {/each}
                                                                         </div>
-                                                                        <div class="blue-glow flex flex-row">
+                                                                        <button on:click={()=>{flipMatch(9)}} class="blue-glow flex flex-row">
                                                                             {#each data.teams[data.matches[9].blue] as team, i}
                                                                                 {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                             {/each}
-                                                                        </div>
+                                                                        </button>
                                                                     {:else}
-                                                                        <div class="red-glow flex flex-row">
+                                                                        <button on:click={()=>{flipMatch(9)}} class="red-glow flex flex-row">
                                                                             {#each data.teams[data.matches[9].red] as team, i}
                                                                                 {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                             {/each}
-                                                                        </div>
+                                                                        </button>
                                                                         <div class="blue-win flex flex-row">
                                                                             {#each data.teams[data.matches[9].blue] as team, i}
                                                                                 {#if i < 3}{team}{#if i < 2}, {/if}{/if}
@@ -426,17 +428,17 @@
                                                                                     {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                                 {/each}
                                                                             </div>
-                                                                            <div class="blue-glow flex flex-row">
+                                                                            <button on:click={()=>{flipMatch(4)}} class="blue-glow flex flex-row">
                                                                                 {#each data.teams[data.matches[4].blue] as team, i}
                                                                                     {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                                 {/each}
-                                                                            </div>
+                                                                            </button>
                                                                         {:else}
-                                                                            <div class="red-glow flex flex-row">
+                                                                            <button on:click={()=>{flipMatch(4)}} class="red-glow flex flex-row">
                                                                                 {#each data.teams[data.matches[4].red] as team, i}
                                                                                     {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                                 {/each}
-                                                                            </div>
+                                                                            </button>
                                                                             <div class="blue-win flex flex-row">
                                                                                 {#each data.teams[data.matches[4].blue] as team, i}
                                                                                     {#if i < 3}{team}{#if i < 2}, {/if}{/if}
@@ -459,17 +461,17 @@
                                                                                 {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                             {/each}
                                                                         </div>
-                                                                        <div class="blue-glow flex flex-row">
+                                                                        <button on:click={()=>{flipMatch(8)}} class="blue-glow flex flex-row">
                                                                             {#each data.teams[data.matches[8].blue] as team, i}
                                                                                 {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                             {/each}
-                                                                        </div>
+                                                                        </button>
                                                                     {:else}
-                                                                        <div class="red-glow flex flex-row">
+                                                                        <button on:click={()=>{flipMatch(8)}} class="red-glow flex flex-row">
                                                                             {#each data.teams[data.matches[8].red] as team, i}
                                                                                 {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                             {/each}
-                                                                        </div>
+                                                                        </button>
                                                                         <div class="blue-win flex flex-row">
                                                                             {#each data.teams[data.matches[8].blue] as team, i}
                                                                                 {#if i < 3}{team}{#if i < 2}, {/if}{/if}
@@ -488,17 +490,17 @@
                                                                                     {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                                 {/each}
                                                                             </div>
-                                                                            <div class="blue-glow flex flex-row">
+                                                                            <button on:click={()=>{flipMatch(5)}} class="blue-glow flex flex-row">
                                                                                 {#each data.teams[data.matches[5].blue] as team, i}
                                                                                     {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                                 {/each}
-                                                                            </div>
+                                                                            </button>
                                                                         {:else}
-                                                                            <div class="red-glow flex flex-row">
+                                                                            <button on:click={()=>{flipMatch(5)}} class="red-glow flex flex-row">
                                                                                 {#each data.teams[data.matches[5].red] as team, i}
                                                                                     {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                                 {/each}
-                                                                            </div>
+                                                                            </button>
                                                                             <div class="blue-win flex flex-row">
                                                                                 {#each data.teams[data.matches[5].blue] as team, i}
                                                                                     {#if i < 3}{team}{#if i < 2}, {/if}{/if}
@@ -537,7 +539,7 @@
         display: flex;
         flex-direction: row-reverse;
         .display{
-            width: 275px;
+            width: 285px;
             padding: 10px;
             margin: 0;
             border: black 4px solid;
