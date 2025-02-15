@@ -1,16 +1,17 @@
 <script>
     import { ApiService } from '$lib/components/data/2025/MatchPredictor.js'
+    import flip from '$lib/assets/icons/flip.svg'
 
     export let event
     export let teams
 
     let data
-    // data = {"matches":[{"red":0,"blue":7,"winner":"red"},{"red":1,"blue":6,"winner":"red"},{"red":2,"blue":5,"winner":"red"},{"red":3,"blue":4,"winner":"blue"},{"red":7,"blue":6,"winner":"red"},{"red":5,"blue":4,"winner":"blue"},{"red":0,"blue":1,"winner":"red"},{"red":2,"blue":3,"winner":"red"},{"red":5,"blue":1,"winner":"blue"},{"red":7,"blue":3,"winner":"red"},{"red":0,"blue":2,"winner":"red"},{"red":5,"blue":7,"winner":"blue"},{"red":2,"blue":5,"winner":"red"},{"red":0,"blue":2,"winner":"red"}],"teams":[["frc7021","frc2129","frc9576"],["frc1710","frc2194","frc967"],["frc8802","frc4230","frc537"],["frc2704","frc7103","frc1675"],["frc2830","frc525","frc8701"],["frc2826","frc1625","frc5586"],["frc6166","frc3082","frc171"],["frc5903","frc6223","frc2202"]]}
+    data = {"matches":[{"red":0,"blue":7,"winner":"red"},{"red":1,"blue":6,"winner":"red"},{"red":2,"blue":5,"winner":"red"},{"red":3,"blue":4,"winner":"blue"},{"red":7,"blue":6,"winner":"red"},{"red":5,"blue":4,"winner":"blue"},{"red":0,"blue":1,"winner":"red"},{"red":2,"blue":3,"winner":"red"},{"red":5,"blue":1,"winner":"blue"},{"red":7,"blue":3,"winner":"red"},{"red":0,"blue":2,"winner":"red"},{"red":5,"blue":7,"winner":"blue"},{"red":2,"blue":5,"winner":"red"},{"red":0,"blue":2,"winner":"red"}],"teams":[["frc7021","frc2129","frc9576"],["frc1710","frc2194","frc967"],["frc8802","frc4230","frc537"],["frc2704","frc7103","frc1675"],["frc2830","frc525","frc8701"],["frc2826","frc1625","frc5586"],["frc6166","frc3082","frc171"],["frc5903","frc6223","frc2202"]]}
 
     async function eventPrediciton(){
-        // const response = await ApiService.event(event)
-        // data = await response
-        data = {"matches":[{"red":0,"blue":7,"winner":"red"},{"red":1,"blue":6,"winner":"red"},{"red":2,"blue":5,"winner":"red"},{"red":3,"blue":4,"winner":"blue"},{"red":7,"blue":6,"winner":"red"},{"red":5,"blue":4,"winner":"blue"},{"red":0,"blue":1,"winner":"red"},{"red":2,"blue":3,"winner":"red"},{"red":5,"blue":1,"winner":"blue"},{"red":7,"blue":3,"winner":"red"},{"red":0,"blue":2,"winner":"red"},{"red":5,"blue":7,"winner":"blue"},{"red":2,"blue":5,"winner":"red"},{"red":0,"blue":2,"winner":"red"}],"teams":[["frc7021","frc2129","frc9576"],["frc1710","frc2194","frc967"],["frc8802","frc4230","frc537"],["frc2704","frc7103","frc1675"],["frc2830","frc525","frc8701"],["frc2826","frc1625","frc5586"],["frc6166","frc3082","frc171"],["frc5903","frc6223","frc2202"]]}
+        const response = await ApiService.event(event)
+        data = await response
+        // data = {"matches":[{"red":0,"blue":7,"winner":"red"},{"red":1,"blue":6,"winner":"red"},{"red":2,"blue":5,"winner":"red"},{"red":3,"blue":4,"winner":"blue"},{"red":7,"blue":6,"winner":"red"},{"red":5,"blue":4,"winner":"blue"},{"red":0,"blue":1,"winner":"red"},{"red":2,"blue":3,"winner":"red"},{"red":5,"blue":1,"winner":"blue"},{"red":7,"blue":3,"winner":"red"},{"red":0,"blue":2,"winner":"red"},{"red":5,"blue":7,"winner":"blue"},{"red":2,"blue":5,"winner":"red"},{"red":0,"blue":2,"winner":"red"}],"teams":[["frc7021","frc2129","frc9576"],["frc1710","frc2194","frc967"],["frc8802","frc4230","frc537"],["frc2704","frc7103","frc1675"],["frc2830","frc525","frc8701"],["frc2826","frc1625","frc5586"],["frc6166","frc3082","frc171"],["frc5903","frc6223","frc2202"]]}
     }
 
     async function teamPrediciton(){
@@ -62,7 +63,7 @@
     export let width, height;
 </script>
 <div style="height: 300px; width: 600px;">
-    <div class="flex flex-row mb-4" style="width: 600px;">
+    <div class="flex flex-row mb-2 options rounded-lg border-4 border-black" style="width: 600px;">
         <button on:click={resetPosition}>Reset</button>
         <button on:click={decreaseScale}>-</button>
         <input type="range" min="0.1" max="1.0" step="0.001" bind:value={scale} />
@@ -81,27 +82,27 @@
                 <div class="item">
                     <div class="item-parent">
                         <div class="display">
-                            <div class="font-bold text-lg">Finals</div>
+                            <div class="font-bold text-xl flex flex-row">Finals<div class="grow"></div><img class="h-8 w-8" src={flip} /></div>
                             {#if data.matches[13].winner === "red"}
-                                <div class="red-win">
+                                <div class="red-win flex flex-row">
                                     {#each data.teams[data.matches[13].red] as team, i}
-                                        {team}{#if i < 2}, {/if}
+                                        {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                     {/each}
                                 </div>
-                                <div class="blue-glow">
+                                <div class="blue-glow flex flex-row">
                                     {#each data.teams[data.matches[13].blue] as team, i}
-                                        {team}{#if i < 2}, {/if}
+                                        {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                     {/each}
                                 </div>
                             {:else}
-                                <div class="red-glow">
+                                <div class="red-glow flex flex-row">
                                     {#each data.teams[data.matches[13].red] as team, i}
-                                        {team}{#if i < 2}, {/if}
+                                        {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                     {/each}
                                 </div>
-                                <div class="blue-win">
+                                <div class="blue-win flex flex-row">
                                     {#each data.teams[data.matches[13].blue] as team, i}
-                                        {team}{#if i < 2}, {/if}
+                                        {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                     {/each}
                                 </div>
                             {/if}
@@ -114,25 +115,25 @@
                                     <div class="display">
                                         <div class="font-bold text-lg">Match 11</div>
                                         {#if data.matches[10].winner === "red"}
-                                            <div class="red-win">
+                                            <div class="red-win flex flex-row">
                                                 {#each data.teams[data.matches[10].red] as team, i}
-                                                    {team}{#if i < 2}, {/if}
+                                                    {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                 {/each}
                                             </div>
-                                            <div class="blue-glow">
+                                            <div class="blue-glow flex flex-row">
                                                 {#each data.teams[data.matches[10].blue] as team, i}
-                                                    {team}{#if i < 2}, {/if}
+                                                    {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                 {/each}
                                             </div>
                                         {:else}
-                                            <div class="red-glow">
+                                            <div class="red-glow flex flex-row">
                                                 {#each data.teams[data.matches[10].red] as team, i}
-                                                    {team}{#if i < 2}, {/if}
+                                                    {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                 {/each}
                                             </div>
-                                            <div class="blue-win">
+                                            <div class="blue-win flex flex-row">
                                                 {#each data.teams[data.matches[10].blue] as team, i}
-                                                    {team}{#if i < 2}, {/if}
+                                                    {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                 {/each}
                                             </div>
                                         {/if}
@@ -145,25 +146,25 @@
                                                 <div class="display">
                                                     <div class="font-bold text-lg">Match 7</div>
                                                     {#if data.matches[6].winner === "red"}
-                                                        <div class="red-win">
+                                                        <div class="red-win flex flex-row">
                                                             {#each data.teams[data.matches[6].red] as team, i}
-                                                                {team}{#if i < 2}, {/if}
+                                                                {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                             {/each}
                                                         </div>
-                                                        <div class="blue-glow">
+                                                        <div class="blue-glow flex flex-row">
                                                             {#each data.teams[data.matches[6].blue] as team, i}
-                                                                {team}{#if i < 2}, {/if}
+                                                                {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                             {/each}
                                                         </div>
                                                     {:else}
-                                                        <div class="red-glow">
+                                                        <div class="red-glow flex flex-row">
                                                             {#each data.teams[data.matches[6].red] as team, i}
-                                                                {team}{#if i < 2}, {/if}
+                                                                {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                             {/each}
                                                         </div>
-                                                        <div class="blue-win">
+                                                        <div class="blue-win flex flex-row">
                                                             {#each data.teams[data.matches[6].blue] as team, i}
-                                                                {team}{#if i < 2}, {/if}
+                                                                {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                             {/each}
                                                         </div>
                                                     {/if}
@@ -174,25 +175,25 @@
                                                     <div class="display">
                                                         <div class="font-bold text-lg">Match 1</div>
                                                         {#if data.matches[0].winner === "red"}
-                                                            <div class="red-win">
+                                                            <div class="red-win flex flex-row">
                                                                 {#each data.teams[data.matches[0].red] as team, i}
-                                                                    {team}{#if i < 2}, {/if}
+                                                                    {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                 {/each}
                                                             </div>
-                                                            <div class="blue-glow">
+                                                            <div class="blue-glow flex flex-row">
                                                                 {#each data.teams[data.matches[0].blue] as team, i}
-                                                                    {team}{#if i < 2}, {/if}
+                                                                    {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                 {/each}
                                                             </div>
                                                         {:else}
-                                                            <div class="red-glow">
+                                                            <div class="red-glow flex flex-row">
                                                                 {#each data.teams[data.matches[0].red] as team, i}
-                                                                    {team}{#if i < 2}, {/if}
+                                                                    {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                 {/each}
                                                             </div>
-                                                            <div class="blue-win">
+                                                            <div class="blue-win flex flex-row">
                                                                 {#each data.teams[data.matches[0].blue] as team, i}
-                                                                    {team}{#if i < 2}, {/if}
+                                                                    {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                 {/each}
                                                             </div>
                                                         {/if}
@@ -202,25 +203,25 @@
                                                     <div class="display">
                                                         <div class="font-bold text-lg">Match 2</div>
                                                         {#if data.matches[1].winner === "red"}
-                                                            <div class="red-win">
+                                                            <div class="red-win flex flex-row">
                                                                 {#each data.teams[data.matches[1].red] as team, i}
-                                                                    {team}{#if i < 2}, {/if}
+                                                                    {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                 {/each}
                                                             </div>
-                                                            <div class="blue-glow">
+                                                            <div class="blue-glow flex flex-row">
                                                                 {#each data.teams[data.matches[1].blue] as team, i}
-                                                                    {team}{#if i < 2}, {/if}
+                                                                    {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                 {/each}
                                                             </div>
                                                         {:else}
-                                                            <div class="red-glow">
+                                                            <div class="red-glow flex flex-row">
                                                                 {#each data.teams[data.matches[1].red] as team, i}
-                                                                    {team}{#if i < 2}, {/if}
+                                                                    {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                 {/each}
                                                             </div>
-                                                            <div class="blue-win">
+                                                            <div class="blue-win flex flex-row">
                                                                 {#each data.teams[data.matches[1].blue] as team, i}
-                                                                    {team}{#if i < 2}, {/if}
+                                                                    {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                 {/each}
                                                             </div>
                                                         {/if}
@@ -235,25 +236,25 @@
                                                 <div class="display">
                                                     <div class="font-bold text-lg">Match 8</div>
                                                     {#if data.matches[7].winner === "red"}
-                                                        <div class="red-win">
+                                                        <div class="red-win flex flex-row">
                                                             {#each data.teams[data.matches[7].red] as team, i}
-                                                                {team}{#if i < 2}, {/if}
+                                                                {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                             {/each}
                                                         </div>
-                                                        <div class="blue-glow">
+                                                        <div class="blue-glow flex flex-row">
                                                             {#each data.teams[data.matches[7].blue] as team, i}
-                                                                {team}{#if i < 2}, {/if}
+                                                                {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                             {/each}
                                                         </div>
                                                     {:else}
-                                                        <div class="red-glow">
+                                                        <div class="red-glow flex flex-row">
                                                             {#each data.teams[data.matches[7].red] as team, i}
-                                                                {team}{#if i < 2}, {/if}
+                                                                {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                             {/each}
                                                         </div>
-                                                        <div class="blue-win">
+                                                        <div class="blue-win flex flex-row">
                                                             {#each data.teams[data.matches[7].blue] as team, i}
-                                                                {team}{#if i < 2}, {/if}
+                                                                {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                             {/each}
                                                         </div>
                                                     {/if}
@@ -264,25 +265,25 @@
                                                     <div class="display">
                                                         <div class="font-bold text-lg">Match 3</div>
                                                         {#if data.matches[2].winner === "red"}
-                                                            <div class="red-win">
+                                                            <div class="red-win flex flex-row">
                                                                 {#each data.teams[data.matches[2].red] as team, i}
-                                                                    {team}{#if i < 2}, {/if}
+                                                                    {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                 {/each}
                                                             </div>
-                                                            <div class="blue-glow">
+                                                            <div class="blue-glow flex flex-row">
                                                                 {#each data.teams[data.matches[2].blue] as team, i}
-                                                                    {team}{#if i < 2}, {/if}
+                                                                    {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                 {/each}
                                                             </div>
                                                         {:else}
-                                                            <div class="red-glow">
+                                                            <div class="red-glow flex flex-row">
                                                                 {#each data.teams[data.matches[2].red] as team, i}
-                                                                    {team}{#if i < 2}, {/if}
+                                                                    {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                 {/each}
                                                             </div>
-                                                            <div class="blue-win">
+                                                            <div class="blue-win flex flex-row">
                                                                 {#each data.teams[data.matches[2].blue] as team, i}
-                                                                    {team}{#if i < 2}, {/if}
+                                                                    {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                 {/each}
                                                             </div>
                                                         {/if}
@@ -292,25 +293,25 @@
                                                     <div class="display">
                                                         <div class="font-bold text-lg">Match 4</div>
                                                         {#if data.matches[3].winner === "red"}
-                                                            <div class="red-win">
+                                                            <div class="red-win flex flex-row">
                                                                 {#each data.teams[data.matches[3].red] as team, i}
-                                                                    {team}{#if i < 2}, {/if}
+                                                                    {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                 {/each}
                                                             </div>
-                                                            <div class="blue-glow">
+                                                            <div class="blue-glow flex flex-row">
                                                                 {#each data.teams[data.matches[3].blue] as team, i}
-                                                                    {team}{#if i < 2}, {/if}
+                                                                    {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                 {/each}
                                                             </div>
                                                         {:else}
-                                                            <div class="red-glow">
+                                                            <div class="red-glow flex flex-row">
                                                                 {#each data.teams[data.matches[3].red] as team, i}
-                                                                    {team}{#if i < 2}, {/if}
+                                                                    {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                 {/each}
                                                             </div>
-                                                            <div class="blue-win">
+                                                            <div class="blue-win flex flex-row">
                                                                 {#each data.teams[data.matches[3].blue] as team, i}
-                                                                    {team}{#if i < 2}, {/if}
+                                                                    {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                 {/each}
                                                             </div>
                                                         {/if}
@@ -328,25 +329,25 @@
                                     <div class="display">
                                         <div class="font-bold text-lg">Match 13</div>
                                         {#if data.matches[12].winner === "red"}
-                                            <div class="red-win">
+                                            <div class="red-win flex flex-row">
                                                 {#each data.teams[data.matches[12].red] as team, i}
-                                                    {team}{#if i < 2}, {/if}
+                                                    {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                 {/each}
                                             </div>
-                                            <div class="blue-glow">
+                                            <div class="blue-glow flex flex-row">
                                                 {#each data.teams[data.matches[12].blue] as team, i}
-                                                    {team}{#if i < 2}, {/if}
+                                                    {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                 {/each}
                                             </div>
                                         {:else}
-                                            <div class="red-glow">
+                                            <div class="red-glow flex flex-row">
                                                 {#each data.teams[data.matches[12].red] as team, i}
-                                                    {team}{#if i < 2}, {/if}
+                                                    {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                 {/each}
                                             </div>
-                                            <div class="blue-win">
+                                            <div class="blue-win flex flex-row">
                                                 {#each data.teams[data.matches[12].blue] as team, i}
-                                                    {team}{#if i < 2}, {/if}
+                                                    {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                 {/each}
                                             </div>
                                         {/if}
@@ -360,25 +361,25 @@
                                                     <div class="display">
                                                         <div class="font-bold text-lg">Match 12</div>
                                                         {#if data.matches[11].winner === "red"}
-                                                            <div class="red-win">
+                                                            <div class="red-win flex flex-row">
                                                                 {#each data.teams[data.matches[11].red] as team, i}
-                                                                    {team}{#if i < 2}, {/if}
+                                                                    {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                 {/each}
                                                             </div>
-                                                            <div class="blue-glow">
+                                                            <div class="blue-glow flex flex-row">
                                                                 {#each data.teams[data.matches[11].blue] as team, i}
-                                                                    {team}{#if i < 2}, {/if}
+                                                                    {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                 {/each}
                                                             </div>
                                                         {:else}
-                                                            <div class="red-glow">
+                                                            <div class="red-glow flex flex-row">
                                                                 {#each data.teams[data.matches[11].red] as team, i}
-                                                                    {team}{#if i < 2}, {/if}
+                                                                    {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                 {/each}
                                                             </div>
-                                                            <div class="blue-win">
+                                                            <div class="blue-win flex flex-row">
                                                                 {#each data.teams[data.matches[11].blue] as team, i}
-                                                                    {team}{#if i < 2}, {/if}
+                                                                    {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                 {/each}
                                                             </div>
                                                         {/if}
@@ -391,25 +392,25 @@
                                                                 <div class="display">
                                                                     <div class="font-bold text-lg">Match 10</div>
                                                                     {#if data.matches[9].winner === "red"}
-                                                                        <div class="red-win">
+                                                                        <div class="red-win flex flex-row">
                                                                             {#each data.teams[data.matches[9].red] as team, i}
-                                                                                {team}{#if i < 2}, {/if}
+                                                                                {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                             {/each}
                                                                         </div>
-                                                                        <div class="blue-glow">
+                                                                        <div class="blue-glow flex flex-row">
                                                                             {#each data.teams[data.matches[9].blue] as team, i}
-                                                                                {team}{#if i < 2}, {/if}
+                                                                                {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                             {/each}
                                                                         </div>
                                                                     {:else}
-                                                                        <div class="red-glow">
+                                                                        <div class="red-glow flex flex-row">
                                                                             {#each data.teams[data.matches[9].red] as team, i}
-                                                                                {team}{#if i < 2}, {/if}
+                                                                                {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                             {/each}
                                                                         </div>
-                                                                        <div class="blue-win">
+                                                                        <div class="blue-win flex flex-row">
                                                                             {#each data.teams[data.matches[9].blue] as team, i}
-                                                                                {team}{#if i < 2}, {/if}
+                                                                                {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                             {/each}
                                                                         </div>
                                                                     {/if}
@@ -420,25 +421,25 @@
                                                                     <div class="display">
                                                                         <div class="font-bold text-lg">Match 5</div>
                                                                         {#if data.matches[4].winner === "red"}
-                                                                            <div class="red-win">
+                                                                            <div class="red-win flex flex-row">
                                                                                 {#each data.teams[data.matches[4].red] as team, i}
-                                                                                    {team}{#if i < 2}, {/if}
+                                                                                    {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                                 {/each}
                                                                             </div>
-                                                                            <div class="blue-glow">
+                                                                            <div class="blue-glow flex flex-row">
                                                                                 {#each data.teams[data.matches[4].blue] as team, i}
-                                                                                    {team}{#if i < 2}, {/if}
+                                                                                    {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                                 {/each}
                                                                             </div>
                                                                         {:else}
-                                                                            <div class="red-glow">
+                                                                            <div class="red-glow flex flex-row">
                                                                                 {#each data.teams[data.matches[4].red] as team, i}
-                                                                                    {team}{#if i < 2}, {/if}
+                                                                                    {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                                 {/each}
                                                                             </div>
-                                                                            <div class="blue-win">
+                                                                            <div class="blue-win flex flex-row">
                                                                                 {#each data.teams[data.matches[4].blue] as team, i}
-                                                                                    {team}{#if i < 2}, {/if}
+                                                                                    {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                                 {/each}
                                                                             </div>
                                                                         {/if}
@@ -453,25 +454,25 @@
                                                                 <div class="display">
                                                                     <div class="font-bold text-lg">Match 9</div>
                                                                     {#if data.matches[8].winner === "red"}
-                                                                        <div class="red-win">
+                                                                        <div class="red-win flex flex-row">
                                                                             {#each data.teams[data.matches[8].red] as team, i}
-                                                                                {team}{#if i < 2}, {/if}
+                                                                                {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                             {/each}
                                                                         </div>
-                                                                        <div class="blue-glow">
+                                                                        <div class="blue-glow flex flex-row">
                                                                             {#each data.teams[data.matches[8].blue] as team, i}
-                                                                                {team}{#if i < 2}, {/if}
+                                                                                {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                             {/each}
                                                                         </div>
                                                                     {:else}
-                                                                        <div class="red-glow">
+                                                                        <div class="red-glow flex flex-row">
                                                                             {#each data.teams[data.matches[8].red] as team, i}
-                                                                                {team}{#if i < 2}, {/if}
+                                                                                {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                             {/each}
                                                                         </div>
-                                                                        <div class="blue-win">
+                                                                        <div class="blue-win flex flex-row">
                                                                             {#each data.teams[data.matches[8].blue] as team, i}
-                                                                                {team}{#if i < 2}, {/if}
+                                                                                {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                             {/each}
                                                                         </div>
                                                                     {/if}
@@ -482,25 +483,25 @@
                                                                     <div class="display">
                                                                         <div class="font-bold text-lg">Match 6</div>
                                                                         {#if data.matches[5].winner === "red"}
-                                                                            <div class="red-win">
+                                                                            <div class="red-win flex flex-row">
                                                                                 {#each data.teams[data.matches[5].red] as team, i}
-                                                                                    {team}{#if i < 2}, {/if}
+                                                                                    {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                                 {/each}
                                                                             </div>
-                                                                            <div class="blue-glow">
+                                                                            <div class="blue-glow flex flex-row">
                                                                                 {#each data.teams[data.matches[5].blue] as team, i}
-                                                                                    {team}{#if i < 2}, {/if}
+                                                                                    {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                                 {/each}
                                                                             </div>
                                                                         {:else}
-                                                                            <div class="red-glow">
+                                                                            <div class="red-glow flex flex-row">
                                                                                 {#each data.teams[data.matches[5].red] as team, i}
-                                                                                    {team}{#if i < 2}, {/if}
+                                                                                    {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                                 {/each}
                                                                             </div>
-                                                                            <div class="blue-win">
+                                                                            <div class="blue-win flex flex-row">
                                                                                 {#each data.teams[data.matches[5].blue] as team, i}
-                                                                                    {team}{#if i < 2}, {/if}
+                                                                                    {#if i < 3}{team}{#if i < 2}, {/if}{/if}
                                                                                 {/each}
                                                                             </div>
                                                                         {/if}
@@ -536,7 +537,7 @@
         display: flex;
         flex-direction: row-reverse;
         .display{
-            width: 250px;
+            width: 275px;
             padding: 10px;
             margin: 0;
             border: black 4px solid;
@@ -553,8 +554,8 @@
             &:after{
                 position: absolute;
                 content: '';
-                width: $side-margin/2;
-                height: 2px;
+                width: ($side-margin/2)+1;
+                height: 4px;
                 left: 0;
                 top: 50%;
                 background-color: #fff;
@@ -580,16 +581,16 @@
                 right: 0;
                 top: 50%;
                 transform: translateX(100%);
-                width: 25px;
-                height: 2px;
+                width: 24.8px;
+                height: 4px;
             }
             &:after{
                 content: '';
                 position: absolute;
                 background-color: #fff;
                 right: -$side-margin / 2;
-                height: calc(50% + 22px) ;
-                width: 2px;
+                height: calc(50% + 30px) ;
+                width: 4px;
                 top: 50%;
             }
             &:last-child{
@@ -606,12 +607,20 @@
          text-shadow: 0 0 30px #f00;
          color: rgba(255, 255, 255, 0.4);
     }
+    .red-glow:hover{
+      text-shadow: 0 0 5px rgba(255, 255, 255, 0.75), 0 0 10px rgba(255, 0, 0, 0.75), 0 0 20px rgba(255, 0, 0, 0.75);
+      color: rgba(255, 255, 255, 0.4);
+    }
     .red-win{
          text-shadow: 0 0 5px #fff, 0 0 10px #f00, 0 0 20px #f00, 0 0 30px #f00 , 0 0 40px #f00 , 0 0 50px #f00, 0 0 60px #f00, 0 0 70px #f00;
     }
     .blue-glow{
         text-shadow: 0 0 30px #00f;
         color: rgba(255, 255, 255, 0.4);
+    }
+    .blue-glow:hover{
+      text-shadow: 0 0 5px rgba(255, 255, 255, 0.75), 0 0 10px rgba(0, 0, 255, 0.75), 0 0 20px rgba(0, 0, 255, 0.75);
+      color: rgba(255, 255, 255, 0.4);
     }
     .blue-win{
         text-shadow: 0 0 5px #fff, 0 0 10px #00f, 0 0 20px #00f, 0 0 30px #00f , 0 0 40px #00f , 0 0 50px #00f, 0 0 60px #00f, 0 0 70px #00f;
@@ -629,5 +638,8 @@
         box-shadow: inset 0 20px 40px 0 rgb(0 0 0 / 0.5);
         width: 100%;
         height: 100%;
+    }
+    .options{
+      background-color: rgba(0, 0, 0, 0.5);
     }
 </style>

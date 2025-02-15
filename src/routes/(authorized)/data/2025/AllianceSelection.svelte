@@ -171,13 +171,13 @@
 <!--{/if}-->
 <!--Current Alliance Index: {i}-->
 
-<div class="basis-1/3 h-full">
+<div class="basis-1/4 bg-gradient-to-b from-slate-800 to-slate-900">
     <div class="flex flex-cols-2 p-2">
         {#if rankings}
-            <div class="basis-1/2">
+            <div class="basis-1/2 max-h-screen">
                 <h1 class="text-lg font-bold">Picked Teams</h1>
                 <button class="bg-blue-500 rounded-md" on:click={undo}>Undo</button>
-                <div class="overflow-auto h-1/2">
+                <div class="overflow-y-scroll" style="height: 90vh">
                     {#each picked.rankings as alliance, index}
                         <div class="w-fit h-fit px-4 rounded-md {index === i && selection ? 'bg-slate-600' : ''}">
                             <h1 class="text-lg font-semibold">Alliance {index + 1}</h1>
@@ -205,16 +205,16 @@
                     {/each}
                 </div>
             </div>
-            <div class="basis-1/2 h-auto">
+            <div class="basis-1/2 max-h-screen">
                 <h1 class="text-lg font-bold">Available Teams</h1>
-                <div class="overflow-scroll h-1/3">
+                <div class="overflow-y-scroll" style="height: 94vh">
                     {#each rankings.rankings as ranking}
                         {#if !ranking.rejected}
-                            <li>
+                            <ul>
                                 <button on:click={() => { selecting = true; selected_team = ranking }}>
                                     {ranking.truerank}.{formatTeamKey(ranking.team_key)}
                                 </button>
-                            </li>
+                            </ul>
                         {/if}
                     {/each}
                 </div>
@@ -240,3 +240,7 @@
         {/if}
     </div>
 </div>
+
+<style lang="scss">
+    
+</style>

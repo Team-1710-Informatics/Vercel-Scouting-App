@@ -11,6 +11,12 @@ export const ApiService = {
         }
         console.log('data processed, nya~', teams)
 
+        return this.createPredictions(teams)
+    },
+    async team(teams) {
+        return this.createPredictions(teams)
+    },
+    async createPredictions(teams){
         const order = [
             [6, 4],
             [6, 4],
@@ -104,7 +110,7 @@ export const ApiService = {
 
         for(let i = 0; i < matches.length; i++){
             console.log('nya~', i)
-            var form_data = await this.formData(matches[i], teams)
+            let form_data = await this.formData(matches[i], teams)
 
             const prediction = await this.getPrediction(form_data, url)
 
@@ -152,10 +158,6 @@ export const ApiService = {
             }
         }
         return {matches: matches, teams: teams}
-    },
-    async team(teams) {
-        // let url = 'https://micro.apisb.me'
-        // return await fetch(form.action, {method:'post', body: new FormData(form)});
     },
     async getPrediction(form_data, url) {
         const response = await fetch(url, {method:'post', body: form_data})
