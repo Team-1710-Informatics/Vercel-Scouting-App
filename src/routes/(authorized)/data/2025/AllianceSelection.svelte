@@ -171,7 +171,7 @@
 <!--{/if}-->
 <!--Current Alliance Index: {i}-->
 
-<div class="basis-1/4 bg-gradient-to-b from-slate-800 to-slate-900">
+<div class="basis-1/4 draggable-container border-8 rounded-3xl border-black overflow-hidden relative m-2">
     <div class="flex flex-cols-2 p-2">
         {#if rankings}
             <div class="basis-1/2 max-h-screen">
@@ -242,5 +242,10 @@
 </div>
 
 <style lang="scss">
-    
+    .draggable-container{
+        background-color: rgba(0, 0, 0, 0.2);
+        box-shadow: inset 0 20px 40px 0 rgb(0 0 0 / 0.5);
+        width: 100%;
+        height: 100%;
+    }
 </style>
