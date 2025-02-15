@@ -65,28 +65,17 @@
     }
 
     function handleDropOrMiss(actionType) {
-        if (selected.location === "reef" || selected.location === "processor" || selected.location === "barge") {
-            if (item === "coral") {
-                coral = false;
-                reefActive = false;
-                console.log("outtaking coral");
-                log.push({
-                    time: state.time,
-                    action: actionType,
-                    ...selected,
-                    phase: state.phase,
-                });
-            } else {
-                algae = false;
-                console.log("outtaking algae");
-                log.push({
-                    time: state.time,
-                    action: actionType,
-                    ...selected,
-                    phase: state.phase,
-                });
-            }
+        if (item === "coral" && coral) {
+            coral = false;
+        } else if (item === "algae" && algae) {
+            algae = false;
         }
+        log.push({
+            time: state.time,
+            action: actionType,
+            ...selected,
+            phase: state.phase,
+        });
     }
 
     function handleIntake() {

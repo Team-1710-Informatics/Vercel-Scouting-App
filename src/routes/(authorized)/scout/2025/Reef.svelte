@@ -39,7 +39,7 @@
     });
 
     const hexagonPath = Array.from({length: 6}, (_, i) => {
-        const angle = (Math.PI / 3) * i;
+        const angle = (Math.PI / 3) * i + Math.PI / 6; // Rotate by 30 degrees
         const x = Math.cos(angle) * radius;
         const y = Math.sin(angle) * radius;
         return `${x},${y}`;
@@ -192,7 +192,7 @@
         width: 100%;
         height: 114%;
         object-fit: cover;
-        transform: translate(-50%, -50%) scale(0.8) rotate(270deg); /* Scale down to 80% and center */
+        transform: translate(-50%, -50%) scale(0.8) rotate(300deg); /* Rotate by 300 degrees (or -60 degrees) */
         position: absolute;
         top: 50%;
         left: 50%;
@@ -209,6 +209,7 @@
         fill: transparent;
         transition: fill 0.3s;
         cursor: pointer;
+        transform: rotate(30deg); /* Rotate by 30 degrees */
     }
 
     .slice:hover {
