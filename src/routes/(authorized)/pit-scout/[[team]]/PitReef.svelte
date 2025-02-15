@@ -79,8 +79,7 @@
     function scoreReef(level) {
         // activeSlice = -1;
         // reefActive = false;
-        selected = {location: "reef", branch: activeSlice}
-        selected.level = level
+        selected = {branch: activeSlice, level: level};
         item = "coral"
     }
 
@@ -88,32 +87,32 @@
         if (algae_locations[activeSlice] === 0) {
             return false
         }
-
+        console.log("yipe")
         algae_locations[activeSlice] = 0
         algae_locations = algae_locations
         return true
     }
 </script>
 
-<div class="flex flex-row justify-center">
+<div class="flex flex-row justify-center h-64">
     {#if reefActive}
         <div class="flex flex-col max-h-16 pt-4">
-            <img class="w-20 branch branch-left" src={branchLeft3}
+            <img class="w-20 branch branch-left {reefActive ? '' : 'branch-left-exit'}" src={branchLeft3}
                  on:click={() => scoreReef(3)}>
-            <img class="w-20 branch branch-left" src={branchLeft2}
+            <img class="w-20 branch branch-left {reefActive ? '' : 'branch-left-exit'}" src={branchLeft2}
                  on:click={() => scoreReef(2)}>
-            <img class="w-20 branch branch-left" src={branchLeft1}
+            <img class="w-20 branch branch-left {reefActive ? '' : 'branch-left-exit'}" src={branchLeft1}
                  on:click={() => scoreReef(1)}>
-            <img class="w-20 branch branch-left" src={branchLeft0}
+            <img class="w-20 branch branch-left {reefActive ? '' : 'branch-left-exit'}" src={branchLeft0}
                  on:click={() => scoreReef(0)}>
         </div>
-        {#if algae_locations[activeSlice] === 1}
-            <img src={algae}
-                 class="w-20 h-20 -ml-7 -mr-10 mt-2 branch-left z-20">
-        {:else}
-            <img src={algae}
-                 class="w-20 h-20 -ml-7 -mr-10 mt-2 branch-left z-20 opacity-5">
-        {/if}
+        <!--{#if algae_locations[activeSlice] === 1}-->
+        <!--    <img src={algae}-->
+        <!--         class="w-20 h-20 -ml-7 -mr-10 mt-2 branch-left z-20 {reefActive ? '' : 'branch-left-exit'}">-->
+        <!--{:else}-->
+        <!--    <img src={algae}-->
+        <!--         class="w-20 h-20 -ml-7 -mr-10 mt-2 branch-left z-20 opacity-5 {reefActive ? '' : 'branch-left-exit'}">-->
+        <!--{/if}-->
     {/if}
 
     <div class="hexagon-container">
@@ -124,22 +123,22 @@
             <g class="slices">
                 {#each slices as path, index}
                     <path
-                            class="slice"
-                            d={path}
-                            on:click={() => handleClick(index)}
-                            class:selected={hoveredSlice===index}
+                        class="slice"
+                        d={path}
+                        on:click={() => handleClick(index)}
+                        class:selected={hoveredSlice===index}
                     />
                 {/each}
             </g>
         </svg>
     </div>
     {#if reefActive}
-        {#if algae_locations[activeSlice] === 1 }
-            <img src={algae} class="w-20 h-20 -mr-7 -ml-10 mt-2 branch-right z-20">
-        {:else}
-            <img src={algae} class="w-20 h-20 -mr-7 -ml-10 mt-2 branch-left z-20 opacity-5">
-        {/if}
-        <div class="flex flex-col max-h-14 pt-4">
+        <!--{#if algae_locations[activeSlice] === 1 }-->
+        <!--    <img src={algae} class="w-20 h-20 -mr-7 -ml-10 mt-2 branch-right z-20">-->
+        <!--{:else}-->
+        <!--    <img src={algae} class="w-20 h-20 -mr-7 -ml-10 mt-2 branch-left z-20 opacity-5">-->
+        <!--{/if}-->
+        <div class="flex flex-col max-h-96 pt-4">
             <img class="w-20 branch branch-right" src={branchRight3} on:click={() => scoreReef(3)}>
             <img class="w-20 branch branch-right" src={branchRight2} on:click={() => scoreReef(2)}>
             <img class="w-20 branch branch-right" src={branchRight1} on:click={() => scoreReef(1)}>
@@ -170,6 +169,18 @@
             transform: translateX(100%);
             opacity: 0;
         }
+    }
+
+    .branch-left-exit {
+        animation-name: slideOutRight;
+        animation-duration: 0.5s;
+        animation-fill-mode: forwards;
+    }
+
+    .branch-right-exit {
+        animation-name: slideOutLeft;
+        animation-duration: 0.5s;
+        animation-fill-mode: forwards;
     }
 
     .hexagon-container {
@@ -212,7 +223,7 @@
     }
 
     .slice:hover {
-        fill: rgba(175, 175, 221, 0.47);
+        fill: rgba(144, 144, 202, 0.13);
         opacity: 0.5;
     }
 

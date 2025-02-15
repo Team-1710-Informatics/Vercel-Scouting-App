@@ -67,6 +67,7 @@
     "plotly.js-dist": "^2.29.0",
     "postcss": "^8.4.21",
     "qrcode": "^1.5.3",
+    "scss": "^0.2.4",
     "socket.io": "^4.5.4",
     "svelte-drag": "^3.1.0",
     "svelte-plotly.js": "^0.3.2",

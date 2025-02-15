@@ -57,6 +57,7 @@
     }
 
     let secret = 0
+
 </script>
 
 <svelte:head>
