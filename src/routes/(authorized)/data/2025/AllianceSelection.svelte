@@ -171,7 +171,7 @@
 <!--{/if}-->
 <!--Current Alliance Index: {i}-->
 
-<div class="basis-1/4 bg-gradient-to-b from-slate-800 to-slate-900">
+<div class="basis-1/4 draggable-container border-8 rounded-3xl border-black overflow-hidden relative m-2">
     <div class="flex flex-cols-2 p-2">
         {#if rankings}
             <div class="basis-1/2 max-h-screen">
