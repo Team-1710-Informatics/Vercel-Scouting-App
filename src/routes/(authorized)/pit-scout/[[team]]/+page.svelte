@@ -1,6 +1,6 @@
 <script lang="ts">
     import CompetitionSelector from '$lib/components/search/CompetitionSelector.svelte'
-    import PitReef from './pitReef.svelte'
+    import PitReef from './PitReef.svelte'
 
     // get data about selected match
     export let data
