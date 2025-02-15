@@ -212,7 +212,7 @@
                         {#if !ranking.rejected}
                             <ul>
                                 <button on:click={() => { selecting = true; selected_team = ranking }}>
-                                    {ranking.truerank}. {formatTeamKey(ranking.team_key)}
+                                    {ranking.truerank}.{formatTeamKey(ranking.team_key)}
                                 </button>
                             </ul>
                         {/if}

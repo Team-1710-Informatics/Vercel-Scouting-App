@@ -79,8 +79,7 @@
     function scoreReef(level) {
         // activeSlice = -1;
         // reefActive = false;
-        selected = {location: "reef", branch: activeSlice}
-        selected.level = level
+        selected = {branch: activeSlice, level: level};
         item = "coral"
     }
 
@@ -88,7 +87,7 @@
         if (algae_locations[activeSlice] === 0) {
             return false
         }
-
+        console.log("yipe")
         algae_locations[activeSlice] = 0
         algae_locations = algae_locations
         return true
@@ -107,39 +106,39 @@
             <img class="w-20 branch branch-left {reefActive ? '' : 'branch-left-exit'}" src={branchLeft0}
                  on:click={() => scoreReef(0)}>
         </div>
-        {#if algae_locations[activeSlice] === 1}
-            <img src={algae}
-                 class="w-20 h-20 -ml-7 -mr-10 mt-2 branch-left z-20 {reefActive ? '' : 'branch-left-exit'}">
-        {:else}
-            <img src={algae}
-                 class="w-20 h-20 -ml-7 -mr-10 mt-2 branch-left z-20 opacity-5 {reefActive ? '' : 'branch-left-exit'}">
-        {/if}
+        <!--{#if algae_locations[activeSlice] === 1}-->
+        <!--    <img src={algae}-->
+        <!--         class="w-20 h-20 -ml-7 -mr-10 mt-2 branch-left z-20 {reefActive ? '' : 'branch-left-exit'}">-->
+        <!--{:else}-->
+        <!--    <img src={algae}-->
+        <!--         class="w-20 h-20 -ml-7 -mr-10 mt-2 branch-left z-20 opacity-5 {reefActive ? '' : 'branch-left-exit'}">-->
+        <!--{/if}-->
     {/if}
 
     <div class="hexagon-container">
-        <div class="image-container">
+        <div class="image-container {reefActive ? 'w-48' : ''}">
             <img alt="Reef Red" class="hexagon-image" src={reefRed}/>
         </div>
         <svg class="hexagon" viewBox="-50 -50 100 100">
             <g class="slices">
                 {#each slices as path, index}
                     <path
-                            class="slice"
-                            d={path}
-                            on:click={() => handleClick(index)}
-                            class:selected={hoveredSlice===index}
+                        class="slice"
+                        d={path}
+                        on:click={() => handleClick(index)}
+                        class:selected={hoveredSlice===index}
                     />
                 {/each}
             </g>
         </svg>
     </div>
     {#if reefActive}
-        {#if algae_locations[activeSlice] === 1 }
-            <img src={algae} class="w-20 h-20 -mr-7 -ml-10 mt-2 branch-right z-20">
-        {:else}
-            <img src={algae} class="w-20 h-20 -mr-7 -ml-10 mt-2 branch-left z-20 opacity-5">
-        {/if}
-        <div class="flex flex-col max-h-14 pt-4">
+        <!--{#if algae_locations[activeSlice] === 1 }-->
+        <!--    <img src={algae} class="w-20 h-20 -mr-7 -ml-10 mt-2 branch-right z-20">-->
+        <!--{:else}-->
+        <!--    <img src={algae} class="w-20 h-20 -mr-7 -ml-10 mt-2 branch-left z-20 opacity-5">-->
+        <!--{/if}-->
+        <div class="flex flex-col max-h-96 pt-4">
             <img class="w-20 branch branch-right" src={branchRight3} on:click={() => scoreReef(3)}>
             <img class="w-20 branch branch-right" src={branchRight2} on:click={() => scoreReef(2)}>
             <img class="w-20 branch branch-right" src={branchRight1} on:click={() => scoreReef(1)}>
