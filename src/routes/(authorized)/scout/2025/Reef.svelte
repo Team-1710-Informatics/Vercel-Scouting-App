@@ -88,7 +88,7 @@
         if (algae_locations[activeSlice] === 0) {
             return false
         }
-        console.log("yipe")
+
         algae_locations[activeSlice] = 0
         algae_locations = algae_locations
         return true
