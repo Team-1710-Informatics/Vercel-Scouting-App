@@ -8,17 +8,21 @@
     <div class="box">
         <h6>Competition</h6>
         <CompetitionSelector
-            events={data.events}
-            bind:event={data.competition}
+                bind:event={data.competition}
+                events={data.events}
         />
     </div>
-    <br />
+    <br/>
     <a disabled={!data.competition} href="./2024/spreadsheet/{data.competition}"
-        ><button disabled={!data.competition}>Spreadsheet</button></a
+    >
+        <button disabled={!data.competition}>Spreadsheet</button>
+    </a
     >
     <!-- <a disabled={!data.competition} href="./2024/entries/{data.competition}"><button disabled={!data.competition}>Database</button></a> -->
     <a disabled={!data.competition} href="./2024/single/{data.competition}/1710"
-        ><button disabled={!data.competition}>Single</button></a
+    >
+        <button disabled={!data.competition}>Single</button>
+    </a
     >
 </center>
 

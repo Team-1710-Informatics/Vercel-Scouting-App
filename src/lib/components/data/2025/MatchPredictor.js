@@ -8,14 +8,11 @@ export const ApiService = {
      * @returns {Promise<Object>} - A promise that resolves to the predictions created from the fetched alliances.
      */
     async event(event_key) {
-        console.log('request received, nya~')
         const response = await tba(`event/${event_key}/alliances`)
-        console.log('data received, nya~', response)
         const teams = []
         for (let i = 0; i < response.length; i++) {
             teams.push(response[i].picks)
         }
-        console.log('data processed, nya~', teams)
 
         return this.createPredictions(teams)
     },
@@ -127,13 +124,11 @@ export const ApiService = {
         const url = 'https://match.apisb.me/prediction'
 
         for (let i = 0; i < matches.length; i++) {
-            console.log('nya~', i)
             let form_data = await this.formData(matches[i], teams)
 
             const prediction = await this.getPrediction(form_data, url)
 
             matches[i].winner = prediction
-            console.log('matches[i].winner', matches[i].winner)
             if (i !== 13) {
                 if (matches[i].winner === 'red') {
                     let winner = order[i][0]
@@ -186,9 +181,6 @@ export const ApiService = {
     async getPrediction(form_data, url) {
         const response = await fetch(url, { method: 'post', body: form_data })
         const data = await response.json()
-
-        console.log('prediction received, nya~', data, form_data)
-
         if (
             Number(data.blue_alliance_win_confidence) >
             Number(data.red_alliance_win_confidence)
@@ -206,10 +198,7 @@ export const ApiService = {
      * @returns {Promise<FormData>} - A promise that resolves to the form data.
      */
     async formData(data, teams) {
-        console.log('nya~', data)
-        console.log('teams, nya~', teams)
-
-        var form_data = new FormData()
+        let form_data = new FormData()
 
         form_data.append('team-red-1', teams[data.red][0])
         form_data.append('team-red-2', teams[data.red][1])
@@ -217,8 +206,6 @@ export const ApiService = {
         form_data.append('team-blue-1', teams[data.blue][0])
         form_data.append('team-blue-2', teams[data.blue][1])
         form_data.append('team-blue-3', teams[data.blue][2])
-
-        console.log('meow~', form_data)
 
         return form_data
     },
@@ -230,8 +217,8 @@ export const ApiService = {
      * @returns {Promise<Object>} - A promise that resolves to an object containing updated matches and teams.
      */
     async flip(match, data) {
-        console.log('flip request received :3', match, data)
         let teams = data.teams
+
         let matches = [
             {
                 red: 0,
@@ -372,13 +359,11 @@ export const ApiService = {
         const url = 'https://match.apisb.me/prediction'
 
         for (let i = match + 1; i < matches.length; i++) {
-            console.log('nya~', i)
             let form_data = await this.formData(matches[i], teams)
 
             const prediction = await this.getPrediction(form_data, url)
 
             matches[i].winner = prediction
-            console.log('matches[i].winner', matches[i].winner)
             if (i !== 13) {
                 if (matches[i].winner === 'red') {
                     let winner = order[i][0]
@@ -419,7 +404,6 @@ export const ApiService = {
                 }
             }
         }
-        console.log('flip response sent :3', matches)
         return { matches: matches, teams: teams }
     },
 }
