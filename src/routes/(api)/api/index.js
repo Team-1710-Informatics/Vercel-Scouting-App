@@ -1,6 +1,6 @@
 export default {
-    desc:"all scouting entries come in the structure of this schema.",
-    ex:`{
+    desc: 'all scouting entries come in the structure of this schema.',
+    ex: `{
         event:String,
         match: Number,
         alliance: String(red|blue),
@@ -22,5 +22,5 @@ export default {
                 parked: Boolean
             }
         }
-    }`
+    }`,
 }

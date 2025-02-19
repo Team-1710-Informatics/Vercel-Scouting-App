@@ -1,201 +1,230 @@
-<script lang=ts>
-import CompetitionSelector from "$lib/components/search/CompetitionSelector.svelte";
+<script lang="ts">
+    import CompetitionSelector from '$lib/components/search/CompetitionSelector.svelte'
+    import PitReef from './PitReef.svelte'
 
-export let data;
+    // get data about selected match
+    export let data
 
-let teamNumber=data.team;
-let competition=data.competition?.key??null;
+    let teamNumber = data.team
+    let competition = data.competition?.key ?? null
 
-let page = 1;
+    // page counter
+    let page = 1
 
-let driveTrain = "";
-let otherIntake = "";
-let otherShooter = "";
+    // these icebreakers are randomly selected per scout
+    const icebreakers = [
+        "What is your favorite ocean?",
+        "If you could rename any ocean, what would it be and why?",
+        "Would you rather have a jellyfish for a hat or an eel for a scarf?",
+        "What would be a good name for a podcast produced by dolphins?",
+    ]
 
-const bumperaccount:[string, string][] = [
-    ['Including bumper', 'includes'],
-    ['Excluding bumper', 'excludes']
-]
+    const icebreaker = icebreakers[Math.floor(Math.random() * icebreakers.length)]
 
-const drivetrains:[string, string][] = [ //first string is for name second is for value
-    ["Swerve", "swerve"],
-    ["Tank", "tank"],
-    ["Other?", "other"]
-]
+    // lists of options on questions
 
-const intakes:[string, string][] = [ //first string is for name second is for value
-    ["Over the bumper", "over"],
-    ["Under the bumper", "under"],
-    ["Other?", "other"]
-]
+    const drivetrains = [
+        "Swerve",
+        "Tank",
+        "Mecanum",
+        "Other/Custom"
+    ]
 
-const shooters:[string, string][] = [ //first string is for name second is for value
-    ["Rollers", "rollers"],
-    ["Wheels", "wheels"],
-    ["Other?", "other"]
-]
+    const swerveTypes = [
+        "West Coast",
+        "Thrifty",
+        "SDS",
+        "Rev",
+        "Custom",
+        "None"
+    ]
 
-const climbing:[string, string][] = [ //first string is for name second is for value
-    ["Very good", "veryGood"],
-    ["Okay", "okay"],
-    ["Very bad/Can't Climb", "veryBad"]
-]
+    const motorTypes = [
+        "Kraken X60",
+        "Falcon 500",
+        "NEO",
+        "CIM",
+        "Other"
+    ]
 
-const buddyClimb:[string, string][] = [ //first string is for name second is for value
-    ["Yes", "yes"],
-    ["No", "no"],
-]
+    const languages = [
+        "Java",
+        "C++",
+        "Python",
+        "LabView"
+    ]
 
-const scorePreference:[string, string][] = [ //first string is for name second is for value
-    ["Speaker", "speaker"],
-    ["Amp", "amp"],
-]
+    const autoSoftwares = [
+        "PathPlanner",
+        "Choreo",
+        "Both",
+        "Neither",
+        "Dead Reckoning",
+        "Other"
+    ]
 
-const scoreAbility = [ //first string is for name second is for value
-    ["Very well", "veryWell"],
-    ["Okay", "okay"],
-    ["Very bad", "veryBad"]
-]
+    const driverPractices = [
+        "None",
+        "Some Practice",
+        "Lots of Practice"
+    ]
 
-const intakePreference = [ //first string is for name second is for value
-    ["Wing", "wing"],
-    ["Center", "center"],
-    ["Source", "source"]
-]
+    const loggers = [
+        "wpilogger",
+        "ctrelogger",
+        "urcl",
+        "doglog",
+        "advantagekit",
+        "other"
+    ]
 
-const ampUse = [
-    ["Amplify", "amplify"],
-    ["Coop", "coop"]
-]
+    $: wpilog = false;
 
-const scoring:[string, string][] = [
-    ["Speaker", "speakerScore"],
-    ["Amp", "ampScore"],
-    ["Trap", "trapScore"]
-]
+    const cages = [
+        "Deep",
+        "Shallow",
+        "Both",
+        "Neither"
+    ]
 
-const dimensions = [
-    "in",
-    "cm"
-]
+    const dimensions = ['in', 'cm']
 
-const distance = [
-    "ft",
-    "m"
-]
+    const weight = ['lb', 'kg']
 
-const weight = [
-    "lb",
-    "kg"
-]
+    let positions = [false, false, false]
 
-const speed = [
-    "mi",
-    "km"
-]
+    let scorelevels = [false, false, false, false]
 
-let index:{
-    otherScouts: string,
-    length: number|null,
-    width: number|null,
-    bumperWidth: number|null,
-    height: number|null,
-    sizeUnit: string,
-    weight: number|null,
-    weightUnit: string,
-    speed: number|null,
-    speedUnit: string,
-    driveTrain: string,
-    otherDriveTrain: string,
-    intakeType: string,
-    otherIntake: string,
-    shooterType: string,
-    wheelType: string,
-    otherShooter: string,
-    speakerScore: boolean,
-    ampScore: boolean,
-    trapScore: boolean,
-    shootingDistance: number|null,
-    distanceUnit: string,
-    climbingAbility: string,
-    maxAutoScore: number|null,
-    autoStrategy: string,
-    buddyClimb: boolean,
-    scorePreference: string,
-    scoringAbility: string, 
-    ampUse: string,
-    intakeLocation: string,
-    notes: string,
-    spotlight: string,
-    autoSoftware: string,
-}={
-    otherScouts: "",
-    length: null,
-    width: null,
-    bumperWidth: null,
-    height: null,
-    sizeUnit: "",
-    weight: null,
-    weightUnit: "",
-    speed: null,
-    speedUnit: "",
-    driveTrain: "",
-    otherDriveTrain: "",
-    intakeType: "",
-    otherIntake: "",
-    shooterType: "",
-    wheelType: "",
-    otherShooter: "",
-    speakerScore: false,
-    ampScore: false,
-    trapScore: false,
-    shootingDistance: null,
-    distanceUnit: "",
-    climbingAbility: "",
-    maxAutoScore: null,
-    autoStrategy: "",
-    buddyClimb: false,
-    scorePreference: "",
-    scoringAbility: "", 
-    ampUse: "",
-    intakeLocation: "",
-    notes: "",
-    spotlight: "",
-    autoSoftware: "",
-};
+    let selectedBranch = {
+        branch: 0,
+        level: 0,
+    };
+
+    // data that will be changed by form
+    let index: {
+        team: number,
+        event: string,
+        scout: string,
+        otherScouts: string,
+        length: number,
+        width: number,
+        sizeUnit: string,
+        weight: number,
+        weightUnit: string,
+        driveTrain: string,
+        otherDriveTrain: string,
+        swerveType: string,
+        swerveRatio: string,
+        motorType: string,
+        otherMotorType: string,
+        language: string,
+        autoSoftware: string,
+        autoLogger: string,
+        cageClimbable: [],
+        buddyClimb: boolean,
+        floorIntake: boolean,
+        firstCoralLocation: {},
+        autoStartingPos: [],
+        controlPieces: boolean,
+        intakeAreas: [],
+        scoreAreas: [],
+        framePerimeter: boolean,
+        bargeNetPractice: boolean,
+        driverPractice: boolean,
+        needHelp: string,
+        notes: string,
+        imageLink: string,
+    } = {
+        team: 0,
+        event: '',
+        scout: '',
+        otherScouts: '',
+        length: 0,
+        width: 0,
+        sizeUnit: '',
+        weight: 0,
+        weightUnit: '',
+        driveTrain: '',
+        otherDriveTrain: '',
+        swerveType: '',
+        swerveRatio: '',
+        motorType: '',
+        otherMotorType: '',
+        language: '',
+        autoSoftware: '',
+        autoLogger: '',
+        cageClimbable: [],
+        buddyClimb: false,
+        floorIntake: false,
+        firstCoralLocation: {branch: 0, level: 0},
+        autoStartingPos: [],
+        controlPieces: false,
+        intakeAreas: [],
+        scoreAreas: [],
+        framePerimeter: false,
+        bargeNetPractice: false,
+        driverPractice: false,
+        needHelp: '',
+        notes: '',
+        imageLink: '',
+    }
 </script>
+
 <middle>
-    <div class="rounded-lg px-5 py-4 my-5 bg-gradient-to-br from-slate-900 to-slate-800">
+    <div
+        class="rounded-lg px-5 py-4 my-5 bg-gradient-to-br from-slate-900 to-slate-800"
+    >
         <p class="text-center text-lg">Rules</p>
         <p>rules...</p>
     </div>
-    <div class="rounded-lg px-5 py-4 my-5 bg-gradient-to-br from-slate-900 to-slate-800">
+    <div
+        class="rounded-lg px-5 py-4 my-5 bg-gradient-to-br from-slate-900 to-slate-800"
+    >
         selector
     </div>
-    <div class="rounded-lg px-5 py-4 my-5 bg-gradient-to-br from-slate-900 to-slate-800">
-        <div class="text-center mx-auto">page {page} of 4</div>
-        <hr class="mt-4 mb-2"/>
+    <div
+        class="rounded-lg px-5 py-4 my-5 bg-gradient-to-b from-slate-900 to-slate-800 w-5/6"
+    >
+        <div class="text-center mx-auto">page {page} of 3</div>
+        <hr class="mt-4 mb-2" />
         {#if page == 1}
             <div>
-                <label for="otherScouts">Scouting partner:</label> 
-                    <select name="otherScouts" bind:value={index.otherScouts}>
-                        <option value="none">None</option>
-                        {#each data.members as member}
-                            <option value={member.username}>{member.name.first} {member.name.last}</option>
-                        {/each}
-                    </select>
-                <div class="grid grid-rows-3 grid-cols-3">
-                    <div class="row-start-1 row-span-1 col-start-1 col-span-2">
-                        <label for="size">Length and Width?</label><br>
-                        <input bind:value={index.length} type="number" name="length" size="5"> x <input type="number" bind:value={index.width} name="width" size="5"><br>
+                <label for="otherScouts">Scouting partner:</label><br />
+
+                <select name="otherScouts" bind:value={index.otherScouts}>
+                    <option value="none">None</option>
+                    {#each data.members as member}
+                        <option value={member.username}
+                            >{member.name.first} {member.name.last}</option
+                        >
+                    {/each}
+                </select>
+                <hr class="mt-4 mb-2" />
+                <div>
+                    <label for="Icebreaker" class="w-52">Icebreaker: {icebreaker}</label>
+                </div>
+                <hr class="mt-4 mb-2" />
+                <br>
+                <div class="grid grid-rows-1 grid-cols-2">
+                    <div class="col-start-1 row-start-1">
+                        <label for="size">Robot Length and Width (With bumpers)?</label><br />
                     </div>
-                    <div class="row-start-2 row-span-1 col-start-1 col-span-2">
-                        <label for="bumperWidth">Bumper Width?</label><br>
-                        <input bind:value={index.bumperWidth} type="number" name="length" size="5">
-                    </div>
-                    <div class="row-start-3 row-span-1 col-start-1 col-span-2">
-                        <label for="height">Height?</label><br>
-                        <input bind:value={index.height} type="number" name="height" size="5"><br>
+
+                    <div class="row-start-2 row-span-1 col-start-1 col-span-2 w-48">
+
+                        <input
+                            bind:value={index.length}
+                            type="number"
+                            name="length"
+                            size="3"
+                        />
+                        x
+                        <input
+                            type="number"
+                            bind:value={index.width}
+                            name="width"
+                            size="3"
+                        />
                     </div>
 
                     <div class="row-start-2 row-span-1 col-start-3 col-span-1 text-right">
@@ -208,157 +237,317 @@ let index:{
                 </div>
                 <div class="grid grid-cols-2 grid-rows-2">
                     <div class="col-start-1 row-start-1">
-                        <label for="weight">Weight?</label><br>
+                        <label for="weight">Weight (with battery)?</label><br />
                     </div>
                     <div class="col-start-1 row-start-2">
-                        <input type="number" bind:value={index.weight} name="weight" size="5">
+                        <input
+                            type="number"
+                            bind:value={index.weight}
+                            name="weight"
+                            size="5"
+                        />
                     </div>
-                    <div class="col-start-2  row-start-2 text-right">
+                    <div class="col-start-2 row-start-2 text-right">
                         <select name="weightUnit" bind:value={index.weightUnit}>
                             {#each weight as weight}
                                 <option value={weight}>{weight}</option>
                             {/each}
                         </select>
-                    </div><br>
+                    </div>
                 </div>
-                <hr class="mb-2 mt-4"/>
-                <div class="grid grid-cols-2 grid-rows-2">
-                    <div class="col-start-1 row-start-1">
-                        <label for="speed">Speed?</label><br>
-                        <input type="number" name="speed" size="5" bind:value={index.speed}><br>
-                        <label for="">Drive train?</label><br>
-                    </div>
+                <hr class="mt-4 mb-2" />
+                <br />
+                <label for="drivetrainTypes">What is your drivetrain Type?</label>
+                <div class="grid grid-cols-2 grid-rows-1">
                     <div class="col-start-1 col-span-2 row-start-2">
-                        {#each drivetrains as module}
-                            <input type="radio" name="drivetrain" value={module[1]} bind:group={index.driveTrain}/>{module[0]}
-                            {#if index.driveTrain.toString() === "other" && module[1] == "other"}
-                                <input class="ml-3" type="text" name="otherDriveTrain" size="10" bind:value={index.otherDriveTrain}/>
-                            {/if}
-                            <br>
-                        {/each}
-                    </div>
-                    <div class="col-start-2 row-start-1 text-right">
-                        <br>
-                        <select name="speedUnit" bind:value={index.speedUnit}>
-                            {#each speed as speed}
-                                <option value={speed}>{speed}</option>
+                        <select bind:value={index.driveTrain}>
+                            {#each drivetrains as drivetrain}
+                                <option value={drivetrain}>{drivetrain}</option>
                             {/each}
                         </select>
-                        /hr
+                        {#if (index.driveTrain == "Other")}
+                            <input type="text" bind:value={index.otherDriveTrain} />
+                        {/if}
                     </div>
                 </div>
+                <hr class="mb-2 mt-4" />
+                <br>
+                <label for="motorTypes">What motors do you use?</label>
+                <div class="col-start-1 col-span-2 row-start-2">
+                    <select name="motorType" bind:value={index.motorType}>
+                        {#each motorTypes as motorType}
+                            <option value={motorType}>
+                                {motorType}
+                            </option>
+                        {/each}
+                    </select>
+                    {#if (index.motorType == "Other")}
+                        <input type="text" name="motorType" bind:value={index.otherMotorType} />
+                    {/if}
+                </div>
+                <hr class="mt-4 mb-2" />
+                <br />
+                <label for="swerveTypes">What is your swerve type?</label>
+                <div class="col-start-1 col-span-2 row-start-2">
+                    <select name="swerveTypes" bind:value={index.swerveType}>
+                        {#each swerveTypes as type}
+                            <option value={type}>{type}</option>
+                        {/each}
+                    </select>
+
+                </div>
+                <hr class="mb-2 mt-4" />
+                <br>
+                <label for="swerveRatio">What is your swerve ratio?</label>
+                <div class="col-start-1 col-span-2 row-start-2">
+                    <input bind:value={index.swerveRatio} type="text"/>
+                </div>
+                <hr class="mb-2 mt-4" />
+                <br>
+                <label for="language">What language is your robot programmed in?</label>
+                <div class="col-start-1 col-span-2 row-start-2">
+                    <select name="language" bind:value={index.language}>
+                        {#each languages as language}
+                            <option value={language}>
+                                {language}
+                            </option>
+                        {/each}
+                    </select>
+                </div>
+                <hr class="mb-2 mt-4" />
+                <br>
+                <label for="autoSoftwares">What is your auto software?</label>
+                <div class="col-start-1 col-span-2 row-start-2">
+                    <select name="autoSoftware" bind:value={index.autoSoftware}>
+                        {#each autoSoftwares as software}
+                            <option value={software}>{software}</option>
+                        {/each}
+                    </select>
+
+                </div>
+                <hr class="mb-2 mt-4" />
+                <br>
+                <label for="autoLoggers">What auto logger do you use?</label>
+                <div class="col-start-1 col-span-2 row-start-2">
+                    <select name="autoLogger" bind:value={index.autoLogger}>
+                        {#each loggers as logger}
+                            <option value={logger}>{logger}</option>
+                        {/each}
+                    </select>
+
+                </div>
+
             </div>
         {:else if page == 2}
             <div>
-                <label for="">Intake type?</label><br>
-                {#each intakes as intake}
-                    <input type="radio" name="intakeType" value={intake[1]} bind:group={index.intakeType}/>{intake[0]}
-                    {#if index.intakeType.toString() == "other" && intake[1] == "other"}
-                        <input bind:value={index.otherIntake} class="ml-3" type="text" name="otherIntake" size="10"/>
-                    {/if}
-                    <br>
-                {/each}
-                <hr class="mb-2 mt-4"/>
-                <label for="">Shooter type?</label><br>
-                {#each shooters as shooter}
-                    <input type="radio" name="shooterType" value={shooter[1]} bind:group={index.shooterType}/>{shooter[0]}
-                    {#if index.shooterType.toString() == "other" && shooter[1] == "other"}
-                        <input bind:value={index.otherShooter} class="ml-3" type="text" name="otherShooter" size="10"/>
-                    {/if}
-                    {#if index.shooterType.toString() == "wheels" && shooter[1] == "wheels"}
-                        Type?<input bind:value={index.wheelType} class="ml-3" type="text" name="wheelType" size="10"/>
-                    {/if}
-                    <br>
-                {/each}
-                <hr class="mb-2 mt-4"/>
-                <label for="">Where can they score?</label><br>
-                <input value={true} bind:checked={index.speakerScore} type="checkbox"/>Speaker<br>
-                <input value={true} bind:checked={index.ampScore} type="checkbox"/>Amp<br>
-                <input value={true} bind:checked={index.trapScore} type="checkbox"/>Trap<br>
-                <div class="grid grid-cols-1 grid-rows-2">
-                    <div class="row-start-1">
-                        <label for="shootingDistance">Max shooting distance?</label><br>
-                    </div>
-                    <div class="row-start-2">
-                        <input type="number" bind:value={index.shootingDistance} name="shootingDistance" size="5">
-                    </div>
-                    <div class="row-start-2">
-                        <select name="distanceUnit"  bind:value={index.distanceUnit}>
-                            {#each distance as distance}
-                                <option>{distance}</option>
-                            {/each}
-                        </select>
-                    </div><br>
+                <label for="cageClimbing">What cage depth(s) can you climb?</label>
+                <div>
+                    <input type="checkbox" value="Deep" bind:group={index.cageClimbable}> Deep
+                    <input type="checkbox" value="Shallow" bind:group={index.cageClimbable}> Shallow
                 </div>
-                <hr class="mb-2 mt-4"/>
-                <label for="">Climbing ability?</label><br>
-                {#each climbing as climb}
-                    <input type="radio" bind:group={index.climbingAbility} name="climbingAbility" value={climb[1]}/>{climb[0]}
-                    <br>
-                {/each}
-                <label for="maxAuto">Highest number of<br>pieces scored in auto?</label><br>
-                <input type="number" bind:value={index.maxAutoScore} name="maxAutoScore" size="5"><br>
-                <hr class="mb-2 mt-4"/>
-                <label for="autoStrategy">Auto strategy? What notes do they go for if any?</label><br>
-                <input value={index.autoStrategy} name="autoStrategy"/>
+                <hr class="mb-2 mt-4" />
+                <label for="buddyClimb">Can they buddy climb?</label>
+                <br />
+                <div>
+                    <input
+                        type="radio"
+                        bind:group={index.buddyClimb}
+                        name="buddyClimb"
+                        value={true}
+                    /> Yes
+                    <input
+                        type="radio"
+                        bind:group={index.buddyClimb}
+                        name="buddyClimb"
+                        value={false}
+                    /> No
+                </div>
+                <hr class="mb-2 mt-4" />
+                <label for="floor intake">Can you floor intake?</label>
+                <br />
+                <div>
+                    <input
+                        type="radio"
+                        bind:group={index.floorIntake}
+                        name="floorIntake"
+                        value={true}
+                    /> Yes
+                    <input
+                        type="radio"
+                        bind:group={index.floorIntake}
+                        name="floorIntake"
+                        value={false}
+                    /> No
+                </div>
+                <hr class="mb-2 mt-4" />
+                <label for="auto start">Where can you start in auto? (From driver perspective)</label>
+                <br />
+                <div>
+                    <input type="checkbox" value="Left" bind:group={index.autoStartingPos}> Left
+                    <input type="checkbox" value="Middle" bind:group={index.autoStartingPos}> Center
+                    <input type="checkbox" value="Right" bind:group={index.autoStartingPos}> Right
+                </div>
+                <hr class="mb-2 mt-4" />
+                <label for="piece control">In auto, where is their first coral placed?</label>
+                <br />
+                <div>
+                    <p>{index.firstCoralLocation.branch},{index.firstCoralLocation.level}</p>
+                    <PitReef bind:selected={index.firstCoralLocation}/>
+                    <p class="mx-auto w-fit border p-2 rounded-md">Driver Station</p>
+                </div>
+                <hr class="mb-2 mt-4" />
+                <label for="piece control">Can you control both pieces at once?</label>
+                <br />
+                <div>
+                    <input
+                        type="radio"
+                        bind:group={index.controlPieces}
+                        name="controlPieces"
+                        value={true}
+                    /> Yes
+                    <input
+                        type="radio"
+                        bind:group={index.controlPieces}
+                        name="controlPieces"
+                        value={false}
+                    /> No
+                </div>
+                <hr class="mb-2 mt-4" />
+                <label for="score levels">Where can you intake?</label>
+                <br />
+                <div>
+                    <input type="checkbox" value="floor" bind:group={index.intakeAreas} /> Floor
+                    <input type="checkbox" value="reefAlgae" bind:group={index.intakeAreas} /> Reef Algae
+                    <input type="checkbox" value=1 bind:group={index.intakeAreas} /> L1
+                    <input type="checkbox" value=2 bind:group={index.intakeAreas}/> L2
+                    <input type="checkbox" value=3 bind:group={index.intakeAreas}/> L3
+                    <input type="checkbox" value=4 bind:group={index.intakeAreas}/> L4
+                </div>
+                <hr class="mb-2 mt-4" />
+                <label for="score levels">Where can you score?</label>
+                <br />
+                <div>
+                    <input type="checkbox" value="floor" bind:group={index.scoreAreas} /> Floor
+                    <input type="checkbox" value="source" bind:group={index.scoreAreas} /> Source
+                    <input type="checkbox" value=1 bind:group={index.scoreAreas} /> L1
+                    <input type="checkbox" value=2 bind:group={index.scoreAreas}/> L2
+                    <input type="checkbox" value=3 bind:group={index.scoreAreas}/> L3
+                    <input type="checkbox" value=4 bind:group={index.scoreAreas}/> L4
+                </div>
+                <hr class="mb-2 mt-4" />
+                <label for="">Do they reach out of their frame during game?</label>
+                <br />
+                <div>
+                    <input
+                        type="radio"
+                        bind:group={index.framePerimeter}
+                        name="framePerimeter"
+                        value={true}
+                    /> Yes
+                    <input
+                        type="radio"
+                        bind:group={index.framePerimeter}
+                        name="framePerimeter"
+                        value={false}
+                    /> No
+                </div>
+
             </div>
         {:else if page == 3}
+            <hr class="mb-2 mt-4" />
+            <label for="">Has your human player practiced throwing?</label>
+            <br />
             <div>
-                <label for="">Can they buddy climb?</label><br>
-                {#each buddyClimb as climb}
-                    <input type="radio" bind:group={index.buddyClimb} name="buddyClimb" value={climb[1]}/>{climb[0]}<br>
-                {/each}
-                <hr class="mb-1 mt-2"/>
-                <label for="">Where do they prefer<br>to score?</label><br>
-                {#each scorePreference as score}
-                    <input type="radio" bind:group={index.scorePreference} name="scorePreference" value={score[1]}/>{score[0]}<br>
-                {/each}
-                <hr class="mb-1 mt-2"/>
-                <label for="">How well can they<br>score there?</label><br>
-                {#each scoreAbility as score}
-                    <input type="radio" name="scoringAbility" bind:group={index.scoringAbility}  value={score[1]}/>{score[0]}<br>
-                {/each}
-                <hr class="mb-1 mt-2"/>
-                <label for="">How critical is scoring coop<br>to their strategy?</label><br>
-                <textarea bind:value={index.ampUse} name="ampUse"></textarea>
-                <hr class="mb-1 mt-2"/>
-                <label for="">Where do they usually<br>intake?</label><br>
-                {#each intakePreference as intake}
-                    <input type="radio" name="intakeLocation" bind:group={index.intakeLocation} value={intake[1]}/>{intake[0]}<br>
-                {/each}
+                <input
+                    type="radio"
+                    bind:group={index.bargeNetPractice}
+                    name="bargeNetPractice"
+                    value={true}
+                /> Yes
+                <input
+                    type="radio"
+                    bind:group={index.bargeNetPractice}
+                    name="bargeNetPractice"
+                    value={false}
+                /> No
             </div>
-        {:else if page == 4}
-            <label for="notes">Additional Notes</label><br>
-            <textarea bind:value={index.notes} name="notes"></textarea><br>
-            <label for="spotlight">Human Player Spotlight<br>ability?</label><br>
-            <textarea bind:value={index.spotlight} name="spotlightAbility"></textarea>
+            <hr class="mb-2 mt-4" />
+            <label for="">Has your driver practiced?</label>
+            <br />
+            <div>
+                <input
+                    type="radio"
+                    bind:group={index.driverPractice}
+                    name="driverPractice"
+                    value={true}
+                > Yes
+                <input
+                    type="radio"
+                    bind:group={index.driverPractice}
+                    name="driverPractice"
+                    value={false}
+                > No
+            </div>
+            <hr class="mb-2 mt-4" />
+            <label for="">Do you need any help with your code, robot, or team?</label>
+            <br />
+            <textarea bind:value={index.needHelp} name="notes"></textarea>
+            <hr class="mb-2 mt-4" />
+            <label for="notes">Additional Notes</label>
+            <br />
+            <textarea bind:value={index.notes} name="notes"></textarea>
+            <br />
         {/if}
 
-        <hr class="my-4"/>
+        <hr class="my-4" />
 
         <div class="grid grid-rows-1 grid-cols-2">
             {#if page > 1}
                 <div class="text-center">
-                    <button class="border-rose-800 border-2 font-bold bg-gradient-to-br from-rose-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl" on:click={()=>{page--;}}>back</button>
+                    <button
+                        class="border-rose-800 border-2 font-bold bg-gradient-to-br from-rose-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl"
+                        on:click={() => {
+                            page--
+                        }}>back</button
+                    >
                 </div>
             {/if}
             {#if page == 1}
                 <div class="text-center col-span-2">
-                    <button class="border-sky-800 border-2 font-bold bg-gradient-to-br from-sky-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl" on:click={()=>{page++;}}>Continue</button>
+                    <button
+                        class="border-sky-800 border-2 font-bold bg-gradient-to-br from-sky-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl"
+                        on:click={() => {
+                            page++
+                        }}>Continue</button
+                    >
                 </div>
             {:else if page == 2}
                 <div class="text-center col-start-2">
-                    <button class="border-sky-800 border-2 font-bold bg-gradient-to-br from-sky-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl" on:click={()=>{page++;}}>Continue</button>
+                    <button
+                        class="border-sky-800 border-2 font-bold bg-gradient-to-br from-sky-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl"
+                        on:click={() => {
+                            page++
+                        }}>Continue</button
+                    >
                 </div>
             {:else if page == 3}
                 <div class="text-center col-start-2">
-                    <button class="border-sky-800 border-2 font-bold bg-gradient-to-br from-sky-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl" on:click={()=>{page++;}}>Continue</button>
-                </div>
-            {:else if page == 4}
-                <div class="text-center col-start-2">
                     <form method="POST">
-                        <input type="text" hidden name="data" value={JSON.stringify(index)} />
-                        <button class="border-sky-800 border-2 font-bold bg-gradient-to-br from-sky-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl" type="submit" value="Submit" on:click={()=>{page == 1;console.log(index);}}>Submit</button>
+                        <input
+                            type="text"
+                            hidden
+                            name="data"
+                            value={JSON.stringify(index)}
+                        />
+                        <button
+                            class="border-sky-800 border-2 font-bold bg-gradient-to-br from-sky-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl"
+                            type="submit"
+                            value="Submit"
+                            on:click={() => {
+                                page == 1
+                                console.log(index)
+                            }}>Submit</button
+                        >
                     </form>
                 </div>
             {/if}
