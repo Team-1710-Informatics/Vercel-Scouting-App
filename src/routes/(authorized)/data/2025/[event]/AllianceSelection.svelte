@@ -1,5 +1,5 @@
 <script>
-    import tba from "$lib/modules/tba";
+    import tba from "$lib/modules/tba.js";
     import {onMount} from 'svelte';
 
     export let event_key;
@@ -171,13 +171,13 @@
 <!--{/if}-->
 <!--Current Alliance Index: {i}-->
 
-<div class="basis-1/4 draggable-container border-8 rounded-3xl border-black overflow-hidden relative m-2">
-    <div class="flex flex-cols-2 p-2">
+<div class="basis-1/5 draggable-container rounded-lg border-black overflow-hidden relative">
+    <div class="flex flex-cols-2 p-2 pl-3.5">
         {#if rankings}
-            <div class="basis-1/2 max-h-screen">
+            <div class="basis-2/3 max-h-screen">
                 <h1 class="text-lg font-bold">Picked Teams</h1>
                 <button class="bg-blue-500 rounded-md" on:click={undo}>Undo</button>
-                <div class="overflow-y-scroll" style="height: 90vh">
+                <div class="overflow-y-scroll" style="height: 80vh">
                     {#each picked.rankings as alliance, index}
                         <div class="w-fit h-fit px-4 rounded-md {index === i && selection ? 'bg-slate-600' : ''}">
                             <h1 class="text-lg font-semibold">Alliance {index + 1}</h1>
@@ -205,9 +205,9 @@
                     {/each}
                 </div>
             </div>
-            <div class="basis-1/2 max-h-screen">
-                <h1 class="text-lg font-bold">Available Teams</h1>
-                <div class="overflow-y-scroll" style="height: 94vh">
+            <div class="basis-1/3 max-h-screen pr-2">
+                <h1 class="text-lg font-bold">Available</h1>
+                <div class="overflow-y-scroll" style="height: 84vh">
                     {#each rankings.rankings as ranking}
                         {#if !ranking.rejected}
                             <ul>
@@ -242,10 +242,10 @@
 </div>
 
 <style lang="scss">
-    .draggable-container{
-        background-color: rgba(0, 0, 0, 0.2);
-        box-shadow: inset 0 20px 40px 0 rgb(0 0 0 / 0.5);
-        width: 100%;
-        height: 100%;
-    }
+  .draggable-container {
+    background-color: rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0 20px 40px 0 rgb(0 0 0 / 0.5);
+    width: 100%;
+    height: 100%;
+  }
 </style>

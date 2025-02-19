@@ -1,6 +1,7 @@
 <script>
     import { ApiService } from '$lib/components/data/2025/MatchPredictor.js'
     import flip from '$lib/assets/icons/flip.svg'
+    import { onMount } from 'svelte'
 
     export let event
     export let teams
@@ -8,13 +9,13 @@
     let data
     // data = {"matches":[{"red":0,"blue":7,"winner":"red"},{"red":1,"blue":6,"winner":"red"},{"red":2,"blue":5,"winner":"red"},{"red":3,"blue":4,"winner":"blue"},{"red":7,"blue":6,"winner":"red"},{"red":5,"blue":4,"winner":"blue"},{"red":0,"blue":1,"winner":"red"},{"red":2,"blue":3,"winner":"red"},{"red":5,"blue":1,"winner":"blue"},{"red":7,"blue":3,"winner":"red"},{"red":0,"blue":2,"winner":"red"},{"red":5,"blue":7,"winner":"blue"},{"red":2,"blue":5,"winner":"red"},{"red":0,"blue":2,"winner":"red"}],"teams":[["frc7021","frc2129","frc9576"],["frc1710","frc2194","frc967"],["frc8802","frc4230","frc537"],["frc2704","frc7103","frc1675"],["frc2830","frc525","frc8701"],["frc2826","frc1625","frc5586"],["frc6166","frc3082","frc171"],["frc5903","frc6223","frc2202"]]}
 
-    async function eventPrediciton(){
+    export async function eventPrediction(){
         const response = await ApiService.event(event)
         data = await response
         // data = {"matches":[{"red":0,"blue":7,"winner":"red"},{"red":1,"blue":6,"winner":"red"},{"red":2,"blue":5,"winner":"red"},{"red":3,"blue":4,"winner":"blue"},{"red":7,"blue":6,"winner":"red"},{"red":5,"blue":4,"winner":"blue"},{"red":0,"blue":1,"winner":"red"},{"red":2,"blue":3,"winner":"red"},{"red":5,"blue":1,"winner":"blue"},{"red":7,"blue":3,"winner":"red"},{"red":0,"blue":2,"winner":"red"},{"red":5,"blue":7,"winner":"blue"},{"red":2,"blue":5,"winner":"red"},{"red":0,"blue":2,"winner":"red"}],"teams":[["frc7021","frc2129","frc9576"],["frc1710","frc2194","frc967"],["frc8802","frc4230","frc537"],["frc2704","frc7103","frc1675"],["frc2830","frc525","frc8701"],["frc2826","frc1625","frc5586"],["frc6166","frc3082","frc171"],["frc5903","frc6223","frc2202"]]}
     }
 
-    async function teamPrediciton(){
+    async function teamPrediction(){
         const response = await ApiService.team(teams)
         data = await response
     }
@@ -63,18 +64,25 @@
     async function flipMatch(match) {
         data = await ApiService.flip(match, data)
     }
+
+    let controlPanelHeight = 0;
+
+    onMount(() => {
+        const controlPanel = document.querySelector('.options');
+        controlPanelHeight = controlPanel.offsetHeight;
+    });
 </script>
-<div style="height: 300px; width: 600px;">
-    <div class="flex flex-row mb-2 options rounded-lg border-4 border-black" style="width: 600px;">
+<div class="w-full basis-1/2">
+    <div class="flex flex-row mb-2 options rounded-lg border-0 border-black">
         <button on:click={resetPosition}>Reset</button>
         <button on:click={decreaseScale}>-</button>
         <input type="range" min="0.1" max="1.0" step="0.001" bind:value={scale} />
         <button on:click={increaseScale}>+</button>
         <div class="grow"></div>
-        <button on:click={eventPrediciton}>Event</button>
-        <button on:click={teamPrediciton}>Teams</button>
+        <button on:click={eventPrediction}>Event</button>
+        <button on:click={teamPrediction}>Teams</button>
     </div>
-    <div class="draggable-container border-8 border-black rounded-3xl overflow-hidden relative">
+    <div class="draggable-container border-0 border-black rounded-lg overflow-hidden relative" style="height: calc(100% - 0.5rem - {controlPanelHeight}px); ">
         {#if data}
             <div
                  class="wrapper draggable"
@@ -531,7 +539,6 @@
 
     .wrapper{
         display: flex;
-        height: 600px;
         justify-content: center;
     }
 
@@ -639,7 +646,6 @@
         background-color: rgba(0, 0, 0, 0.2);
         box-shadow: inset 0 20px 40px 0 rgb(0 0 0 / 0.5);
         width: 100%;
-        height: 100%;
     }
     .options{
       background-color: rgba(0, 0, 0, 0.5);
