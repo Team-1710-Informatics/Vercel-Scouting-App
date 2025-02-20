@@ -16,6 +16,7 @@ export const ApiService = {
 
         return this.createPredictions(teams)
     },
+
     /**
      * Fetches the team data and processes it to create predictions.
      *
@@ -25,6 +26,7 @@ export const ApiService = {
     async team(teams) {
         return this.createPredictions(teams)
     },
+
     /**
      * Creates predictions based on the provided teams.
      *
@@ -171,6 +173,7 @@ export const ApiService = {
         }
         return { matches: matches, teams: teams }
     },
+
     /**
      * Sends a POST request to the prediction API with the provided form data and returns the prediction result.
      *
@@ -190,6 +193,7 @@ export const ApiService = {
             return 'red'
         }
     },
+
     /**
      * Creates form data for the prediction API request based on the provided match data and teams.
      *
@@ -209,6 +213,7 @@ export const ApiService = {
 
         return form_data
     },
+
     /**
      * Flips the winner of a specified match and recalculates predictions for subsequent matches.
      *
