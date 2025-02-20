@@ -2,6 +2,7 @@
     import AllianceSelection from './AllianceSelection.svelte'
     import RobotCompatibility from '$lib/components/data/2025/RobotCompatibility.svelte'
     import MatchPredictor from '$lib/components/data/2025/MatchPredictor.svelte'
+    import ServicePing from '../../../services/ServicePing.svelte'
     import { onMount } from 'svelte'
 
     export let data
@@ -28,7 +29,9 @@
             event_key={data.data.event}
         ></AllianceSelection>
     </div>
-    <div class="basis-2/4 h-auto temporary_box my-4 rounded-lg"></div>
+    <div class="basis-2/4 h-auto temporary_box my-4 rounded-lg">
+        <ServicePing url="https://match.apisb.me"></ServicePing>
+    </div>
     <div class="basis-2/4 flex flex-col max-h-screen m-4">
         <div class="basis-1/2 flex flex-row mb-4">
             <div class="basis-1/2 h-auto mr-4 rounded-lg temporary_box"></div>
