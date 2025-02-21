@@ -170,6 +170,7 @@ const scoutEntry2025 = new Schema({
     },
 })
 
+export const ScoutData2024 = mongoose.model('2024entry', scoutEntry2024)
 export const ScoutData = mongoose.model('2025entry', scoutEntry2025)
 
 const transaction = new Schema({

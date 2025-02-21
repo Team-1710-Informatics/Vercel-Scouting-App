@@ -37,6 +37,8 @@
             <div class="basis-1/2 h-auto flex flex-col">
                 <div class="grow h-auto temporary_box rounded-lg">
                 </div>
+                <ServicePing name="Blue All." url="thebluealliance.com"/>
+                <ServicePing name="Robot Compat" url="micro.apisb.me"/>
                 <ServicePing name="Match Prediction" url="match.apisb.me"/>
             </div>
         </div>
