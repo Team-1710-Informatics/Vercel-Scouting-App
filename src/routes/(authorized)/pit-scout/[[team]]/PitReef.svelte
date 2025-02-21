@@ -236,7 +236,7 @@
         opacity: 0; /* Hidden by default */
         animation-duration: 0.5s; /* Animation duration */
         animation-fill-mode: forwards; /* Keep the final state */
-        filter: brightness(75%);
+        filter: brightness(50%);
         transition: filter 0.3s ease;
     }
 
@@ -249,7 +249,7 @@
     }
 
     .branch:hover {
-        filter: brightness(120%);
+        filter: brightness(200%);
     }
 
     @keyframes slideInLeft {

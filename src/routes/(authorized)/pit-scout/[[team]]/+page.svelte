@@ -377,9 +377,11 @@
                 <label for="auto start">Where can you start in auto? (From driver perspective)</label>
                 <br />
                 <div>
-                    <input type="checkbox" value="Left" bind:group={index.autoStartingPos}> Left
-                    <input type="checkbox" value="Middle" bind:group={index.autoStartingPos}> Center
-                    <input type="checkbox" value="Right" bind:group={index.autoStartingPos}> Right
+                    <table>
+                        <tr><input type="checkbox" value="Left" bind:group={index.autoStartingPos}> Left</tr>
+                        <tr><input type="checkbox" value="Middle" bind:group={index.autoStartingPos}> Center</tr>
+                        <tr><input type="checkbox" value="Right" bind:group={index.autoStartingPos}> Right</tr>
+                    </table>
                 </div>
                 <hr class="mb-2 mt-4" />
                 <label for="piece control">In auto, where is their first coral placed?</label>
@@ -410,19 +412,24 @@
                 <label for="score levels">Where can you intake?</label>
                 <br />
                 <div class="flex flex-col">
-                    <input type="checkbox" value="floor coral" bind:group={index.intakeAreas} /> Floor Coral
-                    <input type="checkbox" value="floor algae" bind:group={index.intakeAreas} /> Floor Coral
-                    <input type="checkbox" value="reef algae" bind:group={index.intakeAreas} /> Reef Algae
+                    <table>
+                        <tr><input type="checkbox" value="floor coral" bind:group={index.intakeAreas} /> Floor Coral</tr>
+                        <tr><input type="checkbox" value="source" bind:group={index.scoreAreas} /> Source</tr>
+                        <tr><input type="checkbox" value="floor algae" bind:group={index.intakeAreas} /> Floor Algae</tr>
+                        <tr><input type="checkbox" value="reef algae" bind:group={index.intakeAreas} /> Reef Algae</tr>
+                    </table>
                 </div>
                 <hr class="mb-2 mt-4" />
                 <label for="score levels">Where can you score?</label>
                 <br />
                 <div>
-                    <input type="checkbox" value="processor" bind:group={index.scoreAreas} /> Processor
-                    <input type="checkbox" value=1 bind:group={index.scoreAreas} /> L1
-                    <input type="checkbox" value=2 bind:group={index.scoreAreas}/> L2
-                    <input type="checkbox" value=3 bind:group={index.scoreAreas}/> L3
-                    <input type="checkbox" value=4 bind:group={index.scoreAreas}/> L4
+                    <table>
+                        <tr><input type="checkbox" value="processor" bind:group={index.scoreAreas} /> Processor</tr>
+                        <tr><input type="checkbox" value=1 bind:group={index.scoreAreas} /> L1</tr>
+                        <tr><input type="checkbox" value=2 bind:group={index.scoreAreas}/> L2</tr>
+                        <tr><input type="checkbox" value=3 bind:group={index.scoreAreas}/> L3</tr>
+                        <tr> <input type="checkbox" value=4 bind:group={index.scoreAreas}/> L4</tr>
+                    </table>
                 </div>
                 <hr class="mb-2 mt-4" />
                 <label for="">Do they reach out of their frame during game?</label>
