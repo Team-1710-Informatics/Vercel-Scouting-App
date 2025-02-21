@@ -28,5 +28,5 @@
 
 <div class="flex flex-row items-center mt-2">
     <div class="text-xs text-gray-500">{name} | {url}</div>
-    <div class="w-2 h-2 {$color} rounded-xl ml-2.5 mt-0.5"></div>
+    <div class="justify-self-end w-2 h-2 {$color} rounded-xl ml-2.5 mt-0.5"></div>
 </div>

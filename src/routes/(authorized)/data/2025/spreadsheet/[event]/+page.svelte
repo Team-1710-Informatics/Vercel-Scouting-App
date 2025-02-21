@@ -1,6 +1,6 @@
 <script>
     import { flip } from 'svelte/animate'
-    import stats from './statistics'
+    import stats from '../../[event]/statistics.js'
 
     let teams = []
     let first = 1

@@ -181,101 +181,45 @@
 <!--{/if}-->
 <!--Current Alliance Index: {i}-->
 
-<div
-    class="basis-1/5 draggable-container rounded-lg border-black overflow-hidden relative"
->
-    <div class="flex flex-cols-2 p-2 pl-3.5">
+<div class="basis-1/5 draggable-container rounded-lg border-black overflow-hidden relative">
+    <div class="flex flex-cols-2 p-2 px-4">
         {#if rankings}
-            <div class="basis-2/3 max-h-screen">
+            <div class="basis-1/2 max-h-screen">
                 <h1 class="text-lg font-bold">Picked Teams</h1>
-                <button class="bg-blue-500 rounded-md" on:click={undo}
-                    >Undo</button
-                >
-                <div class="overflow-y-scroll" style="height: 80vh">
+                <div class="overflow-y-scroll" style="height: 75vh">
                     {#each picked.rankings as alliance, index}
-                        <div
-                            class="w-fit h-fit px-4 rounded-md {index === i &&
-                            selection
-                                ? 'bg-slate-600'
-                                : ''}"
-                        >
-                            <h1 class="text-lg font-semibold">
-                                Alliance {index + 1}
-                            </h1>
+                        <div class="w-fit h-fit px-4 rounded-md {index === i && selection ? 'bg-slate-600' : ''}">
+                            <p class="text-lg font-semibold">Alliance {index + 1}</p>
                             <ul>
                                 {#each alliance as team, teamIndex}
                                     <li class="list-none">
-                                        <button
-                                            on:click={() => {
-                                                if (!team.rejected) {
-                                                    inviteShift(index)
-                                                }
-                                            }}
-                                        >
-                                            {team.truerank}. {formatTeamKey(
-                                                team.team_key
-                                            )}
+                                        <button on:click={() => {
+                                                if (!team.rejected) {inviteShift(index)}
+                                            }}>
+                                            {team.truerank}. {formatTeamKey(team.team_key)}
                                         </button>
                                     </li>
                                 {/each}
                             </ul>
                             {#if selecting && index === i && selection}
-                                <div>
-                                    Selecting: {formatTeamKey(
-                                        selected_team.team_key
-                                    )}
-                                </div>
-                                <button
-                                    class="bg-green-500 rounded-md"
-                                    on:click={() => pickTeam(selected_team)}
-                                >
-                                    Accept
-                                </button>
-                                <button
-                                    class="bg-red-500 rounded-md"
-                                    on:click={() => decline(selected_team)}
-                                >
-                                    Decline
-                                </button>
+                                <div>Selecting: {formatTeamKey(selected_team.team_key)}</div>
+                                <button class="bg-green-500 rounded-md" on:click={() => pickTeam(selected_team)}>Accept</button>
+                                <button class="bg-red-500 rounded-md" on:click={() => decline(selected_team)}>Decline</button>
                             {/if}
                         </div>
                     {/each}
                 </div>
-            </div>
-            <div class="basis-1/3 max-h-screen pr-2">
-                <h1 class="text-lg font-bold">Available</h1>
-                <div class="overflow-y-scroll" style="height: 84vh">
-                    {#each rankings.rankings as ranking}
-                        {#if !ranking.rejected}
-                            <ul>
-                                <button
-                                    on:click={() => {
-                                        selecting = true
-                                        selected_team = ranking
-                                    }}
-                                >
-                                    {ranking.truerank}.{formatTeamKey(
-                                        ranking.team_key
-                                    )}
-                                </button>
-                            </ul>
-                        {/if}
-                    {/each}
-                </div>
                 {#if rankings.rankings.some((ranking) => ranking.rejected)}
-                    <h1 class="text-lg">Declining Teams</h1>
+                    <h1 class="text-lg font-bold">Declining Teams</h1>
                     <div class="overflow-auto h-20">
                         {#each rankings.rankings as ranking}
                             {#if ranking.rejected}
                                 <li>
-                                    <button
-                                        on:click={() => {
-                                            if (!ranking.rejected) {
+                                    <button on:click={() => {if (!ranking.rejected) {
                                                 selecting = true
                                                 selected_team = ranking
                                             }
-                                        }}
-                                    >
+                                        }}>
                                         {ranking.truerank}. {formatTeamKey(
                                             ranking.team_key
                                         )}
@@ -285,6 +229,23 @@
                         {/each}
                     </div>
                 {/if}
+            </div>
+            <div class="basis-1/2 max-h-screen flex flex-col">
+                <h1 class="text-lg font-bold px-4">Available</h1>
+                <div class="overflow-y-scroll px-4" style="height: 84vh">
+                    {#each rankings.rankings as ranking}
+                        {#if !ranking.rejected}
+                            <ul>
+                                <button on:click={() => {selecting = true; selected_team = ranking}}>
+                                    {ranking.truerank}.{formatTeamKey(
+                                        ranking.team_key
+                                    )}
+                                </button>
+                            </ul>
+                        {/if}
+                    {/each}
+                </div>
+                <button class="bg-blue-500 rounded-md" on:click={undo}>Undo</button>
             </div>
         {/if}
     </div>

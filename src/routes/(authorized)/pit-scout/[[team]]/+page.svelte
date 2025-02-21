@@ -108,9 +108,7 @@
         otherScouts: string,
         length: number,
         width: number,
-        sizeUnit: string,
         weight: number,
-        weightUnit: string,
         driveTrain: string,
         otherDriveTrain: string,
         swerveType: string,
@@ -141,9 +139,7 @@
         otherScouts: '',
         length: 0,
         width: 0,
-        sizeUnit: '',
         weight: 0,
-        weightUnit: '',
         driveTrain: '',
         otherDriveTrain: '',
         swerveType: '',
@@ -168,20 +164,23 @@
         notes: '',
         imageLink: '',
     }
+    
+    let scrollElement;
 </script>
 
 <middle>
-    <div
-        class="rounded-lg px-5 py-4 my-5 bg-gradient-to-br from-slate-900 to-slate-800"
-    >
-        <p class="text-center text-lg">Rules</p>
-        <p>rules...</p>
-    </div>
-    <div
-        class="rounded-lg px-5 py-4 my-5 bg-gradient-to-br from-slate-900 to-slate-800"
-    >
-        selector
-    </div>
+<!--    <div-->
+<!--        class="rounded-lg px-5 py-4 my-5 bg-gradient-to-br from-slate-900 to-slate-800"-->
+<!--    >-->
+<!--        <p class="text-center text-lg">Rules</p>-->
+<!--        <p>rules...</p>-->
+<!--    </div>-->
+<!--    <div-->
+<!--        class="rounded-lg px-5 py-4 my-5 bg-gradient-to-br from-slate-900 to-slate-800"-->
+<!--    >-->
+<!--        selector-->
+<!--    </div>-->
+    <div bind:this={scrollElement}></div>
     <div
         class="rounded-lg px-5 py-4 my-5 bg-gradient-to-b from-slate-900 to-slate-800 w-5/6"
     >
@@ -227,17 +226,19 @@
                         />
                     </div>
 
-                    <div class="row-start-2 row-span-1 col-start-3 col-span-1 text-right">
-                        <select name="sizeUnit" bind:value={index.sizeUnit}>
-                            {#each dimensions as dimension}
-                                <option value={dimension}>{dimension}</option>
-                            {/each}
-                        </select>
-                    </div>
+<!--                    <div class="row-start-2 row-span-1 col-start-3 col-span-1 text-right">-->
+<!--                        <select name="sizeUnit" bind:value={index.sizeUnit}>-->
+<!--                            {#each dimensions as dimension}-->
+<!--                                <option value={dimension}>{dimension}</option>-->
+<!--                            {/each}-->
+<!--                        </select>-->
+<!--                    </div>-->
                 </div>
-                <div class="grid grid-cols-2 grid-rows-2">
+                <hr class="mt-4 mb-2" />
+                <br />
+                <div class="grid grid-cols-1 grid-rows-2">
                     <div class="col-start-1 row-start-1">
-                        <label for="weight">Weight (with battery)?</label><br />
+                        <label for="weight">Weight (Just robot and bumper, no battery)?</label><br />
                     </div>
                     <div class="col-start-1 row-start-2">
                         <input
@@ -247,15 +248,8 @@
                             size="5"
                         />
                     </div>
-                    <div class="col-start-2 row-start-2 text-right">
-                        <select name="weightUnit" bind:value={index.weightUnit}>
-                            {#each weight as weight}
-                                <option value={weight}>{weight}</option>
-                            {/each}
-                        </select>
-                    </div>
                 </div>
-                <hr class="mt-4 mb-2" />
+                <hr class="mt-4 mb-2" /> 
                 <br />
                 <label for="drivetrainTypes">What is your drivetrain Type?</label>
                 <div class="grid grid-cols-2 grid-rows-1">
@@ -383,9 +377,11 @@
                 <label for="auto start">Where can you start in auto? (From driver perspective)</label>
                 <br />
                 <div>
-                    <input type="checkbox" value="Left" bind:group={index.autoStartingPos}> Left
-                    <input type="checkbox" value="Middle" bind:group={index.autoStartingPos}> Center
-                    <input type="checkbox" value="Right" bind:group={index.autoStartingPos}> Right
+                    <table>
+                        <tr><input type="checkbox" value="Left" bind:group={index.autoStartingPos}> Left</tr>
+                        <tr><input type="checkbox" value="Middle" bind:group={index.autoStartingPos}> Center</tr>
+                        <tr><input type="checkbox" value="Right" bind:group={index.autoStartingPos}> Right</tr>
+                    </table>
                 </div>
                 <hr class="mb-2 mt-4" />
                 <label for="piece control">In auto, where is their first coral placed?</label>
@@ -415,24 +411,25 @@
                 <hr class="mb-2 mt-4" />
                 <label for="score levels">Where can you intake?</label>
                 <br />
-                <div>
-                    <input type="checkbox" value="floor" bind:group={index.intakeAreas} /> Floor
-                    <input type="checkbox" value="reefAlgae" bind:group={index.intakeAreas} /> Reef Algae
-                    <input type="checkbox" value=1 bind:group={index.intakeAreas} /> L1
-                    <input type="checkbox" value=2 bind:group={index.intakeAreas}/> L2
-                    <input type="checkbox" value=3 bind:group={index.intakeAreas}/> L3
-                    <input type="checkbox" value=4 bind:group={index.intakeAreas}/> L4
+                <div class="flex flex-col">
+                    <table>
+                        <tr><input type="checkbox" value="floor coral" bind:group={index.intakeAreas} /> Floor Coral</tr>
+                        <tr><input type="checkbox" value="source" bind:group={index.scoreAreas} /> Source</tr>
+                        <tr><input type="checkbox" value="floor algae" bind:group={index.intakeAreas} /> Floor Algae</tr>
+                        <tr><input type="checkbox" value="reef algae" bind:group={index.intakeAreas} /> Reef Algae</tr>
+                    </table>
                 </div>
                 <hr class="mb-2 mt-4" />
                 <label for="score levels">Where can you score?</label>
                 <br />
                 <div>
-                    <input type="checkbox" value="floor" bind:group={index.scoreAreas} /> Floor
-                    <input type="checkbox" value="source" bind:group={index.scoreAreas} /> Source
-                    <input type="checkbox" value=1 bind:group={index.scoreAreas} /> L1
-                    <input type="checkbox" value=2 bind:group={index.scoreAreas}/> L2
-                    <input type="checkbox" value=3 bind:group={index.scoreAreas}/> L3
-                    <input type="checkbox" value=4 bind:group={index.scoreAreas}/> L4
+                    <table>
+                        <tr><input type="checkbox" value="processor" bind:group={index.scoreAreas} /> Processor</tr>
+                        <tr><input type="checkbox" value=1 bind:group={index.scoreAreas} /> L1</tr>
+                        <tr><input type="checkbox" value=2 bind:group={index.scoreAreas}/> L2</tr>
+                        <tr><input type="checkbox" value=3 bind:group={index.scoreAreas}/> L3</tr>
+                        <tr> <input type="checkbox" value=4 bind:group={index.scoreAreas}/> L4</tr>
+                    </table>
                 </div>
                 <hr class="mb-2 mt-4" />
                 <label for="">Do they reach out of their frame during game?</label>
@@ -507,7 +504,8 @@
                     <button
                         class="border-rose-800 border-2 font-bold bg-gradient-to-br from-rose-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl"
                         on:click={() => {
-                            page--
+                            page--;
+                            scrollElement.scrollIntoView();
                         }}>back</button
                     >
                 </div>
@@ -518,6 +516,7 @@
                         class="border-sky-800 border-2 font-bold bg-gradient-to-br from-sky-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl"
                         on:click={() => {
                             page++
+                            scrollElement.scrollIntoView();
                         }}>Continue</button
                     >
                 </div>
@@ -527,6 +526,7 @@
                         class="border-sky-800 border-2 font-bold bg-gradient-to-br from-sky-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl"
                         on:click={() => {
                             page++
+                            scrollElement.scrollIntoView();
                         }}>Continue</button
                     >
                 </div>

@@ -1,6 +1,5 @@
 <script>
     import { ApiService } from '$lib/components/data/2025/MatchPredictor.js'
-    import flip from '$lib/assets/icons/flip.svg'
     import { onMount } from 'svelte'
 
     export let event
