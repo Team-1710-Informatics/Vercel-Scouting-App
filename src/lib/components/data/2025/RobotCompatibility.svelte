@@ -6,32 +6,162 @@
     export let team3
     export let event
 
-    $: data = {compatibility: ""} // data is an object because the API returns an object, but we only need the compatibility value
-    $: route = `/auto/compare/data${event}${team1}${team2}${team3}`
-    let tried = '' //This variable is used to prevent the API from being called on a loop
-    let success = false
+    let route
 
-    // The syntax of this function is set up to rerun on a change in the variables
-    $: if (team1 && team2 && event && (route !== tried)) {
-        (async () => {
-            try {
-                tried = route
-                console.log('fetching data')
-                const response = await ApiService.request(route)
-                data = await response.json()
-                success = true
-            } catch (error) {
-                success = false
-                console.error('Error fetching data:', error)
+    $: data = {compatibility: ""}
+
+    // $: if (team1 && team2 && event && (route !== tried)) {
+    //     (async () => {
+    //         try {
+    //             tried = route
+    //             console.log('fetching data')
+    //             const response = await ApiService.request(route)
+    //             data = await response.json()
+    //             success = true
+    //         } catch (error) {
+    //             success = false
+    //             console.error('Error fetching data:', error)
+    //         }
+    //     })();
+    // }
+
+    // async function fetch() {
+    //     try {
+    //         console.log('fetching data')
+    //         if (team3 !== '') {
+    //             route = `/auto/compare/data/${event}/${team1}/${team2}/${team3}`
+    //         }
+    //         else {
+    //             route = `/auto/compare/data/${event}/${team1}/${team2}`
+    //         }
+    //         const response = await ApiService.request(route)
+    //         data = await response.json()
+    //     } catch (error) {
+    //         console.error('Error fetching data:', error)
+    //     }
+    // }
+
+    export let compatibility = 0;
+
+    const radius = 40;
+    const circumference = 2 * Math.PI * radius;
+
+    $: offset = circumference * (1 - compatibility / 100);
+
+    $: getColor = (compatibility) => {
+        const startColor = { r: 59, g: 62, b: 134 };  // #3b3e86
+        const endColor = { r: 62, g: 159, b: 133 };   // #3e9f85
+
+        const r = Math.round(startColor.r + (endColor.r - startColor.r) * (compatibility / 100));
+        const g = Math.round(startColor.g + (endColor.g - startColor.g) * (compatibility / 100));
+        const b = Math.round(startColor.b + (endColor.b - startColor.b) * (compatibility / 100));
+
+        return `rgb(${r}, ${g}, ${b})`;
+    };
+
+    let fetching = true;
+    let increasing = true;
+    let displaying = false;
+    let show = false;
+
+    function fetch() {
+        fetching = true;
+        show = false;
+        loading();
+        setTimeout(() => {
+            fetching = false;
+            display(82);
+        }, 15000);
+    }
+
+    function loading() {
+        let interval = setInterval(() => {
+            // Easing function for smooth acceleration & deceleration
+            let progressFactor = Math.sin((compatibility / 100) * Math.PI);
+            let speed = 0.125 + progressFactor;
+
+            if (increasing) {
+                compatibility += speed;
+                if (compatibility >= 100) {
+                    compatibility = 100;
+                    increasing = false;
+                }
+            } else {
+                compatibility -= speed;
+                if (compatibility <= 0.1) {
+                    compatibility = 0.1;
+
+                    // Stop animation ONLY when fetching is false AND we've reached 0
+                    if (!fetching) {
+                        clearInterval(interval);
+                    } else {
+                        increasing = true; // Otherwise, continue looping
+                    }
+                }
             }
-        })();
+        }, 10);
+    }
+
+
+    function display(goal) {
+        // Wait until compatibility reaches 0 before starting
+        let waitForReset = setInterval(() => {
+            if (compatibility === 0.1) {
+                show = true;
+                clearInterval(waitForReset); // Stop waiting and start animation
+                startAnimation(goal);
+            }
+        }, 10);
+    }
+
+    function startAnimation(goal) {
+        displaying = true;
+
+        let interval = setInterval(() => {
+            if (!displaying) {
+                clearInterval(interval);
+                return;
+            }
+
+            let distance = Math.abs(goal - compatibility); // Remaining distance
+            let compatibilityFactor = Math.sin((distance / goal) * Math.PI); // Easing
+            let speed = 0.125 + compatibilityFactor;
+
+            if (compatibility < goal) {
+                compatibility += speed;
+                if (compatibility >= goal) {
+                    compatibility = goal;
+                    displaying = false;
+                    clearInterval(interval); // Stop when done
+                }
+            }
+        }, 10);
     }
 </script>
-<div class="flex flex-row">
-    <label for="compatibility">Compatibility:</label>
-    <progress id="compatibility" value={data.compatibility} max="100" class="h-4 my-auto rounded-md"></progress>
-    {#if success}
-        <!--The if statement is so that it doesn't just display a 0 when-->
-        <div class="mx-2">{data.compatibility.toFixed(2)}%</div>
+<svg width="auto" height="auto" viewBox="0 0 100 100">
+    <circle
+        cx="50" cy="50" r="{radius}"
+        stroke="#1d293d" stroke-width="9" fill="none" stroke-dasharray="{circumference}"
+    />
+    <circle
+        cx="50" cy="50" r="{radius}"
+        stroke={getColor(compatibility)} stroke-width="10" fill="none" stroke-linecap="round" stroke-dasharray="{circumference}" stroke-dashoffset="{offset}"
+        transform="rotate(90 50 50)"
+    />
+
+    {#if show}
+        <text
+            x="50" y="60" text-anchor="middle"
+            font-size="28" font-family="sans-serif" font-weight="600" font-stretch="ultra-expanded"
+            fill="#93a1af"
+        >
+            {compatibility.toFixed(0)}
+        </text>
     {/if}
-</div>
+</svg>
+<!--<input type="text" bind:value={event} />-->
+<!--<input type="text" bind:value={team1} />-->
+<!--<input type="text" bind:value={team2} />-->
+<!--<input type="text" bind:value={team3} />-->
+<button on:click={fetch}>Fetch</button>
+<!--{JSON.stringify(data)}-->

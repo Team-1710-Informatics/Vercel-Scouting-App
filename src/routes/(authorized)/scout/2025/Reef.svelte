@@ -39,7 +39,7 @@
     });
 
     const hexagonPath = Array.from({length: 6}, (_, i) => {
-        const angle = (Math.PI / 3) * i;
+        const angle = (Math.PI / 3) * i + Math.PI / 6; // Rotate by 30 degrees
         const x = Math.cos(angle) * radius;
         const y = Math.sin(angle) * radius;
         return `${x},${y}`;
@@ -98,21 +98,21 @@
 <div class="flex flex-row justify-center">
     {#if reefActive}
         <div class="flex flex-col max-h-16 pt-4">
-            <img class="w-20 branch branch-left {reefActive ? '' : 'branch-left-exit'}" src={branchLeft3}
+            <img class="w-20 branch branch-left" src={branchLeft3}
                  on:click={() => scoreReef(3)}>
-            <img class="w-20 branch branch-left {reefActive ? '' : 'branch-left-exit'}" src={branchLeft2}
+            <img class="w-20 branch branch-left" src={branchLeft2}
                  on:click={() => scoreReef(2)}>
-            <img class="w-20 branch branch-left {reefActive ? '' : 'branch-left-exit'}" src={branchLeft1}
+            <img class="w-20 branch branch-left" src={branchLeft1}
                  on:click={() => scoreReef(1)}>
-            <img class="w-20 branch branch-left {reefActive ? '' : 'branch-left-exit'}" src={branchLeft0}
+            <img class="w-20 branch branch-left" src={branchLeft0}
                  on:click={() => scoreReef(0)}>
         </div>
         {#if algae_locations[activeSlice] === 1}
             <img src={algae}
-                 class="w-20 h-20 -ml-7 -mr-10 mt-2 branch-left z-20 {reefActive ? '' : 'branch-left-exit'}">
+                 class="w-20 h-20 -ml-7 -mr-10 mt-2 branch-left z-20">
         {:else}
             <img src={algae}
-                 class="w-20 h-20 -ml-7 -mr-10 mt-2 branch-left z-20 opacity-5 {reefActive ? '' : 'branch-left-exit'}">
+                 class="w-20 h-20 -ml-7 -mr-10 mt-2 branch-left z-20 opacity-5">
         {/if}
     {/if}
 
@@ -172,18 +172,6 @@
         }
     }
 
-    .branch-left-exit {
-        animation-name: slideOutRight;
-        animation-duration: 0.5s;
-        animation-fill-mode: forwards;
-    }
-
-    .branch-right-exit {
-        animation-name: slideOutLeft;
-        animation-duration: 0.5s;
-        animation-fill-mode: forwards;
-    }
-
     .hexagon-container {
         position: relative;
         width: 16rem;
@@ -204,7 +192,7 @@
         width: 100%;
         height: 114%;
         object-fit: cover;
-        transform: translate(-50%, -50%) scale(0.8) rotate(270deg); /* Scale down to 80% and center */
+        transform: translate(-50%, -50%) scale(0.8) rotate(300deg); /* Rotate by 300 degrees (or -60 degrees) */
         position: absolute;
         top: 50%;
         left: 50%;
@@ -221,10 +209,11 @@
         fill: transparent;
         transition: fill 0.3s;
         cursor: pointer;
+        transform: rotate(30deg); /* Rotate by 30 degrees */
     }
 
     .slice:hover {
-        fill: rgba(144, 144, 202, 0.13);
+        fill: rgba(175, 175, 221, 0.47);
         opacity: 0.5;
     }
 

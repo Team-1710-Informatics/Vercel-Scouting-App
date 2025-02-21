@@ -53,10 +53,20 @@
 </script>
 
 <middle>
-    <h1 class="text-9xl font-black">SLAY</h1>
     <Palette bind:color={color} colors={[
         {red:0,green:0,blue:0},
         {red:255,green:255,blue:255},
+        {red:255,green:0,blue:0},
+        {red:0,green:255,blue:0},
+        {red:0,green:0,blue:255},
+        {red:255,green:255,blue:0},
+        {red:255,green:0,blue:255},
+        {red:0,green:255,blue:255},
+        {red:128,green:0,blue:128},
+        {red:128,green:128,blue:0},
+        {red:0,green:128,blue:128},
+        {red:128,green:128,blue:128},
+
     ]}/>
     <canvas bind:this={canvas} on:dblclick={place} on:mousemove={move} style="width:{PIXEL * WIDTH}px; height:{PIXEL * HEIGHT}px; border: 4px solid black; border-radius:8px;">
         Place

@@ -9,21 +9,16 @@
         <h6>Competition</h6>
         <CompetitionSelector
                 bind:event={data.competition}
-                events={data.events}
-        />
+                events={data.events}/>
     </div>
     <br/>
-    <a disabled={!data.competition} href="./2024/spreadsheet/{data.competition}"
-    >
+    <a disabled={!data.competition} href="./2025/spreadsheet/{data.competition}">
         <button disabled={!data.competition}>Spreadsheet</button>
-    </a
-    >
+    </a>
     <!-- <a disabled={!data.competition} href="./2024/entries/{data.competition}"><button disabled={!data.competition}>Database</button></a> -->
-    <a disabled={!data.competition} href="./2024/single/{data.competition}/1710"
-    >
-        <button disabled={!data.competition}>Single</button>
-    </a
-    >
+    <a disabled={!data.competition} href="./2025/{data.competition}">
+        <button disabled={!data.competition}>Strategy</button>
+    </a>
 </center>
 
 <style>

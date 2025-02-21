@@ -94,7 +94,7 @@
     }
 </script>
 
-<div class="flex flex-row justify-center">
+<div class="flex flex-row justify-center h-64">
     {#if reefActive}
         <div class="flex flex-col max-h-16 pt-4">
             <img class="w-20 branch branch-left {reefActive ? '' : 'branch-left-exit'}" src={branchLeft3}
@@ -116,7 +116,7 @@
     {/if}
 
     <div class="hexagon-container">
-        <div class="image-container {reefActive ? 'w-48' : ''}">
+        <div class="image-container">
             <img alt="Reef Red" class="hexagon-image" src={reefRed}/>
         </div>
         <svg class="hexagon" viewBox="-50 -50 100 100">

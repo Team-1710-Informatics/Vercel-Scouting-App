@@ -1,6 +1,6 @@
 <script lang="ts">
     import CompetitionSelector from '$lib/components/search/CompetitionSelector.svelte'
-    import PitReef from './pitReef.svelte'
+    import PitReef from './PitReef.svelte'
 
     // get data about selected match
     export let data
@@ -392,7 +392,7 @@
                 <br />
                 <div>
                     <p>{index.firstCoralLocation.branch},{index.firstCoralLocation.level}</p>
-                    <PitReef bind:selected={index.firstCoralLocation} class="w-1/2"/>
+                    <PitReef bind:selected={index.firstCoralLocation}/>
                     <p class="mx-auto w-fit border p-2 rounded-md">Driver Station</p>
                 </div>
                 <hr class="mb-2 mt-4" />

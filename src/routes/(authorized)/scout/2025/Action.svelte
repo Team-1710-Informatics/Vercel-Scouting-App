@@ -40,57 +40,94 @@
     let reef
     let allianceArea
 
-    function behavior(actionType) {
+    function handleScore() {
+        if (selected.location === "reef" || selected.location === "processor" || selected.location === "barge") {
+            if (item === "coral") {
+                log.push({
+                    time: state.time,
+                    action: 'score',
+                    ...selected,
+                    phase: state.phase,
+                });
+                coral = false;
+                console.log("outtaking coral");
+            } else if (item === "algae" && (selected.location === "processor" || selected.location === "barge")) {
+                algae = false;
+                console.log("outtaking algae");
+                log.push({
+                    time: state.time,
+                    action: 'score',
+                    ...selected,
+                    phase: state.phase,
+                });
+            }
+        }
+    }
+
+    function handleDropOrMiss(actionType) {
+        if (item === "coral" && coral) {
+            coral = false;
+        } else if (item === "algae" && algae) {
+            algae = false;
+        }
         log.push({
             time: state.time,
             action: actionType,
             ...selected,
             phase: state.phase,
-        })
-        if (actionType == 'score') {
-            if (selected.location === "reef" || selected.location === "processor" || selected.location === "barge") {
-                if (item === "coral") {
-                    coral = false
-                    console.log("outtaking coral")
-                } else if (item === "algae" && selected.location === "processor" || selected.location === "barge") {
-                    algae = false
-                    console.log("outtaking algae")
+        });
+    }
+
+    function handleIntake() {
+        if (selected.location === "coral_station_left" || selected.location === "coral_station_right" || selected.location === "alliance") {
+            if (item === "coral") {
+                if (allianceArea.intakeEvent(coral, algae)) {
+                    coral = true;
+                    log.push({
+                        time: state.time,
+                        action: 'intake',
+                        ...selected,
+                        phase: state.phase,
+                    });
+                }
+                console.log("intaking coral");
+            } else {
+                if (allianceArea.intakeEvent(coral, algae)) {
+                    algae = true;
+                    log.push({
+                        time: state.time,
+                        action: 'intake',
+                        ...selected,
+                        phase: state.phase,
+                    });
+                }
+                console.log("intaking algae");
+            }
+        } else if (selected.location === "reef") {
+            if (algae === false) {
+                console.log("intaking algae from reef");
+                if (reef.intakeEvent()) {
+                    algae = true;
+                    reefActive = false;
+                    log.push({
+                        time: state.time,
+                        action: 'intake',
+                        ...selected,
+                        phase: state.phase,
+                    });
                 }
             }
-        } else {
-            if (actionType === 'drop' || actionType === 'miss') {
-                if (selected.location === "reef" || selected.location === "processor" || selected.location === "barge") {
-                    if (item === "coral") {
-                        coral = false
-                        reefActive = false
-                        console.log("outtaking coral")
-                    } else {
-                        algae = false
-                        console.log("outtaking algae")
-                    }
-                }
+        }
+    }
+
+    function behavior(actionType) {
+        if (state.started) {
+            if (actionType === 'score') {
+                handleScore();
+            } else if (actionType === 'drop' || actionType === 'miss') {
+                handleDropOrMiss(actionType);
             } else if (actionType === 'intake') {
-                if (selected.location === "coral_station_left" || selected.location === "coral_station_right" || selected.location === "alliance") {
-                    if (item === "coral") {
-                        if (allianceArea.intakeEvent(coral, algae)) {
-                            coral = true
-                        }
-                        console.log("intaking coral")
-                    } else {
-                        if (allianceArea.intakeEvent(coral, algae)) {
-                            algae = true
-                        }
-                        console.log("intaking algae")
-                    }
-                } else if (selected.location === "reef") {
-                    if (algae === false) {
-                        console.log("intaking algae from reef")
-                        if (reef.intakeEvent()) {
-                            algae = true
-                            reefActive = false
-                        }
-                    }
-                }
+                handleIntake();
             }
         }
     }
@@ -99,7 +136,7 @@
 <div class="flex flex-row w-screen h-screen items-center justify-center">
     <div class="basis-4/5 h-screen p-5">
         <div class="h-full flex flex-row justify-center rounded-3xl background shadow-2xl shadow-black/80   ">
-            <Barge bind:item bind:selected/>
+            <Barge bind:item bind:selected class="basis-1/6"/>
             <div class="flex flex-col items-center justify-end basis-5/6">
                 <div class="flex flex-row items-center justify-center w-full h-full -mb-1">
                     <AllianceArea bind:item bind:selected bind:this={allianceArea}/>
