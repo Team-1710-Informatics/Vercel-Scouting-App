@@ -25,82 +25,143 @@
     //     })();
     // }
 
-    async function fetch() {
-        try {
-            console.log('fetching data')
-            if (team3 !== '') {
-                route = `/auto/compare/data/${event}/${team1}/${team2}/${team3}`
-            }
-            else {
-                route = `/auto/compare/data/${event}/${team1}/${team2}`
-            }
-            const response = await ApiService.request(route)
-            data = await response.json()
-        } catch (error) {
-            console.error('Error fetching data:', error)
-        }
-    }
+    // async function fetch() {
+    //     try {
+    //         console.log('fetching data')
+    //         if (team3 !== '') {
+    //             route = `/auto/compare/data/${event}/${team1}/${team2}/${team3}`
+    //         }
+    //         else {
+    //             route = `/auto/compare/data/${event}/${team1}/${team2}`
+    //         }
+    //         const response = await ApiService.request(route)
+    //         data = await response.json()
+    //     } catch (error) {
+    //         console.error('Error fetching data:', error)
+    //     }
+    // }
 
-    export let progress = 0;
+    export let compatibility = 0;
 
     const radius = 40;
     const circumference = 2 * Math.PI * radius;
 
-    $: offset = circumference * (1 - progress / 100);
+    $: offset = circumference * (1 - compatibility / 100);
 
-    $: getColor = (progress) => {
+    $: getColor = (compatibility) => {
         const startColor = { r: 59, g: 62, b: 134 };  // #3b3e86
         const endColor = { r: 62, g: 159, b: 133 };   // #3e9f85
 
-        const r = Math.round(startColor.r + (endColor.r - startColor.r) * (progress / 100));
-        const g = Math.round(startColor.g + (endColor.g - startColor.g) * (progress / 100));
-        const b = Math.round(startColor.b + (endColor.b - startColor.b) * (progress / 100));
+        const r = Math.round(startColor.r + (endColor.r - startColor.r) * (compatibility / 100));
+        const g = Math.round(startColor.g + (endColor.g - startColor.g) * (compatibility / 100));
+        const b = Math.round(startColor.b + (endColor.b - startColor.b) * (compatibility / 100));
 
         return `rgb(${r}, ${g}, ${b})`;
     };
 
-    // let increasing = false;
-    //
-    // function animateProgress() {
-    //     let interval = setInterval(() => {
-    //         if (increasing) {
-    //             progress += 0.5;
-    //             if (progress >= 100) {
-    //                 increasing = false;
-    //             }
-    //         } else {
-    //             progress -= 2;
-    //             if (progress <= 0) {
-    //                 increasing = true;
-    //             }
-    //         }
-    //     }, 25);
-    // }
-    //
-    // animateProgress();
+    let fetching = true;
+    let increasing = true;
+    let displaying = false;
+    let show = false;
+
+    function fetch() {
+        fetching = true;
+        show = false;
+        loading();
+        setTimeout(() => {
+            fetching = false;
+            display(82);
+        }, 15000);
+    }
+
+    function loading() {
+        let interval = setInterval(() => {
+            // Easing function for smooth acceleration & deceleration
+            let progressFactor = Math.sin((compatibility / 100) * Math.PI);
+            let speed = 0.125 + progressFactor;
+
+            if (increasing) {
+                compatibility += speed;
+                if (compatibility >= 100) {
+                    compatibility = 100;
+                    increasing = false;
+                }
+            } else {
+                compatibility -= speed;
+                if (compatibility <= 0.1) {
+                    compatibility = 0.1;
+
+                    // Stop animation ONLY when fetching is false AND we've reached 0
+                    if (!fetching) {
+                        clearInterval(interval);
+                    } else {
+                        increasing = true; // Otherwise, continue looping
+                    }
+                }
+            }
+        }, 10);
+    }
+
+
+    function display(goal) {
+        // Wait until compatibility reaches 0 before starting
+        let waitForReset = setInterval(() => {
+            if (compatibility === 0.1) {
+                show = true;
+                clearInterval(waitForReset); // Stop waiting and start animation
+                startAnimation(goal);
+            }
+        }, 10);
+    }
+
+    function startAnimation(goal) {
+        displaying = true;
+
+        let interval = setInterval(() => {
+            if (!displaying) {
+                clearInterval(interval);
+                return;
+            }
+
+            let distance = Math.abs(goal - compatibility); // Remaining distance
+            let compatibilityFactor = Math.sin((distance / goal) * Math.PI); // Easing
+            let speed = 0.125 + compatibilityFactor;
+
+            if (compatibility < goal) {
+                compatibility += speed;
+                if (compatibility >= goal) {
+                    compatibility = goal;
+                    displaying = false;
+                    clearInterval(interval); // Stop when done
+                }
+            }
+        }, 10);
+    }
 </script>
-<svg width="200" height="200" viewBox="0 0 100 100">
+<svg width="auto" height="auto" viewBox="0 0 100 100">
     <circle
         cx="50" cy="50" r="{radius}"
         stroke="#1d293d" stroke-width="9" fill="none" stroke-dasharray="{circumference}"
     />
     <circle
         cx="50" cy="50" r="{radius}"
-        stroke={getColor(progress)} stroke-width="10" fill="none" stroke-linecap="round" stroke-dasharray="{circumference}" stroke-dashoffset="{offset}"
+        stroke={getColor(compatibility)} stroke-width="10" fill="none" stroke-linecap="round" stroke-dasharray="{circumference}" stroke-dashoffset="{offset}"
         transform="rotate(90 50 50)"
     />
 
-    <text
-        x="50" y="60" text-anchor="middle"
-        font-size="28" font-family="sans-serif" font-weight="600" font-stretch="ultra-expanded"
-        fill="#93a1af"
-    >
-        {progress.toFixed(0)}
-    </text>
+    {#if show}
+        <text
+            x="50" y="60" text-anchor="middle"
+            font-size="28" font-family="sans-serif" font-weight="600" font-stretch="ultra-expanded"
+            fill="#93a1af"
+        >
+            {compatibility.toFixed(0)}
+        </text>
+    {/if}
 </svg>
 <!--<input type="text" bind:value={event} />-->
 <!--<input type="text" bind:value={team1} />-->
 <!--<input type="text" bind:value={team2} />-->
 <!--<input type="text" bind:value={team3} />-->
-<!--<button on:click={fetch}>Fetch</button>-->
+<button on:click={fetch}>Fetch</button>
 <!--{JSON.stringify(data)}-->
