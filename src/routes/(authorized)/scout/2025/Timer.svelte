@@ -5,6 +5,8 @@
         start: number
     }
 
+    export let team
+
     let interval: NodeJS.Timer
     function start() {
         state.start = Date.now()
@@ -32,14 +34,13 @@
 
     let h: number
 </script>
-
 <div class="flex flex-row justify-center w-36 mt-1 h-10">
     {#if !state.started}
         <button
             style="height:{h}px; background-color:#F5885F; background-image:none;"
             on:click={start}
             class="basis-3/4 bg-gradient-to-br text-lg border rounded border-orange-600 p-1 text-white"
-            >Start</button
+        >Start</button
         >
     {:else if state.time > 138}
         <div

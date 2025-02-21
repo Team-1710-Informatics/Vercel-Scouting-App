@@ -6,6 +6,8 @@
     import Timer from "./Timer.svelte";
     import Endgame from "./Endgame.svelte";
 
+    export let team
+
     export let log = []
     let algae = false;
     let coral = false;
@@ -150,9 +152,12 @@
             </div>
         </div>
     </div>
-    <div class="flex flex-col gap-4 basis-1/5">
-        <Timer bind:state/>
-        <div class="flex items-center justify-center">
+    <div class="flex flex-col gap-4 basis-1/5 w-fit">
+        <div class="text-2xl w-fit">
+            Team {team.slice(3)}
+        </div>
+        <Timer bind:state />
+        <div class="flex items-center justify-center w-fit">
             <Inventory bind:algae bind:coral/>
         </div>
         <div class="rounded-md shadow-xl bg-red-600 p-2 w-36 h-10" on:click={() => {behavior("score")}}>

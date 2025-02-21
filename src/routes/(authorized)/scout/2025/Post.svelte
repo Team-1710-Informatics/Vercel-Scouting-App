@@ -48,6 +48,8 @@
         postgame,
     })
 
+    export let team
+
     let loading = false
 
     let showcode = false;
@@ -74,6 +76,7 @@
 
 <center class="w-full py-10">
     <h5 class="mb-2">Submit Entry</h5>
+    <h5 class="mb-2">Team {team.slice(3)}</h5>
     <div class="boxing">
         <div class="grid grid-cols-1 justify-items-start pb-2 px-10">
             <h6 class="justify-self-center underline">Robot Strategy</h6>

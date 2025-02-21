@@ -16,6 +16,7 @@
     export let meta;
     export let pregame;
     export let game;
+    export let team;
 
     let inv = pregame.preload;
     let log = [];
@@ -68,7 +69,7 @@
     let climb
 </script>
 
-<Action bind:climb bind:log bind:state/>
+<Action bind:climb bind:log bind:state team={team}/>
 
 <button
         class="submit fixed bottom-0 right-0"

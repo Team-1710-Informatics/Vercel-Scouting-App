@@ -7,39 +7,11 @@
     export let event
 
     let route
+    let meow = ''
 
-    $: data = {compatibility: ""}
-
-    // $: if (team1 && team2 && event && (route !== tried)) {
-    //     (async () => {
-    //         try {
-    //             tried = route
-    //             console.log('fetching data')
-    //             const response = await ApiService.request(route)
-    //             data = await response.json()
-    //             success = true
-    //         } catch (error) {
-    //             success = false
-    //             console.error('Error fetching data:', error)
-    //         }
-    //     })();
-    // }
-
-    // async function fetch() {
-    //     try {
-    //         console.log('fetching data')
-    //         if (team3 !== '') {
-    //             route = `/auto/compare/data/${event}/${team1}/${team2}/${team3}`
-    //         }
-    //         else {
-    //             route = `/auto/compare/data/${event}/${team1}/${team2}`
-    //         }
-    //         const response = await ApiService.request(route)
-    //         data = await response.json()
-    //     } catch (error) {
-    //         console.error('Error fetching data:', error)
-    //     }
-    // }
+    let data = {
+        compatibility: 0
+    }
 
     export let compatibility = 0;
 
@@ -48,10 +20,10 @@
 
     $: offset = circumference * (1 - compatibility / 100);
 
-    $: getColor = (compatibility) => {
-        const startColor = { r: 59, g: 62, b: 134 };  // #3b3e86
-        const endColor = { r: 62, g: 159, b: 133 };   // #3e9f85
+    const startColor = { r: 59, g: 62, b: 134 };  // #3b3e86
+    let endColor = { r: 62, g: 159, b: 133 };   // #3e9f85
 
+    $: getColor = (compatibility) => {
         const r = Math.round(startColor.r + (endColor.r - startColor.r) * (compatibility / 100));
         const g = Math.round(startColor.g + (endColor.g - startColor.g) * (compatibility / 100));
         const b = Math.round(startColor.b + (endColor.b - startColor.b) * (compatibility / 100));
@@ -59,19 +31,37 @@
         return `rgb(${r}, ${g}, ${b})`;
     };
 
-    let fetching = true;
+    let fetching = false;
     let increasing = true;
     let displaying = false;
     let show = false;
 
-    function fetch() {
-        fetching = true;
-        show = false;
-        loading();
-        setTimeout(() => {
+    async function fetch() {
+        try {
+            meow = ''
             fetching = false;
-            display(82);
-        }, 15000);
+            increasing = true;
+            displaying = false;
+            show = false;
+            console.log('fetching data')
+            if (team3 !== '') {
+                route = `/auto/compare/data/${event}/${team1}/${team2}/${team3}`
+            }
+            else {
+                route = `/auto/compare/data/${event}/${team1}/${team2}`
+            }
+            fetching = true;
+            show = false;
+            loading();
+            const response = await ApiService.request(route)
+            data = await response.json()
+            fetching = false;
+            display(data.compatibility);
+        } catch (error) {
+            console.error('Error fetching data:', error)
+            fetching = false;
+            display('error');
+        }
     }
 
     function loading() {
@@ -90,7 +80,7 @@
                 compatibility -= speed;
                 if (compatibility <= 0.1) {
                     compatibility = 0.1;
-
+                    endColor = { r: 62, g: 159, b: 133 }
                     // Stop animation ONLY when fetching is false AND we've reached 0
                     if (!fetching) {
                         clearInterval(interval);
@@ -107,9 +97,18 @@
         // Wait until compatibility reaches 0 before starting
         let waitForReset = setInterval(() => {
             if (compatibility === 0.1) {
-                show = true;
-                clearInterval(waitForReset); // Stop waiting and start animation
-                startAnimation(goal);
+                if(goal !== 'error'){
+                    show = true;
+                    clearInterval(waitForReset); // Stop waiting and start animation
+                    startAnimation(goal);
+                }
+                else {
+                    show = true;
+                    meow = ':('
+                    clearInterval(waitForReset); // Stop waiting and start animation
+                    endColor = { r: 220, g: 4, b: 55 }
+                    startAnimation(100);
+                }
             }
         }, 10);
     }
@@ -150,13 +149,23 @@
     />
 
     {#if show}
-        <text
-            x="50" y="60" text-anchor="middle"
-            font-size="28" font-family="sans-serif" font-weight="600" font-stretch="ultra-expanded"
-            fill="#93a1af"
-        >
-            {compatibility.toFixed(0)}
-        </text>
+        {#if meow === ':('}
+            <text
+                x="46" y="58" text-anchor="middle"
+                font-size="28" font-family="sans-serif" font-weight="600" font-stretch="ultra-expanded"
+                fill="#93a1af"
+            >
+                {meow}
+            </text>
+        {:else}
+            <text
+                x="50" y="60" text-anchor="middle"
+                font-size="28" font-family="sans-serif" font-weight="600" font-stretch="ultra-expanded"
+                fill="#93a1af"
+            >
+                {compatibility.toFixed(0)}
+            </text>
+        {/if}
     {/if}
 </svg>
 <!--<input type="text" bind:value={event} />-->

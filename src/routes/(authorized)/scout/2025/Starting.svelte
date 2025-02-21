@@ -1,12 +1,13 @@
 <script>
-    import blueStart from '$lib/assets/scout/2025/blue_starting.png'
-    import redStart from '$lib/assets/scout/2025/red_starting.png'
+    import startingArea from '$lib/assets/scout/2025/startingArea.png'
     import dozer from '$lib/assets/scout/dozer.png'
 
     const imgs = {
-        red: redStart,
-        blue: blueStart,
+        red: startingArea,
+        blue: startingArea,
     }
+
+    export let team
 
     export let alliance
     export let disabled = false
@@ -76,6 +77,7 @@
 
 {#if !disabled}
     <h1 class="text-xl mb-4"><b>Select Starting Position</b></h1>
+    <h1 class="text-4xl mb-4"><b>Team {team.slice(3)}</b></h1>
     <img
         class="img"
         alt=""
@@ -120,5 +122,6 @@
         height: 250px;
         width: 100px;
         touch-action: none;
+        margin-bottom: 10px;
     }
 </style>
