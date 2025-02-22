@@ -1,6 +1,6 @@
 <script>
-    import { flip } from 'svelte/animate'
-    import stats from '../../[event]/statistics.js'
+    import {flip} from 'svelte/animate'
+    import stats from './statistics.ts'
 
     let teams = []
     let first = 1
@@ -74,56 +74,58 @@
 <center class="pt-10 px-10">
     <div class="grid grid-cols-2 w-fit gap-1">
         <button
-            class="font-bold bg-gradient-to-t from-green-800 to-green-400 border-green-900"
-            on:click={() => {
+                class="font-bold bg-gradient-to-t from-green-800 to-green-400 border-green-900"
+                on:click={() => {
                 columns.push('AverageScore')
                 columns = columns
-            }}>Add column</button
+            }}>Add column
+        </button
         >
         <button
-            class="font-bold bg-gradient-to-t from-red-800 to-red-400 border-red-900"
-            on:click={() => {
+                class="font-bold bg-gradient-to-t from-red-800 to-red-400 border-red-900"
+                on:click={() => {
                 columns.pop('AverageScore')
                 columns = columns
-            }}>Remove column</button
+            }}>Remove column
+        </button
         >
     </div>
-    <br />
+    <br/>
     <div>
         <label>
             Filter teams:
-            <input type="text" bind:value={show} />
+            <input bind:value={show} type="text"/>
         </label>
     </div>
     <label>
         <input
-            type="radio"
-            name="positive"
-            bind:group={positive}
-            value={true}
+                bind:group={positive}
+                name="positive"
+                type="radio"
+                value={true}
         />
         Include
     </label>
     <label>
         <input
-            type="radio"
-            name="positive"
-            bind:group={positive}
-            value={false}
+                bind:group={positive}
+                name="positive"
+                type="radio"
+                value={false}
         />
         Exclude
     </label>
-    <br /><br />
+    <br/><br/>
     <div>Filter matches:</div>
     <label>
         From:
-        <input class="w-24" type="number" bind:value={first} />
+        <input bind:value={first} class="w-24" type="number"/>
     </label>
     <label>
         To:
-        <input class="w-24" type="number" bind:value={last} />
+        <input bind:value={last} class="w-24" type="number"/>
     </label>
-    <br /><br />
+    <br/><br/>
     <div class="flex flex-row w-fit gap-1">
         <p>Sort:</p>
         <select bind:value={sortFunction}>
@@ -133,15 +135,15 @@
         </select>
     </div>
     <label>
-        <input type="radio" name="sort" bind:group={ascending} value={false} />
+        <input bind:group={ascending} name="sort" type="radio" value={false}/>
         Descending
     </label>
     <label>
-        <input type="radio" name="sort" bind:group={ascending} value={true} />
+        <input bind:group={ascending} name="sort" type="radio" value={true}/>
         Ascending
     </label>
-    <br />
-    <br />
+    <br/>
+    <br/>
     <div class="box overflow-x-scroll max-w-full">
         <table class="divide-y divide-white">
             <tr>
@@ -149,9 +151,9 @@
                 {#each columns as col}
                     <th>
                         <select
-                            class="text-xs"
-                            style="max-width:7.5rem"
-                            bind:value={col}
+                                class="text-xs"
+                                style="max-width:7.5rem"
+                                bind:value={col}
                         >
                             {#each Object.keys(stats) as func}
                                 <option value={func}>{func}</option>
@@ -161,51 +163,56 @@
                 {/each}
             </tr>
 
-            {#key first}{#key last}{#each teams as team, i (team)}
+            {#key first}
+                {#key last}
+                    {#each teams as team, i (team)}
                         <tr class="divide-x" animate:flip>
                             {#if showteams?.[0] == '' || (showteams.includes('' + team) && positive) || (!showteams.includes('' + team) && !positive)}
                                 <td>{i + 1}.</td>
                                 {#each columns as col}
                                     <td class:font-bold={col == 'Team_number'}
-                                        >{typeof stats[col](
-                                            team,
-                                            data.entries.filter(matfil)
-                                        ) === 'number' &&
+                                    >{typeof stats[col](
+                                        team,
+                                        data.entries.filter(matfil)
+                                    ) === 'number' &&
+                                    stats[col](
+                                        team,
+                                        data.entries.filter(matfil)
+                                    ) !=
+                                    Math.trunc(
                                         stats[col](
                                             team,
                                             data.entries.filter(matfil)
-                                        ) !=
-                                            Math.trunc(
-                                                stats[col](
-                                                    team,
-                                                    data.entries.filter(matfil)
+                                        )
+                                    )
+                                        ? parseFloat(
+                                            stats[col](
+                                                team,
+                                                data.entries.filter(
+                                                    matfil
                                                 )
                                             )
-                                            ? parseFloat(
-                                                  stats[col](
-                                                      team,
-                                                      data.entries.filter(
-                                                          matfil
-                                                      )
-                                                  )
-                                              ).toFixed(2)
-                                            : stats[col](
-                                                  team,
-                                                  data.entries.filter(matfil)
-                                              )}</td
+                                        ).toFixed(2)
+                                        : stats[col](
+                                            team,
+                                            data.entries.filter(matfil)
+                                        )}</td
                                     >
                                 {/each}
                             {/if}
                         </tr>
-                    {/each}{/key}{/key}
+                    {/each}
+                {/key}
+            {/key}
         </table>
     </div>
-    <br />
+    <br/>
     <div class="opacity-50">*Score calculations do not include links</div>
     <button
-        on:click={tableToCSV}
-        class="font-bold bg-gradient-to-t from-teal-800 to-teal-400 border-black"
-        >Export sheet</button
+            class="font-bold bg-gradient-to-t from-teal-800 to-teal-400 border-black"
+            on:click={tableToCSV}
+    >Export sheet
+    </button
     >
 </center>
 
