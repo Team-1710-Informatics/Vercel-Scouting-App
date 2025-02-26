@@ -42,7 +42,6 @@
             csvdata.push(csvrow.join(','))
         }
         csvdata = csvdata.join('\n')
-
         downloadCSVFile(csvdata)
     }
 

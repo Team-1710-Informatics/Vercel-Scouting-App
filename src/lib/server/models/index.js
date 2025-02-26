@@ -301,7 +301,6 @@ const pitscout2025 = new Schema({
     autoLogger: String,
     cageClimbable: [],
     buddyClimb: Boolean,
-    floorIntake: Boolean,
     firstCoralLocation: Object,
     autoStartingPos: [],
     controlPieces: Boolean,
