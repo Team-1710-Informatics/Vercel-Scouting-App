@@ -1,12 +1,12 @@
 <script>
     import tba from '$lib/modules/tba.js'
-    import { onMount } from 'svelte'
+    import {onMount} from 'svelte'
 
     export let event_key
 
     let rankings
     let reference
-    let picked = { rankings: [[], [], [], [], [], [], [], []] }
+    let picked = {rankings: [[], [], [], [], [], [], [], []]}
     let i = 0
     let down = true
     let selection = true
@@ -15,6 +15,9 @@
     let selected_team = null
     let selecting = false
     let actionLog = []
+
+    export let selectedTeam = null
+    export let selectedAlliance = ['none']
 
     function changeMode() {
         selection = !selection
@@ -34,7 +37,7 @@
         }
 
         reference = rankings
-        picked = { ...picked }
+        picked = {...picked}
     }
 
     function pickTeam(ranking) {
@@ -63,8 +66,8 @@
                 rankings.rankings.sort(
                     (a, b) => parseInt(a.rank) - parseInt(b.rank)
                 )
-                rankings = { ...rankings }
-                picked = { ...picked }
+                rankings = {...rankings}
+                picked = {...picked}
             } else {
                 moveAlliances(ranking)
                 actionLog.push({
@@ -104,15 +107,15 @@
             rankings.rankings.sort(
                 (a, b) => parseInt(a.rank) - parseInt(b.rank)
             )
-            rankings = { ...rankings }
+            rankings = {...rankings}
         }
-        picked = { ...picked }
+        picked = {...picked}
     }
 
     function decline(team) {
         team.rejected = true
-        actionLog.push({ type: 'decline', team })
-        rankings = { ...rankings }
+        actionLog.push({type: 'decline', team})
+        rankings = {...rankings}
         selecting = false
     }
 
@@ -130,8 +133,8 @@
             lastAction.team.rejected = false
         }
         rankings.rankings.sort((a, b) => parseInt(a.rank) - parseInt(b.rank))
-        rankings = { ...rankings }
-        picked = { ...picked }
+        rankings = {...rankings}
+        picked = {...picked}
     }
 
     function inviteShift(allianceIndex) {
@@ -169,6 +172,20 @@
         )
     }
 
+    function selectNewTeam(team) {
+        if (team.team_key === selectedTeam) {
+            selecting = true;
+            selected_team = team;
+        }
+        selectedTeam = team.team_key
+    }
+
+    function selectAlliance(alliance) {
+        console.log(alliance)
+        selectedAlliance = picked.rankings[alliance]
+        selectedAlliance = selectedAlliance.map((team) => team.team_key)
+    }
+
     onMount(() => {
         getRankings()
     })
@@ -181,30 +198,36 @@
 <!--{/if}-->
 <!--Current Alliance Index: {i}-->
 
-<div class="basis-1/5 draggable-container rounded-lg border-black overflow-hidden relative">
+<div class="basis-1/4 draggable-container rounded-lg border-black overflow-hidden relative">
     <div class="flex flex-cols-2 p-2 px-4">
         {#if rankings}
             <div class="basis-1/2 max-h-screen">
-                <h1 class="text-lg font-bold">Picked Teams</h1>
-                <div class="overflow-y-scroll" style="height: 75vh">
+                <h1 class="text-lg font-bold pb-2">Picked</h1>
+                <div class="overflow-y-scroll flex flex-col justify-between" style="height: 80vh">
                     {#each picked.rankings as alliance, index}
-                        <div class="w-fit h-fit px-4 rounded-md {index === i && selection ? 'bg-slate-600' : ''}">
-                            <p class="text-lg font-semibold">Alliance {index + 1}</p>
+                        <div class="w-fit h-fit rounded-md" on:click={() => {selectAlliance(index)}}
+                             on:keypress={() => {selectAlliance(index)}}>
+                            <p class="text-md px-2 {index === i && selection ? 'font-bold' : ''} {selectedAlliance[0] === alliance[0].team_key ? 'font-extrabold' : ''}">
+                                Alliance {index + 1}</p>
                             <ul>
                                 {#each alliance as team, teamIndex}
-                                    <li class="list-none">
+                                    <li class="list-none text-sm">
                                         <button on:click={() => {
                                                 if (!team.rejected) {inviteShift(index)}
                                             }}>
-                                            {team.truerank}. {formatTeamKey(team.team_key)}
+
+                                            {teamIndex + 1}. {formatTeamKey(team.team_key)}
                                         </button>
                                     </li>
                                 {/each}
                             </ul>
                             {#if selecting && index === i && selection}
                                 <div>Selecting: {formatTeamKey(selected_team.team_key)}</div>
-                                <button class="bg-green-500 rounded-md" on:click={() => pickTeam(selected_team)}>Accept</button>
-                                <button class="bg-red-500 rounded-md" on:click={() => decline(selected_team)}>Decline</button>
+                                <button class="bg-green-500 rounded-md" on:click={() => pickTeam(selected_team)}>
+                                    Accept
+                                </button>
+                                <button class="bg-red-500 rounded-md" on:click={() => decline(selected_team)}>Decline
+                                </button>
                             {/if}
                         </div>
                     {/each}
@@ -221,8 +244,8 @@
                                             }
                                         }}>
                                         {ranking.truerank}. {formatTeamKey(
-                                            ranking.team_key
-                                        )}
+                                        ranking.team_key
+                                    )}
                                     </button>
                                 </li>
                             {/if}
@@ -236,10 +259,10 @@
                     {#each rankings.rankings as ranking}
                         {#if !ranking.rejected}
                             <ul>
-                                <button on:click={() => {selecting = true; selected_team = ranking}}>
-                                    {ranking.truerank}.{formatTeamKey(
-                                        ranking.team_key
-                                    )}
+                                <button on:click={selectNewTeam(ranking)}
+                                        class="rounded-md"
+                                        class:bg-slate-600={selectedTeam===ranking.team_key}>
+                                    {ranking.truerank}.{formatTeamKey(ranking.team_key)}
                                 </button>
                             </ul>
                         {/if}
@@ -252,10 +275,10 @@
 </div>
 
 <style lang="scss">
-    .draggable-container {
-        background-color: rgba(0, 0, 0, 0.2);
-        box-shadow: inset 0 20px 40px 0 rgb(0 0 0 / 0.5);
-        width: 100%;
-        height: 100%;
-    }
+  .draggable-container {
+    background-color: rgba(0, 0, 0, 0.2);
+    box-shadow: inset 0 20px 40px 0 rgb(0 0 0 / 0.5);
+    width: 100%;
+    height: 100%;
+  }
 </style>
