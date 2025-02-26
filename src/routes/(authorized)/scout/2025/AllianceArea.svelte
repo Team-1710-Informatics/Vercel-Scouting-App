@@ -52,7 +52,7 @@
      on:click={() => {select("coral_station_left", 1)}}>
     <img class="h-16 w-16 mr-12" src={startingCoral}>
     <p class="-ml-14 mr-8 -mt-1 mb-3">
-        Near
+        Far
     </p>
 </div>
 <div class="basis-3/5 h-full w-full flex flex-row justify-around">
@@ -115,7 +115,7 @@
      class:brightness-200={selected.location==="coral_station_right"}
      on:click={() => {select("coral_station_right", 1)}}>
     <p class="ml-8 -mr-14 -mt-1 mb-3">
-        Far
+        Near
     </p>
     <img class="h-16 w-16 ml-12" src={startingCoral}>
 </div>

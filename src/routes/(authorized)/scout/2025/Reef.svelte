@@ -51,7 +51,7 @@
 
     const handleClick = (index) => {
         hoveredSlice = index
-        activeSlice = index - 3;
+        activeSlice = index - 2;
         if (activeSlice < 0) {
             if (activeSlice === -1) {
                 activeSlice = 5

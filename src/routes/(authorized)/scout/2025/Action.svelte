@@ -31,7 +31,9 @@
     }
 
     function switchEndgame() {
-        endgame = !endgame
+        if (state.time < 30) {
+            endgame = !endgame
+        }
     }
 
     let reefActive = false;
@@ -160,7 +162,7 @@
             Team {team.slice(3)}
         </div>
         <Timer bind:state/>
-        <div class="flex items-center justify-center w-fit">
+        <div class="flex items-center justify-center w-full">
             <Inventory bind:algae bind:coral/>
         </div>
         <div class="rounded-md shadow-xl bg-red-600 p-2 w-36 h-10" on:click={() => {behavior("score")}}>
@@ -172,8 +174,11 @@
         <div class="rounded-md shadow-xl bg-fuchsia-500 p-2 w-36 h-10" on:click={() => {behavior("miss")}}>
             MISS
         </div>
-        <button class="rounded-md shadow-xl bg-blue-400 p-2 h-10 w-36" on:click={switchEndgame}>
+        <button class="rounded-md shadow-xl bg-blue-400 p-2 h-10 w-36"
+                class:disabled={state.started && state.time > 30}
+                on:click={switchEndgame}>
             ENDGAME
+            {#if state.time > 30}T-{state.time - 30}{/if}
         </button>
     </div>
 </div>
@@ -183,6 +188,12 @@
         background: linear-gradient(0.3turn, #242a34, #363840, #000000) fixed;
         /* Your main background gradient */
         /* linear-gradient(to right, black, black); */
+    }
+
+    .disabled {
+        opacity: 0.5;
+        filter: brightness(0.5);
+        cursor: not-allowed;
     }
 </style>
 
