@@ -24,6 +24,14 @@ export const actions = {
         const input = await request.formData()
         const data = JSON.parse(input.get('data'))
         console.log(data)
+
+        if (data.event === '2025practice') {
+            const pass = { match: data.event }
+            const queryString = new URLSearchParams(pass).toString()
+            throw redirect(302, `/scout/2025?${queryString}`)
+            return
+        }
+
         const match = data.event + '_qm' + data.match
         const scout = locals.user.username
         console.log(match)

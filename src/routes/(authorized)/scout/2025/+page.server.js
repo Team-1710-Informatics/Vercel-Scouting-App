@@ -14,24 +14,31 @@ export async function load({ locals, url }) {
     const match = params.get('match');
 
     const scout = locals.user.username
+    let [prefix, matchPart] = ['', '']
+    let matchNumber = 0
+    let team = 'practice'
+    let alliance = 'red'
 
-    let search = await TeamSelections.findOne({match: match})
-
-    let team = ''
-    let alliance = ''
-
-    for (let i = 0; i < search.teams.length; i++) {
-        if (search.teams[i].scout.includes(scout)){
-            team = search.teams[i].team
-            alliance = search.teams[i].alliance
-            break
-        }
+    if (!match) {
+        throw redirect(302, `/scout/2025/pre`)
     }
 
-    // const input = "2024cttd_qm1";
+    if (match !== '2025practice') {
+        let search = await TeamSelections.findOne({match: match})
 
-    const [prefix, matchPart] = match.split('_')
-    const matchNumber = parseInt(matchPart.replace('qm', ''))
+        for (let i = 0; i < search.teams.length; i++) {
+            if (search.teams[i].scout.includes(scout)){
+                team = search.teams[i].team
+                alliance = search.teams[i].alliance
+                break
+            }
+        }
+
+        const input = "2024cttd_qm1";
+
+        [prefix, matchPart] = input.split('_')
+        matchNumber = parseInt(matchPart.replace('qm', ''))
+    }
 
     return {
         events,

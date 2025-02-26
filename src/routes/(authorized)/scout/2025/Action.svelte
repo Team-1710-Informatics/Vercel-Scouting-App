@@ -159,7 +159,11 @@
     </div>
     <div class="flex flex-col gap-4 basis-1/5 w-fit">
         <div class="text-md w-fit -mb-5 -mt-2">
-            Team {team.slice(3)}
+            {#if team !== 'practice'}
+                Team {team.slice(3)}
+            {:else}
+                Practice
+            {/if}
         </div>
         <Timer bind:state/>
         <div class="flex items-center justify-center w-full">
