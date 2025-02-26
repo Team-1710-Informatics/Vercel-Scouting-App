@@ -3,7 +3,7 @@
     import RobotCompatibility from '$lib/components/data/2025/RobotCompatibility.svelte'
     import MatchPredictor from '$lib/components/data/2025/MatchPredictor.svelte'
     import ServicePing from '../../../services/ServicePing.svelte'
-    import {onMount} from 'svelte'
+    import { onMount } from 'svelte'
     import Spreadsheet from './Spreadsheet.svelte'
 
     export let data
@@ -12,32 +12,36 @@
     let selectedAlliance
 
     let matchPredictor
+    let robotCompatibility
 
     let allianceSelection
 
     let pickedAlliances = []
 
-    function getPickedAlliances() {
-        pickedAlliances = allianceSelection.getPickedAlliances()
-        console.log(pickedAlliances)
-    }
+    let event = ''
 
     onMount(() => {
         matchPredictor.eventPrediction()
+        event = data.data.event
     })
+
+    $: if (selectedAlliance && selectedAlliance.length === 3) {
+        robotCompatibility.fetch()
+    }
 </script>
 
 <div class="w-screen min-h-full grow flex flex-row">
     <div class="basis-1/4 max-h-screen m-4">
         <AllianceSelection
-                bind:selectedAlliance
-                bind:selectedTeam
-                bind:this={allianceSelection}
-                event_key={data.data.event}
+            bind:selectedAlliance
+            bind:selectedTeam
+            bind:this={allianceSelection}
+            event_key={data.data.event}
         ></AllianceSelection>
     </div>
+
     <div class="basis-2/4 h-auto temporary_box my-4 rounded-lg">
-        <Spreadsheet/>
+        <Spreadsheet />
         {JSON.stringify(selectedAlliance)}
         {selectedTeam}
     </div>
@@ -45,12 +49,30 @@
         <div class="basis-1/2 flex flex-row mb-4">
             <div class="basis-1/2 h-auto mr-4 rounded-lg temporary_box"></div>
             <div class="basis-1/2 h-auto flex flex-col">
-                <div class="grow h-auto temporary_box rounded-lg">
-                    <RobotCompatibility></RobotCompatibility>
+                <div class="grow h-auto temporary_box rounded-lg flex flex-col">
+                    <h1 class="text-lg ml-4 mt-3">Alliance Info</h1>
+                    <div class="w-full mt-1 mb-0.5 x-4">
+                        <div class="bg-gray-800 w-full h-0.5" />
+                    </div>
+                    <div>
+                        <p class="ml-4">Alliance: {selectedAlliance}</p>
+                    </div>
+                    <div class="basis-3/4 flex mt-4 ml-4 flex-row">
+                        <div style="height: 50%; width: 50%">
+                            <RobotCompatibility
+                                bind:selectedAlliance
+                                bind:event
+                                bind:this={robotCompatibility}
+                            />
+                        </div>
+                        <div style="width:50%; height: 100%" class="text-sm">
+                            Robot Compatability <br /><br />Raw Score:
+                        </div>
+                    </div>
                 </div>
-                <ServicePing name="Blue All." url="thebluealliance.com"/>
-                <ServicePing name="Robot Compat" url="micro.apisb.me"/>
-                <ServicePing name="Match Prediction" url="match.apisb.me"/>
+                <ServicePing name="Blue All." url="thebluealliance.com" />
+                <ServicePing name="Robot Compat" url="micro.apisb.me" />
+                <ServicePing name="Match Prediction" url="match.apisb.me" />
             </div>
         </div>
         <MatchPredictor bind:this={matchPredictor} event={data.data.event}
