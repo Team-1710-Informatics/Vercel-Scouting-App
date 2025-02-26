@@ -77,7 +77,11 @@
 
 {#if !disabled}
     <h1 class="text-xl mb-4"><b>Select Starting Position</b></h1>
-    <h1 class="text-4xl mb-4"><b>Team {team.slice(3)}</b></h1>
+    {#if team !== 'practice'}
+        <h1 class="text-4xl mb-4"><b>Team {team.slice(3)}</b></h1>
+    {:else}
+        <h1 class="text-4xl mb-4"><b>Practice</b></h1>
+    {/if}
     <img
         class="img"
         alt=""

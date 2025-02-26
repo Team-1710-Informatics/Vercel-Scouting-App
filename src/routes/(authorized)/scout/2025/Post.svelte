@@ -76,7 +76,11 @@
 
 <center class="w-full py-10">
     <h5 class="mb-2">Submit Entry</h5>
-    <h5 class="mb-2">Team {team.slice(3)}</h5>
+    {#if team !== 'practice'}
+        <h5 class="mb-4"><b>Team {team.slice(3)}</b></h5>
+    {:else}
+        <h5 class="mb-4"><b>Practice</b></h5>
+    {/if}
     <div class="boxing">
         <div class="grid grid-cols-1 justify-items-start pb-2 px-10">
             <h6 class="justify-self-center underline">Robot Strategy</h6>
