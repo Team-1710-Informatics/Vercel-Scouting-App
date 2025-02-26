@@ -9,17 +9,14 @@
     export let team
 
     export let log = []
-    let algae = false;
-    let coral = false;
+    export let algae = false;
+    export let coral = false;
     let endgame = false;
     export let state
     export let meta
     let item;
 
-    export let climb = {
-        time: 0,
-        type: ''
-    }
+    export let climb = {}
 
     let location
     let rotateDiv
@@ -50,6 +47,7 @@
                     action: 'score',
                     ...selected,
                     phase: state.phase,
+                    item: item
                 });
                 coral = false;
                 console.log("outtaking coral");
@@ -61,6 +59,7 @@
                     action: 'score',
                     ...selected,
                     phase: state.phase,
+                    item: item
                 });
             }
         }
@@ -77,6 +76,7 @@
             action: actionType,
             ...selected,
             phase: state.phase,
+            item: item
         });
     }
 
@@ -90,6 +90,7 @@
                         action: 'intake',
                         ...selected,
                         phase: state.phase,
+                        item: item
                     });
                 }
                 console.log("intaking coral");
@@ -101,6 +102,7 @@
                         action: 'intake',
                         ...selected,
                         phase: state.phase,
+                        item: item
                     });
                 }
                 console.log("intaking algae");
@@ -116,6 +118,7 @@
                         action: 'intake',
                         ...selected,
                         phase: state.phase,
+                        item: item
                     });
                 }
             }
@@ -140,7 +143,7 @@
         <div class="h-full flex flex-row justify-center rounded-3xl background shadow-2xl shadow-black/80   ">
             <Barge bind:item bind:selected class="basis-1/6"/>
             <div class="flex flex-col items-center justify-end basis-5/6">
-                <div class="flex flex-row items-center justify-center w-full h-full -mb-1">
+                <div class="items-center justify-center w-full flex flex-row basis-1/4">
                     <AllianceArea bind:item bind:selected bind:this={allianceArea}/>
                 </div>
                 {#if endgame}
@@ -153,10 +156,10 @@
         </div>
     </div>
     <div class="flex flex-col gap-4 basis-1/5 w-fit">
-        <div class="text-2xl w-fit">
+        <div class="text-md w-fit -mb-5 -mt-2">
             Team {team.slice(3)}
         </div>
-        <Timer bind:state />
+        <Timer bind:state/>
         <div class="flex items-center justify-center w-fit">
             <Inventory bind:algae bind:coral/>
         </div>

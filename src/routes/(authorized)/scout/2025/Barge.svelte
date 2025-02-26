@@ -18,7 +18,7 @@
             on:click={() => {select("processor")}}>
         PROCESSOR
     </button>
-    <button class="basis-3/4 w-full bg-slate-500 text-center hover:brightness-110 rounded-tr-2xl vertical-text"
+    <button class="basis-3/4 w-full bg-slate-500 text-center hover:brightness-110 rounded-bl-2xl vertical-text"
             class:brightness-120={selected.location==="barge"}
             on:click={() => {select("barge")}}>
         BARGE
@@ -26,9 +26,4 @@
 </div>
 
 <style>
-    .vertical-text {
-        writing-mode: vertical-rl;
-        transform: rotate(180deg);
-        text-align: center;
-    }
 </style>

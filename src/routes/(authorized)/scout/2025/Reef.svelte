@@ -95,7 +95,7 @@
     }
 </script>
 
-<div class="flex flex-row justify-center">
+<div class="flex flex-row justify-center basis-3/4">
     {#if reefActive}
         <div class="flex flex-col max-h-16 pt-4">
             <img class="w-20 branch branch-left" src={branchLeft3}
@@ -190,8 +190,8 @@
 
     .hexagon-image {
         width: 100%;
-        height: 114%;
-        object-fit: cover;
+        height: 100%;
+        object-fit: scale-down;
         transform: translate(-50%, -50%) scale(0.8) rotate(300deg); /* Rotate by 300 degrees (or -60 degrees) */
         position: absolute;
         top: 50%;

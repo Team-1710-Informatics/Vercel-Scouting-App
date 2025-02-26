@@ -47,16 +47,13 @@
     }
 </script>
 
-<!--    <button on:click={() => {select("coral_station_left", 1)}}>-->
-<!--        <img alt="" class="w-12 h-12 opacity-40 hover:opacity-60 transition-opacity ease-in"-->
-<!--             class:brightness-200={selected.location==="coral_station_left"}-->
-<!--             src={coralStationLeft}>-->
-<!--    </button>-->
-
-<div class="basis-1/5 h-full bg-slate-800 angled-corner flex flex-col justify-center items-center opacity-40 hover:opacity-60 transition-opacity ease-in"
+<div class="basis-1/5 h-full bg-slate-800 angled-corner flex flex-row justify-center items-center opacity-40 hover:opacity-60 transition-opacity ease-in"
      class:brightness-200={selected.location==="coral_station_left"}
      on:click={() => {select("coral_station_left", 1)}}>
     <img class="h-16 w-16 mr-12" src={startingCoral}>
+    <p class="-ml-14 mr-8 -mt-1 mb-3">
+        Near
+    </p>
 </div>
 <div class="basis-3/5 h-full w-full flex flex-row justify-around">
     {#if startingPositions.left.length > 0}
@@ -114,9 +111,12 @@
         </div>
     {/if}
 </div>
-<div class="basis-1/5 h-full bg-slate-800 angled-corner-left rounded-tr-3xl flex flex-col justify-center items-center opacity-40 hover:opacity-60 transition-opacity ease-in"
+<div class="basis-1/5 h-full bg-slate-800 angled-corner-left rounded-tr-3xl flex flex-row justify-center items-center opacity-40 hover:opacity-60 transition-opacity ease-in"
      class:brightness-200={selected.location==="coral_station_right"}
      on:click={() => {select("coral_station_right", 1)}}>
+    <p class="ml-8 -mr-14 -mt-1 mb-3">
+        Far
+    </p>
     <img class="h-16 w-16 ml-12" src={startingCoral}>
 </div>
 
