@@ -43,10 +43,6 @@
                                             short_name: '!Practice Scouting',
                                             key: '2025practice',
                                         },
-                                        {
-                                            short_name: '!Practice Scouting',
-                                            key: '2025practice',
-                                        },
                                         ...events,
                                     ]}
                                     bind:event={meta.event}

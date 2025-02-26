@@ -9,9 +9,10 @@
      */
     export let events = []
 
-    events.sort((a, b) => {
-        return a.short_name.localeCompare(b.short_name)
-    })
+
+    // events.sort((a, b) => {
+    //     return a.short_name.localeCompare(b.short_name)
+    // })
 
     export let disabled = false
 
