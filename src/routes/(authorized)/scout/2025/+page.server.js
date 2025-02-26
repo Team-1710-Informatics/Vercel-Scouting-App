@@ -72,7 +72,7 @@ export const actions = {
             )
         }
 
-        if (data.event == '2025practice') {
+        if (data.team === 'practice') {
             data.team = 0
         }
 
