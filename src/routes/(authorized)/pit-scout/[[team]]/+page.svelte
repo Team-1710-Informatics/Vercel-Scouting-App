@@ -120,7 +120,6 @@
         autoLogger: string,
         cageClimbable: [],
         buddyClimb: boolean,
-        floorIntake: boolean,
         firstCoralLocation: {},
         autoStartingPos: [],
         controlPieces: boolean,
@@ -151,7 +150,6 @@
         autoLogger: '',
         cageClimbable: [],
         buddyClimb: false,
-        floorIntake: false,
         firstCoralLocation: {branch: 0, level: 0},
         autoStartingPos: [],
         controlPieces: false,
@@ -357,23 +355,6 @@
                     /> No
                 </div>
                 <hr class="mb-2 mt-4" />
-                <label for="floor intake">Can you floor intake?</label>
-                <br />
-                <div>
-                    <input
-                        type="radio"
-                        bind:group={index.floorIntake}
-                        name="floorIntake"
-                        value={true}
-                    /> Yes
-                    <input
-                        type="radio"
-                        bind:group={index.floorIntake}
-                        name="floorIntake"
-                        value={false}
-                    /> No
-                </div>
-                <hr class="mb-2 mt-4" />
                 <label for="auto start">Where can you start in auto? (From driver perspective)</label>
                 <br />
                 <div>
@@ -425,6 +406,7 @@
                 <div>
                     <table>
                         <tr><input type="checkbox" value="processor" bind:group={index.scoreAreas} /> Processor</tr>
+                        <tr><input type="checkbox" value="barge" bind:group={index.scoreAreas} /> Barge</tr>
                         <tr><input type="checkbox" value=1 bind:group={index.scoreAreas} /> L1</tr>
                         <tr><input type="checkbox" value=2 bind:group={index.scoreAreas}/> L2</tr>
                         <tr><input type="checkbox" value=3 bind:group={index.scoreAreas}/> L3</tr>
