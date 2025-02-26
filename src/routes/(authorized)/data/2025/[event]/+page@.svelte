@@ -7,6 +7,10 @@
     import Spreadsheet from './Spreadsheet.svelte'
 
     export let data
+
+    let selectedTeam
+    let selectedAlliance
+
     let matchPredictor
 
     let allianceSelection
@@ -26,12 +30,16 @@
 <div class="w-screen min-h-full grow flex flex-row">
     <div class="basis-1/4 max-h-screen m-4">
         <AllianceSelection
+                bind:selectedAlliance
+                bind:selectedTeam
                 bind:this={allianceSelection}
                 event_key={data.data.event}
         ></AllianceSelection>
     </div>
     <div class="basis-2/4 h-auto temporary_box my-4 rounded-lg">
-        <Spreadsheet />
+        <Spreadsheet/>
+        {JSON.stringify(selectedAlliance)}
+        {selectedTeam}
     </div>
     <div class="basis-2/4 flex flex-col max-h-screen m-4">
         <div class="basis-1/2 flex flex-row mb-4">

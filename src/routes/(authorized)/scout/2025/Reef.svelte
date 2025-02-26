@@ -116,11 +116,11 @@
         {/if}
     {/if}
 
-    <div class="hexagon-container">
+    <div class="hexagon-container basis-3/4">
         <div class="image-container">
             <img alt="Reef Red" class="hexagon-image" src={reefRed}/>
         </div>
-        <svg class="hexagon" viewBox="-50 -50 100 100">
+        <svg class="hexagon basis-3/4" height="auto" viewBox="-50 -50 100 100" width="auto">
             <g class="slices">
                 {#each slices as path, index}
                     <path
@@ -200,8 +200,6 @@
     }
 
     .hexagon {
-        width: 100%;
-        height: 100%;
         position: relative;
         z-index: 2;
     }
