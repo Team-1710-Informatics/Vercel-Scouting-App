@@ -128,6 +128,7 @@
                             d={path}
                             on:click={() => handleClick(index)}
                             class:selected={hoveredSlice===index}
+                            on:keypress={() => handleClick(index)}
                     />
                 {/each}
             </g>
