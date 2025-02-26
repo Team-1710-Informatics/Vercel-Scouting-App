@@ -16,6 +16,7 @@
     export let meta;
     export let pregame;
     export let game;
+    export let team;
 
     let inv = pregame.preload;
     let log = [];
@@ -43,7 +44,17 @@
             state.started = false;
             return;
         }
-        log.pop();
+
+        let recent = log.pop();
+
+        console.log(recent)
+
+        if (recent.item === "coral") {
+            coral = !coral;
+        } else if (recent.item === "algae") {
+            algae = !algae;
+        }
+
         inv = !inv;
         log = log;
     }
@@ -68,7 +79,7 @@
     let climb
 </script>
 
-<Action bind:climb bind:log bind:state/>
+<Action bind:algae bind:climb bind:coral bind:log bind:state team={team}/>
 
 <button
         class="submit fixed bottom-0 right-0"

@@ -38,6 +38,7 @@
             <div class="basis-1/2 h-auto mr-4 rounded-lg temporary_box"></div>
             <div class="basis-1/2 h-auto flex flex-col">
                 <div class="grow h-auto temporary_box rounded-lg">
+                    <RobotCompatibility></RobotCompatibility>
                 </div>
                 <ServicePing name="Blue All." url="thebluealliance.com"/>
                 <ServicePing name="Robot Compat" url="micro.apisb.me"/>

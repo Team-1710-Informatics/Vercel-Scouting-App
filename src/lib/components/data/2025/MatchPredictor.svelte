@@ -19,8 +19,8 @@
         data = await response
     }
 
-    let x = -430
-    let y = -156
+    let x = -500
+    let y = -315
     let scale = 0.3
     let dragging = false
     let startX, startY
@@ -48,8 +48,8 @@
     }
 
     function resetPosition() {
-        x = -430
-        y = -156
+        x = -500
+        y = -315
     }
 
     function increaseScale() {

@@ -1,8 +1,8 @@
 <script>
     let startedClimb = false;
     let startTime = 0;
-    
-    export let climb
+
+    export let climb = {}
     export let endgame;
 
     function initiateClimb() {
@@ -12,8 +12,8 @@
 
     function recordCageClick(cageType) {
         const endTime = Date.now();
-        const elapsedTime = (endTime - startTime) / 1000; // Time in seconds
-        climb.time = elapsedTime;
+         // Time in seconds
+        climb.time = (endTime - startTime) / 1000;
         climb.type = cageType;
         endgame = false;
     }

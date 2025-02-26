@@ -22,10 +22,10 @@
         alliance: 'red' | 'blue' | null
     } = {
         scout: data.scout,
-        event: data.competition?.key ?? null,
-        match: null,
-        team: null,
-        alliance: null,
+        event: data.event,
+        match: data.match,
+        team: data.team,
+        alliance: data.alliance,
     }
 
     let pregame: {
@@ -61,6 +61,7 @@
                 step++
                 console.log("Advancing to match")
             }}
+            team={data.team}
         />
     {:else if step == 1}
         <Match
@@ -71,9 +72,10 @@
                 console.log("Advancing to post")
                 step++
             }}
+            team={data.team}
         />
     {:else if step == 2}
-        <Post bind:meta bind:pregame bind:game bind:postgame {form} />
+        <Post bind:meta bind:pregame bind:game bind:postgame {form} team={data.team} />
     {/if}
 </center>
 

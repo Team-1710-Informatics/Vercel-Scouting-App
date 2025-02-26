@@ -1,5 +1,5 @@
 import tba from '$lib/modules/tba'
-import { ScoutData } from '$lib/server/models'
+import { ScoutData, TeamSelections } from '$lib/server/models'
 import credits from '$lib/server/user/credi'
 import stats from '$lib/server/user/stats'
 import { redirect } from '@sveltejs/kit'
@@ -10,11 +10,45 @@ export async function load({ locals, url }) {
     const events = await tba(`events/2025`)
     // const events = [];
 
+    const params = url.searchParams;
+    const match = params.get('match');
+
+    const scout = locals.user.username
+    let [prefix, matchPart] = ['', '']
+    let matchNumber = 0
+    let team = 'practice'
+    let alliance = 'red'
+
+    if (!match) {
+        throw redirect(302, `/scout/2025/pre`)
+    }
+
+    if (match !== '2025practice') {
+        let search = await TeamSelections.findOne({match: match})
+
+        for (let i = 0; i < search.teams.length; i++) {
+            if (search.teams[i].scout.includes(scout)){
+                team = search.teams[i].team
+                alliance = search.teams[i].alliance
+                break
+            }
+        }
+
+        const input = "2024cttd_qm1";
+
+        [prefix, matchPart] = input.split('_')
+        matchNumber = parseInt(matchPart.replace('qm', ''))
+    }
+
     return {
         events,
         competition: locals.competition,
         scout: locals.user.username,
         host: url.host,
+        match: matchNumber,
+        team: team,
+        alliance: alliance,
+        event: prefix
     }
 }
 

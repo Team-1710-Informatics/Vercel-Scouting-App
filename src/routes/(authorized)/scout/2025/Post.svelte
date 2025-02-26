@@ -10,12 +10,14 @@
     export let meta, pregame, game, postgame, form
 
     const strategies = [
-        ['🔄 FULL CYCLE', 'cycle', false, '#0078d7'],
-        ['🤝 RECIEVE & PLACE', 'place', false, '#33cc33'],
-        ['🚚 TRANSPORTER', 'transport', false, '#f03a17'],
-        ['🧱 DEFENSE', 'defense', false, '#f7894a'],
+        ['🔄 Full Cycle', 'cycle', false, '#0078d7'],
+        ['Prioritizes Coral', 'coral', false, '#959595'],
+        ['Prioritizes Algae', 'algae', false, '#288e28'],
+        ['Station Feeder', 'feeder', false, '#772fa6'],
+        ['Floor Pickup', 'pickup', false, '#86adcc'],
+        ['🧱 Defense', 'defense', false, '#f7894a'],
         ['💞 Moral Support', 'moral', false],
-        ['💔 Broke down', 'breakdown', false],
+        ['💔 Broke Down', 'breakdown', false],
         ['🚫 No Show', 'noShow', false],
     ]
 
@@ -48,6 +50,8 @@
         postgame,
     })
 
+    export let team
+
     let loading = false
 
     let showcode = false;
@@ -74,6 +78,11 @@
 
 <center class="w-full py-10">
     <h5 class="mb-2">Submit Entry</h5>
+    {#if team !== 'practice'}
+        <h5 class="mb-4"><b>Team {team.slice(3)}</b></h5>
+    {:else}
+        <h5 class="mb-4"><b>Practice</b></h5>
+    {/if}
     <div class="boxing">
         <div class="grid grid-cols-1 justify-items-start pb-2 px-10">
             <h6 class="justify-self-center underline">Robot Strategy</h6>
