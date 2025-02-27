@@ -93,7 +93,6 @@
 </script>
 
 <div class="flex flex-row justify-center basis-3/4" style="max-height: 75%">
-    {JSON.stringify(selected)}
     {#if reefActive}
         <div class="flex flex-col pt-4">
             <img
