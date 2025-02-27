@@ -1,33 +1,33 @@
 <script>
-    import branchLeft3 from "$lib/assets/scout/2025/branchleft3.png";
-    import branchLeft2 from "$lib/assets/scout/2025/branchleft2.png";
-    import branchLeft1 from "$lib/assets/scout/2025/branchleft1.png";
-    import branchLeft0 from "$lib/assets/scout/2025/branchleft0.png";
-    import reefRed from "$lib/assets/scout/2025/reef.png";
-    import branchRight3 from "$lib/assets/scout/2025/branchright3.png";
-    import branchRight2 from "$lib/assets/scout/2025/branchright2.png";
-    import branchRight1 from "$lib/assets/scout/2025/branchright1.png";
-    import branchRight0 from "$lib/assets/scout/2025/branchright0.png";
+    import branchLeft3 from '$lib/assets/scout/2025/branchleft3.png'
+    import branchLeft2 from '$lib/assets/scout/2025/branchleft2.png'
+    import branchLeft1 from '$lib/assets/scout/2025/branchleft1.png'
+    import branchLeft0 from '$lib/assets/scout/2025/branchleft0.png'
+    import reefRed from '$lib/assets/scout/2025/reef.png'
+    import branchRight3 from '$lib/assets/scout/2025/branchright3.png'
+    import branchRight2 from '$lib/assets/scout/2025/branchright2.png'
+    import branchRight1 from '$lib/assets/scout/2025/branchright1.png'
+    import branchRight0 from '$lib/assets/scout/2025/branchright0.png'
 
     import algae from '$lib/assets/scout/2025/algaetransparent.png'
 
-    let activeSlice = null;
+    let activeSlice = null
 
-    export let selected;
-    export let item;
+    export let selected
+    export let item
 
-    const numSlices = 6;
-    const radius = 50; // Radius of the hexagon (half of SVG viewBox size)
-    const angleStep = (2 * Math.PI) / numSlices;
+    const numSlices = 6
+    const radius = 50 // Radius of the hexagon (half of SVG viewBox size)
+    const angleStep = (2 * Math.PI) / numSlices
 
-    const slices = Array.from({length: numSlices}, (_, i) => {
-        const startAngle = i * angleStep;
-        const nextAngle = (i + 1) * angleStep;
+    const slices = Array.from({ length: numSlices }, (_, i) => {
+        const startAngle = i * angleStep
+        const nextAngle = (i + 1) * angleStep
 
-        const x1 = Math.cos(startAngle) * radius;
-        const y1 = Math.sin(startAngle) * radius;
-        const x2 = Math.cos(nextAngle) * radius;
-        const y2 = Math.sin(nextAngle) * radius;
+        const x1 = Math.cos(startAngle) * radius
+        const y1 = Math.sin(startAngle) * radius
+        const x2 = Math.cos(nextAngle) * radius
+        const y2 = Math.sin(nextAngle) * radius
 
         // Create a path for a straight-edged hexagon slice
         return `
@@ -35,23 +35,27 @@
       L ${x1} ${y1}
       L ${x2} ${y2}
       Z
-    `;
-    });
+    `
+    })
 
-    const hexagonPath = Array.from({length: 6}, (_, i) => {
-        const angle = (Math.PI / 3) * i + Math.PI / 6; // Rotate by 30 degrees
-        const x = Math.cos(angle) * radius;
-        const y = Math.sin(angle) * radius;
-        return `${x},${y}`;
-    }).join(' ');
+    const hexagonPath = Array.from({ length: 6 }, (_, i) => {
+        const angle = (Math.PI / 3) * i + Math.PI / 6 // Rotate by 30 degrees
+        const x = Math.cos(angle) * radius
+        const y = Math.sin(angle) * radius
+        return `${x},${y}`
+    }).join(' ')
 
-    export let reefActive = false;
+    export let reefActive = false
 
     let hoveredSlice
 
+    $: if (selected.location !== 'reef') {
+        hoveredSlice = null
+    }
+
     const handleClick = (index) => {
         hoveredSlice = index
-        activeSlice = index - 2;
+        activeSlice = index - 2
         if (activeSlice < 0) {
             if (activeSlice === -1) {
                 activeSlice = 5
@@ -63,25 +67,18 @@
         }
 
         reefActive = true
-        item = "algae"
-        selected = {location: 'reef', branch: activeSlice}
-    };
+        item = 'algae'
+        selected = { location: 'reef', branch: activeSlice }
+    }
 
-    let algae_locations = [
-        1,
-        1,
-        1,
-        1,
-        1,
-        1,
-    ]
+    let algae_locations = [1, 1, 1, 1, 1, 1]
 
     function scoreReef(level) {
         // activeSlice = -1;
         // reefActive = false;
-        selected = {location: "reef", branch: activeSlice}
+        selected = { location: 'reef', branch: activeSlice }
         selected.level = level
-        item = "coral"
+        item = 'coral'
     }
 
     export function intakeEvent() {
@@ -95,60 +92,97 @@
     }
 </script>
 
-<div class="flex flex-row justify-center basis-3/4">
+<div class="flex flex-row justify-center basis-3/4" style="max-height: 75%">
     {#if reefActive}
-        <div class="flex flex-col max-h-16 pt-4">
-            <img class="w-20 branch branch-left" src={branchLeft3}
-                 on:click={() => scoreReef(3)}>
-            <img class="w-20 branch branch-left" src={branchLeft2}
-                 on:click={() => scoreReef(2)}>
-            <img class="w-20 branch branch-left" src={branchLeft1}
-                 on:click={() => scoreReef(1)}>
-            <img class="w-20 branch branch-left" src={branchLeft0}
-                 on:click={() => scoreReef(0)}>
+        <div class="flex flex-col pt-4">
+            <img
+                class="w-20 branch branch-left"
+                src={branchLeft3}
+                on:click={() => scoreReef(3)}
+            />
+            <img
+                class="w-20 branch branch-left"
+                src={branchLeft2}
+                on:click={() => scoreReef(2)}
+            />
+            <img
+                class="w-20 branch branch-left"
+                src={branchLeft1}
+                on:click={() => scoreReef(1)}
+            />
+            <img
+                class="w-20 branch branch-left"
+                src={branchLeft0}
+                on:click={() => scoreReef(0)}
+            />
         </div>
         {#if algae_locations[activeSlice] === 1}
-            <img src={algae}
-                 class="w-20 h-20 -ml-7 -mr-10 mt-2 branch-left z-20">
+            <img
+                src={algae}
+                class="w-20 h-20 -ml-7 -mr-10 mt-2 branch-left z-20"
+            />
         {:else}
-            <img src={algae}
-                 class="w-20 h-20 -ml-7 -mr-10 mt-2 branch-left z-20 opacity-5">
+            <img
+                src={algae}
+                class="w-20 h-20 -ml-7 -mr-10 mt-2 branch-left z-20 opacity-5"
+            />
         {/if}
     {/if}
 
-    <div class="hexagon-container basis-3/4">
+    <div class="hexagon-container flex flex-col items-center mt-3">
         <div class="image-container">
-            <img alt="Reef Red" class="hexagon-image" src={reefRed}/>
+            <img alt="Reef Red" class="hexagon-image" src={reefRed} />
         </div>
-        <svg class="hexagon basis-3/4" height="auto" viewBox="-50 -50 100 100" width="auto">
+        <svg class="hexagon" viewBox="-50 -50 100 100">
             <g class="slices">
                 {#each slices as path, index}
                     <path
-                            class="slice"
-                            d={path}
-                            on:click={() => handleClick(index)}
-                            class:selected={hoveredSlice===index}
-                            on:keypress={() => handleClick(index)}
+                        class="slice"
+                        d={path}
+                        on:click={() => handleClick(index)}
+                        class:selected={hoveredSlice === index}
+                        on:keypress={() => handleClick(index)}
                     />
                 {/each}
             </g>
         </svg>
     </div>
     {#if reefActive}
-        {#if algae_locations[activeSlice] === 1 }
-            <img src={algae} class="w-20 h-20 -mr-7 -ml-10 mt-2 branch-right z-20">
+        {#if algae_locations[activeSlice] === 1}
+            <img
+                src={algae}
+                class="w-20 h-20 -mr-7 -ml-10 mt-2 branch-right z-20"
+            />
         {:else}
-            <img src={algae} class="w-20 h-20 -mr-7 -ml-10 mt-2 branch-left z-20 opacity-5">
+            <img
+                src={algae}
+                class="w-20 h-20 -mr-7 -ml-10 mt-2 branch-left z-20 opacity-5"
+            />
         {/if}
         <div class="flex flex-col max-h-14 pt-4">
-            <img class="w-20 branch branch-right" src={branchRight3} on:click={() => scoreReef(3)}>
-            <img class="w-20 branch branch-right" src={branchRight2} on:click={() => scoreReef(2)}>
-            <img class="w-20 branch branch-right" src={branchRight1} on:click={() => scoreReef(1)}>
-            <img class="w-20 branch branch-right" src={branchRight0} on:click={() => scoreReef(0)}>
+            <img
+                class="w-20 branch branch-right"
+                src={branchRight3}
+                on:click={() => scoreReef(3)}
+            />
+            <img
+                class="w-20 branch branch-right"
+                src={branchRight2}
+                on:click={() => scoreReef(2)}
+            />
+            <img
+                class="w-20 branch branch-right"
+                src={branchRight1}
+                on:click={() => scoreReef(1)}
+            />
+            <img
+                class="w-20 branch branch-right"
+                src={branchRight0}
+                on:click={() => scoreReef(0)}
+            />
         </div>
     {/if}
 </div>
-
 
 <style>
     @keyframes slideOutLeft {
@@ -175,8 +209,8 @@
 
     .hexagon-container {
         position: relative;
-        width: 16rem;
-        height: 16rem;
+        width: 14rem;
+        height: 14rem;
     }
 
     .image-container {
@@ -190,8 +224,8 @@
     }
 
     .hexagon-image {
-        width: 100%;
-        height: 100%;
+        width: 114%;
+        height: 114%;
         object-fit: scale-down;
         transform: translate(-50%, -50%) scale(0.8) rotate(300deg); /* Rotate by 300 degrees (or -60 degrees) */
         position: absolute;
@@ -200,6 +234,8 @@
     }
 
     .hexagon {
+        width: 100%;
+        height: 100%;
         position: relative;
         z-index: 2;
     }
