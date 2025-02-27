@@ -93,26 +93,31 @@
 </script>
 
 <div class="flex flex-row justify-center basis-3/4" style="max-height: 75%">
+    {JSON.stringify(selected)}
     {#if reefActive}
         <div class="flex flex-col pt-4">
             <img
                 class="w-20 branch branch-left"
                 src={branchLeft3}
+                class:selected_2={selected.level === 3}
                 on:click={() => scoreReef(3)}
             />
             <img
                 class="w-20 branch branch-left"
                 src={branchLeft2}
+                class:selected_2={selected.level === 2}
                 on:click={() => scoreReef(2)}
             />
             <img
                 class="w-20 branch branch-left"
                 src={branchLeft1}
+                class:selected_2={selected.level === 1}
                 on:click={() => scoreReef(1)}
             />
             <img
                 class="w-20 branch branch-left"
                 src={branchLeft0}
+                class:selected_2={selected.level === 0}
                 on:click={() => scoreReef(0)}
             />
         </div>
@@ -163,21 +168,25 @@
             <img
                 class="w-20 branch branch-right"
                 src={branchRight3}
+                class:selected_2={selected.level === 3}
                 on:click={() => scoreReef(3)}
             />
             <img
                 class="w-20 branch branch-right"
                 src={branchRight2}
+                class:selected_2={selected.level === 2}
                 on:click={() => scoreReef(2)}
             />
             <img
                 class="w-20 branch branch-right"
                 src={branchRight1}
+                class:selected_2={selected.level === 1}
                 on:click={() => scoreReef(1)}
             />
             <img
                 class="w-20 branch branch-right"
                 src={branchRight0}
+                class:selected_2={selected.level === 0}
                 on:click={() => scoreReef(0)}
             />
         </div>
@@ -254,6 +263,7 @@
 
     .selected {
         fill: rgba(144, 144, 202, 0.47);
+        filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.75));
         opacity: 0.5;
     }
 
@@ -273,8 +283,9 @@
         animation-name: slideInLeft;
     }
 
-    .branch:hover {
-        filter: brightness(120%);
+    .selected_2 {
+        filter: brightness(150%);
+        filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.75));
     }
 
     @keyframes slideInLeft {
