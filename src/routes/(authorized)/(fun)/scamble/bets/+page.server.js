@@ -25,6 +25,7 @@ export async function load({ locals }) {
 export const actions = {
     bet: async function ({ request, locals }) {
         const MINIMUM = 10
+
         function max(credits) {
             let output = credits - MINIMUM
 
@@ -153,7 +154,7 @@ async function punchTicket(t) {
         sums.total += effective //both total and alliance values accounting for match winnings
     } //end loop
 
-    let effective = t.amount * 1.1 //user payout for calculation
+    let effective = t.amount * 1.5 //user payout for calculation
 
     let portion = effective / sums[t.alliance] //ratio user winnings to total bet alliance winnings
 
