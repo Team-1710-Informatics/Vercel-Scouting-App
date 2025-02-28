@@ -90,6 +90,6 @@ export const actions = {
                 (await stats.getStat(data.scout, 'matches_scouted')) + 1
             )
         }
-        throw redirect(307, '/hub')
+        throw redirect(307, '/scout/2025/pre')
     },
 }
