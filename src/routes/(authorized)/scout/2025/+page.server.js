@@ -10,8 +10,8 @@ export async function load({ locals, url }) {
     const events = await tba(`events/2025`)
     // const events = [];
 
-    const params = url.searchParams;
-    const match = params.get('match');
+    const params = url.searchParams
+    const match = params.get('match')
 
     const scout = locals.user.username
     let [prefix, matchPart] = ['', '']
@@ -24,19 +24,19 @@ export async function load({ locals, url }) {
     }
 
     if (match !== '2025practice') {
-        let search = await TeamSelections.findOne({match: match})
+        let search = await TeamSelections.findOne({ match: match })
 
         for (let i = 0; i < search.teams.length; i++) {
-            if (search.teams[i].scout.includes(scout)){
+            if (search.teams[i].scout.includes(scout)) {
                 team = search.teams[i].team
                 alliance = search.teams[i].alliance
                 break
             }
         }
 
-        const input = "2024cttd_qm1";
+        const match = search.match
 
-        [prefix, matchPart] = input.split('_')
+        ;[prefix, matchPart] = match.split('_')
         matchNumber = parseInt(matchPart.replace('qm', ''))
     }
 
@@ -48,7 +48,7 @@ export async function load({ locals, url }) {
         match: matchNumber,
         team: team,
         alliance: alliance,
-        event: prefix
+        event: prefix,
     }
 }
 
@@ -72,6 +72,12 @@ export const actions = {
             )
         }
 
+        if (data.team === 'practice') {
+            data.team = 0
+        }
+
+        data.team = data.team.substring(3)
+
         const db = new ScoutData(data)
         await db.save()
 
@@ -84,6 +90,6 @@ export const actions = {
                 (await stats.getStat(data.scout, 'matches_scouted')) + 1
             )
         }
-        throw redirect(307, '/hub')
+        throw redirect(307, '/scout/2025/pre')
     },
 }

@@ -169,17 +169,20 @@
         <div class="flex items-center justify-center w-full">
             <Inventory bind:algae bind:coral/>
         </div>
-        <div class="rounded-md shadow-xl bg-red-600 p-2 w-36 h-10" on:click={() => {behavior("score")}}>
+        <div class="rounded-md shadow-xl bg-red-600 p-2 w-36 h-10" class:disabled={!state.started}
+             on:click={() => {behavior("score")}}>
             SCORE
         </div>
-        <div class="rounded-md shadow-xl bg-yellow-400 p-2 w-36 h-10" on:click={() => {behavior("intake")}}>
+        <div class="rounded-md shadow-xl bg-yellow-400 p-2 w-36 h-10" class:disabled={!state.started}
+             on:click={() => {behavior("intake")}}>
             INTAKE
         </div>
-        <div class="rounded-md shadow-xl bg-fuchsia-500 p-2 w-36 h-10" on:click={() => {behavior("miss")}}>
+        <div class="rounded-md shadow-xl bg-fuchsia-500 p-2 w-36 h-10" class:disabled={!state.started}
+             on:click={() => {behavior("miss")}}>
             MISS
         </div>
         <button class="rounded-md shadow-xl bg-blue-400 p-2 h-10 w-36"
-                class:disabled={state.started && state.time > 30}
+                class:disabled={state.started && state.time > 30 || !state.started}
                 on:click={switchEndgame}>
             ENDGAME
             {#if state.time > 30}T-{state.time - 30}{/if}

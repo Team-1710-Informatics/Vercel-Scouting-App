@@ -73,7 +73,7 @@
     }
 </script>
 
-<svelte:window bind:innerHeight />
+<svelte:window bind:innerHeight/>
 
 {#if !disabled}
     <h1 class="text-xl mb-4"><b>Select Starting Position</b></h1>
@@ -82,46 +82,57 @@
     {:else}
         <h1 class="text-4xl mb-4"><b>Practice</b></h1>
     {/if}
-    <img
-        class="img"
-        alt=""
-        src={imgs[alliance]}
-        draggable="false"
-        bind:this={start}
-        on:pointerdown={() => {
+    <div class="img-container">
+        <img
+                class="rotate-90"
+                alt=""
+                src={imgs[alliance]}
+                draggable="false"
+                bind:this={start}
+                on:pointerdown={() => {
             active = true
         }}
-        on:touchstart={() => {
+                on:touchstart={() => {
             active = true
         }}
-        on:pointerup={() => {
+                on:pointerup={() => {
             active = false
         }}
-        on:touchend={() => {
+                on:touchend={() => {
             active = false
         }}
-        on:pointermove={setStarting}
-    />
+                on:pointermove={setStarting}
+        />
+    </div>
     <h1 class="text-xs">Drag on the Field to Place Robot</h1>
     {#if pointer.y}
         <img
-            id="dozer"
-            {style}
-            alt=""
-            draggable="false"
-            src={dozer}
-            bind:this={dozerCoords}
+                id="dozer"
+                {style}
+                alt=""
+                draggable="false"
+                src={dozer}
+                bind:this={dozerCoords}
         />
         <div
-            class="rounded-full w-2 h-2 {alliance == 'red'
+                class="rounded-full w-2 h-2 {alliance == 'red'
                 ? 'bg-red-600'
                 : 'bg-blue-600'} border-2 border-black"
-            style={styleAdd}
+                style={styleAdd}
         />
     {/if}
 {/if}
 
 <style>
+    .img-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100px; /* Adjust height as needed */
+        width: 250px; /* Adjust width as needed */
+        overflow: hidden;
+    }
+
     .img {
         height: 250px;
         width: 100px;
