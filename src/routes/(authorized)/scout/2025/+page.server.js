@@ -34,9 +34,9 @@ export async function load({ locals, url }) {
             }
         }
 
-        const match = search.match
+        const toSpilt = search.match
 
-        ;[prefix, matchPart] = match.split('_')
+        ;[prefix, matchPart] = toSpilt.split('_')
         matchNumber = parseInt(matchPart.replace('qm', ''))
     }
 
