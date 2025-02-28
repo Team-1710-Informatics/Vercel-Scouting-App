@@ -170,15 +170,6 @@
                                             {:else}
                                                 <td>{findName(scout.name)}</td>
                                             {/if}
-                                            {#if scout.team == 'Blue 3' || scout.team == 'Blue 2' || scout.team == 'Blue 1'}
-                                                <td class="bg-sky-700"
-                                                    >{scout.team}</td
-                                                >
-                                            {:else if scout.team == 'Red 3' || scout.team == 'Red 2' || scout.team == 'Red 1'}
-                                                <td class="bg-rose-700"
-                                                    >{scout.team}</td
-                                                >
-                                            {/if}
                                         </tr>
                                     {/if}
                                 {/each}
