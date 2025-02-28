@@ -55,20 +55,13 @@
                         <div class="bg-gray-800 w-full h-0.5" />
                     </div>
                     <div>
-                        <p class="ml-4">Alliance: {selectedAlliance}</p>
+                        <p class="ml-4">{selectedAlliance}</p>
                     </div>
-                    <div class="basis-3/4 flex mt-4 ml-4 flex-row">
-                        <div style="height: 50%; width: 50%">
-                            <RobotCompatibility
-                                bind:selectedAlliance
-                                bind:event
-                                bind:this={robotCompatibility}
-                            />
-                        </div>
-                        <div style="width:50%; height: 100%" class="text-sm">
-                            Robot Compatability <br /><br />Raw Score:
-                        </div>
-                    </div>
+                        <RobotCompatibility
+                            bind:selectedAlliance
+                            bind:event
+                            bind:this={robotCompatibility}
+                        />
                 </div>
                 <ServicePing name="Blue All." url="thebluealliance.com" />
                 <ServicePing name="Robot Compat" url="micro.apisb.me" />
