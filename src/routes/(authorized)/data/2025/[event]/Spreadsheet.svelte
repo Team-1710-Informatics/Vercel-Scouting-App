@@ -80,12 +80,12 @@
     <br/>
     <div>
         <table>
-            <tr class="outline outline-2 my-2">
-                <td class="outline outline-1">Filter teams:</td>
-                <td class="outline outline-1"><input bind:value={show} class="w-1/2" type="text"/></td>
+            <tr class="">
+                <td class="">Filter teams:</td>
+                <td class=""><input bind:value={show} class="w-1/2" type="text"/></td>
             </tr>
-            <tr class="outline outline-2">
-                <td class="w-1/2 outline outline-1">
+            <tr class="">
+                <td class="w-1/2">
                     <input
                             bind:group={positive}
                             name="positive"
@@ -94,7 +94,7 @@
                     />
                     Include
                 </td>
-                <td class="w-1/2 outline outline-1">
+                <td class="w-1/2">
                     <input
                             bind:group={positive}
                             name="positive"
@@ -104,18 +104,18 @@
                     Exclude
                 </td>
             </tr>
-            <tr class="outline outline-2 my-2">
-                <td class="outline outline-1">Matches:</td>
-                <td class="outline outline-1">
+            <tr class=" my-2">
+                <td class="">Matches:</td>
+                <td class="">
                     From:
                     <input bind:value={first} class="w-10" type="number"/>
                     To:
                     <input bind:value={last} class="w-10" type="number"/>
                 </td>
             </tr>
-            <tr class="outline outline-2 my-2">
-                <td class="outline outline-1">Sort:</td>
-                <td class="outline outline-1">
+            <tr class="my-2">
+                <td class="">Sort:</td>
+                <td class="">
                     <select bind:value={sortFunction} class="w-1/2">
                         {#each Object.keys(stats) as func}
                             <option value={func}>{func}</option>
@@ -123,10 +123,10 @@
                     </select>
                 </td>
             </tr>
-            <tr class="outline outline-2 my-2">
-                <td class="w-1/2 outline outline-1">Ascending <input bind:group={ascending} name="sort" type="radio"
+            <tr class="my-2">
+                <td class="w-1/2">Ascending <input bind:group={ascending} name="sort" type="radio"
                                                                      value={true}/></td>
-                <td class="w-1/2 outline outline-1">Descending <input bind:group={ascending} name="sort" type="radio"
+                <td class="w-1/2">Descending <input bind:group={ascending} name="sort" type="radio"
                                                                       value={false}/></td>
             </tr>
         </table>
@@ -134,13 +134,13 @@
 
     <br/>
 
-    <div class="outline outline-2 overflow-auto w-fit">
+    <div class="outline outline-2 overflow-auto w-fit p-1">
         <table class="divide-y divide-white">
             <tr>
 
                 <div class="flex flex-row">
                     <button
-                            class="font-bold bg-gradient-to-t from-green-800 to-green-400 border-green-900 rounded-full w-8 h-8"
+                            class="font-bold bg-gradient-to-t from-green-800 to-green-400 border-green-900 rounded-full w-8 h-8 mr-1"
                             on:click={() => {
                     columns.push('AverageScore')
                     columns = columns
