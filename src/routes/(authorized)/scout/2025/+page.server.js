@@ -76,6 +76,8 @@ export const actions = {
             data.team = 0
         }
 
+        data.team = data.team.substring(3)
+
         const db = new ScoutData(data)
         await db.save()
 
