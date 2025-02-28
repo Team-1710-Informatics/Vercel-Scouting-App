@@ -4,7 +4,6 @@
     export let team1
     export let team2
     export let team3
-    export let event
 
     let route
     let meow = ''
@@ -45,16 +44,16 @@
             show = false;
             console.log('fetching data')
             if (team3 !== '') {
-                route = `/auto/compare/data/${event}/${team1}/${team2}/${team3}`
+                route = `/auto/compare/data/events/${team1}/${team2}/${team3}`
             }
             else {
-                route = `/auto/compare/data/${event}/${team1}/${team2}`
+                route = `/auto/compare/data/events/${team1}/${team2}`
             }
             fetching = true;
             show = false;
             loading();
             const response = await ApiService.request(route)
-            data = await response.json()
+            data = await response
             fetching = false;
             display(data.compatibility);
         } catch (error) {
@@ -65,6 +64,7 @@
     }
 
     function loading() {
+        increasing = false
         let interval = setInterval(() => {
             // Easing function for smooth acceleration & deceleration
             let progressFactor = Math.sin((compatibility / 100) * Math.PI);
