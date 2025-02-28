@@ -34,9 +34,9 @@ export async function load({ locals, url }) {
             }
         }
 
-        const input = '2024cttd_qm1'
+        const match = search.match
 
-        ;[prefix, matchPart] = input.split('_')
+        ;[prefix, matchPart] = match.split('_')
         matchNumber = parseInt(matchPart.replace('qm', ''))
     }
 
