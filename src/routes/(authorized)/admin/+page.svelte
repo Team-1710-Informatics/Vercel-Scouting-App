@@ -151,23 +151,34 @@
     {/each}
     <br />
     <br />
-    <a href="/admin/history"
-        ><button class="submit my-1">Credit history</button></a
-    >
-    <a href="/admin/store"
-        ><button class="submit my-1">Add a store item</button></a
-    >
-    <a href="/admin/scan"
-    ><button class="submit my-1">Scan QR Code</button></a
-    >
-    <a href="/admin/buttons"
-        ><button class="submit my-1">Edit Buttons</button></a
-    >
-    <a href="/admin/releases"
-        ><button class="submit my-1">Shift Releases</button></a
-    >
-    <a href="/admin/permissions"
-        ><button class="submit my-1">Edit Permissions</button></a
-    >
-    <a href="/admin/payout"><button class="submit">Media/Pit Payout</button></a>
+    <div class="flex flex-row">
+        <a href="/admin/history"
+        ><button class="submit my-1 w-40 h-14">Credit history</button></a
+        >
+        <a href="/admin/store"
+        ><button class="submit my-1 w-40 h-14">Add a store item</button></a
+        >
+    </div>
+    <div class="flex flex-row">
+        <a href="/admin/scan"
+        ><button class="submit my-1 w-40 h-14">Scan QR Code</button></a
+        >
+        <a href="/admin/buttons"
+        ><button class="submit my-1 w-40 h-14">Edit Buttons</button></a
+        >
+    </div>
+    <div class="flex flex-row">
+        <a href="/admin/releases"
+        ><button class="submit my-1 w-40 h-14">Shift Releases</button></a
+        >
+        <a href="/admin/permissions"
+        ><button class="submit my-1 w-40 h-14">Edit Permissions</button></a
+        >
+    </div>
+
+    <div class="flex flex-row">
+        <a href="/admin/payout"><button class="submit my-1 w-40 h-14">Media/Pit Payout</button></a>
+        <a href="/admin/pictures"><button class="submit my-1 w-40 h-14">Pit Scout Pictures</button></a>
+    </div>
+
 </middle>
