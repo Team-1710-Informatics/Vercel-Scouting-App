@@ -18,6 +18,7 @@
         ['🧱 Defense', 'defense', false, '#f7894a'],
         ['💞 Moral Support', 'moral', false],
         ['💔 Broke Down', 'breakdown', false],
+        ['🕸️Piece Stuck', 'stuck', false],
         ['🚫 No Show', 'noShow', false],
     ]
 

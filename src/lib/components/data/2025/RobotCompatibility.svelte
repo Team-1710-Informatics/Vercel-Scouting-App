@@ -48,7 +48,7 @@
 
             output = ''
             fetching = false
-            increasing = true
+            increasing = false
             displaying = false
             show = false
             console.log('fetching data')
@@ -61,9 +61,9 @@
             show = false
             loading()
             const response = await ApiService.request(route)
-            data = await response.json()
             fetching = false
-            display(data.compatibility)
+            console.log('response.compatibility', response.compatibility)
+            display(response.compatibility)
         } catch (error) {
             console.error('Error fetching data:', error)
             fetching = false
@@ -167,7 +167,7 @@
     />
     <text
         x="50"
-        y={output === ':(' ? '35' : '42'}
+        y={show === false ? '42' : '35'}
         text-anchor="middle"
         font-size="6"
         font-family="sans-serif"
