@@ -9,12 +9,16 @@
 
     <div class="flex flex-row h-fit mx-auto w-fit">
         <p class="align-middle my-auto mr-2">Team Number</p>
-        <input type="number" bind:value={teamSearch} class="my-2"/>
+        <input type="number" bind:value={teamSearch} class="my-2 w-16"/>
     </div>
+
+    <hr class="my-2 mb-2 w-1/2" />
+    <br />
 
     {#each data.data as entry}
         {#if entry.team == teamSearch}
             <div class="flex flex-col mb-3">
+                <p class="text-sm">Scout: {entry.scout}</p>
                 <iframe src={entry.picture} allow="autoplay" width="600" height="400" class="mx-auto"></iframe>
             </div>
         {/if}
