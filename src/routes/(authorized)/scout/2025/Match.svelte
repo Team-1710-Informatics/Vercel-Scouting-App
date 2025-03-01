@@ -64,9 +64,11 @@
             time: -1,
             action: 'intake',
             location: 'preload',
+            item: 'coral',
             phase: 'pregame',
         });
         log = log;
+        coral = true;
     }
 
     let state = {

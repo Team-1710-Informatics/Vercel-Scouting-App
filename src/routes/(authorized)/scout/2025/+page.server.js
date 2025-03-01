@@ -74,9 +74,9 @@ export const actions = {
 
         if (data.team === 'practice') {
             data.team = 0
+        } else {
+            data.team = data.team.substring(3)
         }
-
-        data.team = data.team.substring(3)
 
         const db = new ScoutData(data)
         await db.save()

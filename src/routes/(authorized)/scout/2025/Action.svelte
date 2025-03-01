@@ -84,31 +84,6 @@
 
     function handleIntake() {
         if (selected.location === "coral_station_left" || selected.location === "coral_station_right" || selected.location === "alliance") {
-            if (item === "coral") {
-                if (allianceArea.intakeEvent(coral, algae)) {
-                    coral = true;
-                    log.push({
-                        time: state.time,
-                        action: 'intake',
-                        ...selected,
-                        phase: state.phase,
-                        item: item
-                    });
-                }
-                console.log("intaking coral");
-            } else {
-                if (allianceArea.intakeEvent(coral, algae)) {
-                    algae = true;
-                    log.push({
-                        time: state.time,
-                        action: 'intake',
-                        ...selected,
-                        phase: state.phase,
-                        item: item
-                    });
-                }
-                console.log("intaking algae");
-            }
         } else if (selected.location === "reef") {
             if (algae === false) {
                 console.log("intaking algae from reef");
@@ -146,7 +121,7 @@
             <Barge bind:item bind:selected class="basis-1/6"/>
             <div class="flex flex-col items-center justify-end basis-5/6">
                 <div class="items-center justify-center w-full flex flex-row basis-1/4">
-                    <AllianceArea bind:item bind:selected bind:this={allianceArea}/>
+                    <AllianceArea bind:coral bind:item bind:log bind:selected bind:state/>
                 </div>
                 {#if endgame}
                     <Endgame bind:climb bind:endgame/>
