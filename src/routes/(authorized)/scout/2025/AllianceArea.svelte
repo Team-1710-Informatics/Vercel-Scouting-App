@@ -7,7 +7,7 @@
     export let state
     export let flip = true
 
-    let scores = [
+    export let scores = [
         [0, 0],
         [0, 0],
         [0, 0],
@@ -35,6 +35,7 @@
                 item: 'coral',
             })
             coral = false
+            console.log('yip')
         }
         scores = scores
     }

@@ -15,6 +15,12 @@
     export let state
     export let meta
     let item
+    export let scores = [
+        [0, 0],
+        [0, 0],
+        [0, 0],
+        [0, 0],
+    ]
 
     export let climb = {}
 
@@ -101,6 +107,7 @@
                             bind:log
                             bind:selected
                             bind:state
+                            bind:scores
                         />
                     </div>
                 </div>
@@ -117,6 +124,7 @@
                         bind:selected
                         bind:state
                         bind:flip
+                        bind:scores
                     />
                 </div>
                 {#if !endgame}
