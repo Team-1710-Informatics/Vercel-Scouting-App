@@ -5,6 +5,7 @@
     import ServicePing from '../../../services/ServicePing.svelte'
     import { onMount } from 'svelte'
     import Spreadsheet from './Spreadsheet.svelte'
+    import PitData from './PitData.svelte'
 
     export let data
 
@@ -47,7 +48,9 @@
     </div>
     <div class="basis-2/4 flex flex-col max-h-screen m-4">
         <div class="basis-1/2 flex flex-row mb-4">
-            <div class="basis-1/2 h-auto mr-4 rounded-lg temporary_box"></div>
+            <div class="basis-1/2 h-auto mr-4 rounded-lg temporary_box">
+                <PitData team={selectedTeam} data={data} />
+            </div>
             <div class="basis-1/2 h-auto flex flex-col">
                 <div class="grow h-auto temporary_box rounded-lg flex flex-col">
                     <h1 class="text-lg ml-4 mt-3">Alliance Info</h1>
