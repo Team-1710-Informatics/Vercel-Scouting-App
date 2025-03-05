@@ -44,8 +44,6 @@
     <div class="basis-2/4 flex flex-col my-4 gap-4">
         <div class="basis-2/3 h-auto temporary_box rounded-lg">
             <Spreadsheet />
-            {JSON.stringify(selectedAlliance)}
-            {selectedTeam}
         </div>
         <div class="basis-1/3 h-auto temporary_box rounded-lg">
 
