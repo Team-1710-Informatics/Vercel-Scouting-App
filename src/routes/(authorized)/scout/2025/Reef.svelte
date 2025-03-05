@@ -12,12 +12,13 @@
     export let log
     export let algae
     export let state
+    export let flip = true
 
     const numSlices = 6
     const radius = 50 // Radius of the hexagon (half of SVG viewBox size)
     const angleStep = (2 * Math.PI) / numSlices
 
-    const slices = Array.from({length: numSlices}, (_, i) => {
+    const slices = Array.from({ length: numSlices }, (_, i) => {
         const startAngle = i * angleStep
         const nextAngle = (i + 1) * angleStep
 
@@ -35,7 +36,7 @@
     `
     })
 
-    const hexagonPath = Array.from({length: 6}, (_, i) => {
+    const hexagonPath = Array.from({ length: 6 }, (_, i) => {
         const angle = (Math.PI / 3) * i + Math.PI / 6 // Rotate by 30 degrees
         const x = Math.cos(angle) * radius
         const y = Math.sin(angle) * radius
@@ -65,7 +66,7 @@
 
         reefActive = true
         item = 'algae'
-        selected = {location: 'reef', branch: activeSlice}
+        selected = { location: 'reef', branch: activeSlice }
     }
 
     function intakeAlgae() {
@@ -77,62 +78,71 @@
                 action: 'intake',
                 ...selected,
                 phase: state.phase,
-                item: item
+                item: item,
             })
             algae = true
         }
     }
 </script>
 
-<div class="flex flex-row h-full items-center basis-3/4 justify-center" style="max-height: 100%">
+<div
+    class="flex flex-row h-full items-center basis-3/4 justify-center"
+    class:flex-row-reverse={!flip}
+    style="max-height: 100%"
+>
     <div class="flex flex-col gap-2 justify-center items-center">
-        <div class="hexagon-container flex flex-col items-center justify-center">
+        <div
+            class="hexagon-container flex flex-col items-center justify-center"
+        >
             <div class="image-container">
-                <img alt="Reef Red" class="hexagon-image" src={reefRed}/>
+                <img alt="Reef Red" class="hexagon-image" src={reefRed} />
             </div>
             <svg class="hexagon" viewBox="-50 -50 100 100">
                 <g class="slices">
                     {#each slices as path, index}
                         <path
-                                class="slice"
-                                d={path}
-                                on:click={() => handleClick(index)}
-                                class:selected={hoveredSlice === index}
-                                on:keypress={() => handleClick(index)}
+                            class="slice"
+                            d={path}
+                            on:click={() => handleClick(index)}
+                            class:selected={hoveredSlice === index}
+                            on:keypress={() => handleClick(index)}
                         />
                     {/each}
                 </g>
             </svg>
         </div>
-        <div class="rounded-md shadow-xl bg-green-500 p-2 w-36 h-10" class:disabled={!state.started}
-             on:click={intakeAlgae}>
+        <div
+            class="rounded-md shadow-xl bg-green-500 p-2 w-36 h-10"
+            class:disabled={!state.started}
+            on:click={intakeAlgae}
+        >
             Intake Algae
         </div>
     </div>
     <div class="flex flex-col" style="flex-basis: 25%">
         <img
-                class="branch branch-right"
-                class:selected_2={selected.level === 4}
-                on:click={() => scoreReef(3)}
-                src={branchRight3}
+            class="branch branch-right"
+            class:selected_2={selected.level === 4}
+            class:flip-horizontal={!flip}
+            src={branchRight3}
         />
         <img
-                class="branch branch-right"
-                class:selected_2={selected.level === 3}
-                on:click={() => scoreReef(2)}
-                src={branchRight2}
+            class="branch branch-right"
+            class:selected_2={selected.level === 3}
+            class:flip-horizontal={!flip}
+            src={branchRight2}
         />
         <img
-                class="branch branch-right"
-                class:selected_2={selected.level === 2}
-                on:click={() => scoreReef(1)}
-                src={branchRight1}
+            class="branch branch-right"
+            class:selected_2={selected.level === 2}
+            class:flip-horizontal={!flip}
+            src={branchRight1}
         />
         <img
-                class="branch branch-right"
-                class:selected_2={selected.level === 1}
-                on:click={() => scoreReef(0)}
-                src={branchRight0}
+            class="branch branch-right"
+            class:selected_2={selected.level === 1}
+            class:flip-horizontal={!flip}
+            src={branchRight0}
         />
     </div>
 </div>
@@ -261,5 +271,9 @@
         opacity: 0.5;
         filter: brightness(0.5);
         cursor: not-allowed;
+    }
+
+    .flip-horizontal {
+        transform: scaleX(-1) !important;
     }
 </style>
