@@ -17,8 +17,7 @@
     export let pregame;
     export let game;
     export let team;
-
-    let inv = pregame.preload;
+    
     let log = [];
     let untimed = {};
 
@@ -54,8 +53,8 @@
         } else if (recent.item === "algae") {
             algae = !algae;
         }
+        selected = {location: ''};
 
-        inv = !inv;
         log = log;
     }
 

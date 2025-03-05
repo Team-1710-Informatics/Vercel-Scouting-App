@@ -6,18 +6,24 @@
     export let algae
 </script>
 
-<div class="flex flex-row justify-center h-fit gap-2">
-    <div class="h-8">
-
-    </div>
+<div class="flex flex-row justify-evenly h-fit gap-2">
     {#if coral}
         <div>
-            <img class="h-10 -my-1 pr-6" src={coralImage} alt=""/>
+            <img class="h-10 -my-1" src={coralImage} alt=""/>
+        </div>
+    {:else}
+        <div>
+            <img class="h-10 -my-1 opacity-20" src={coralImage} alt=""/>
         </div>
     {/if}
     {#if algae}
         <div>
-            <img class="h-10 -my-1 pr-6" src={algaeImage} alt=""/>
+            <img class="h-10 -my-1" src={algaeImage} alt=""/>
+        </div>
+    {:else}
+        <div>
+            <img class="h-10 -my-1 opacity-20" src={algaeImage} alt=""/>
         </div>
     {/if}
+
 </div>

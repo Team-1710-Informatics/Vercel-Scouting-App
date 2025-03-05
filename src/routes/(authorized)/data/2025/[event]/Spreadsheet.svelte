@@ -125,9 +125,9 @@
             </tr>
             <tr class="my-2">
                 <td class="w-1/2">Ascending <input bind:group={ascending} name="sort" type="radio"
-                                                                     value={true}/></td>
+                                                   value={true}/></td>
                 <td class="w-1/2">Descending <input bind:group={ascending} name="sort" type="radio"
-                                                                      value={false}/></td>
+                                                    value={false}/></td>
             </tr>
         </table>
     </div>

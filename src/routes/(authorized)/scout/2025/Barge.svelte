@@ -4,11 +4,27 @@
 
     export let selected
     export let item
+    export let log
+    export let algae
+    export let state
 
     function select(location) {
+        if (!state.started) return
         selected = {location: ''}
         selected.location = location
         item = 'algae'
+
+        if (algae) {
+            algae = false
+
+            log.push({
+                time: state.time,
+                action: 'intake',
+                ...selected,
+                phase: state.phase,
+                item: item
+            });
+        }
     }
 </script>
 
@@ -26,4 +42,9 @@
 </div>
 
 <style>
+    .disabled {
+        opacity: 0.5;
+        filter: brightness(0.5);
+        cursor: not-allowed;
+    }
 </style>
