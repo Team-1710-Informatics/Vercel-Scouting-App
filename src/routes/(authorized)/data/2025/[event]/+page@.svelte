@@ -41,10 +41,15 @@
         ></AllianceSelection>
     </div>
 
-    <div class="basis-2/4 h-auto temporary_box my-4 rounded-lg">
-        <Spreadsheet />
-        {JSON.stringify(selectedAlliance)}
-        {selectedTeam}
+    <div class="basis-2/4 flex flex-col my-4 gap-4">
+        <div class="basis-2/3 h-auto temporary_box rounded-lg">
+            <Spreadsheet />
+            {JSON.stringify(selectedAlliance)}
+            {selectedTeam}
+        </div>
+        <div class="basis-1/3 h-auto temporary_box rounded-lg">
+
+        </div>
     </div>
     <div class="basis-2/4 flex flex-col max-h-screen m-4">
         <div class="basis-1/2 flex flex-row mb-4">
@@ -58,7 +63,11 @@
                         <div class="bg-gray-800 w-full h-0.5" />
                     </div>
                     <div>
-                        <p class="ml-4">{selectedAlliance}</p>
+                        {#if JSON.stringify(selectedAlliance) !== '["none"]'}
+                            <p class="ml-4">{selectedAlliance}</p>
+                        {:else}
+                            <br>
+                        {/if}
                     </div>
                         <RobotCompatibility
                             bind:selectedAlliance
