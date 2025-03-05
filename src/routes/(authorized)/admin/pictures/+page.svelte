@@ -15,7 +15,7 @@
         }
     }
 
-    let imgWidth = 32.33
+    let imgWidth = 32
 
 </script>
 
@@ -26,8 +26,8 @@
         <input type="number" bind:value={teamSearch} class="my-2 w-16 h-7 mr-16"/>
         <p class="align-middle my-auto mr-2">Columns</p>
         <select class="my-2 w-16 h-7 mr-16" bind:value={imgWidth}>
-            <option value="32.33">3</option>
-            <option value="48.7">2</option>
+            <option value="32">3</option>
+            <option value="48">2</option>
             <option value="100">1</option>
         </select>
     </div>

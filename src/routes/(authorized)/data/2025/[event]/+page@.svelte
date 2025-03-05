@@ -5,6 +5,7 @@
     import ServicePing from '../../../services/ServicePing.svelte'
     import {onMount} from 'svelte'
     import Spreadsheet from './Spreadsheet.svelte'
+    import PitData from './PitData.svelte'
 
     export let data
 
@@ -44,23 +45,31 @@
 
     <div class="basis-2/4 h-auto temporary_box my-4 rounded-lg">
         {#if entries}
-            <Spreadsheet {entries}/>
-        {/if}
+            <div class="basis-2/3 h-auto temporary_box rounded-lg">
+                <Spreadsheet {entries}/>
+            </div>
+            <div class="basis-1/3 h-auto temporary_box rounded-lg">
 
-        {JSON.stringify(selectedAlliance)}
-        {selectedTeam}
+            </div>
+        {/if}
     </div>
     <div class="basis-2/4 flex flex-col max-h-screen m-4">
         <div class="basis-1/2 flex flex-row mb-4">
-            <div class="basis-1/2 h-auto mr-4 rounded-lg temporary_box"></div>
+            <div class="basis-1/2 h-auto mr-4 rounded-lg temporary_box">
+                <PitData team={selectedTeam} data={data} />
+            </div>
             <div class="basis-1/2 h-auto flex flex-col">
                 <div class="grow h-auto temporary_box rounded-lg flex flex-col">
                     <h1 class="text-lg ml-4 mt-3">Alliance Info</h1>
                     <div class="w-full mt-1 mb-0.5 x-4">
-                        <div class="bg-gray-800 w-full h-0.5"/>
+                        <div class="bg-gray-800 w-full h-0.5" />
                     </div>
                     <div>
-                        <p class="ml-4">{selectedAlliance}</p>
+                        {#if JSON.stringify(selectedAlliance) !== '["none"]'}
+                            <p class="ml-4">{selectedAlliance}</p>
+                        {:else}
+                            <br>
+                        {/if}
                     </div>
                     <RobotCompatibility
                             bind:event

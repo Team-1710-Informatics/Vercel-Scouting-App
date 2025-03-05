@@ -477,7 +477,7 @@
             <textarea bind:value={index.notes} name="notes"></textarea>
             <hr class="mb-2 mt-4" />
             <br />
-            <a href="https://forms.gle/qoLbnverWsphEkZHA" target="_blank" class="submit p-1 rounded-md">Click here to submit pictures</a>
+            <a href="https://forms.gle/qoLbnverWsphEkZHA" target="_blank" class="submit p-1 rounded-md">Submit Pictures</a>
         {/if}
 
         <hr class="my-4" />
