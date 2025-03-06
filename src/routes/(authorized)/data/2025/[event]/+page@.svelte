@@ -172,8 +172,8 @@
                     <PitData data={data} team={selectedTeam}/>
                     Score over Time
                 {/if}
-                <div bind:this={plotDiv} class="plot-container"
-                     style="height:45%; width: 80%"></div>
+                <div bind:this={plotDiv} class="plot-container mb-4"
+                     style="height:40%; width: 90%"></div>
             </div>
             <div class="basis-1/2 h-auto flex flex-col">
                 <div class="grow h-auto temporary_box rounded-lg flex flex-col">
