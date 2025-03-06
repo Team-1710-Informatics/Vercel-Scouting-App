@@ -128,7 +128,6 @@
         framePerimeter: boolean,
         bargeNetPractice: boolean,
         driverPractice: boolean,
-        needHelp: string,
         notes: string,
         imageLink: string,
     } = {
@@ -158,7 +157,6 @@
         framePerimeter: false,
         bargeNetPractice: false,
         driverPractice: false,
-        needHelp: '',
         notes: '',
         imageLink: '',
     }
@@ -467,10 +465,6 @@
                     value={false}
                 > No
             </div>
-            <hr class="mb-2 mt-4" />
-            <label for="">Do you need any help with your code, robot, or team?</label>
-            <br />
-            <textarea bind:value={index.needHelp} name="notes"></textarea>
             <hr class="mb-2 mt-4" />
             <label for="notes">Additional Notes</label>
             <br />

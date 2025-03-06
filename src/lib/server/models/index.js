@@ -312,7 +312,6 @@ const pitscout2025 = new Schema({
     framePerimeter: Boolean,
     bargeNetPractice: Boolean,
     driverPractice: Boolean,
-    needHelp: String,
     notes: String,
     imageLink: String,
 })
