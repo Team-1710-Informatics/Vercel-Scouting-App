@@ -152,7 +152,7 @@
             </div>
         {/if}
     </div>
-    <div class="flex flex-col gap-4 basis-1/5 w-fit">
+    <div class="flex flex-col gap-4 basis-1/5 w-fit text-center">
         <div class="text-md w-fit -mb-5 -mt-2">
             {#if team !== 'practice'}
                 Team {team.slice(3)}
@@ -199,6 +199,7 @@
         >
             Flip Field
         </div>
+        <p class="w-36">Scroll Down</p>
     </div>
 </div>
 

@@ -103,7 +103,7 @@
 
 <button
     class="submit fixed bottom-0 right-0"
-    disabled={!(state.started && state.time == 0)}
+    disabled={!(state.started && state.time == 0) || !answered}
     on:click={() => {
         game = {
             start: state.start,
