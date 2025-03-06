@@ -10,6 +10,17 @@ export async function load({ locals }) {
     const schedulepositions = await schedulePositions.find()
     const scheduledays = await scheduleDays.find()
 
+    console.log(scheduledays)
+    if (scheduledays.length === 0) {
+        //     create empty schedule day
+        const day = new scheduleDays({
+            name: 'New Day',
+            start: '00:00',
+            end: '00:00',
+        })
+        await day.save()
+    }
+
     let selected = scheduledays[0].id
 
     let leads = []

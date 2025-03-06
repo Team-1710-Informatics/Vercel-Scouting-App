@@ -25,56 +25,56 @@
     ]
 
     let dates = [
-        { day: 1, value: '01' },
-        { day: 2, value: '02' },
-        { day: 3, value: '03' },
-        { day: 4, value: '04' },
-        { day: 5, value: '05' },
-        { day: 6, value: '06' },
-        { day: 7, value: '07' },
-        { day: 8, value: '08' },
-        { day: 9, value: '09' },
-        { day: 10, value: '10' },
-        { day: 11, value: '11' },
-        { day: 1, value: '12' },
-        { day: 13, value: '13' },
-        { day: 14, value: '14' },
-        { day: 15, value: '15' },
-        { day: 16, value: '16' },
-        { day: 17, value: '17' },
-        { day: 18, value: '18' },
-        { day: 19, value: '19' },
-        { day: 20, value: '20' },
-        { day: 21, value: '21' },
-        { day: 22, value: '22' },
-        { day: 23, value: '23' },
-        { day: 24, value: '24' },
-        { day: 25, value: '25' },
-        { day: 26, value: '26' },
-        { day: 27, value: '27' },
-        { day: 28, value: '28' },
-        { day: 29, value: '29' },
-        { day: 30, value: '30' },
-        { day: 31, value: '31' },
+        {day: 1, value: '01'},
+        {day: 2, value: '02'},
+        {day: 3, value: '03'},
+        {day: 4, value: '04'},
+        {day: 5, value: '05'},
+        {day: 6, value: '06'},
+        {day: 7, value: '07'},
+        {day: 8, value: '08'},
+        {day: 9, value: '09'},
+        {day: 10, value: '10'},
+        {day: 11, value: '11'},
+        {day: 1, value: '12'},
+        {day: 13, value: '13'},
+        {day: 14, value: '14'},
+        {day: 15, value: '15'},
+        {day: 16, value: '16'},
+        {day: 17, value: '17'},
+        {day: 18, value: '18'},
+        {day: 19, value: '19'},
+        {day: 20, value: '20'},
+        {day: 21, value: '21'},
+        {day: 22, value: '22'},
+        {day: 23, value: '23'},
+        {day: 24, value: '24'},
+        {day: 25, value: '25'},
+        {day: 26, value: '26'},
+        {day: 27, value: '27'},
+        {day: 28, value: '28'},
+        {day: 29, value: '29'},
+        {day: 30, value: '30'},
+        {day: 31, value: '31'},
     ]
     let months = [
-        { month: 1, value: '01' },
-        { month: 2, value: '02' },
-        { month: 3, value: '03' },
-        { month: 4, value: '04' },
-        { month: 5, value: '05' },
-        { month: 6, value: '06' },
-        { month: 7, value: '07' },
-        { month: 8, value: '08' },
-        { month: 9, value: '09' },
-        { month: 10, value: '10' },
-        { month: 11, value: '11' },
-        { month: 12, value: '12' },
+        {month: 1, value: '01'},
+        {month: 2, value: '02'},
+        {month: 3, value: '03'},
+        {month: 4, value: '04'},
+        {month: 5, value: '05'},
+        {month: 6, value: '06'},
+        {month: 7, value: '07'},
+        {month: 8, value: '08'},
+        {month: 9, value: '09'},
+        {month: 10, value: '10'},
+        {month: 11, value: '11'},
+        {month: 12, value: '12'},
     ]
     let years = [
-        { year: 2024, value: '2024' },
-        { year: 2025, value: '2025' },
-        { year: 2026, value: '2026' },
+        {year: 2024, value: '2024'},
+        {year: 2025, value: '2025'},
+        {year: 2026, value: '2026'},
     ]
     let timezones = ['EST', 'EDT', 'CST', 'CDT', 'MST', 'MDT', 'PST', 'PDT']
 
@@ -304,72 +304,72 @@
         {#each scheduledays as day}
             {#if selected != day.id}
                 <button
-                    on:click={() => (selected = day.id)}
-                    class="bg-gray-700 rounded-2xl"
+                        on:click={() => (selected = day.id)}
+                        class="bg-gray-700 rounded-2xl"
                 >
                     <input
-                        bind:value={day.name}
-                        type="text"
-                        class="text-black bg-gray-500 border-0 rounded-2xl px-2"
+                            bind:value={day.name}
+                            type="text"
+                            class="text-black bg-gray-500 border-0 rounded-2xl px-2"
                     />
                 </button>
             {/if}
             {#if selected == day.id}
                 <button
-                    on:click={() => (selected = day.id)}
-                    class="bg-gray-800 rounded-2xl"
+                        on:click={() => (selected = day.id)}
+                        class="bg-gray-800 rounded-2xl"
                 >
                     <input
-                        bind:value={day.name}
-                        type="text"
-                        class="text-black bg-gray-500 border-0 rounded-2xl px-2"
+                            bind:value={day.name}
+                            type="text"
+                            class="text-black bg-gray-500 border-0 rounded-2xl px-2"
                     />
                 </button>
             {/if}
         {/each}
-        <button on:click={() => newDay()} class="bg-green-700 rounded-2xl">
+        <button class="bg-green-700 rounded-2xl" on:click={() => newDay()}>
             New Button
         </button>
         <button
-            on:click={() => deleteDay(selected)}
-            class="bg-rose-700 rounded-2xl"
+                class="bg-rose-700 rounded-2xl"
+                on:click={() => deleteDay(selected)}
         >
             Delete Button
         </button>
         <form method="POST">
             <input
-                type="text"
-                hidden
-                name="days"
-                value={JSON.stringify(scheduledays)}
+                    hidden
+                    name="days"
+                    type="text"
+                    value={JSON.stringify(scheduledays)}
             />
             <input
-                type="text"
-                hidden
-                name="leads"
-                value={JSON.stringify(leads)}
+                    hidden
+                    name="leads"
+                    type="text"
+                    value={JSON.stringify(leads)}
             />
             <input
-                type="text"
-                hidden
-                name="scouts"
-                value={JSON.stringify(scouts)}
+                    hidden
+                    name="scouts"
+                    type="text"
+                    value={JSON.stringify(scouts)}
             />
             <input
-                type="text"
-                hidden
-                name="backups"
-                value={JSON.stringify(backups)}
+                    hidden
+                    name="backups"
+                    type="text"
+                    value={JSON.stringify(backups)}
             />
             <button
-                class="bg-green-700 rounded-2xl submit"
-                type="submit"
-                value="Submit"
+                    class="bg-green-700 rounded-2xl submit"
+                    type="submit"
+                    value="Submit"
             >
                 Submit
             </button>
         </form>
-        <a href="/scouting-schedule" class="bg-gray-700 rounded-2xl py-1 px-2">
+        <a class="bg-gray-700 rounded-2xl py-1 px-2" href="/scouting-schedule">
             Back
         </a>
     </div>
@@ -377,37 +377,37 @@
         {#each scheduledays as day}
             {#if selected == day.id}
                 <select
-                    class="text-sm"
-                    style="width:60px; text-overflow:ellipsis"
-                    bind:value={day.year}
+                        class="text-sm"
+                        style="width:60px; text-overflow:ellipsis"
+                        bind:value={day.year}
                 >
                     {#each years as year}
                         <option value={year.value}>{year.year}</option>
                     {/each}
                 </select>
                 <select
-                    class="text-sm"
-                    style="width:45px; text-overflow:ellipsis"
-                    bind:value={day.month}
+                        class="text-sm"
+                        style="width:45px; text-overflow:ellipsis"
+                        bind:value={day.month}
                 >
                     {#each months as month}
                         <option value={month.value}>{month.month}</option>
                     {/each}
                 </select>
                 <select
-                    class="text-sm"
-                    style="width:45px; text-overflow:ellipsis"
-                    bind:value={day.day}
+                        class="text-sm"
+                        style="width:45px; text-overflow:ellipsis"
+                        bind:value={day.day}
                 >
                     {#each dates as date}
                         <option value={date.value}>{date.day}</option>
                     {/each}
-                </select><br />
+                </select><br/>
                 Timezone
                 <select
-                    class="text-sm"
-                    style="width:60px; text-overflow:ellipsis"
-                    bind:value={day.timezone}
+                        class="text-sm"
+                        style="width:60px; text-overflow:ellipsis"
+                        bind:value={day.timezone}
                 >
                     {#each timezones as timezone}
                         <option value={timezone}>{timezone}</option>
@@ -429,46 +429,46 @@
                     <tr>
                         <td>
                             <select
-                                class="text-sm"
-                                style="width:120px; text-overflow:ellipsis"
-                                bind:value={lead.start}
+                                    class="text-sm"
+                                    style="width:120px; text-overflow:ellipsis"
+                                    bind:value={lead.start}
                             >
                                 {#each times as time}
                                     <option value={time}
-                                        >{formatTime(time)}</option
+                                    >{formatTime(time)}</option
                                     >
                                 {/each}
-                            </select><br />
-                            to<br />
+                            </select><br/>
+                            to<br/>
                             <select
-                                class="text-sm"
-                                style="width:120px; text-overflow:ellipsis"
-                                bind:value={lead.end}
+                                    class="text-sm"
+                                    style="width:120px; text-overflow:ellipsis"
+                                    bind:value={lead.end}
                             >
                                 {#each times as time}
                                     <option value={time}
-                                        >{formatTime(time)}</option
+                                    >{formatTime(time)}</option
                                     >
                                 {/each}
                             </select>
                         </td>
                         <td>
                             <select
-                                class="text-sm"
-                                style="width:120px; text-overflow:ellipsis"
-                                bind:value={lead.name}
+                                    class="text-sm"
+                                    style="width:120px; text-overflow:ellipsis"
+                                    bind:value={lead.name}
                             >
                                 <option value=""></option>
                                 {#each users as user}
                                     <option value={user.username}
-                                        >{user.name.first}
+                                    >{user.name.first}
                                         {user.name.last}</option
                                     >
                                 {/each}
-                            </select><br />
+                            </select><br/>
                             <button
-                                on:click={() => deleteShift(lead.id)}
-                                class="bg-gray-700 rounded-2xl"
+                                    on:click={() => deleteShift(lead.id)}
+                                    class="bg-gray-700 rounded-2xl"
                             >
                                 Delete Shift
                             </button>
@@ -477,18 +477,18 @@
                             {#each scouts as scout}
                                 {#if scout.leadId == lead.id}
                                     <select
-                                        class="text-sm"
-                                        style="width:120px; text-overflow:ellipsis"
-                                        bind:value={scout.name}
+                                            class="text-sm"
+                                            style="width:120px; text-overflow:ellipsis"
+                                            bind:value={scout.name}
                                     >
                                         <option value=""></option>
                                         {#each users as user}
                                             <option value={user.username}
-                                                >{user.name.first}
+                                            >{user.name.first}
                                                 {user.name.last}</option
                                             >
                                         {/each}
-                                    </select><br />
+                                    </select><br/>
                                 {/if}
                             {/each}
                         </td>
@@ -496,18 +496,18 @@
                             {#each backups as backup}
                                 {#if backup.leadId == lead.id}
                                     <select
-                                        class="text-sm"
-                                        style="width:120px; text-overflow:ellipsis"
-                                        bind:value={backup.name}
+                                            class="text-sm"
+                                            style="width:120px; text-overflow:ellipsis"
+                                            bind:value={backup.name}
                                     >
                                         <option value=""></option>
                                         {#each users as user}
                                             <option value={user.username}
-                                                >{user.name.first}
+                                            >{user.name.first}
                                                 {user.name.last}</option
                                             >
                                         {/each}
-                                    </select><br />
+                                    </select><br/>
                                 {/if}
                             {/each}
                         </td>
@@ -518,8 +518,8 @@
     </div>
     <div class="bg-gray-800 flex flex-row gap-2 p-2 my-2 rounded-3xl">
         <button
-            on:click={() => newShift(selected)}
-            class="bg-gray-700 rounded-2xl"
+                class="bg-gray-700 rounded-2xl"
+                on:click={() => newShift(selected)}
         >
             Add Shift
         </button>
