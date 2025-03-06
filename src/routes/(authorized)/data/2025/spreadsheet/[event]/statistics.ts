@@ -128,6 +128,178 @@ export default {
         })
         return algae / coral
     },
+    Strategy(team: number, data: any[]) {
+        let stratIndex = 0
+        let allStrat = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        let result = ''
+        data.forEach((e) => {
+            if (e.team != team) return
+            e.postgame.strategy.forEach((a: any) => {
+                switch (a) {
+                    case 'cycle':
+                        allStrat[0]++
+                        break
+                    case 'coral':
+                        allStrat[1]++
+                        break
+                    case 'algae':
+                        allStrat[2]++
+                        break
+                    case 'feeder':
+                        allStrat[3]++
+                        break
+                    case 'pickup':
+                        allStrat[4]++
+                        break
+                    case 'defense':
+                        allStrat[5]++
+                        break
+                    case 'moral':
+                        allStrat[6]++
+                        break
+                    case 'breakdown':
+                        allStrat[7]++
+                        break
+                    case 'noShow':
+                        allStrat[8]++
+                        break
+                }
+            })
+        })
+        stratIndex = allStrat.indexOf(Math.max(...allStrat))
+        if (stratIndex == 0) result = 'hybrid'
+        if (stratIndex == 1) result = 'coral'
+        if (stratIndex == 2) result = 'algae'
+        if (stratIndex == 3) result = 'feeder'
+        if (stratIndex == 4) result = 'pickup'
+        if (stratIndex == 5) result = 'defense'
+        if (stratIndex == 6) result = 'moral support'
+        if (stratIndex == 7) result = 'breakdown'
+        if (stratIndex == 8) result = 'no show'
+        return result
+    },
+    AverageL1Coral(team: number, data: any[]) {
+        let count = 0
+        let score = 0
+        data.forEach((e) => {
+            if (e.team != team) return
+            e.actions.forEach((a: any) => {
+                if (
+                    a.action === 'score' &&
+                    a.location === 'reef' &&
+                    a.level === 1
+                )
+                    score++
+            })
+            count++
+        })
+        return score / count
+    },
+    AverageL2Coral(team: number, data: any[]) {
+        let count = 0
+        let score = 0
+        data.forEach((e) => {
+            if (e.team != team) return
+            e.actions.forEach((a: any) => {
+                if (
+                    a.action === 'score' &&
+                    a.location === 'reef' &&
+                    a.level === 2
+                )
+                    score++
+            })
+            count++
+        })
+        return score / count
+    },
+    AverageL3Coral(team: number, data: any[]) {
+        let count = 0
+        let score = 0
+        data.forEach((e) => {
+            if (e.team != team) return
+            e.actions.forEach((a: any) => {
+                if (
+                    a.action === 'score' &&
+                    a.location === 'reef' &&
+                    a.level === 3
+                )
+                    score++
+            })
+            count++
+        })
+        return score / count
+    },
+    AverageL4Coral(team: number, data: any[]) {
+        let count = 0
+        let score = 0
+        data.forEach((e) => {
+            if (e.team != team) return
+            e.actions.forEach((a: any) => {
+                if (
+                    a.action === 'score' &&
+                    a.location === 'reef' &&
+                    a.level === 4
+                )
+                    score++
+            })
+            count++
+        })
+        return score / count
+    },
+    MostCommonCoralLevel(team: number, data: any[]) {
+        let levels = [0, 0, 0, 0]
+        data.forEach((e) => {
+            if (e.team != team) return
+            e.actions.forEach((a: any) => {
+                if (a.action === 'score' && a.location === 'reef') {
+                    levels[a.level - 1]++
+                }
+            })
+        })
+        return levels.indexOf(Math.max(...levels)) + 1
+    },
+    PercentageL4Coral(team: number, data: any[]) {
+        let count = 0
+        let score = 0
+        data.forEach((e) => {
+            if (e.team != team) return
+            e.actions.forEach((a: any) => {
+                if (
+                    a.action === 'score' &&
+                    a.location === 'reef' &&
+                    a.level === 4
+                )
+                    score++
+            })
+            count++
+        })
+        return score / count
+    },
+    AverageProcessorScore(team: number, data: any[]) {
+        let count = 0
+        let score = 0
+        data.forEach((e) => {
+            if (e.team != team) return
+            e.actions.forEach((a: any) => {
+                if (a.action === 'score' && a.location === 'processor')
+                    score += 6
+            })
+            count++
+        })
+        return score / count
+    },
+    AverageBargeScore(team: number, data: any[]) {
+        let count = 0
+        let score = 0
+        data.forEach((e) => {
+            if (e.team != team) return
+            e.actions.forEach((a: any) => {
+                if (a.action === 'score' && a.location === 'barge') score += 4
+            })
+            count++
+        })
+        return score / count
+    },
 }
 
 let autoScoreValues = [3, 4, 6, 7]

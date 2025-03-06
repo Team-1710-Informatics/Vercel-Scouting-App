@@ -51,11 +51,9 @@
     <div class="basis-2/4 flex flex-col max-h-screen m-4">
         <div class="basis-1/2 flex flex-row mb-4">
             <div class="basis-1/2 h-auto mr-4 rounded-lg temporary_box">
-                {selectedTeam}
                 {#if data}
                     <PitData data={data} team={selectedTeam}/>
                 {/if}
-
             </div>
             <div class="basis-1/2 h-auto flex flex-col">
                 <div class="grow h-auto temporary_box rounded-lg flex flex-col">
