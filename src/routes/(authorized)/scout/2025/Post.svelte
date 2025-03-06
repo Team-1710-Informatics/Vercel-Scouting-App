@@ -144,16 +144,16 @@
                 class="mt-2 submit">{loading ? 'Loading...' : 'Submit'}</button
             >
         </form>
-        <button
-            on:click={qrcode}
-            class="fixed top-0 left-0 bg-gradient-to-bl border-red-700 from-red-600 to-red-400 w-16 text-xs h-10"
-            class:w-screen={showcode}
-        >
-            Show QR Code
-            {#if showcode}
-                <QRcode data={qrdata} />
-            {/if}
-        </button>
+<!--        <button-->
+<!--            on:click={qrcode}-->
+<!--            class="fixed top-0 left-0 bg-gradient-to-bl border-red-700 from-red-600 to-red-400 w-16 text-xs h-10"-->
+<!--            class:w-screen={showcode}-->
+<!--        >-->
+<!--            Show QR Code-->
+<!--            {#if showcode}-->
+<!--                <QRcode data={qrdata} />-->
+<!--            {/if}-->
+<!--        </button>-->
         <a href="/hub" class="rounded border-2 p-2 submit">Hub</a>
     </div>
 </center>
