@@ -87,10 +87,8 @@ export const actions = {
                 350,
                 `Pit scouted ${final.team}`
             )
-        }
-
-        // if there is, then pay both
-        if (final.otherScouts != 'none') {
+            // if there is, then pay both
+        } else if (final.otherScouts != 'none') {
             await credits.transaction(
                 final.scout,
                 350,
