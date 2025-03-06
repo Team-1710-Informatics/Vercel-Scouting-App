@@ -18,48 +18,13 @@
         data.entries.forEach((e) => {
             if (!teams.includes(e.team)) teams.push(e.team)
         })
+        console.log(teams)
     }
 
     let columns = ['TeamNumber', 'AverageScore']
     let sortFunction = 'AverageScore'
     let ascending = false
     let positive = true
-
-    let output
-
-    function tableToCSV() {
-        let csvdata = []
-
-        let rows = output.getElementsByTagName('tr')
-
-        for (let i = 0; i < rows.length; i++) {
-            let cols = rows[i].querySelectorAll('td,th')
-
-            let csvrow = []
-            for (let j = 0; j < cols.length; j++) {
-                csvrow.push(cols[j].innerHTML)
-            }
-            csvdata.push(csvrow.join(','))
-        }
-        csvdata = csvdata.join('\n')
-        downloadCSVFile(csvdata)
-    }
-
-    function downloadCSVFile(csvdata) {
-        let file = new Blob([csvdata], {
-            type: 'text/csv',
-        })
-
-        let temp = document.createElement('a')
-
-        temp.download = 'export.csv'
-        temp.href = window.URL.createObjectURL(file)
-        temp.style.display = 'none'
-        document.body.appendChild(temp)
-
-        temp.click()
-        document.body.removeChild(temp)
-    }
 
     $: teams = teams.sort((a, b) => {
         if (first && last) {
@@ -70,14 +35,12 @@
             (ascending ? -1 : 1)
         )
     })
+
+    let output
 </script>
 
 
-<center class="pt-10 px-10 max-w-full">
-    <div class="grid grid-cols-2 w-fit gap-1">
-
-    </div>
-    <br/>
+<center class="pt-10 px-4 max-w-full">
     <div>
         <table>
             <tr class="">
@@ -115,8 +78,8 @@
             </tr>
             <tr class="my-2">
                 <td class="">Sort:</td>
-                <td class="">
-                    <select bind:value={sortFunction} class="w-1/2">
+                <td class="w-">
+                    <select bind:value={sortFunction} class="">
                         {#each Object.keys(stats) as func}
                             <option value={func}>{func}</option>
                         {/each}
@@ -217,13 +180,6 @@
         </table>
     </div>
     <br/>
-    <div class="opacity-50">*Score calculations do not include links</div>
-    <button
-            class="font-bold bg-gradient-to-t from-teal-800 to-teal-400 border-black"
-            on:click={tableToCSV}
-    >Export sheet
-    </button
-    >
 </center>
 
 <table bind:this={output} hidden>

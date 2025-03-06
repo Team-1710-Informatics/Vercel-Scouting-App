@@ -21,7 +21,7 @@
 
     let event = ''
 
-    export let entries
+    let entries
     onMount(() => {
         matchPredictor.eventPrediction()
         event = data.data.event
@@ -45,24 +45,23 @@
 
     <div class="basis-2/4 h-auto temporary_box my-4 rounded-lg">
         {#if entries}
-            <div class="basis-2/3 h-auto temporary_box rounded-lg">
-                <Spreadsheet {entries}/>
-            </div>
-            <div class="basis-1/3 h-auto temporary_box rounded-lg">
-
-            </div>
+            <Spreadsheet data={entries}/>
         {/if}
     </div>
     <div class="basis-2/4 flex flex-col max-h-screen m-4">
         <div class="basis-1/2 flex flex-row mb-4">
             <div class="basis-1/2 h-auto mr-4 rounded-lg temporary_box">
-                <PitData team={selectedTeam} data={data} />
+                {selectedTeam}
+                {#if data}
+                    <PitData data={data} team={selectedTeam}/>
+                {/if}
+
             </div>
             <div class="basis-1/2 h-auto flex flex-col">
                 <div class="grow h-auto temporary_box rounded-lg flex flex-col">
                     <h1 class="text-lg ml-4 mt-3">Alliance Info</h1>
                     <div class="w-full mt-1 mb-0.5 x-4">
-                        <div class="bg-gray-800 w-full h-0.5" />
+                        <div class="bg-gray-800 w-full h-0.5"/>
                     </div>
                     <div>
                         {#if JSON.stringify(selectedAlliance) !== '["none"]'}

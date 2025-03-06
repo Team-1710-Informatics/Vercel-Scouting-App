@@ -155,7 +155,7 @@ const scoutEntry2025 = new Schema({
     actions: Array,
     climb: {
         time: Number,
-        type: { type: String, match: /shallow|deep/ },
+        type: { type: String, match: /shallow|deep|none/ },
         fails: Number,
     },
     untimed: {
