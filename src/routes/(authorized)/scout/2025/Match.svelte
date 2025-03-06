@@ -3,7 +3,7 @@
     import Reef from './Reef.svelte'
     import AllianceArea from './AllianceArea.svelte'
 
-    import { createEventDispatcher } from 'svelte'
+    import {createEventDispatcher} from 'svelte'
     import Action from './Action.svelte'
     import Inventory from './Inventory.svelte'
     import Questions from './Questions.svelte'
@@ -88,23 +88,51 @@
     }
 
     let climb
+
+    import {onMount} from 'svelte';
+
+    let isPortrait = false;
+    let bypassOrientationCheck = false;
+
+    function checkOrientation() {
+        isPortrait = window.innerHeight > window.innerWidth;
+    }
+
+    function bypassCheck() {
+        bypassOrientationCheck = true;
+    }
+
+    onMount(() => {
+        checkOrientation();
+        window.addEventListener('resize', checkOrientation);
+        return () => {
+            window.removeEventListener('resize', checkOrientation);
+        };
+    });
 </script>
 
-<Action
-    bind:algae
-    bind:climb
-    bind:coral
-    bind:log
-    bind:state
-    {team}
-    bind:scores
-/>
-<Questions bind:answers={untimed} {state} />
+{#if isPortrait && !bypassOrientationCheck}
+    <div class="orientation-warning">
+        <p>Rotate your phone to landscape</p>
+        <button on:click={bypassCheck}>Bypass</button>
+    </div>
+{:else}
 
-<button
-    class="submit fixed bottom-0 right-0"
-    disabled={!(state.started && state.time == 0) || !answered}
-    on:click={() => {
+    <Action
+            bind:algae
+            bind:climb
+            bind:coral
+            bind:log
+            bind:state
+            {team}
+            bind:scores
+    />
+    <Questions bind:answers={untimed} {state}/>
+
+    <button
+            class="submit fixed bottom-0 right-0"
+            disabled={!(state.started && state.time == 0) || !answered}
+            on:click={() => {
         game = {
             start: state.start,
             actions: log,
@@ -114,18 +142,51 @@
         console.log(game)
         dispatch('advance')
     }}
->
-    {state.started && state.time == 0
-        ? 'Next'
-        : state.started
-          ? state.time
-          : 'Next'}
-</button>
+    >
+        {state.started && state.time == 0
+            ? 'Next'
+            : state.started
+                ? state.time
+                : 'Next'}
+    </button>
 
-<button
-    class="fixed top-0 right-0 bg-gradient-to-bl border-red-700 from-red-600 to-red-400"
-    disabled={!state.started}
-    on:click={undo}
->
-    Undo
-</button>
+    <button
+            class="fixed top-0 right-0 bg-gradient-to-bl border-red-700 from-red-600 to-red-400"
+            disabled={!state.started}
+            on:click={undo}
+    >
+        Undo
+    </button>
+{/if}
+
+
+<style>
+    .orientation-warning {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: black;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+
+    .orientation-warning p {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .orientation-warning button {
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        background-color: white;
+        color: black;
+        border: none;
+        cursor: pointer;
+    }
+</style>
