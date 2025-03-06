@@ -528,11 +528,10 @@
                                 value={JSON.stringify(index)}
                         />
                         <button
-                                class="border-sky-800 border-2 font-bold bg-gradient-to-br from-sky-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl"
-                                type="submit"
-                                value="Submit"
-                        >Submit
-                        </button
+                            class="border-sky-800 border-2 font-bold bg-gradient-to-br from-sky-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl"
+                            type="submit"
+                            value="Submit"
+                            >Submit</button
                         >
                     </form>
                 </div>
