@@ -69,15 +69,6 @@ export const actions = {
             ...data,
         }
 
-        if (
-            await pitdata2025.findOne({
-                team: final['team'],
-                event: final['event'],
-            })
-        ) {
-            throw redirect(301, '/pit-scout')
-        }
-
         const db = new pitdata2025(final)
 
         await db.save()

@@ -527,10 +527,7 @@
                             class="border-sky-800 border-2 font-bold bg-gradient-to-br from-sky-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl"
                             type="submit"
                             value="Submit"
-                            on:click={() => {
-                                page == 1
-                                console.log(index)
-                            }}>Submit</button
+                            >Submit</button
                         >
                     </form>
                 </div>
