@@ -25,6 +25,18 @@
 
     async function getRankings() {
         rankings = await tba('event/' + event_key + '/rankings')
+        if (rankings.rankings.length === 0) {
+            rankings = await tba('event/' + event_key + '/teams/simple')
+            i = 0
+            rankings.forEach((team) => {
+                team.rank = i
+                team.rejected = false
+                team.team_key = team.key
+                i++
+            })
+            rankings = {rankings: rankings}
+        }
+        console.log(rankings, "rankings")
         rankings.rankings.forEach((team) => (team.rejected = false))
         for (let j = 0; j < rankings.rankings.length; j++) {
             rankings.rankings[j].truerank = j + 1
@@ -225,63 +237,65 @@
                         style="height: 70vh"
                 >
                     {#each picked.rankings as alliance, index}
-                        <div class="w-fit h-fit rounded-md">
-                            <p
-                                    class="text-md px-2 rounded-md {index === i &&
+                        {#if !(alliance.length === 0)}
+                            <div class="w-fit h-fit rounded-md">
+                                <p
+                                        class="text-md px-2 rounded-md {index === i &&
                                 selection
                                     ? 'font-extrabold'
                                     : ''} {selectedAlliance[0] ===
                                 alliance[0].team_key
                                     ? 'bg-slate-600'
                                     : ''}"
-                                    on:click={() => {
+                                        on:click={() => {
                                     selectAlliance(index)
                                 }}
-                                    on:keypress={() => {
+                                        on:keypress={() => {
                                     selectAlliance(index)
                                 }}
-                            >
-                                Alliance {index + 1}
-                            </p>
-                            <ul>
-                                {#each alliance as team, teamIndex}
-                                    <li class="list-none text-sm">
-                                        <button
-                                                class="rounded-md"
-                                                on:click={() => {
+                                >
+                                    Alliance {index + 1}
+                                </p>
+                                <ul>
+                                    {#each alliance as team, teamIndex}
+                                        <li class="list-none text-sm">
+                                            <button
+                                                    class="rounded-md"
+                                                    on:click={() => {
                                                 if (!team.rejected) {
                                                     inviteShift(index)
                                                 }
                                             }}
-                                                class:bg-slate-600={selectedTeam ===
+                                                    class:bg-slate-600={selectedTeam ===
                                                 team.team_key}
-                                        >
-                                            {teamIndex + 1}. {formatTeamKey(
-                                            team.team_key
-                                        )}
-                                        </button>
-                                    </li>
-                                {/each}
-                            </ul>
-                            {#if selecting && index === i && selection}
-                                <div>
-                                    Selecting: {formatTeamKey(
-                                    selected_team.team_key
-                                )}
-                                </div>
-                                <button
-                                        class="bg-green-500 rounded-md"
-                                        on:click={() => pickTeam(selected_team)}
-                                >
-                                    Accept
-                                </button>
-                                <button
-                                        class="bg-red-500 rounded-md"
-                                        on:click={() => decline(selected_team)}
-                                >Decline
-                                </button>
-                            {/if}
-                        </div>
+                                            >
+                                                {teamIndex + 1}. {formatTeamKey(
+                                                team.team_key
+                                            )}
+                                            </button>
+                                        </li>
+                                    {/each}
+                                </ul>
+                                {#if selecting && index === i && selection}
+                                    <div>
+                                        Selecting: {formatTeamKey(
+                                        selected_team.team_key
+                                    )}
+                                    </div>
+                                    <button
+                                            class="bg-green-500 rounded-md"
+                                            on:click={() => pickTeam(selected_team)}
+                                    >
+                                        Accept
+                                    </button>
+                                    <button
+                                            class="bg-red-500 rounded-md"
+                                            on:click={() => decline(selected_team)}
+                                    >Decline
+                                    </button>
+                                {/if}
+                            </div>
+                        {/if}
                     {/each}
                 </div>
             </div>

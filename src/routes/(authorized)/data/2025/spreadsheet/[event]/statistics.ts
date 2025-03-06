@@ -25,9 +25,7 @@ export default {
         let mobileCount = 0
         data.forEach((e) => {
             if (e.team != team) return
-            try {
-                if (e.untimed.exitAuto) mobileCount++
-            } catch (e) {}
+            if (e.untimed.exitAuto) mobileCount++
             count++
         })
         return mobileCount / count
@@ -102,12 +100,16 @@ export default {
     MostCommonClimb(team: number, data: any[]) {
         let shallow = 0
         let deep = 0
+        let none = 0
         data.forEach((e) => {
             if (e.team != team) return
             if (e.climb.type === 'shallow') shallow++
             if (e.climb.type === 'deep') deep++
+            if (e.climb.type === 'none') none++
         })
-        return shallow > deep ? 'shallow' : 'deep'
+        if (shallow > deep && shallow > none) return 'shallow'
+        if (deep > shallow && deep > none) return 'deep'
+        return 'none'
     },
     AlgaeToCoralRatio(team: number, data: any[]) {
         let count = 0
@@ -126,7 +128,27 @@ export default {
             })
             count++
         })
+        if (isNaN(algae / coral)) return 0
+        if (coral == 0) return 1
         return algae / coral
+    },
+    MaxAutoPoints(team: number, data: any[]) {
+        let scores: number[] = []
+        data.forEach((e) => {
+            if (e.team != team) return
+            scores.push(exclusiveAutoScore(e))
+        })
+        return Math.max(...scores)
+    },
+    BreakdownRate(team: number, data: any[]): number {
+        let count = 0
+        let breakdownCount = 0
+        data.forEach((e) => {
+            if (e.team != team) return
+            if (e.postgame.strategy.includes('breakdown')) breakdownCount++
+            count++
+        })
+        return breakdownCount / count
     },
     Strategy(team: number, data: any[]) {
         let stratIndex = 0

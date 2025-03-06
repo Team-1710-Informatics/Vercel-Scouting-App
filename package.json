@@ -64,7 +64,7 @@
     "nodemailer": "^6.9.0",
     "pako": "^2.1.0",
     "plotly.js": "^2.30.0",
-    "plotly.js-dist": "^2.29.0",
+    "plotly.js-dist": "^2.35.3",
     "postcss": "^8.4.21",
     "qrcode": "^1.5.3",
     "scss": "^0.2.4",
