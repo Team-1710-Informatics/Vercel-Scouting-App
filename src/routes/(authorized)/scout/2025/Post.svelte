@@ -11,7 +11,7 @@
     export let meta, pregame, game, postgame, form
 
     const strategies = [
-        ['🔄 Full Cycle', 'cycle', false, '#0078d7'],
+        ['🔄 Hybrid Scoring', 'cycle', false, '#0078d7'],
         ['Prioritizes Coral', 'coral', false, '#959595'],
         ['Prioritizes Algae', 'algae', false, '#288e28'],
         ['Station Feeder', 'feeder', false, '#772fa6'],

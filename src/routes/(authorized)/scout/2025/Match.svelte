@@ -112,7 +112,11 @@
         phase: 'preGame',
     }
 
-    let climb
+    let climb = {
+        type: 'none',
+        time: 0,
+        fails: 0
+    }
 
     let isPortrait = false;
     let bypassOrientationCheck = false;

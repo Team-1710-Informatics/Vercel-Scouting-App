@@ -156,10 +156,11 @@ const scoutEntry2025 = new Schema({
     climb: {
         time: Number,
         type: { type: String, match: /shallow|deep/ },
+        fails: Number,
     },
     untimed: {
         exitAuto: Boolean,
-        buddyClimb: Boolean,
+        buddyClimb: Number,
         parkMatch: Boolean,
     },
     postgame: {
