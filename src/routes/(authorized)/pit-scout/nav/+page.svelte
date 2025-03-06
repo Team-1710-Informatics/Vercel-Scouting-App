@@ -7,7 +7,7 @@
     export let data
 
     let teams = []
-    let event = data.current?.key ?? undefined
+    let event = data.current?.key ?? null
 
     // check that TBA is accessible
     async function teamRes(eventKey) {
