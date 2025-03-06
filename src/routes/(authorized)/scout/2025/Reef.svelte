@@ -1,20 +1,18 @@
 <script>
-    import branchLeft3 from '$lib/assets/scout/2025/branchleft3.png'
-    import branchLeft2 from '$lib/assets/scout/2025/branchleft2.png'
-    import branchLeft1 from '$lib/assets/scout/2025/branchleft1.png'
-    import branchLeft0 from '$lib/assets/scout/2025/branchleft0.png'
     import reefRed from '$lib/assets/scout/2025/reef.png'
     import branchRight3 from '$lib/assets/scout/2025/branchright3.png'
     import branchRight2 from '$lib/assets/scout/2025/branchright2.png'
     import branchRight1 from '$lib/assets/scout/2025/branchright1.png'
     import branchRight0 from '$lib/assets/scout/2025/branchright0.png'
 
-    import algae from '$lib/assets/scout/2025/algaetransparent.png'
-
     let activeSlice = null
 
     export let selected
     export let item
+    export let log
+    export let algae
+    export let state
+    export let flip = true
 
     const numSlices = 6
     const radius = 50 // Radius of the hexagon (half of SVG viewBox size)
@@ -71,125 +69,82 @@
         selected = { location: 'reef', branch: activeSlice }
     }
 
-    let algae_locations = [1, 1, 1, 1, 1, 1]
-
-    function scoreReef(level) {
-        // activeSlice = -1;
-        // reefActive = false;
-        selected = { location: 'reef', branch: activeSlice }
-        selected.level = level
-        item = 'coral'
-    }
-
-    export function intakeEvent() {
-        if (algae_locations[activeSlice] === 0) {
-            return false
+    function intakeAlgae() {
+        if (!state.started) return
+        item = 'algae'
+        if (!algae) {
+            log.push({
+                time: state.time,
+                action: 'intake',
+                ...selected,
+                phase: state.phase,
+                item: item,
+            })
+            algae = true
         }
-
-        algae_locations[activeSlice] = 0
-        algae_locations = algae_locations
-        return true
     }
 </script>
 
-<div class="flex flex-row justify-center basis-3/4" style="max-height: 75%">
-    {#if reefActive}
-        <div class="flex flex-col pt-4">
-            <img
-                class="w-20 branch branch-left"
-                src={branchLeft3}
-                class:selected_2={selected.level === 3}
-                on:click={() => scoreReef(3)}
-            />
-            <img
-                class="w-20 branch branch-left"
-                src={branchLeft2}
-                class:selected_2={selected.level === 2}
-                on:click={() => scoreReef(2)}
-            />
-            <img
-                class="w-20 branch branch-left"
-                src={branchLeft1}
-                class:selected_2={selected.level === 1}
-                on:click={() => scoreReef(1)}
-            />
-            <img
-                class="w-20 branch branch-left"
-                src={branchLeft0}
-                class:selected_2={selected.level === 0}
-                on:click={() => scoreReef(0)}
-            />
+<div
+    class="flex flex-row h-full items-center basis-3/4 justify-center"
+    class:flex-row-reverse={!flip}
+    style="max-height: 100%"
+>
+    <div class="flex flex-col gap-2 justify-center items-center">
+        <div
+            class="hexagon-container flex flex-col items-center justify-center"
+        >
+            <div class="image-container">
+                <img alt="Reef Red" class="hexagon-image" src={reefRed} />
+            </div>
+            <svg class="hexagon" viewBox="-50 -50 100 100">
+                <g class="slices">
+                    {#each slices as path, index}
+                        <path
+                            class="slice"
+                            d={path}
+                            on:click={() => handleClick(index)}
+                            class:selected={hoveredSlice === index}
+                            on:keypress={() => handleClick(index)}
+                        />
+                    {/each}
+                </g>
+            </svg>
         </div>
-        {#if algae_locations[activeSlice] === 1}
-            <img
-                src={algae}
-                class="w-20 h-20 -ml-7 -mr-10 mt-2 branch-left z-20"
-            />
-        {:else}
-            <img
-                src={algae}
-                class="w-20 h-20 -ml-7 -mr-10 mt-2 branch-left z-20 opacity-5"
-            />
-        {/if}
-    {/if}
-
-    <div class="hexagon-container flex flex-col items-center mt-3">
-        <div class="image-container">
-            <img alt="Reef Red" class="hexagon-image" src={reefRed} />
+        <div
+            class="rounded-md shadow-xl bg-green-500 p-2 w-36 h-10"
+            class:disabled={!state.started}
+            on:click={intakeAlgae}
+        >
+            Intake Algae
         </div>
-        <svg class="hexagon" viewBox="-50 -50 100 100">
-            <g class="slices">
-                {#each slices as path, index}
-                    <path
-                        class="slice"
-                        d={path}
-                        on:click={() => handleClick(index)}
-                        class:selected={hoveredSlice === index}
-                        on:keypress={() => handleClick(index)}
-                    />
-                {/each}
-            </g>
-        </svg>
     </div>
-    {#if reefActive}
-        {#if algae_locations[activeSlice] === 1}
-            <img
-                src={algae}
-                class="w-20 h-20 -mr-7 -ml-10 mt-2 branch-right z-20"
-            />
-        {:else}
-            <img
-                src={algae}
-                class="w-20 h-20 -mr-7 -ml-10 mt-2 branch-left z-20 opacity-5"
-            />
-        {/if}
-        <div class="flex flex-col max-h-14 pt-4">
-            <img
-                class="w-20 branch branch-right"
-                src={branchRight3}
-                class:selected_2={selected.level === 3}
-                on:click={() => scoreReef(3)}
-            />
-            <img
-                class="w-20 branch branch-right"
-                src={branchRight2}
-                class:selected_2={selected.level === 2}
-                on:click={() => scoreReef(2)}
-            />
-            <img
-                class="w-20 branch branch-right"
-                src={branchRight1}
-                class:selected_2={selected.level === 1}
-                on:click={() => scoreReef(1)}
-            />
-            <img
-                class="w-20 branch branch-right"
-                src={branchRight0}
-                class:selected_2={selected.level === 0}
-                on:click={() => scoreReef(0)}
-            />
-        </div>
-    {/if}
+    <div class="flex flex-col" style="flex-basis: 25%">
+        <img
+            class="branch branch-right"
+            class:selected_2={selected.level === 4}
+            class:flip-horizontal={!flip}
+            src={branchRight3}
+        />
+        <img
+            class="branch branch-right"
+            class:selected_2={selected.level === 3}
+            class:flip-horizontal={!flip}
+            src={branchRight2}
+        />
+        <img
+            class="branch branch-right"
+            class:selected_2={selected.level === 2}
+            class:flip-horizontal={!flip}
+            src={branchRight1}
+        />
+        <img
+            class="branch branch-right"
+            class:selected_2={selected.level === 1}
+            class:flip-horizontal={!flip}
+            src={branchRight0}
+        />
+    </div>
 </div>
 
 <style>
@@ -267,6 +222,9 @@
     }
 
     .branch {
+        width: 100%; /* Ensure all images have the same width */
+        height: auto; /* Maintain aspect ratio */
+        object-fit: cover; /* Scale the image to fill the space */
         opacity: 0; /* Hidden by default */
         animation-duration: 0.5s; /* Animation duration */
         animation-fill-mode: forwards; /* Keep the final state */
@@ -310,6 +268,12 @@
     }
 
     .disabled {
-        filter: brightness(30%);
+        opacity: 0.5;
+        filter: brightness(0.5);
+        cursor: not-allowed;
+    }
+
+    .flip-horizontal {
+        transform: scaleX(-1) !important;
     }
 </style>

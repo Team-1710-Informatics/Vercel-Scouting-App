@@ -4,26 +4,60 @@
 
     export let selected
     export let item
+    export let log
+    export let algae
+    export let state
+    export let flip = true
 
     function select(location) {
+        if (!state.started) return
         selected = {location: ''}
         selected.location = location
         item = 'algae'
+
+        if (algae) {
+            algae = false
+
+            log.push({
+                time: state.time,
+                action: 'score',
+                ...selected,
+                phase: state.phase,
+                item: item,
+            })
+        }
     }
 </script>
 
-<div class="flex flex-col h-full basis-1/6">
-    <button class="basis-1/4 w-full bg-slate-600 text-center hover:brightness-110 rounded-tl-3xl"
-            class:brightness-120={selected.location==="processor"}
-            on:click={() => {select("processor")}}>
+<div class="flex h-full basis-1/6 {flip ? 'flex-col' : 'flex-col-reverse'}">
+    <button
+            class="basis-1/4 w-full bg-slate-600 text-center hover:brightness-110 {flip
+            ? 'rounded-tl-3xl'
+            : 'rounded-br-3xl'}"
+            class:brightness-120={selected.location === 'processor'}
+            on:click={() => {
+            select('processor')
+        }}
+    >
         PROCESSOR
     </button>
-    <button class="basis-3/4 w-full bg-slate-500 text-center hover:brightness-110 rounded-bl-2xl vertical-text"
-            class:brightness-120={selected.location==="barge"}
-            on:click={() => {select("barge")}}>
+    <button
+            class="basis-3/4 w-full bg-slate-500 text-center hover:brightness-110 {flip
+            ? 'rounded-bl-3xl'
+            : 'rounded-tr-3xl'} vertical-text"
+            class:brightness-120={selected.location === 'barge'}
+            on:click={() => {
+            select('barge')
+        }}
+    >
         BARGE
     </button>
 </div>
 
 <style>
+    .disabled {
+        opacity: 0.5;
+        filter: brightness(0.5);
+        cursor: not-allowed;
+    }
 </style>

@@ -1,10 +1,10 @@
-import { ScoutData } from '$lib/server/models/index.js'
+import { ScoutData2024 } from '$lib/server/models/index.js'
 import { pitdata2024 } from '$lib/server/models/index.js'
 
 export async function load({ params, locals }) {
     const data = JSON.parse(
         JSON.stringify(
-            await ScoutData.find({ team: params.team, event: params.event })
+            await ScoutData2024.find({ team: params.team, event: params.event })
         )
     )
     const pitData = JSON.parse(
@@ -15,7 +15,7 @@ export async function load({ params, locals }) {
             })
         )
     )
-    const teams = JSON.parse(JSON.stringify(await ScoutData.find()))
+    const teams = JSON.parse(JSON.stringify(await ScoutData2024.find()))
 
     let returnTeams = []
     teams.forEach((e) => {

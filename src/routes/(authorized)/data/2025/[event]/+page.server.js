@@ -18,7 +18,5 @@ export async function load({ params }) {
         pitData: pitData,
     }
 
-    console.log(params.event)
-
     return { data }
 }

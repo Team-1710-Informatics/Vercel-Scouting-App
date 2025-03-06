@@ -73,6 +73,7 @@ export const actions = {
         }
 
         if (data.team === 'practice') {
+            data.event = '2025practice'
             data.team = 0
         } else {
             data.team = data.team.substring(3)

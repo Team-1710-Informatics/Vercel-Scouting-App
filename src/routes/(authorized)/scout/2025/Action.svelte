@@ -1,33 +1,33 @@
 <script>
-    import Reef from './Reef.svelte';
-    import AllianceArea from "./AllianceArea.svelte";
-    import Barge from "./Barge.svelte";
-    import Inventory from "./Inventory.svelte";
-    import Timer from "./Timer.svelte";
-    import Endgame from "./Endgame.svelte";
+    import Reef from './Reef.svelte'
+    import AllianceArea from './AllianceArea.svelte'
+    import Barge from './Barge.svelte'
+    import Inventory from './Inventory.svelte'
+    import Timer from './Timer.svelte'
+    import Endgame from './Endgame.svelte'
 
     export let team
 
     export let log = []
-    export let algae = false;
-    export let coral = false;
-    let endgame = false;
+    export let algae = false
+    export let coral = false
+    let endgame = false
     export let state
     export let meta
-    let item;
+    let item
+    export let scores = [
+        [0, 0],
+        [0, 0],
+        [0, 0],
+        [0, 0],
+    ]
 
     export let climb = {}
 
     let location
-    let rotateDiv
-    let rotate = false
 
     let selected = {
         location: 'none',
-    }
-
-    function flipField() {
-        rotate = !rotate
     }
 
     function switchEndgame() {
@@ -36,103 +36,123 @@
         }
     }
 
-    let reefActive = false;
-
-    let reef
-    let allianceArea
-
-    function handleScore() {
-        if (selected.location === "reef" || selected.location === "processor" || selected.location === "barge") {
-            if (item === "coral") {
-                log.push({
-                    time: state.time,
-                    action: 'score',
-                    ...selected,
-                    phase: state.phase,
-                    item: item
-                });
-                coral = false;
-                console.log("outtaking coral");
-            } else if (item === "algae" && (selected.location === "processor" || selected.location === "barge")) {
-                algae = false;
-                console.log("outtaking algae");
-                log.push({
-                    time: state.time,
-                    action: 'score',
-                    ...selected,
-                    phase: state.phase,
-                    item: item
-                });
-            }
-        }
-    }
-
-    function handleDropOrMiss(actionType) {
-        if (item === "coral" && coral) {
-            coral = false;
-        } else if (item === "algae" && algae) {
-            algae = false;
-        }
-        log.push({
-            time: state.time,
-            action: actionType,
-            ...selected,
-            phase: state.phase,
-            item: item
-        });
-    }
-
-    function handleIntake() {
-        if (selected.location === "coral_station_left" || selected.location === "coral_station_right" || selected.location === "alliance") {
-        } else if (selected.location === "reef") {
-            if (algae === false) {
-                console.log("intaking algae from reef");
-                if (reef.intakeEvent()) {
-                    algae = true;
-                    reefActive = false;
+    function behavior(actionType) {
+        if (state.started) {
+            if (actionType === 'algae') {
+                if (!algae) {
+                    selected.location = 'ground'
                     log.push({
                         time: state.time,
                         action: 'intake',
                         ...selected,
                         phase: state.phase,
-                        item: item
-                    });
+                        item: 'algae',
+                    })
+                    algae = true
+                }
+            } else if (actionType === 'coral') {
+                if (!coral) {
+                    selected.location = 'ground'
+                    log.push({
+                        time: state.time,
+                        action: 'intake',
+                        ...selected,
+                        phase: state.phase,
+                        item: 'coral',
+                    })
+                    coral = true
                 }
             }
         }
     }
 
-    function behavior(actionType) {
-        if (state.started) {
-            if (actionType === 'score') {
-                handleScore();
-            } else if (actionType === 'drop' || actionType === 'miss') {
-                handleDropOrMiss(actionType);
-            } else if (actionType === 'intake') {
-                handleIntake();
-            }
-        }
-    }
+    export let flip = true
 </script>
 
 <div class="flex flex-row w-screen h-screen items-center justify-center">
     <div class="basis-4/5 h-screen p-5">
-        <div class="h-full flex flex-row justify-center rounded-3xl background shadow-2xl shadow-black/80   ">
-            <Barge bind:item bind:selected class="basis-1/6"/>
-            <div class="flex flex-col items-center justify-end basis-5/6">
-                <div class="items-center justify-center w-full flex flex-row basis-1/4">
-                    <AllianceArea bind:coral bind:item bind:log bind:selected bind:state/>
+        {#if flip}
+            <div
+                    class="h-full flex flex-row justify-center rounded-3xl background shadow-2xl shadow-black/80"
+            >
+                <Barge
+                        bind:algae
+                        bind:item
+                        bind:log
+                        bind:selected
+                        bind:state
+                        class="basis-1/6"
+                />
+                <div
+                        class="flex flex-row items-center justify-between basis-5/6"
+                >
+                    {#if endgame}
+                        <Endgame bind:climb bind:endgame/>
+                    {/if}
+                    {#if !endgame}
+                        <Reef
+                                bind:item
+                                bind:selected
+                                bind:log
+                                bind:algae
+                                bind:state
+                        />
+                    {/if}
+                    <div
+                            class="items-end justify-between h-full flex flex-col basis-1/2"
+                    >
+                        <AllianceArea
+                                bind:coral
+                                bind:item
+                                bind:log
+                                bind:selected
+                                bind:state
+                                bind:scores
+                        />
+                    </div>
                 </div>
-                {#if endgame}
-                    <Endgame bind:climb bind:endgame/>
-                {/if}
-                {#if !endgame}
-                    <Reef bind:item bind:selected bind:this={reef}/>
-                {/if}
             </div>
-        </div>
+        {:else}
+            <div
+                    class="h-full flex flex-row justify-center rounded-3xl background shadow-2xl shadow-black/80"
+            >
+                <div class="justify-between h-full flex flex-col basis-1/2">
+                    <AllianceArea
+                            bind:coral
+                            bind:item
+                            bind:log
+                            bind:selected
+                            bind:state
+                            bind:flip
+                            bind:scores
+                    />
+                </div>
+                {#if !endgame}
+                    <Reef
+                            bind:item
+                            bind:selected
+                            bind:log
+                            bind:algae
+                            bind:state
+                            bind:flip
+                    />
+                {/if}
+                {#if endgame}
+                    <Endgame bind:climb bind:endgame bind:flip/>
+                {/if}
+                <Barge
+                        bind:algae
+                        bind:item
+                        bind:log
+                        bind:selected
+                        bind:state
+                        class="basis-1/6"
+                        bind:flip
+                />
+            </div>
+        {/if}
     </div>
-    <div class="flex flex-col gap-4 basis-1/5 w-fit">
+    <div class="flex flex-col gap-4 basis-1/5 w-fit text-center">
         <div class="text-md w-fit -mb-5 -mt-2">
             {#if team !== 'practice'}
                 Team {team.slice(3)}
@@ -141,27 +161,45 @@
             {/if}
         </div>
         <Timer bind:state/>
-        <div class="flex items-center justify-center w-full">
-            <Inventory bind:algae bind:coral/>
+        <div class="flex items-center justify-center w-full w-36">
+            <Inventory bind:algae bind:coral bind:log bind:state/>
         </div>
-        <div class="rounded-md shadow-xl bg-red-600 p-2 w-36 h-10" class:disabled={!state.started}
-             on:click={() => {behavior("score")}}>
-            SCORE
+        <div
+                class="rounded-md shadow-xl bg-red-600 p-2 w-36 h-10"
+                class:disabled={!state.started}
+                on:click={() => {
+                behavior('algae')
+            }}
+        >
+            Ground Algae
         </div>
-        <div class="rounded-md shadow-xl bg-yellow-400 p-2 w-36 h-10" class:disabled={!state.started}
-             on:click={() => {behavior("intake")}}>
-            INTAKE
+        <div
+                class="rounded-md shadow-xl bg-yellow-400 p-2 w-36 h-10"
+                class:disabled={!state.started}
+                on:click={() => {
+                behavior('coral')
+            }}
+        >
+            Ground Coral
         </div>
-        <div class="rounded-md shadow-xl bg-fuchsia-500 p-2 w-36 h-10" class:disabled={!state.started}
-             on:click={() => {behavior("miss")}}>
-            MISS
-        </div>
-        <button class="rounded-md shadow-xl bg-blue-400 p-2 h-10 w-36"
-                class:disabled={state.started && state.time > 30 || !state.started}
-                on:click={switchEndgame}>
-            ENDGAME
-            {#if state.time > 30}T-{state.time - 30}{/if}
+        <button
+                class="rounded-md shadow-xl bg-blue-400 p-2 h-10 w-36"
+                class:disabled={(state.started && state.time > 40) ||
+                !state.started}
+                on:click={switchEndgame}
+        >
+            Endgame
+            {#if state.time > 40}T-{state.time - 30}{/if}
         </button>
+        <div
+                class="rounded-md shadow-xl bg-fuchsia-500 p-2 w-36 h-10"
+                on:click={() => {
+                flip = !flip
+            }}
+        >
+            Flip Field
+        </div>
+        <p class="w-36">Scroll Down</p>
     </div>
 </div>
 
@@ -178,4 +216,3 @@
         cursor: not-allowed;
     }
 </style>
-

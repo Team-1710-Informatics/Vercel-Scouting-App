@@ -7,6 +7,7 @@
     import {slide} from 'svelte/transition'
     import {createEventDispatcher} from 'svelte'
     import Starting from './Starting.svelte'
+    import {onMount} from 'svelte';
 
     const dispatch = createEventDispatcher()
 
@@ -32,54 +33,78 @@
     export let team
 
     let disabled = false
+    let isLandscape = false;
+    let bypassOrientationCheck = false;
 
     $: key = `${meta.event}_qm${meta.match}`
     $: innerWidth = 0
     $: condition = innerWidth <= 290
+
+    function checkOrientation() {
+        isLandscape = window.innerWidth > window.innerHeight;
+    }
+
+    function bypassCheck() {
+        bypassOrientationCheck = true;
+    }
+
+    onMount(() => {
+        checkOrientation();
+        window.addEventListener('resize', checkOrientation);
+        return () => {
+            window.removeEventListener('resize', checkOrientation);
+        };
+    });
 </script>
 
 <svelte:window bind:innerWidth/>
-<!-- <body style="overflow-y:hidden;"> -->
-<div class="boxing">
-    <Starting
-        alliance={meta.alliance}
-        bind:startValue={pregame.startPosition}
-        team={team}
-    />
-    <div class="flex flex-row w-fit my-2">
-        <b class="mr-6 self-center">Preload:</b>
-        {#each loadImgs as img}
-            <button
-                class="bg-none border-none opacity-50"
-                class:opacity-100={pregame.preload === img.value}
-                class:bg-white={pregame.preload === img.value}
-                on:click={() => {
-                    pregame.preload = img.value
-                }}
-            >
-                <img
-                    width="28px"
-                    height="28px"
-                    alt={img.value}
-                    src={img.src}
-                    style={img?.style}
-                />
-            </button>
-        {/each}
-    </div>
-    <button
-        class="submit my-2"
-        on:click={() => {
-            dispatch('advance')
-        }}
-        disabled={
-            !pregame.startPosition.x ||
-            (pregame.preload !== true && pregame.preload !== false)
-        }
-    >Next</button>
-</div>
 
-<!-- </body> -->
+{#if isLandscape && !bypassOrientationCheck}
+    <div class="orientation-warning">
+        <p>Rotate your phone to portrait</p>
+        <button on:click={bypassCheck}>Bypass</button>
+    </div>
+{:else}
+    <div class="boxing">
+        <Starting
+                alliance={meta.alliance}
+                bind:startValue={pregame.startPosition}
+                team={team}
+        />
+        <div class="flex flex-row w-fit my-2">
+            <b class="mr-6 self-center">Preload:</b>
+            {#each loadImgs as img}
+                <button
+                        class="bg-none border-none opacity-50"
+                        class:opacity-100={pregame.preload === img.value}
+                        class:bg-white={pregame.preload === img.value}
+                        on:click={() => {
+                        pregame.preload = img.value
+                    }}
+                >
+                    <img
+                            width="28px"
+                            height="28px"
+                            alt={img.value}
+                            src={img.src}
+                            style={img?.style}
+                    />
+                </button>
+            {/each}
+        </div>
+        <button
+                class="submit my-2"
+                on:click={() => {
+                dispatch('advance')
+            }}
+                disabled={
+                !pregame.startPosition.x ||
+                (pregame.preload !== true && pregame.preload !== false)
+            }
+        >Next
+        </button>
+    </div>
+{/if}
 
 <style>
     .boxing {
@@ -93,5 +118,34 @@
         opacity: 80%;
 
         box-shadow: 0px 0px 3px 1px black;
+    }
+
+    .orientation-warning {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: black;
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+
+    .orientation-warning p {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .orientation-warning button {
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        background-color: white;
+        color: black;
+        border: none;
+        cursor: pointer;
     }
 </style>
