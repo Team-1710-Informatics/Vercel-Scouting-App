@@ -8,6 +8,31 @@
     import Inventory from './Inventory.svelte'
     import Questions from './Questions.svelte'
 
+    import {onMount} from 'svelte';
+
+    function requestFullscreen() {
+        const elem = document.documentElement;
+        if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+        } else if (elem.mozRequestFullScreen) { // Firefox
+            elem.mozRequestFullScreen();
+        } else if (elem.webkitRequestFullscreen) { // Chrome, Safari and Opera
+            elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) { // IE/Edge
+            elem.msRequestFullscreen();
+        }
+    }
+
+    function onFullscreenChange() {
+        if (!document.fullscreenElement) {
+            console.log('Exited fullscreen mode');
+        }
+    }
+
+    function onFullscreenError() {
+        console.error('Failed to enable fullscreen mode');
+    }
+
     let algae
     let coral
 
@@ -89,8 +114,6 @@
 
     let climb
 
-    import {onMount} from 'svelte';
-
     let isPortrait = false;
     let bypassOrientationCheck = false;
 
@@ -105,8 +128,13 @@
     onMount(() => {
         checkOrientation();
         window.addEventListener('resize', checkOrientation);
+        requestFullscreen();
+        document.addEventListener('fullscreenchange', onFullscreenChange);
+        document.addEventListener('fullscreenerror', onFullscreenError);
         return () => {
             window.removeEventListener('resize', checkOrientation);
+            document.removeEventListener('fullscreenchange', onFullscreenChange);
+            document.removeEventListener('fullscreenerror', onFullscreenError);
         };
     });
 </script>
