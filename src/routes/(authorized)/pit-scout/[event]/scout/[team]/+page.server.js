@@ -1,11 +1,10 @@
 import { X_TBA_AUTHKEY } from '$env/static/private'
-import { pitdata2025, User } from '$lib/server/models'
-import credits from '$lib/server/user/credi'
+import { pitdata2025, User } from '$lib/server/models/index.js'
+import credits from '$lib/server/user/credi.ts'
 import { redirect } from '@sveltejs/kit'
 
 // fetches bluealliance data to load lists of events and matches for scouts to select form.
 export async function load({ locals, fetch, params }) {
-
     const res = await fetch(`https://thebluealliance.com/api/v3/events/2024`, {
         headers: {
             'X-TBA-Auth-Key': X_TBA_AUTHKEY,
@@ -29,7 +28,6 @@ export async function load({ locals, fetch, params }) {
             name: m.name,
         })
     })
-
 
     // return members for frontend
 
@@ -58,16 +56,25 @@ export const actions = {
         //     output[item]=input.get(item)
         // })
 
+        console.log(params.team, 'team')
+
         const otherData = {
-            event: locals.competition?.key ?? null,
-            team: params?.team,
+            event: params.event,
+            team: params.team,
             scout: locals.user.username,
         }
 
+        console.log(otherData)
+
         const final = {
-            ...otherData,
             ...data,
         }
+
+        final.event = params.event
+        final.team = params.team
+        final.scout = locals.user.username
+
+        console.log(final)
 
         const db = new pitdata2025(final)
 
