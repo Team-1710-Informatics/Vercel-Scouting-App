@@ -2,15 +2,55 @@ export default {
     TeamNumber(team: number, data: any[]) {
         return team
     },
+    MatchesScouted(team: number, data: any[]) {
+        return data.filter((e) => e.team === team).length
+    },
     AverageScore(team: number, data: any[]) {
         let count = 0
         let score = 0
+        data = dropWorstScoringMatch(data, team)
         data.forEach((matchData) => {
             if (matchData.team != team) return
             score += teamScore(matchData)
             count++
         })
         return score / count
+    },
+    AverageAutoCoral(team: number, data: any[]) {
+        let count = 0
+        let score = 0
+        data = dropWorstScoringMatch(data, team)
+        data.forEach((matchData) => {
+            if (matchData.team != team) return
+            matchData.actions.forEach((action: any) => {
+                if (
+                    action.phase == 'auto' &&
+                    action.action == 'score' &&
+                    action.location == 'reef'
+                ) {
+                    score++
+                }
+            })
+            count++
+        })
+        if (score == 0) return 0
+        return score / count
+    },
+    AutoScoreDeviation(team: number, data: any[]) {
+        let scores: number[] = []
+        data.forEach((matchData) => {
+            if (matchData.team != team) return
+            scores.push(teamScore(matchData))
+        })
+        return stdDev(scores)
+    },
+    TeleopScoreDeviation(team: number, data: any[]) {
+        let scores: number[] = []
+        data.forEach((matchData) => {
+            if (matchData.team != team) return
+            scores.push(teamScore(matchData) - exclusiveAutoScore(matchData))
+        })
+        return stdDev(scores)
     },
     MaxScore(team: number, data: any[]) {
         let scores: number[] = []
@@ -23,6 +63,7 @@ export default {
     AutoMobilityRate(team: number, data: any[]) {
         let count = 0
         let mobileCount = 0
+        data = dropWorstScoringMatch(data, team)
         data.forEach((e) => {
             if (e.team != team) return
             if (e.untimed.exitAuto) mobileCount++
@@ -45,6 +86,7 @@ export default {
     AveragePiecesScored(team: number, data: any[]) {
         let matches = 0
         let count = 0
+        data = dropWorstScoringMatch(data, team)
         data.forEach((e) => {
             if (e.team != team) return
             matches++
@@ -59,6 +101,7 @@ export default {
     AverageAutoPoints(team: number, data: any[]) {
         let count = 0
         let score = 0
+        data = dropWorstScoringMatch(data, team)
         data.forEach((e) => {
             if (e.team != team) return
             score += exclusiveAutoScore(e)
@@ -69,6 +112,7 @@ export default {
     AverageTeleopPoints(team: number, data: any[]) {
         let count = 0
         let score = 0
+        data = dropWorstScoringMatch(data, team)
         data.forEach((e) => {
             if (e.team != team) return
             score += teamScore(e) - exclusiveAutoScore(e)
@@ -134,6 +178,7 @@ export default {
     },
     MaxAutoPoints(team: number, data: any[]) {
         let scores: number[] = []
+        data = dropWorstScoringMatch(data, team)
         data.forEach((e) => {
             if (e.team != team) return
             scores.push(exclusiveAutoScore(e))
@@ -143,6 +188,7 @@ export default {
     BreakdownRate(team: number, data: any[]): number {
         let count = 0
         let breakdownCount = 0
+        data = dropWorstScoringMatch(data, team)
         data.forEach((e) => {
             if (e.team != team) return
             if (e.postgame.strategy.includes('breakdown')) breakdownCount++
@@ -154,6 +200,7 @@ export default {
         let stratIndex = 0
         let allStrat = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         let result = ''
+        data = dropWorstScoringMatch(data, team)
         data.forEach((e) => {
             if (e.team != team) return
             e.postgame.strategy.forEach((a: any) => {
@@ -203,6 +250,7 @@ export default {
     AverageL1Coral(team: number, data: any[]) {
         let count = 0
         let score = 0
+        data = dropWorstScoringMatch(data, team)
         data.forEach((e) => {
             if (e.team != team) return
             e.actions.forEach((a: any) => {
@@ -220,6 +268,7 @@ export default {
     AverageL2Coral(team: number, data: any[]) {
         let count = 0
         let score = 0
+        data = dropWorstScoringMatch(data, team)
         data.forEach((e) => {
             if (e.team != team) return
             e.actions.forEach((a: any) => {
@@ -237,6 +286,7 @@ export default {
     AverageL3Coral(team: number, data: any[]) {
         let count = 0
         let score = 0
+        data = dropWorstScoringMatch(data, team)
         data.forEach((e) => {
             if (e.team != team) return
             e.actions.forEach((a: any) => {
@@ -254,6 +304,7 @@ export default {
     AverageL4Coral(team: number, data: any[]) {
         let count = 0
         let score = 0
+        data = dropWorstScoringMatch(data, team)
         data.forEach((e) => {
             if (e.team != team) return
             e.actions.forEach((a: any) => {
@@ -283,6 +334,7 @@ export default {
     PercentageL4Coral(team: number, data: any[]) {
         let count = 0
         let score = 0
+        data = dropWorstScoringMatch(data, team)
         data.forEach((e) => {
             if (e.team != team) return
             e.actions.forEach((a: any) => {
@@ -300,6 +352,7 @@ export default {
     AverageProcessorScore(team: number, data: any[]) {
         let count = 0
         let score = 0
+        data = dropWorstScoringMatch(data, team)
         data.forEach((e) => {
             if (e.team != team) return
             e.actions.forEach((a: any) => {
@@ -313,6 +366,7 @@ export default {
     AverageBargeScore(team: number, data: any[]) {
         let count = 0
         let score = 0
+        data = dropWorstScoringMatch(data, team)
         data.forEach((e) => {
             if (e.team != team) return
             e.actions.forEach((a: any) => {
@@ -408,6 +462,25 @@ function exclusiveAutoScore(matchData: any) {
     } catch (e) {}
 
     return count
+}
+
+function dropWorstScoringMatch(matchData: any[], team: number) {
+    let teamMatches = matchData.filter((match) => match.team === team)
+
+    if (teamMatches.length <= 3) {
+        return teamMatches
+    }
+
+    let scores = teamMatches.map((match) => ({
+        match,
+        score: teamScore(match),
+    }))
+
+    let minScoreMatch = scores.reduce((min, current) =>
+        current.score < min.score ? current : min
+    )
+
+    return teamMatches.filter((match) => match !== minScoreMatch.match)
 }
 
 function stdDev(arr: any) {

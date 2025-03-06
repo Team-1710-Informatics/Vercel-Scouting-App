@@ -160,7 +160,8 @@
         ></AllianceSelection>
     </div>
 
-    <div class="basis-2/4 h-auto temporary_box my-4 rounded-lg" style="max-height: 100%">
+    <div class="basis-2/4 h-auto temporary_box my-4 rounded-lg overflow-x-scroll"
+         style="max-height: 100%; max-width:50%">
         {#if entries}
             <Spreadsheet data={entries}/>
         {/if}
