@@ -8,10 +8,8 @@
     }
 
     export let team
-
     export let alliance
     export let disabled = false
-
     export let startValue = {
         x: NaN,
         y: NaN,
@@ -19,30 +17,35 @@
 
     let innerHeight
     let active = false
-
     let start
     let dozerCoords
     let pointer = {
         x: undefined,
         y: undefined,
     }
-
     let styleAdd
+    let rect
+    let flipped = false
 
     $: style = `
         width:80px;
         height:80px;
         pointer-events: none;`
 
-    let rect
-
     function setStarting(event) {
         if (disabled) return
         if (!active) return
-        console.log(startValue.x, startValue.y)
         rect = start.getBoundingClientRect()
-        startValue.x = Math.trunc(event.clientX - rect.left)
-        startValue.y = Math.abs(Math.trunc(event.clientY - rect.bottom))
+        let x = Math.trunc(event.clientX - rect.left)
+        let y = Math.abs(Math.trunc(event.clientY - rect.bottom))
+
+        if (flipped) {
+            x = rect.width - x
+            y = rect.height - y
+        }
+
+        startValue.x = x
+        startValue.y = y
 
         pointer = {
             x: event.clientX,
@@ -52,7 +55,7 @@
         if (pointer.x < rect.left) pointer.x = rect.left
         if (pointer.x > rect.right) pointer.x = rect.right
         if (pointer.y < rect.top) pointer.y = rect.top
-        if (pointer.y > rect.bottom) pointer.y = Match.floor(rect.bottom)
+        if (pointer.y > rect.bottom) pointer.y = Math.floor(rect.bottom)
 
         styleAdd = `
             position:absolute;
@@ -71,6 +74,10 @@
             touch-action: none;
             `
     }
+
+    function flipImage() {
+        flipped = !flipped
+    }
 </script>
 
 <svelte:window bind:innerHeight/>
@@ -84,26 +91,28 @@
     {/if}
     <div class="img-container">
         <img
-                class="rotate-90"
+                class="h-auto"
                 alt=""
                 src={imgs[alliance]}
                 draggable="false"
                 bind:this={start}
                 on:pointerdown={() => {
-            active = true
-        }}
+                active = true
+            }}
                 on:touchstart={() => {
-            active = true
-        }}
+                active = true
+            }}
                 on:pointerup={() => {
-            active = false
-        }}
+                active = false
+            }}
                 on:touchend={() => {
-            active = false
-        }}
+                active = false
+            }}
                 on:pointermove={setStarting}
+                style:transform={flipped ? 'scaleY(-1)' : 'none'}
         />
     </div>
+    <button on:click={flipImage}>Flip Image</button>
     <h1 class="text-xs">Drag on the Field to Place Robot</h1>
     {#if pointer.y}
         <img
@@ -115,9 +124,7 @@
                 bind:this={dozerCoords}
         />
         <div
-                class="rounded-full w-2 h-2 {alliance == 'red'
-                ? 'bg-red-600'
-                : 'bg-blue-600'} border-2 border-black"
+                class="rounded-full w-2 h-2 {alliance == 'red' ? 'bg-red-600' : 'bg-blue-600'} border-2 border-black"
                 style={styleAdd}
         />
     {/if}
@@ -128,7 +135,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100px; /* Adjust height as needed */
+        height: auto; /* Adjust height as needed */
         width: 250px; /* Adjust width as needed */
         overflow: hidden;
     }

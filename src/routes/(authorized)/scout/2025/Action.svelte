@@ -73,81 +73,81 @@
     <div class="basis-4/5 h-screen p-5">
         {#if flip}
             <div
-                class="h-full flex flex-row justify-center rounded-3xl background shadow-2xl shadow-black/80"
+                    class="h-full flex flex-row justify-center rounded-3xl background shadow-2xl shadow-black/80"
             >
                 <Barge
-                    bind:algae
-                    bind:item
-                    bind:log
-                    bind:selected
-                    bind:state
-                    class="basis-1/6"
+                        bind:algae
+                        bind:item
+                        bind:log
+                        bind:selected
+                        bind:state
+                        class="basis-1/6"
                 />
                 <div
-                    class="flex flex-row items-center justify-between basis-5/6"
+                        class="flex flex-row items-center justify-between basis-5/6"
                 >
                     {#if endgame}
-                        <Endgame bind:climb bind:endgame />
+                        <Endgame bind:climb bind:endgame/>
                     {/if}
                     {#if !endgame}
                         <Reef
-                            bind:item
-                            bind:selected
-                            bind:log
-                            bind:algae
-                            bind:state
+                                bind:item
+                                bind:selected
+                                bind:log
+                                bind:algae
+                                bind:state
                         />
                     {/if}
                     <div
-                        class="items-end justify-between h-full flex flex-col basis-1/2"
+                            class="items-end justify-between h-full flex flex-col basis-1/2"
                     >
                         <AllianceArea
-                            bind:coral
-                            bind:item
-                            bind:log
-                            bind:selected
-                            bind:state
-                            bind:scores
+                                bind:coral
+                                bind:item
+                                bind:log
+                                bind:selected
+                                bind:state
+                                bind:scores
                         />
                     </div>
                 </div>
             </div>
         {:else}
             <div
-                class="h-full flex flex-row justify-center rounded-3xl background shadow-2xl shadow-black/80"
+                    class="h-full flex flex-row justify-center rounded-3xl background shadow-2xl shadow-black/80"
             >
                 <div class="justify-between h-full flex flex-col basis-1/2">
                     <AllianceArea
-                        bind:coral
-                        bind:item
-                        bind:log
-                        bind:selected
-                        bind:state
-                        bind:flip
-                        bind:scores
+                            bind:coral
+                            bind:item
+                            bind:log
+                            bind:selected
+                            bind:state
+                            bind:flip
+                            bind:scores
                     />
                 </div>
                 {#if !endgame}
                     <Reef
-                        bind:item
-                        bind:selected
-                        bind:log
-                        bind:algae
-                        bind:state
-                        bind:flip
+                            bind:item
+                            bind:selected
+                            bind:log
+                            bind:algae
+                            bind:state
+                            bind:flip
                     />
                 {/if}
                 {#if endgame}
-                    <Endgame bind:climb bind:endgame bind:flip />
+                    <Endgame bind:climb bind:endgame bind:flip/>
                 {/if}
                 <Barge
-                    bind:algae
-                    bind:item
-                    bind:log
-                    bind:selected
-                    bind:state
-                    class="basis-1/6"
-                    bind:flip
+                        bind:algae
+                        bind:item
+                        bind:log
+                        bind:selected
+                        bind:state
+                        class="basis-1/6"
+                        bind:flip
                 />
             </div>
         {/if}
@@ -160,40 +160,40 @@
                 Practice
             {/if}
         </div>
-        <Timer bind:state />
+        <Timer bind:state/>
         <div class="flex items-center justify-center w-full w-36">
-            <Inventory bind:algae bind:coral />
+            <Inventory bind:algae bind:coral bind:log bind:state/>
         </div>
         <div
-            class="rounded-md shadow-xl bg-red-600 p-2 w-36 h-10"
-            class:disabled={!state.started}
-            on:click={() => {
+                class="rounded-md shadow-xl bg-red-600 p-2 w-36 h-10"
+                class:disabled={!state.started}
+                on:click={() => {
                 behavior('algae')
             }}
         >
             Ground Algae
         </div>
         <div
-            class="rounded-md shadow-xl bg-yellow-400 p-2 w-36 h-10"
-            class:disabled={!state.started}
-            on:click={() => {
+                class="rounded-md shadow-xl bg-yellow-400 p-2 w-36 h-10"
+                class:disabled={!state.started}
+                on:click={() => {
                 behavior('coral')
             }}
         >
             Ground Coral
         </div>
         <button
-            class="rounded-md shadow-xl bg-blue-400 p-2 h-10 w-36"
-            class:disabled={(state.started && state.time > 40) ||
+                class="rounded-md shadow-xl bg-blue-400 p-2 h-10 w-36"
+                class:disabled={(state.started && state.time > 40) ||
                 !state.started}
-            on:click={switchEndgame}
+                on:click={switchEndgame}
         >
             Endgame
             {#if state.time > 40}T-{state.time - 30}{/if}
         </button>
         <div
-            class="rounded-md shadow-xl bg-fuchsia-500 p-2 w-36 h-10"
-            on:click={() => {
+                class="rounded-md shadow-xl bg-fuchsia-500 p-2 w-36 h-10"
+                on:click={() => {
                 flip = !flip
             }}
         >

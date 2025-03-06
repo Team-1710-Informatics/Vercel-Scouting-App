@@ -4,11 +4,44 @@
 
     export let coral
     export let algae
+    export let state
+    export let log
+
+    function dropCoral() {
+        if (!state.started) return
+
+        if (coral) {
+            log.push({
+                time: state.time,
+                action: 'drop',
+                location: 'ground',
+                phase: state.phase,
+                item: 'coral',
+            })
+            coral = false
+        }
+    }
+
+    function dropAlgae() {
+        if (!state.started) return
+
+        if (algae) {
+            log.push({
+                time: state.time,
+                action: 'drop',
+                location: 'ground',
+                phase: state.phase,
+                item: 'algae',
+            })
+            algae = false
+        }
+    }
 </script>
 
 <div class="flex flex-row justify-evenly h-fit gap-2">
+    Drop:
     {#if coral}
-        <div>
+        <div on:click={dropCoral}>
             <img class="h-10 -my-1" src={coralImage} alt=""/>
         </div>
     {:else}
@@ -17,7 +50,7 @@
         </div>
     {/if}
     {#if algae}
-        <div>
+        <div on:click={dropAlgae}>
             <img class="h-10 -my-1" src={algaeImage} alt=""/>
         </div>
     {:else}
