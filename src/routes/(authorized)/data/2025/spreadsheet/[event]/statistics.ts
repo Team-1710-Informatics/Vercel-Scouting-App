@@ -86,7 +86,7 @@ export default {
                     }
                 })
                 return score
-            }).toFixed(0) +
+            }).toFixed(1) +
             '±' +
             stdDev(
                 data.map(
