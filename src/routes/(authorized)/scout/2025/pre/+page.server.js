@@ -102,11 +102,14 @@ export const actions = {
                         console.log('meow', teams)
                         let epa = []
                         for (let i = 0; i < teams.length; i++) {
+                            console.log('new1', teams[i])
                             try {
                                 const response = await fetch(
                                     `https://api.statbotics.io/v2/team_event/${Number(teams[i].slice(3))}/${data.event}`
                                 )
+                                console.log('t1')
                                 const team_data = await response.json()
+                                console.log('t2')
                                 epa.push({
                                     team: teams[i],
                                     epa: team_data.epa_mean,
