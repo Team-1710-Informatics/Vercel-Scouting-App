@@ -14,7 +14,11 @@ export default {
             score += teamScore(matchData)
             count++
         })
-        return score / count
+        return (
+            (score / count).toFixed(0) +
+            '±' +
+            stdDev(data.map((e) => teamScore(e))).toFixed(0)
+        )
     },
     AverageAutoCoral(team: number, data: any[]) {
         let count = 0
@@ -34,23 +38,21 @@ export default {
             count++
         })
         if (score == 0) return 0
-        return score / count
-    },
-    AutoScoreDeviation(team: number, data: any[]) {
-        let scores: number[] = []
-        data.forEach((matchData) => {
-            if (matchData.team != team) return
-            scores.push(teamScore(matchData))
-        })
-        return stdDev(scores)
-    },
-    TeleopScoreDeviation(team: number, data: any[]) {
-        let scores: number[] = []
-        data.forEach((matchData) => {
-            if (matchData.team != team) return
-            scores.push(teamScore(matchData) - exclusiveAutoScore(matchData))
-        })
-        return stdDev(scores)
+        return (
+            (score / count).toFixed(0) +
+            '±' +
+            stdDev(
+                data.map(
+                    (e) =>
+                        e.actions.filter(
+                            (a: any) =>
+                                a.phase == 'auto' &&
+                                a.action == 'score' &&
+                                a.location == 'reef'
+                        ).length
+                )
+            ).toFixed(0)
+        )
     },
     MaxScore(team: number, data: any[]) {
         let scores: number[] = []
@@ -74,11 +76,27 @@ export default {
     DriverSkill(team: number, data: any[]) {
         let count = 0
         let total = 0
+        data = normalizeQualitativeDataByScout(data)
+        data = dropWorstScoringMatch(data, team)
         data.forEach((e) => {
             if (e.team != team) return
             if (e.postgame?.driverSkill) {
                 count++
                 total += e.postgame.driverSkill
+            }
+        })
+        return total / count
+    },
+    SpeedRating(team: number, data: any[]) {
+        let count = 0
+        let total = 0
+        data = normalizeQualitativeDataByScout(data)
+        data = dropWorstScoringMatch(data, team)
+        data.forEach((e) => {
+            if (e.team != team) return
+            if (e.postgame?.speed) {
+                count++
+                total += e.postgame.speed
             }
         })
         return total / count
@@ -96,7 +114,17 @@ export default {
                 }
             })
         })
-        return count / matches
+        return (
+            (count / matches).toFixed(0) +
+            '±' +
+            stdDev(
+                data.map(
+                    (e) =>
+                        e.actions.filter((a: any) => a.action === 'score')
+                            .length
+                )
+            ).toFixed(0)
+        )
     },
     AverageAutoPoints(team: number, data: any[]) {
         let count = 0
@@ -462,6 +490,109 @@ function exclusiveAutoScore(matchData: any) {
     } catch (e) {}
 
     return count
+}
+
+function normalizeQualitativeDataByScout(data: any[]) {
+    // each entry in data has a .scout field that is the scout who entered the data
+    // each scout has their own individual mean and standard deviation
+    // we want to normalize the data for each scout
+    // the .rating, .driverSkill, and .speed in the .postgame field should be normalized
+    let scouts = Array.from(new Set(data.map((match) => match.scout)))
+
+    scouts.forEach((scout) => {
+        let scoutData = data.filter((match) => match.scout === scout)
+
+        let ratingMean =
+            scoutData.reduce((acc, match) => acc + match.postgame.rating, 0) /
+            scoutData.length
+        let driverSkillMean =
+            scoutData.reduce(
+                (acc, match) => acc + match.postgame.driverSkill,
+                0
+            ) / scoutData.length
+        let speedMean =
+            scoutData.reduce((acc, match) => acc + match.postgame.speed, 0) /
+            scoutData.length
+
+        let ratingStdDev = Math.sqrt(
+            scoutData.reduce(
+                (acc, match) =>
+                    acc + Math.pow(match.postgame.rating - ratingMean, 2),
+                0
+            ) / scoutData.length
+        )
+        let driverSkillStdDev = Math.sqrt(
+            scoutData.reduce(
+                (acc, match) =>
+                    acc +
+                    Math.pow(match.postgame.driverSkill - driverSkillMean, 2),
+                0
+            ) / scoutData.length
+        )
+        let speedStdDev = Math.sqrt(
+            scoutData.reduce(
+                (acc, match) =>
+                    acc + Math.pow(match.postgame.speed - speedMean, 2),
+                0
+            ) / scoutData.length
+        )
+
+        scoutData.forEach((match) => {
+            match.postgame.rating =
+                (match.postgame.rating - ratingMean) / ratingStdDev
+            match.postgame.driverSkill =
+                (match.postgame.driverSkill - driverSkillMean) /
+                driverSkillStdDev
+            match.postgame.speed =
+                (match.postgame.speed - speedMean) / speedStdDev
+        })
+    })
+
+    // Scale all qualitative fields equally to a number between -10 and 10
+    let allValues = data.flatMap((match) => [
+        match.postgame.rating,
+        match.postgame.driverSkill,
+        match.postgame.speed,
+    ])
+
+    let min = Math.min(...allValues)
+    let max = Math.max(...allValues)
+
+    data.forEach((match) => {
+        match.postgame.rating = scaleToRange(
+            match.postgame.rating,
+            min,
+            max,
+            0,
+            10
+        )
+        match.postgame.driverSkill = scaleToRange(
+            match.postgame.driverSkill,
+            min,
+            max,
+            0,
+            10
+        )
+        match.postgame.speed = scaleToRange(
+            match.postgame.speed,
+            min,
+            max,
+            0,
+            10
+        )
+    })
+
+    return data
+}
+
+function scaleToRange(
+    value: number,
+    min: number,
+    max: number,
+    newMin: number,
+    newMax: number
+) {
+    return ((value - min) / (max - min)) * (newMax - newMin) + newMin
 }
 
 function dropWorstScoringMatch(matchData: any[], team: number) {
