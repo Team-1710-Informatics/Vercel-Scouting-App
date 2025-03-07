@@ -124,6 +124,7 @@
         };
         console.log(trace)
         Plotly.newPlot(plotDiv, [trace], layout, {
+            staticPlot: true,
             margin: {autoexpand: true,},
             response: true
         });
