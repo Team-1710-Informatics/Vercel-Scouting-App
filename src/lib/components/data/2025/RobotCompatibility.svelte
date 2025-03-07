@@ -1,5 +1,5 @@
 <script>
-    import { ApiService } from '$lib/components/data/2025/RobotCompatibility.js'
+    import {ApiService} from '$lib/components/data/2025/RobotCompatibility.js'
 
     export let selectedAlliance
     export let event
@@ -18,8 +18,8 @@
 
     $: offset = circumference * (1 - compatibility / 100)
 
-    const startColor = { r: 59, g: 62, b: 134 } // #3b3e86
-    let endColor = { r: 62, g: 159, b: 133 } // #3e9f85
+    const startColor = {r: 59, g: 62, b: 134} // #3b3e86
+    let endColor = {r: 62, g: 159, b: 133} // #3e9f85
 
     $: getColor = (compatibility) => {
         const r = Math.round(
@@ -53,9 +53,9 @@
             show = false
             console.log('fetching data')
             if (team3 !== '') {
-                route = `/auto/compare/data/${event}/${team1}/${team2}/${team3}`
+                route = `/auto/compare/data/events/${team1}/${team2}/${team3}`
             } else {
-                route = `/auto/compare/data/${event}/${team1}/${team2}`
+                route = `/auto/compare/data/events/${team1}/${team2}`
             }
             fetching = true
             show = false
@@ -87,7 +87,7 @@
                 compatibility -= speed
                 if (compatibility <= 0.1) {
                     compatibility = 0.1
-                    endColor = { r: 62, g: 159, b: 133 }
+                    endColor = {r: 62, g: 159, b: 133}
                     // Stop animation ONLY when fetching is false AND we've reached 0
                     if (!fetching) {
                         clearInterval(interval)
@@ -111,7 +111,7 @@
                     show = true
                     output = ':('
                     clearInterval(waitForReset) // Stop waiting and start animation
-                    endColor = { r: 220, g: 4, b: 55 }
+                    endColor = {r: 220, g: 4, b: 55}
                     startAnimation(100)
                 }
             }
@@ -143,78 +143,78 @@
     }
 </script>
 
-<svg width="auto" height="auto" viewBox="0 0 100 100">
+<svg height="auto" viewBox="0 0 100 100" width="auto">
     <circle
-        cx="50"
-        cy="50"
-        r={radius}
-        stroke="#1d293d"
-        stroke-width="9"
-        fill="none"
-        stroke-dasharray={circumference}
+            cx="50"
+            cy="50"
+            fill="none"
+            r={radius}
+            stroke="#1d293d"
+            stroke-dasharray={circumference}
+            stroke-width="9"
     />
     <circle
-        cx="50"
-        cy="50"
-        r={radius}
-        stroke={getColor(compatibility)}
-        stroke-width="10"
-        fill="none"
-        stroke-linecap="round"
-        stroke-dasharray={circumference}
-        stroke-dashoffset={offset}
-        transform="rotate(90 50 50)"
+            cx="50"
+            cy="50"
+            fill="none"
+            r={radius}
+            stroke={getColor(compatibility)}
+            stroke-dasharray={circumference}
+            stroke-dashoffset={offset}
+            stroke-linecap="round"
+            stroke-width="10"
+            transform="rotate(90 50 50)"
     />
     <text
-        x="50"
-        y={show === false ? '42' : '35'}
-        text-anchor="middle"
-        font-size="6"
-        font-family="sans-serif"
-        font-weight="400"
-        font-stretch="ultra-expanded"
-        fill="#93a1af"
+            fill="#93a1af"
+            font-family="sans-serif"
+            font-size="6"
+            font-stretch="ultra-expanded"
+            font-weight="400"
+            text-anchor="middle"
+            x="50"
+            y={show === false ? '42' : '35'}
     >
         Compatability
     </text>
     {#if show}
         {#if output === ':('}
             <text
-                x="46"
-                y="58"
-                text-anchor="middle"
-                font-size="28"
-                font-family="sans-serif"
-                font-weight="600"
-                font-stretch="ultra-expanded"
-                fill="#93a1af"
+                    x="46"
+                    y="58"
+                    text-anchor="middle"
+                    font-size="28"
+                    font-family="sans-serif"
+                    font-weight="600"
+                    font-stretch="ultra-expanded"
+                    fill="#93a1af"
             >
                 {output}
             </text>
         {:else}
             <text
-                x="50"
-                y="60"
-                text-anchor="middle"
-                font-size="28"
-                font-family="sans-serif"
-                font-weight="600"
-                font-stretch="ultra-expanded"
-                fill="#93a1af"
+                    x="50"
+                    y="60"
+                    text-anchor="middle"
+                    font-size="28"
+                    font-family="sans-serif"
+                    font-weight="600"
+                    font-stretch="ultra-expanded"
+                    fill="#93a1af"
             >
                 {compatibility.toFixed(0)}
             </text>
         {/if}
     {:else}
         <text
-            x="50"
-            y="62"
-            text-anchor="middle"
-            font-size="20   "
-            font-family="sans-serif"
-            font-weight="600"
-            font-stretch="ultra-expanded"
-            fill="#93a1af"
+                x="50"
+                y="62"
+                text-anchor="middle"
+                font-size="20   "
+                font-family="sans-serif"
+                font-weight="600"
+                font-stretch="ultra-expanded"
+                fill="#93a1af"
         >
             N/A
         </text>
