@@ -120,12 +120,10 @@
             },
             yaxis: {
                 range: [0, null] // Forces the bottom to be 0, lets Plotly decide the upper limit
-
             }
         };
         console.log(trace)
         Plotly.newPlot(plotDiv, [trace], layout, {
-            staticPlot: true,
             margin: {autoexpand: true,},
             response: true
         });
