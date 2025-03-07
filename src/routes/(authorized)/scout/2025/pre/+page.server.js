@@ -106,6 +106,12 @@ export const actions = {
                                 const response = await fetch(
                                     `https://api.statbotics.io/v2/team_event/${Number(teams[i].slice(3))}/${data.event}`
                                 )
+                                const team_data = await response.json()
+                                epa.push({
+                                    team: teams[i],
+                                    epa: team_data.epa_mean,
+                                    scout: 0,
+                                })
                             } catch {
                                 console.log('error')
                                 epa.push({
@@ -114,12 +120,6 @@ export const actions = {
                                     scout: 0,
                                 })
                             }
-                            const team_data = await response.json()
-                            epa.push({
-                                team: teams[i],
-                                epa: team_data.epa_mean,
-                                scout: 0,
-                            })
                         }
                         console.log('nyan', epa)
                         for (let i = 0; i < epa.length; i++) {
@@ -133,7 +133,6 @@ export const actions = {
                                 epa[i].scout = result.scout.length
                             }
                         }
-                        console.log('boykisser', epa)
                         let extra = []
                         for (let i = 0; i < epa.length; i++) {
                             if (i === 0) {
