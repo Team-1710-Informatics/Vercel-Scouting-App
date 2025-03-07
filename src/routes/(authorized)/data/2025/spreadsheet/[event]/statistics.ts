@@ -5,6 +5,17 @@ export default {
     MatchesScouted(team: number, data: any[]) {
         return data.filter((e) => e.team === team).length
     },
+    AverageScoreNumeric(team: number, data: any[]) {
+        let count = 0
+        let score = 0
+        data = dropWorstScoringMatch(data, team)
+        data.forEach((matchData) => {
+            if (matchData.team != team) return
+            score += teamScore(matchData)
+            count++
+        })
+        return score / count
+    },
     AverageScore(team: number, data: any[]) {
         let count = 0
         let score = 0
@@ -82,7 +93,7 @@ export default {
             if (e.team != team) return
             if (e.postgame?.driverSkill) {
                 count++
-                total += e.postgame.driverSkill
+                total += e.postgame.driverSkill2
             }
         })
         return total / count
@@ -96,7 +107,7 @@ export default {
             if (e.team != team) return
             if (e.postgame?.speed) {
                 count++
-                total += e.postgame.speed
+                total += e.postgame.speed2
             }
         })
         return total / count
@@ -493,31 +504,39 @@ function exclusiveAutoScore(matchData: any) {
 }
 
 function normalizeQualitativeDataByScout(data: any[]) {
-    // each entry in data has a .scout field that is the scout who entered the data
-    // each scout has their own individual mean and standard deviation
-    // we want to normalize the data for each scout
-    // the .rating, .driverSkill, and .speed in the .postgame field should be normalized
+    console.log(data[0].postgame.rating)
     let scouts = Array.from(new Set(data.map((match) => match.scout)))
 
+    let i = 0
+    console.log(data[0].postgame.rating)
     scouts.forEach((scout) => {
         let scoutData = data.filter((match) => match.scout === scout)
+        if (i === 0) console.log(scoutData)
+        i++
 
-        let ratingMean =
-            scoutData.reduce((acc, match) => acc + match.postgame.rating, 0) /
-            scoutData.length
-        let driverSkillMean =
-            scoutData.reduce(
-                (acc, match) => acc + match.postgame.driverSkill,
-                0
-            ) / scoutData.length
-        let speedMean =
-            scoutData.reduce((acc, match) => acc + match.postgame.speed, 0) /
-            scoutData.length
+        let ratingSum = 0,
+            driverSkillSum = 0,
+            speedSum = 0
+        scoutData.forEach((match) => {
+            // Check for null or undefined values and set them to 5
+            if (match.postgame.rating == 0) match.postgame.rating = 1
+            if (match.postgame.driverSkill == 0) match.postgame.driverSkill = 1
+            if (match.postgame.speed == 0) match.postgame.speed = 1
+
+            ratingSum += match.postgame.rating
+            driverSkillSum += match.postgame.driverSkill
+            speedSum += match.postgame.speed
+        })
+
+        let ratingMean = ratingSum / scoutData.length
+        let driverSkillMean = driverSkillSum / scoutData.length
+        let speedMean = speedSum / scoutData.length
 
         let ratingStdDev = Math.sqrt(
             scoutData.reduce(
                 (acc, match) =>
-                    acc + Math.pow(match.postgame.rating - ratingMean, 2),
+                    acc +
+                    Math.pow((match.postgame.rating || 0) - ratingMean, 2),
                 0
             ) / scoutData.length
         )
@@ -525,63 +544,66 @@ function normalizeQualitativeDataByScout(data: any[]) {
             scoutData.reduce(
                 (acc, match) =>
                     acc +
-                    Math.pow(match.postgame.driverSkill - driverSkillMean, 2),
+                    Math.pow(
+                        (match.postgame.driverSkill || 0) - driverSkillMean,
+                        2
+                    ),
                 0
             ) / scoutData.length
         )
         let speedStdDev = Math.sqrt(
             scoutData.reduce(
                 (acc, match) =>
-                    acc + Math.pow(match.postgame.speed - speedMean, 2),
+                    acc + Math.pow((match.postgame.speed || 0) - speedMean, 2),
                 0
             ) / scoutData.length
         )
 
         scoutData.forEach((match) => {
-            match.postgame.rating =
+            match.postgame.rating2 =
                 (match.postgame.rating - ratingMean) / ratingStdDev
-            match.postgame.driverSkill =
+            match.postgame.driverSkill2 =
                 (match.postgame.driverSkill - driverSkillMean) /
                 driverSkillStdDev
-            match.postgame.speed =
+            match.postgame.speed2 =
                 (match.postgame.speed - speedMean) / speedStdDev
         })
     })
 
-    // Scale all qualitative fields equally to a number between -10 and 10
     let allValues = data.flatMap((match) => [
-        match.postgame.rating,
-        match.postgame.driverSkill,
-        match.postgame.speed,
+        match.postgame.rating2,
+        match.postgame.driverSkill2,
+        match.postgame.speed2,
     ])
 
-    let min = Math.min(...allValues)
-    let max = Math.max(...allValues)
+    console.log('YES', allValues)
+
+    let min = Math.min(...allValues.filter((num) => !Number.isNaN(num)))
+    let max = Math.max(...allValues.filter((num) => !Number.isNaN(num)))
 
     data.forEach((match) => {
-        match.postgame.rating = scaleToRange(
-            match.postgame.rating,
+        match.postgame.rating2 = scaleToRange(
+            match.postgame.rating2,
             min,
             max,
             0,
             10
         )
-        match.postgame.driverSkill = scaleToRange(
-            match.postgame.driverSkill,
+        match.postgame.driverSkill2 = scaleToRange(
+            match.postgame.driverSkill2,
             min,
             max,
             0,
             10
         )
-        match.postgame.speed = scaleToRange(
-            match.postgame.speed,
+        match.postgame.speed2 = scaleToRange(
+            match.postgame.speed2,
             min,
             max,
             0,
             10
         )
     })
-
     return data
 }
 
