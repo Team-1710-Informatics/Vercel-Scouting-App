@@ -13,7 +13,7 @@
     }
 
 </script>
-<div class="overflow-scroll h-96">
+<div class="overflow-scroll h-auto mb-10" style="width: 100%">
     {#each pitData as entry}
         {#if "frc" + entry.team.toString() === team}
             <div class="flex flex-row text-sm mb-1 outline outline-white outline-1 outline-offset-2 p-2">

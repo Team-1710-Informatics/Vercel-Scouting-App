@@ -134,7 +134,6 @@
 
     let entries
     onMount(() => {
-        matchPredictor.eventPrediction()
         event = data.data.event
         entries = data.data
         console.log("entries", entries)
@@ -200,8 +199,7 @@
                 <ServicePing name="Match Prediction" url="match.apisb.me"/>
             </div>
         </div>
-        <MatchPredictor bind:this={matchPredictor} event={data.data.event}
-        ></MatchPredictor>
+        <MatchPredictor bind:allianceSelection bind:this={matchPredictor} event={data.data.event}/>
     </div>
 </div>
 

@@ -1,3 +1,5 @@
+import tba from '$lib/modules/tba'
+
 export default {
     TeamNumber(team: number, data: any[]) {
         return team

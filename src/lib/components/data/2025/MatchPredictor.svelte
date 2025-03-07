@@ -4,6 +4,7 @@
 
     export let event
     export let teams
+    export let allianceSelection
 
     let data
     // data = {"matches":[{"red":0,"blue":7,"winner":"red"},{"red":1,"blue":6,"winner":"red"},{"red":2,"blue":5,"winner":"red"},{"red":3,"blue":4,"winner":"blue"},{"red":7,"blue":6,"winner":"red"},{"red":5,"blue":4,"winner":"blue"},{"red":0,"blue":1,"winner":"red"},{"red":2,"blue":3,"winner":"red"},{"red":5,"blue":1,"winner":"blue"},{"red":7,"blue":3,"winner":"red"},{"red":0,"blue":2,"winner":"red"},{"red":5,"blue":7,"winner":"blue"},{"red":2,"blue":5,"winner":"red"},{"red":0,"blue":2,"winner":"red"}],"teams":[["frc7021","frc2129","frc9576"],["frc1710","frc2194","frc967"],["frc8802","frc4230","frc537"],["frc2704","frc7103","frc1675"],["frc2830","frc525","frc8701"],["frc2826","frc1625","frc5586"],["frc6166","frc3082","frc171"],["frc5903","frc6223","frc2202"]]}
@@ -14,7 +15,8 @@
         // data = {"matches":[{"red":0,"blue":7,"winner":"red"},{"red":1,"blue":6,"winner":"red"},{"red":2,"blue":5,"winner":"red"},{"red":3,"blue":4,"winner":"blue"},{"red":7,"blue":6,"winner":"red"},{"red":5,"blue":4,"winner":"blue"},{"red":0,"blue":1,"winner":"red"},{"red":2,"blue":3,"winner":"red"},{"red":5,"blue":1,"winner":"blue"},{"red":7,"blue":3,"winner":"red"},{"red":0,"blue":2,"winner":"red"},{"red":5,"blue":7,"winner":"blue"},{"red":2,"blue":5,"winner":"red"},{"red":0,"blue":2,"winner":"red"}],"teams":[["frc7021","frc2129","frc9576"],["frc1710","frc2194","frc967"],["frc8802","frc4230","frc537"],["frc2704","frc7103","frc1675"],["frc2830","frc525","frc8701"],["frc2826","frc1625","frc5586"],["frc6166","frc3082","frc171"],["frc5903","frc6223","frc2202"]]}
     }
 
-    async function teamPrediction() {
+    export async function teamPrediction() {
+        teams = allianceSelection.getPickedAlliances();
         const response = await ApiService.team(teams)
         data = await response
     }
