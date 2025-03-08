@@ -181,16 +181,6 @@ export default {
                 : 0
         )
     },
-    AverageGamePiecesScored(team: number, data: any[]) {
-        data = dropWorstScoringMatch(data, team)
-        return calculateAverageByTeamAndMatch(
-            data,
-            team,
-            (matchData) =>
-                matchData.actions.filter((a: any) => a.action === 'score')
-                    .length
-        )
-    },
     AverageAlgaeScored(team: number, data: any[]) {
         data = dropWorstScoringMatch(data, team)
         return calculateAverageByTeamAndMatch(
