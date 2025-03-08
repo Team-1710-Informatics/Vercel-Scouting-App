@@ -92,33 +92,35 @@ export default {
     },
     AverageAutoCoral(team: number, data: any[]) {
         data = dropWorstScoringMatch(data, team)
-        return (
-            calculateAverageByTeamAndMatch(data, team, (matchData) => {
-                let score = 0
-                matchData.actions.forEach((action: any) => {
-                    if (
-                        action.phase == 'auto' &&
-                        action.action == 'score' &&
-                        action.location == 'reef'
-                    ) {
-                        score++
-                    }
-                })
-                return score
-            }).toFixed(1) +
-            '±' +
-            stdDev(
-                data.map(
-                    (e) =>
-                        e.actions.filter(
-                            (a: any) =>
-                                a.phase == 'auto' &&
-                                a.action == 'score' &&
-                                a.location == 'reef'
-                        ).length
-                )
-            ).toFixed(0)
-        )
+        return calculateAverageByTeamAndMatch(data, team, (matchData) => {
+            let score = 0
+            matchData.actions.forEach((action: any) => {
+                if (
+                    action.phase == 'auto' &&
+                    action.action == 'score' &&
+                    action.location == 'reef'
+                ) {
+                    score++
+                }
+            })
+            return score
+        }).toFixed(1)
+    },
+    AverageCoral(team: number, data: any[]) {
+        data = dropWorstScoringMatch(data, team)
+        return calculateAverageByTeamAndMatch(data, team, (matchData) => {
+            let score = 0
+            matchData.actions.forEach((action: any) => {
+                if (
+                    action.action == 'score' &&
+                    action.location == 'reef' &&
+                    action.phase == 'teleOp'
+                ) {
+                    score++
+                }
+            })
+            return score
+        }).toFixed(1)
     },
     MaxScore(team: number, data: any[]) {
         data = dropWorstScoringMatch(data, team)
@@ -150,23 +152,13 @@ export default {
     },
     AveragePiecesScored(team: number, data: any[]) {
         data = dropWorstScoringMatch(data, team)
-        return (
-            calculateAverageByTeamAndMatch(
-                data,
-                team,
-                (matchData) =>
-                    matchData.actions.filter((a: any) => a.action === 'score')
-                        .length
-            ).toFixed(0) +
-            '±' +
-            stdDev(
-                data.map(
-                    (e) =>
-                        e.actions.filter((a: any) => a.action === 'score')
-                            .length
-                )
-            ).toFixed(0)
-        )
+        return calculateAverageByTeamAndMatch(
+            data,
+            team,
+            (matchData) =>
+                matchData.actions.filter((a: any) => a.action === 'score')
+                    .length
+        ).toFixed(1)
     },
     AverageAutoPoints(team: number, data: any[]) {
         data = dropWorstScoringMatch(data, team)
@@ -187,6 +179,29 @@ export default {
             matchData.climb.type === 'deep'
                 ? 1
                 : 0
+        )
+    },
+    AverageGamePiecesScored(team: number, data: any[]) {
+        data = dropWorstScoringMatch(data, team)
+        return calculateAverageByTeamAndMatch(
+            data,
+            team,
+            (matchData) =>
+                matchData.actions.filter((a: any) => a.action === 'score')
+                    .length
+        )
+    },
+    AverageAlgaeScored(team: number, data: any[]) {
+        data = dropWorstScoringMatch(data, team)
+        return calculateAverageByTeamAndMatch(
+            data,
+            team,
+            (matchData) =>
+                matchData.actions.filter(
+                    (a: any) =>
+                        a.action === 'score' &&
+                        (a.location === 'processor' || a.location === 'barge')
+                ).length
         )
     },
     AverageClimbFailures(team: number, data: any[]) {
