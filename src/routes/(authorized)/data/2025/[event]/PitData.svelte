@@ -11,7 +11,6 @@
             return data;
         }
     }
-
 </script>
 <div class="overflow-scroll h-auto mb-10" style="width: 100%">
     {#each pitData as entry}
