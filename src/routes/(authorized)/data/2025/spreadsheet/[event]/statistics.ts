@@ -85,7 +85,7 @@ export default {
     AverageScore(team: number, data: any[]) {
         data = dropWorstScoringMatch(data, team)
         return (
-            calculateAverageByTeamAndMatch(data, team, teamScore).toFixed(0) +
+            calculateAverageByTeamAndMatch(data, team, teamScore).toFixed(1) +
             '±' +
             stdDev(data.map((e) => teamScore(e))).toFixed(0)
         )
