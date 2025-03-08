@@ -19,12 +19,31 @@ function calculateAverageByTeamAndMatch(
     let count = 0
     Object.keys(matchScores).forEach((key) => {
         let scores = matchScores[key]
-        let avgScore = scores.reduce((a, b) => a + b, 0) / scores.length
-        totalScore += avgScore
-        count++
+
+        scores.sort((a, b) => a - b)
+
+        console.log('yip', scores)
+
+        // Remove the lowest score
+        if (scores.length > 1) {
+            if (Math.max(...scores) - Math.min(...scores) > 7) {
+                scores.shift()
+            } else {
+                // average all scores in scores variable
+                scores = [scores.reduce((a, b) => a + b, 0) / scores.length]
+            }
+        }
+
+        console.log(scores)
+
+        if (scores.length > 0) {
+            let avgScore = scores.reduce((a, b) => a + b, 0) / scores.length
+            totalScore += avgScore
+            count++
+        }
     })
 
-    return totalScore / count
+    return count > 0 ? totalScore / count : 0
 }
 
 export default {
@@ -105,7 +124,7 @@ export default {
         data = dropWorstScoringMatch(data, team)
         return Math.max(...data.filter((e) => e.team === team).map(teamScore))
     },
-    AAutoMobilityRate(team: number, data: any[]) {
+    AutoMobilityRate(team: number, data: any[]) {
         data = dropWorstScoringMatch(data, team)
         return calculateAverageByTeamAndMatch(data, team, (matchData) =>
             matchData.untimed.exitAuto ? 1 : 0
