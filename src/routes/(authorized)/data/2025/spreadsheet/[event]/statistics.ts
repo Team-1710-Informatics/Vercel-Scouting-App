@@ -359,7 +359,7 @@ export default {
                 ).length * 6
         )
     },
-    AverageBargeScore(team: number, data: any[]) {
+    AverageNetScore(team: number, data: any[]) {
         data = dropWorstScoringMatch(data, team)
         return calculateAverageByTeamAndMatch(
             data,
