@@ -188,7 +188,7 @@
 
     export function getPickedAlliances() {
         return picked.rankings.map((alliance) =>
-            alliance.slice(0, 3).map((team) => team.team_key)
+            alliance.slice(0, picked[0].length).map((team) => team.team_key)
         )
     }
 
