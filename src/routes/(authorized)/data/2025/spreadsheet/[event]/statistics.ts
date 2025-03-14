@@ -1,5 +1,51 @@
 import tba from '$lib/modules/tba'
 
+function calculateAverageByTeamAndMatch(
+    data: any[],
+    team: number,
+    scoreFunction: (matchData: any) => number
+) {
+    let matchScores: { [key: string]: number[] } = {}
+    data.forEach((matchData) => {
+        if (matchData.team != team) return
+        let key = `${team}-${matchData.match}`
+        if (!matchScores[key]) {
+            matchScores[key] = []
+        }
+        matchScores[key].push(scoreFunction(matchData))
+    })
+
+    let totalScore = 0
+    let count = 0
+    Object.keys(matchScores).forEach((key) => {
+        let scores = matchScores[key]
+
+        scores.sort((a, b) => a - b)
+
+        console.log('yip', scores)
+
+        // Remove the lowest score
+        if (scores.length > 1) {
+            if (Math.max(...scores) - Math.min(...scores) > 7) {
+                scores.shift()
+            } else {
+                // average all scores in scores variable
+                scores = [scores.reduce((a, b) => a + b, 0) / scores.length]
+            }
+        }
+
+        console.log(scores)
+
+        if (scores.length > 0) {
+            let avgScore = scores.reduce((a, b) => a + b, 0) / scores.length
+            totalScore += avgScore
+            count++
+        }
+    })
+
+    return count > 0 ? totalScore / count : 0
+}
+
 export default {
     TeamNumber(team: number, data: any[]) {
         return team
@@ -11,34 +57,43 @@ export default {
         let count = 0
         let score = 0
         data = dropWorstScoringMatch(data, team)
+
+        // Step 1: Create a map to store scores for each team and match number
+        let matchScores: { [key: string]: number[] } = {}
+
+        // Step 2: Populate the map with scores
         data.forEach((matchData) => {
             if (matchData.team != team) return
-            score += teamScore(matchData)
+            let key = `${team}-${matchData.match}`
+            if (!matchScores[key]) {
+                matchScores[key] = []
+            }
+            matchScores[key].push(teamScore(matchData))
+        })
+
+        // Step 3: Calculate the average score for each team and match number
+        Object.keys(matchScores).forEach((key) => {
+            let scores = matchScores[key]
+            let avgScore = scores.reduce((a, b) => a + b, 0) / scores.length
+            score += avgScore
             count++
         })
+
+        // Step 4: Return the overall average score
         return score / count
     },
     AverageScore(team: number, data: any[]) {
-        let count = 0
-        let score = 0
         data = dropWorstScoringMatch(data, team)
-        data.forEach((matchData) => {
-            if (matchData.team != team) return
-            score += teamScore(matchData)
-            count++
-        })
         return (
-            (score / count).toFixed(0) +
+            calculateAverageByTeamAndMatch(data, team, teamScore).toFixed(1) +
             '±' +
             stdDev(data.map((e) => teamScore(e))).toFixed(0)
         )
     },
     AverageAutoCoral(team: number, data: any[]) {
-        let count = 0
-        let score = 0
         data = dropWorstScoringMatch(data, team)
-        data.forEach((matchData) => {
-            if (matchData.team != team) return
+        return calculateAverageByTeamAndMatch(data, team, (matchData) => {
+            let score = 0
             matchData.actions.forEach((action: any) => {
                 if (
                     action.phase == 'auto' &&
@@ -48,161 +103,132 @@ export default {
                     score++
                 }
             })
-            count++
-        })
-        if (score == 0) return 0
-        return (
-            (score / count).toFixed(0) +
-            '±' +
-            stdDev(
-                data.map(
-                    (e) =>
-                        e.actions.filter(
-                            (a: any) =>
-                                a.phase == 'auto' &&
-                                a.action == 'score' &&
-                                a.location == 'reef'
-                        ).length
-                )
-            ).toFixed(0)
-        )
+            return score
+        }).toFixed(1)
     },
-    MaxScore(team: number, data: any[]) {
-        let scores: number[] = []
-        data.forEach((matchData) => {
-            if (matchData.team != team) return
-            scores.push(teamScore(matchData))
-        })
-        return Math.max(...scores)
-    },
-    AutoMobilityRate(team: number, data: any[]) {
-        let count = 0
-        let mobileCount = 0
+    AverageCoral(team: number, data: any[]) {
         data = dropWorstScoringMatch(data, team)
-        data.forEach((e) => {
-            if (e.team != team) return
-            if (e.untimed.exitAuto) mobileCount++
-            count++
-        })
-        return mobileCount / count
-    },
-    DriverSkill(team: number, data: any[]) {
-        let count = 0
-        let total = 0
-        data = normalizeQualitativeDataByScout(data)
-        data = dropWorstScoringMatch(data, team)
-        data.forEach((e) => {
-            if (e.team != team) return
-            if (e.postgame?.driverSkill) {
-                count++
-                total += e.postgame.driverSkill2
-            }
-        })
-        return total / count
-    },
-    SpeedRating(team: number, data: any[]) {
-        let count = 0
-        let total = 0
-        data = normalizeQualitativeDataByScout(data)
-        data = dropWorstScoringMatch(data, team)
-        data.forEach((e) => {
-            if (e.team != team) return
-            if (e.postgame?.speed) {
-                count++
-                total += e.postgame.speed2
-            }
-        })
-        return total / count
-    },
-    AveragePiecesScored(team: number, data: any[]) {
-        let matches = 0
-        let count = 0
-        data = dropWorstScoringMatch(data, team)
-        data.forEach((e) => {
-            if (e.team != team) return
-            matches++
-            e.actions.forEach((a: any) => {
-                if (a.action === 'score') {
-                    count++
+        return calculateAverageByTeamAndMatch(data, team, (matchData) => {
+            let score = 0
+            matchData.actions.forEach((action: any) => {
+                if (
+                    action.action == 'score' &&
+                    action.location == 'reef' &&
+                    action.phase == 'teleOp'
+                ) {
+                    score++
                 }
             })
-        })
-        return (
-            (count / matches).toFixed(0) +
-            '±' +
-            stdDev(
-                data.map(
-                    (e) =>
-                        e.actions.filter((a: any) => a.action === 'score')
-                            .length
-                )
-            ).toFixed(0)
+            return score
+        }).toFixed(1)
+    },
+    MaxScore(team: number, data: any[]) {
+        data = dropWorstScoringMatch(data, team)
+        return Math.max(...data.filter((e) => e.team === team).map(teamScore))
+    },
+    AutoMobilityRate(team: number, data: any[]) {
+        data = dropWorstScoringMatch(data, team)
+        return calculateAverageByTeamAndMatch(data, team, (matchData) =>
+            matchData.untimed.exitAuto ? 1 : 0
         )
     },
-    AverageAutoPoints(team: number, data: any[]) {
-        let count = 0
-        let score = 0
+    DriverSkill(team: number, data: any[]) {
+        data = normalizeQualitativeDataByScout(data)
         data = dropWorstScoringMatch(data, team)
-        data.forEach((e) => {
-            if (e.team != team) return
-            score += exclusiveAutoScore(e)
-            count++
-        })
-        return score / count
+        return calculateAverageByTeamAndMatch(
+            data,
+            team,
+            (matchData) => matchData.postgame?.driverSkill2 || 0
+        )
+    },
+    SpeedRating(team: number, data: any[]) {
+        data = normalizeQualitativeDataByScout(data)
+        data = dropWorstScoringMatch(data, team)
+        return calculateAverageByTeamAndMatch(
+            data,
+            team,
+            (matchData) => matchData.postgame?.speed2 || 0
+        )
+    },
+    AveragePiecesScored(team: number, data: any[]) {
+        data = dropWorstScoringMatch(data, team)
+        return calculateAverageByTeamAndMatch(
+            data,
+            team,
+            (matchData) =>
+                matchData.actions.filter((a: any) => a.action === 'score')
+                    .length
+        ).toFixed(1)
+    },
+    AverageAutoPoints(team: number, data: any[]) {
+        data = dropWorstScoringMatch(data, team)
+        return calculateAverageByTeamAndMatch(data, team, exclusiveAutoScore)
     },
     AverageTeleopPoints(team: number, data: any[]) {
-        let count = 0
-        let score = 0
         data = dropWorstScoringMatch(data, team)
-        data.forEach((e) => {
-            if (e.team != team) return
-            score += teamScore(e) - exclusiveAutoScore(e)
-            count++
-        })
-        return score / count
+        return calculateAverageByTeamAndMatch(
+            data,
+            team,
+            (matchData) => teamScore(matchData) - exclusiveAutoScore(matchData)
+        )
     },
     AverageClimbRate(team: number, data: any[]) {
-        let count = 0
-        let climbCount = 0
-        data.forEach((e) => {
-            if (e.team != team) return
-            if (e.climb.type === 'shallow' || e.climb.type === 'deep')
-                climbCount++
-            count++
-        })
-        return climbCount / count
+        data = dropWorstScoringMatch(data, team)
+        return calculateAverageByTeamAndMatch(data, team, (matchData) =>
+            matchData.climb.type === 'shallow' ||
+            matchData.climb.type === 'deep'
+                ? 1
+                : 0
+        )
+    },
+    AverageAlgaeScored(team: number, data: any[]) {
+        data = dropWorstScoringMatch(data, team)
+        return calculateAverageByTeamAndMatch(
+            data,
+            team,
+            (matchData) =>
+                matchData.actions.filter(
+                    (a: any) =>
+                        a.action === 'score' &&
+                        (a.location === 'processor' || a.location === 'barge')
+                ).length
+        )
     },
     AverageClimbFailures(team: number, data: any[]) {
-        let count = 0
-        let failCount = 0
-        data.forEach((e) => {
-            if (e.team != team) return
-            if (e.climb.fails) failCount += e.climb.fails
-            count++
-        })
-        return failCount / count
+        data = dropWorstScoringMatch(data, team)
+        return calculateAverageByTeamAndMatch(
+            data,
+            team,
+            (matchData) => matchData.climb.fails || 0
+        )
     },
     MostCommonClimb(team: number, data: any[]) {
-        let shallow = 0
-        let deep = 0
-        let none = 0
-        data.forEach((e) => {
-            if (e.team != team) return
-            if (e.climb.type === 'shallow') shallow++
-            if (e.climb.type === 'deep') deep++
-            if (e.climb.type === 'none') none++
-        })
-        if (shallow > deep && shallow > none) return 'shallow'
-        if (deep > shallow && deep > none) return 'deep'
-        return 'none'
+        data = dropWorstScoringMatch(data, team)
+        let climbTypes: Array<'shallow' | 'deep' | 'none'> = data
+            .filter((e) => e.team === team)
+            .map(
+                (matchData) =>
+                    matchData.climb.type as 'shallow' | 'deep' | 'none'
+            )
+        let counts: { shallow: number; deep: number; none: number } = {
+            shallow: 0,
+            deep: 0,
+            none: 0,
+        }
+        climbTypes.forEach((type) => counts[type]++)
+        return Object.keys(counts).reduce((a, b) =>
+            counts[a as 'shallow' | 'deep' | 'none'] >
+            counts[b as 'shallow' | 'deep' | 'none']
+                ? a
+                : b
+        )
     },
     AlgaeToCoralRatio(team: number, data: any[]) {
-        let count = 0
-        let algae = 0
-        let coral = 0
-        data.forEach((e) => {
-            if (e.team != team) return
-            e.actions.forEach((a: any) => {
+        data = dropWorstScoringMatch(data, team)
+        return calculateAverageByTeamAndMatch(data, team, (matchData) => {
+            let algae = 0,
+                coral = 0
+            matchData.actions.forEach((a: any) => {
                 if (a.action === 'score') {
                     if (a.location === 'reef') {
                         coral++
@@ -211,160 +237,95 @@ export default {
                     }
                 }
             })
-            count++
+            return coral === 0 ? 1 : algae / coral
         })
-        if (isNaN(algae / coral)) return 0
-        if (coral == 0) return 1
-        return algae / coral
     },
     MaxAutoPoints(team: number, data: any[]) {
-        let scores: number[] = []
         data = dropWorstScoringMatch(data, team)
-        data.forEach((e) => {
-            if (e.team != team) return
-            scores.push(exclusiveAutoScore(e))
-        })
-        return Math.max(...scores)
+        return Math.max(
+            ...data.filter((e) => e.team === team).map(exclusiveAutoScore)
+        )
     },
-    BreakdownRate(team: number, data: any[]): number {
-        let count = 0
-        let breakdownCount = 0
+    BreakdownRate(team: number, data: any[]) {
         data = dropWorstScoringMatch(data, team)
-        data.forEach((e) => {
-            if (e.team != team) return
-            if (e.postgame.strategy.includes('breakdown')) breakdownCount++
-            count++
-        })
-        return breakdownCount / count
+        return calculateAverageByTeamAndMatch(data, team, (matchData) =>
+            matchData.postgame.strategy.includes('breakdown') ? 1 : 0
+        )
     },
     Strategy(team: number, data: any[]) {
-        let stratIndex = 0
-        let allStrat = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        let result = ''
         data = dropWorstScoringMatch(data, team)
-        data.forEach((e) => {
-            if (e.team != team) return
-            e.postgame.strategy.forEach((a: any) => {
-                switch (a) {
-                    case 'cycle':
-                        allStrat[0]++
-                        break
-                    case 'coral':
-                        allStrat[1]++
-                        break
-                    case 'algae':
-                        allStrat[2]++
-                        break
-                    case 'feeder':
-                        allStrat[3]++
-                        break
-                    case 'pickup':
-                        allStrat[4]++
-                        break
-                    case 'defense':
-                        allStrat[5]++
-                        break
-                    case 'moral':
-                        allStrat[6]++
-                        break
-                    case 'breakdown':
-                        allStrat[7]++
-                        break
-                    case 'noShow':
-                        allStrat[8]++
-                        break
-                }
-            })
-        })
-        stratIndex = allStrat.indexOf(Math.max(...allStrat))
-        if (stratIndex == 0) result = 'hybrid'
-        if (stratIndex == 1) result = 'coral'
-        if (stratIndex == 2) result = 'algae'
-        if (stratIndex == 3) result = 'feeder'
-        if (stratIndex == 4) result = 'pickup'
-        if (stratIndex == 5) result = 'defense'
-        if (stratIndex == 6) result = 'moral support'
-        if (stratIndex == 7) result = 'breakdown'
-        if (stratIndex == 8) result = 'no show'
-        return result
+        let strategies = data
+            .filter((e) => e.team === team)
+            .flatMap((matchData) => matchData.postgame.strategy)
+        let counts = strategies.reduce((acc: any, strat: string) => {
+            acc[strat] = (acc[strat] || 0) + 1
+            return acc
+        }, {})
+        return Object.keys(counts).reduce((a, b) =>
+            counts[a] > counts[b] ? a : b
+        )
     },
     AverageL1Coral(team: number, data: any[]) {
-        let count = 0
-        let score = 0
         data = dropWorstScoringMatch(data, team)
-        data.forEach((e) => {
-            if (e.team != team) return
-            e.actions.forEach((a: any) => {
-                if (
-                    a.action === 'score' &&
-                    a.location === 'reef' &&
-                    a.level === 1
-                )
-                    score++
-            })
-            count++
-        })
-        return score / count
+        return calculateAverageByTeamAndMatch(
+            data,
+            team,
+            (matchData) =>
+                matchData.actions.filter(
+                    (a: any) =>
+                        a.action === 'score' &&
+                        a.location === 'reef' &&
+                        a.level === 1
+                ).length
+        )
     },
     AverageL2Coral(team: number, data: any[]) {
-        let count = 0
-        let score = 0
         data = dropWorstScoringMatch(data, team)
-        data.forEach((e) => {
-            if (e.team != team) return
-            e.actions.forEach((a: any) => {
-                if (
-                    a.action === 'score' &&
-                    a.location === 'reef' &&
-                    a.level === 2
-                )
-                    score++
-            })
-            count++
-        })
-        return score / count
+        return calculateAverageByTeamAndMatch(
+            data,
+            team,
+            (matchData) =>
+                matchData.actions.filter(
+                    (a: any) =>
+                        a.action === 'score' &&
+                        a.location === 'reef' &&
+                        a.level === 2
+                ).length
+        )
     },
     AverageL3Coral(team: number, data: any[]) {
-        let count = 0
-        let score = 0
         data = dropWorstScoringMatch(data, team)
-        data.forEach((e) => {
-            if (e.team != team) return
-            e.actions.forEach((a: any) => {
-                if (
-                    a.action === 'score' &&
-                    a.location === 'reef' &&
-                    a.level === 3
-                )
-                    score++
-            })
-            count++
-        })
-        return score / count
+        return calculateAverageByTeamAndMatch(
+            data,
+            team,
+            (matchData) =>
+                matchData.actions.filter(
+                    (a: any) =>
+                        a.action === 'score' &&
+                        a.location === 'reef' &&
+                        a.level === 3
+                ).length
+        )
     },
     AverageL4Coral(team: number, data: any[]) {
-        let count = 0
-        let score = 0
         data = dropWorstScoringMatch(data, team)
-        data.forEach((e) => {
-            if (e.team != team) return
-            e.actions.forEach((a: any) => {
-                if (
-                    a.action === 'score' &&
-                    a.location === 'reef' &&
-                    a.level === 4
-                )
-                    score++
-            })
-            count++
-        })
-        return score / count
+        return calculateAverageByTeamAndMatch(
+            data,
+            team,
+            (matchData) =>
+                matchData.actions.filter(
+                    (a: any) =>
+                        a.action === 'score' &&
+                        a.location === 'reef' &&
+                        a.level === 4
+                ).length
+        )
     },
     MostCommonCoralLevel(team: number, data: any[]) {
+        data = dropWorstScoringMatch(data, team)
         let levels = [0, 0, 0, 0]
-        data.forEach((e) => {
-            if (e.team != team) return
-            e.actions.forEach((a: any) => {
+        data.filter((e) => e.team === team).forEach((matchData) => {
+            matchData.actions.forEach((a: any) => {
                 if (a.action === 'score' && a.location === 'reef') {
                     levels[a.level - 1]++
                 }
@@ -373,49 +334,41 @@ export default {
         return levels.indexOf(Math.max(...levels)) + 1
     },
     PercentageL4Coral(team: number, data: any[]) {
-        let count = 0
-        let score = 0
         data = dropWorstScoringMatch(data, team)
-        data.forEach((e) => {
-            if (e.team != team) return
-            e.actions.forEach((a: any) => {
-                if (
-                    a.action === 'score' &&
-                    a.location === 'reef' &&
-                    a.level === 4
-                )
-                    score++
-            })
-            count++
-        })
-        return score / count
+        return calculateAverageByTeamAndMatch(
+            data,
+            team,
+            (matchData) =>
+                matchData.actions.filter(
+                    (a: any) =>
+                        a.action === 'score' &&
+                        a.location === 'reef' &&
+                        a.level === 4
+                ).length
+        )
     },
     AverageProcessorScore(team: number, data: any[]) {
-        let count = 0
-        let score = 0
         data = dropWorstScoringMatch(data, team)
-        data.forEach((e) => {
-            if (e.team != team) return
-            e.actions.forEach((a: any) => {
-                if (a.action === 'score' && a.location === 'processor')
-                    score += 6
-            })
-            count++
-        })
-        return score / count
+        return calculateAverageByTeamAndMatch(
+            data,
+            team,
+            (matchData) =>
+                matchData.actions.filter(
+                    (a: any) =>
+                        a.action === 'score' && a.location === 'processor'
+                ).length * 6
+        )
     },
-    AverageBargeScore(team: number, data: any[]) {
-        let count = 0
-        let score = 0
+    AverageNetScore(team: number, data: any[]) {
         data = dropWorstScoringMatch(data, team)
-        data.forEach((e) => {
-            if (e.team != team) return
-            e.actions.forEach((a: any) => {
-                if (a.action === 'score' && a.location === 'barge') score += 4
-            })
-            count++
-        })
-        return score / count
+        return calculateAverageByTeamAndMatch(
+            data,
+            team,
+            (matchData) =>
+                matchData.actions.filter(
+                    (a: any) => a.action === 'score' && a.location === 'barge'
+                ).length * 4
+        )
     },
 }
 

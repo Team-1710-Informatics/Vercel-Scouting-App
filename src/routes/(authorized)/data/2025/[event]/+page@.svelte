@@ -120,7 +120,6 @@
             },
             yaxis: {
                 range: [0, null] // Forces the bottom to be 0, lets Plotly decide the upper limit
-
             }
         };
         console.log(trace)

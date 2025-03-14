@@ -150,17 +150,20 @@
         picked = {...picked}
     }
 
-    function inviteShift(allianceIndex) {
-        if (picked.rankings[allianceIndex][0].team_key === selectedTeam) {
-            if (
-                allianceIndex > i &&
-                picked.rankings[allianceIndex].length === 1
-            ) {
-                selected_team = picked.rankings[allianceIndex][0]
-                selecting = true
+    function inviteShift(allianceIndex, team) {
+        if (!team.rejected) {
+            if (picked.rankings[allianceIndex][0].team_key === selectedTeam) {
+                if (
+                    allianceIndex > i &&
+                    picked.rankings[allianceIndex].length === 1
+                ) {
+                    selected_team = picked.rankings[allianceIndex][0]
+                    selecting = true
+                }
             }
         }
-        selectedTeam = picked.rankings[allianceIndex][0].team_key
+
+        selectedTeam = team.team_key
         selectedAlliance = ['none']
     }
 
@@ -262,9 +265,8 @@
                                             <button
                                                     class="rounded-md"
                                                     on:click={() => {
-                                                if (!team.rejected) {
-                                                    inviteShift(index)
-                                                }
+                                                    inviteShift(index, team)
+
                                             }}
                                                     class:bg-slate-600={selectedTeam ===
                                                 team.team_key}
