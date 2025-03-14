@@ -22,7 +22,7 @@
     }
 
     let columns = ['TeamNumber', 'AverageScore']
-    let sortFunction = 'AverageScore'
+    let sortFunction = 'AverageScoreNumeric'
     let ascending = false
     let positive = true
 

@@ -11,6 +11,7 @@
 
 
     events.sort((a, b) => {
+
         return a.short_name.localeCompare(b.short_name)
     })
 

@@ -120,7 +120,6 @@
             },
             yaxis: {
                 range: [0, null] // Forces the bottom to be 0, lets Plotly decide the upper limit
-
             }
         };
         console.log(trace)
@@ -134,7 +133,6 @@
 
     let entries
     onMount(() => {
-        matchPredictor.eventPrediction()
         event = data.data.event
         entries = data.data
         console.log("entries", entries)
@@ -160,7 +158,8 @@
         ></AllianceSelection>
     </div>
 
-    <div class="basis-2/4 h-auto temporary_box my-4 rounded-lg" style="max-height: 100%">
+    <div class="basis-2/4 temporary_box my-4 rounded-lg overflow-x-scroll overflow-y-scroll"
+         style="max-height: calc(100vh - 2rem); max-width:50%">
         {#if entries}
             <Spreadsheet data={entries}/>
         {/if}
@@ -199,8 +198,7 @@
                 <ServicePing name="Match Prediction" url="match.apisb.me"/>
             </div>
         </div>
-        <MatchPredictor bind:this={matchPredictor} event={data.data.event}
-        ></MatchPredictor>
+        <MatchPredictor bind:allianceSelection bind:this={matchPredictor} event={data.data.event}/>
     </div>
 </div>
 

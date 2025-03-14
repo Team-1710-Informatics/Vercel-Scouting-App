@@ -23,14 +23,14 @@ export async function load({ params, locals }) {
     let tbaEvents = []
     for (const e of events) {
         console.log(e)
-        if (e != null && e !== '2024practice') {
+        if (e != null && e !== '2025practice') {
             tbaEvents.push(await tba('event/' + e))
         }
-        if (e === '2024practice') {
+        if (e === '2025practice') {
             tbaEvents.push({
-                key: '2024practice',
-                name: '2024practice',
-                short_name: '2024practice',
+                key: '2025practice',
+                name: '2025practice',
+                short_name: '2025practice',
             })
         }
     }
