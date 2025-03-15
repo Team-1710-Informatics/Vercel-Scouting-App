@@ -1,6 +1,7 @@
 import tba from '$lib/modules/tba'
 import { ScambleTicket, User } from '$lib/server/models'
 import credi from '$lib/server/user/credi'
+import tokens from '$lib/server/user/tokens'
 
 export async function load({ locals }) {
     let events = await tba('events/' + new Date().getFullYear())
@@ -77,8 +78,11 @@ export const actions = {
         )
         await ticket.save()
 
-        user.tokens -= 1
-        await user.save()
+        await tokens.transaction(
+            user.username,
+            -1,
+            "Token used to scout"
+        )
 
         const tickets = await getTickets(user.username)
 

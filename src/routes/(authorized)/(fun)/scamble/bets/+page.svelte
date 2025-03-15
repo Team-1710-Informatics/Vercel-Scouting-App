@@ -50,7 +50,7 @@
         />
     </div>
     <Tickets tickets={data.tickets} />
-    <div class="h-8" />
+    <div class="h-4" />
     <div
         class="font-bold bg-gradient-to-br from-slate-900 to-slate-800 text-center p-2 rounded-lg mb-2 text-2xl text-teal-500"
         class:rounded-b-none={match}
@@ -58,9 +58,12 @@
     >
         <Credits class="text-3xl">{Math.trunc($credits)}</Credits>
         credits
+        <br />
+        <Credits class="text-3xl">{data.tokens}</Credits>
+        tokens
     </div>
     <Matchup bind:match />
-    <div>
+    <div >
         {#if match?.winning_alliance === '' && !match.actual_time && data.tokens !== 0}
             {#key form}
                 {#if !ticketExists(match.key)}
@@ -76,10 +79,7 @@
                     </p>
                 {/if}
             {/key}
-        {:else if data.tokens < 1}
-            <p class="text-center">You have 0 scamble tokens. Earn some more by scouting in order to bet on matches.</p>
-
-        {:else if match?.winning_alliance != undefined}
+        {:else if match?.winning_alliance != undefined && data.tokens !== 0}
             <p
                 class={`font-bold p-2 mt-2 rounded-lg bg-gradient-to-br ${
                     match.winning_alliance === 'blue'
@@ -97,10 +97,11 @@
             </p>
         {/if}
 
-        {#if data.tokens > 1}
-            You currently have {data.tokens} tokens available for scambling.
-        {/if}
+
     </div>
+    {#if data.tokens < 1}
+        <p class="text-center w-3/4">You have 0 scamble tokens. Earn some more by scouting in order to bet on matches.</p>
+    {/if}
     <br />
 </middle>
 
