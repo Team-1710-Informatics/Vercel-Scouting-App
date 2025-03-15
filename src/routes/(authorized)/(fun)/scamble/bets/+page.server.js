@@ -3,7 +3,7 @@ import { ScambleTicket, User } from '$lib/server/models'
 import credi from '$lib/server/user/credi'
 
 export async function load({ locals }) {
-    const events = await tba('events/' + new Date().getFullYear())
+    let events = await tba('events/' + new Date().getFullYear())
 
     const last = (
         await ScambleTicket.find({ user: locals.user.username })
@@ -13,12 +13,16 @@ export async function load({ locals }) {
 
     const tickets = await getTickets(locals.user.username) //check resolved tickets of user
 
+    const user = await User.findOne({ user: locals.user.username }) // get user to check tokens
+    const tokens = user.tokens
+
     return {
         events,
         competition: locals.competition,
         user: locals.user.username,
         last: last?.match.split('_')[0],
         tickets,
+        tokens,
     }
 }
 
@@ -46,7 +50,8 @@ export const actions = {
         if (
             wager <= 0 ||
             wager > max(user.credits) ||
-            wager != Math.trunc(wager)
+            wager != Math.trunc(wager) ||
+            user.tokens < 1
         )
             return
 
@@ -71,6 +76,9 @@ export const actions = {
             `Scamble: Place bet on ${match}`
         )
         await ticket.save()
+
+        user.tokens -= 1
+        await user.save()
 
         const tickets = await getTickets(user.username)
 

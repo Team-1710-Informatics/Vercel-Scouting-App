@@ -61,7 +61,7 @@
     </div>
     <Matchup bind:match />
     <div>
-        {#if match?.winning_alliance === '' && !match.actual_time}
+        {#if match?.winning_alliance === '' && !match.actual_time && data.tokens !== 0}
             {#key form}
                 {#if !ticketExists(match.key)}
                     <Bet {data} bind:match />
@@ -76,6 +76,9 @@
                     </p>
                 {/if}
             {/key}
+        {:else if data.tokens < 1}
+            <p class="text-center">You have 0 scamble tokens. Earn some more by scouting in order to bet on matches.</p>
+
         {:else if match?.winning_alliance != undefined}
             <p
                 class={`font-bold p-2 mt-2 rounded-lg bg-gradient-to-br ${
@@ -92,6 +95,10 @@
                     ? ' VICTORY'
                     : 'DRAW'}
             </p>
+        {/if}
+
+        {#if data.tokens > 1}
+            You currently have {data.tokens} tokens available for scambling.
         {/if}
     </div>
     <br />
