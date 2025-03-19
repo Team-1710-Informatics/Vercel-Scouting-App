@@ -153,7 +153,7 @@
     <br />
     <div class="flex flex-row">
         <a href="/admin/history"
-        ><button class="submit my-1 w-40 h-14">Credit history</button></a
+        ><button class="submit my-1 w-40 h-14">Transaction history</button></a
         >
         <a href="/admin/store"
         ><button class="submit my-1 w-40 h-14">Add a store item</button></a

@@ -63,18 +63,18 @@ export const actions = {
             await credits.transaction(
                 locals.user.username,
                 400,
-                `Scouted ${data.event}_qm${data.match}:${data.team}`
+                `Scouting: Scouted ${data.event}_qm${data.match}:${data.team}`
             )
             await tokens.transaction(
                 locals.user.username,
                 2,  // change this to add more or less token payout
-                "Token payout for scouting"
+                "Scouting: Token Payout"
             )
         } else if (data.event != '2025practice') {
             await credits.transaction(
                 locals.user.username,
                 100,
-                `Scouted ${data.event}_qm${data.match}:${data.team} (extra)`
+                `Scouting: Scouted ${data.event}_qm${data.match}:${data.team} (extra)`
             )
         }
 

@@ -81,7 +81,7 @@ export const actions = {
         await tokens.transaction(
             user.username,
             -1,
-            "scamble"
+            "Scamble: Use token to place bet"
         )
 
         const tickets = await getTickets(user.username)
