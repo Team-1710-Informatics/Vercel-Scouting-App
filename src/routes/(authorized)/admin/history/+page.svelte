@@ -9,9 +9,9 @@
         {#each data.transactions as t}
             {#if filter === '' || t.user === filter}
                 <tr class="flex flex-row gap-4 text-left">
-                    <td class="w-1/3">User: {t.user}</td>
-                    <td class="w-1/3">Amount: {t.amount} {t.currency}</td>
-                    <td class="w-1/3">{t.reason}</td>
+                    <td class="w-1/4">User: {t.user}</td>
+                    <td class="w-1/4">Amount: {t.amount} {t.currency}</td>
+                    <td class="w-1/2">{t.reason}</td>
                 </tr>
                 <hr class="w-full"/>
             {/if}
