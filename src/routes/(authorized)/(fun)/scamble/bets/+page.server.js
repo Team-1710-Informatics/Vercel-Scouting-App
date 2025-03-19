@@ -81,7 +81,7 @@ export const actions = {
         await tokens.transaction(
             user.username,
             -1,
-            "Token used to scout"
+            "scamble"
         )
 
         const tickets = await getTickets(user.username)

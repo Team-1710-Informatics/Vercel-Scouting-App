@@ -179,6 +179,7 @@ export const ScoutData = mongoose.model('2025entry', scoutEntry2025)
 const transaction = new Schema({
     user: String,
     amount: Number,
+    currency: String,
     reason: String,
     time: Number,
 })

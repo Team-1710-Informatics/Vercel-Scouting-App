@@ -11,7 +11,7 @@
             {#if filter === '' || t.user === filter}
                 <div class="w-fit flex flex-row gap-4">
                     <p>User: {t.user}</p>
-                    <p>{t.amount} credits</p>
+                    <p>{t.amount} {t.currency}</p>
                     <p>{t.reason}</p>
                 </div>
             {/if}

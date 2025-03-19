@@ -14,6 +14,7 @@ export default {
         const log = new Transaction({
             user: username,
             amount: amount,
+            currency: 'tokens',
             reason: reason,
             time: Date.now(),
         })
