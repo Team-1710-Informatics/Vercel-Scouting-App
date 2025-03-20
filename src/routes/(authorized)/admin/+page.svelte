@@ -177,7 +177,7 @@
     </div>
 
     <div class="flex flex-row">
-        <a href="/admin/payout"><button class="submit my-1 w-40 h-14">Media/Pit Payout</button></a>
+        <a href="/admin/payout"><button class="submit my-1 w-40 h-14">Role Payout</button></a>
         <a href="/admin/pictures"><button class="submit my-1 w-40 h-14">Pit Scout Pictures</button></a>
     </div>
 
