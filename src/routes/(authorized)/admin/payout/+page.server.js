@@ -34,7 +34,7 @@ export const actions = {
 
         let drivers = [];
 
-        if (data.selected.includes('admin')) {
+        if (data.selected.includes('drive')) {
             drivers = await User.find({"permissions": "drive"});
         }
 
