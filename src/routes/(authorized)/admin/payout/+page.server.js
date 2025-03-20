@@ -7,7 +7,7 @@ export const actions = {
         const data = JSON.parse(input.get("data"));
 
         // reason for transactions
-        const reason = "role payout";
+        const reason = "Role payout";
 
         // get all media members if the role is being paid
         let medias = [];
@@ -38,30 +38,18 @@ export const actions = {
             drivers = await User.find({"permissions": "drive"});
         }
 
-        // you can't get paid twice!
-        let alreadyPaid = [];
 
         // now iterate over media people
         let mediaPayout = data.amount[data.selected.indexOf("media")]
         for (let i = 0; i < medias.length; i++){
             let user = medias[i];
-            if (alreadyPaid.includes(user.username)) {
-                continue
-            } else {
-                alreadyPaid.push(user.username);
-            }
 
-            await credits.transaction(user.username, payout, reason);
+            await credits.transaction(user.username, mediaPayout, reason);
         }
 
         let adminPayout = data.amount[data.selected.indexOf("admin")]
         for (let i = 0; i < admins.length; i++){
             let user = admins[i];
-            if (alreadyPaid.includes(user.username)) {
-                continue
-            } else {
-                alreadyPaid.push(user.username);
-            }
 
             await credits.transaction(user.username, adminPayout, reason);
         }
@@ -69,11 +57,6 @@ export const actions = {
         let drivePayout = data.amount[data.selected.indexOf("drive")]
         for (let i = 0; i < drivers.length; i++){
             let user = drivers[i];
-            if (alreadyPaid.includes(user.username)) {
-                continue
-            } else {
-                alreadyPaid.push(user.username);
-            }
 
             await credits.transaction(user.username, drivePayout, reason);
         }
@@ -81,11 +64,6 @@ export const actions = {
         let pitPayout = data.amount[data.selected.indexOf("pit")]
         for (let i = 0; i < pits.length; i++){
             let user = pits[i];
-            if (alreadyPaid.includes(user.username)) {
-                continue
-            } else {
-                alreadyPaid.push(user.username);
-            }
 
             await credits.transaction(user.username, pitPayout, reason);
         }
