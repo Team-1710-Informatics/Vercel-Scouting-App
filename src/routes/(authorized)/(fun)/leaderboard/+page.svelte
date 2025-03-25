@@ -64,8 +64,6 @@
                                 case 1:
                                     return 'text-amber-400 text-xl'
                                 case 2:
-                                    return 'text-slate-300 text-xl'
-                                case 3:
                                     return 'text-amber-600 text-xl'
                             }
                         })()}`}
