@@ -7,13 +7,15 @@
 
     let teams = []
 
-    let showAll = false
+    let showAll = true
 
     for (let i = 0; i < entries.length; i++) {
         if (!teams.includes(entries[i].team)) {
             teams.push(entries[i].team)
         }
     }
+
+    teams.sort()
 
     let imgWidth = 32
 
