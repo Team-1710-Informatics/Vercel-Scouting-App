@@ -30,6 +30,10 @@ const user = new Schema({
         type: Number,
         required: true,
     },
+    tokens: {
+        type: Number,
+        required: true,
+    },
     team: {
         type: Number,
         required: true,

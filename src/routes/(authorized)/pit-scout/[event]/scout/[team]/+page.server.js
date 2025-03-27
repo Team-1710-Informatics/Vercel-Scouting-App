@@ -85,19 +85,19 @@ export const actions = {
             await credits.transaction(
                 final.scout,
                 350,
-                `Pit scouted ${final.team}`
+                `Pit: scouted ${final.team}`
             )
             // if there is, then pay both
         } else if (final.otherScouts != 'none') {
             await credits.transaction(
                 final.scout,
                 350,
-                `Pit scouted ${final.team}`
+                `Pit: scouted ${final.team}`
             )
             await credits.transaction(
                 final.otherScouts,
                 350,
-                `Co-pit scouted ${final.team}`
+                `Pit: co-scouted ${final.team}`
             )
         }
 

@@ -3,6 +3,7 @@ import { ScoutData, TeamSelections } from '$lib/server/models'
 import credits from '$lib/server/user/credi'
 import stats from '$lib/server/user/stats'
 import { redirect } from '@sveltejs/kit'
+import tokens from '$lib/server/user/tokens'
 
 export async function load({ locals, url }) {
     if (!locals.user) throw redirect(307, '/login')
@@ -62,14 +63,26 @@ export const actions = {
             await credits.transaction(
                 locals.user.username,
                 400,
-                `Scouted ${data.event}_qm${data.match}:${data.team}`
+                `Scouting: Scouted ${data.event}_qm${data.match}:${data.team}`
             )
+            await tokens.transaction(
+                locals.user.username,
+                2,  // change this to add more or less token payout
+                "Scouting: Token Payout"
+            )
+            console.log("token awarded")
         } else if (data.event != '2025practice') {
             await credits.transaction(
                 locals.user.username,
                 100,
-                `Scouted ${data.event}_qm${data.match}:${data.team} (extra)`
+                `Scouting: Scouted ${data.event}_qm${data.match}:${data.team} (extra)`
             )
+            await tokens.transaction(
+                locals.user.username,
+                1,  // change this to add more or less token payout
+                "Scouting: Token Payout"
+            )
+            console.log("token awarded")
         }
 
         if (data.team === 'practice') {

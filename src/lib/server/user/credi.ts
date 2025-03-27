@@ -20,6 +20,7 @@ export default {
         const log = new Transaction({
             user: username,
             amount: amount,
+            currency: 'credits',
             reason: reason,
             time: Date.now(),
         })

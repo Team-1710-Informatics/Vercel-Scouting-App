@@ -7,7 +7,7 @@ export const actions = {
         const data = JSON.parse(input.get("data"));
 
         // reason for transactions
-        const reason = "role payout";
+        const reason = "Role payout";
 
         // get all media members if the role is being paid
         let medias = [];
@@ -34,72 +34,41 @@ export const actions = {
 
         let drivers = [];
 
-        if (data.selected.includes('admin')) {
+        if (data.selected.includes('drive')) {
             drivers = await User.find({"permissions": "drive"});
         }
 
-        // you can't get paid twice!
-        let alreadyPaid = [];
 
         // now iterate over media people
-        let payout = data.amount[data.selected.indexOf("media")]
+        let mediaPayout = data.amount[data.selected.indexOf("media")]
         for (let i = 0; i < medias.length; i++){
             let user = medias[i];
-            if (alreadyPaid.includes(user.username)) {
-                return
-            } else {
-                alreadyPaid.push(user.username);
-            }
 
-            let creds = user.credits
-            creds += payout;
-            await credits.transaction(user.username, creds, reason);
+            await credits.transaction(user.username, mediaPayout, reason);
         }
 
-        // pit people
-        payout = data.amount[data.selected.indexOf("pit")]
-        for (let i = 0; i < pits.length; i++){
-            let user = pits[i];
-            if (alreadyPaid.includes(user.username)) {
-                return
-            } else {
-                alreadyPaid.push(user.username);
-            }
-
-            let creds = user.credits
-            creds += payout;
-            await credits.transaction(user.username, creds, reason);
-        }
-
-        // admins
-        payout = data.amount[data.selected.indexOf("admin")]
+        let adminPayout = data.amount[data.selected.indexOf("admin")]
         for (let i = 0; i < admins.length; i++){
             let user = admins[i];
-            if (alreadyPaid.includes(user.username)) {
-                return
-            } else {
-                alreadyPaid.push(user.username);
-            }
 
-            let creds = user.credits
-            creds += payout;
-            await credits.transaction(user.username, creds, reason);
+            await credits.transaction(user.username, adminPayout, reason);
         }
 
-        // drive team
-        payout = data.amount[data.selected.indexOf("drive")]
+        let drivePayout = data.amount[data.selected.indexOf("drive")]
         for (let i = 0; i < drivers.length; i++){
             let user = drivers[i];
-            if (alreadyPaid.includes(user.username)) {
-                return
-            } else {
-                alreadyPaid.push(user.username);
-            }
 
-            let creds = user.credits
-            creds += payout;
-            await credits.transaction(user.username, creds, reason);
+            await credits.transaction(user.username, drivePayout, reason);
         }
+
+        let pitPayout = data.amount[data.selected.indexOf("pit")]
+        for (let i = 0; i < pits.length; i++){
+            let user = pits[i];
+
+            await credits.transaction(user.username, pitPayout, reason);
+        }
+
+
 
     }
 };

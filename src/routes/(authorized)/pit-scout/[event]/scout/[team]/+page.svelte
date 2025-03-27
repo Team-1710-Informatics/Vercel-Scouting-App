@@ -75,7 +75,8 @@
         "urcl",
         "doglog",
         "advantagekit",
-        "other"
+        "other",
+        "none"
     ]
 
     $: wpilog = false;
