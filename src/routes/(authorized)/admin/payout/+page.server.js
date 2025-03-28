@@ -1,5 +1,6 @@
 import { User } from '$lib/server/models/index.js'
 import credits from '$lib/server/user/credi.ts'
+import tokens from '$lib/server/user/tokens.ts'
 
 export const actions = {
     default: async ({ request })=>{
@@ -9,64 +10,48 @@ export const actions = {
         // reason for transactions
         const reason = "Role payout";
 
-        // get all media members if the role is being paid
-        let medias = [];
+        const medias = await User.find({"permissions": "media"});
+        const pits = await User.find({"permissions": "pit"});
+        const admins = await User.find({"permissions": "admin"});
+        const drivers = await User.find({"permissions": "drive"});
 
-        if (data.selected.includes('media')) {
-            console.log("media")
-            medias = await User.find({"permissions": "media"});
-            console.log(medias);
-        }
+        let alreadyPaid = []
 
-        // same here but for pits
-        let pits = []
+        data.entries.forEach(entry => {
+            const role = entry.role;
+            const currency = entry.currency;
+            const amount = entry.amount;
 
-        if (data.selected.includes('pit')) {
-            pits = await User.find({"permissions": "pit"});
-        }
+            let users;
 
-        // and also us admins
-        let admins = [];
+            switch (role) {
+                case "media":
+                    users = medias;
+                    break;
+                case "pit":
+                    users = pits;
+                    break;
+                case "admin":
+                    users = admins;
+                    break;
+                case "drive":
+                    users = drivers;
+                    break;
+            }
 
-        if (data.selected.includes('admin')) {
-            admins = await User.find({"permissions": "admin"});
-        }
+            users.forEach(user => {
+                if (alreadyPaid.includes(user.username)) return
+                alreadyPaid.push(user.username);
+                if (currency === "credits") {
+                    credits.transaction(user.username, amount, reason);
+                } else if (currency === "tokens") {
+                    tokens.transaction(user.username, amount, reason);
+                }
+            })
 
-        let drivers = [];
-
-        if (data.selected.includes('drive')) {
-            drivers = await User.find({"permissions": "drive"});
-        }
+        })
 
 
-        // now iterate over media people
-        let mediaPayout = data.amount[data.selected.indexOf("media")]
-        for (let i = 0; i < medias.length; i++){
-            let user = medias[i];
-
-            await credits.transaction(user.username, mediaPayout, reason);
-        }
-
-        let adminPayout = data.amount[data.selected.indexOf("admin")]
-        for (let i = 0; i < admins.length; i++){
-            let user = admins[i];
-
-            await credits.transaction(user.username, adminPayout, reason);
-        }
-
-        let drivePayout = data.amount[data.selected.indexOf("drive")]
-        for (let i = 0; i < drivers.length; i++){
-            let user = drivers[i];
-
-            await credits.transaction(user.username, drivePayout, reason);
-        }
-
-        let pitPayout = data.amount[data.selected.indexOf("pit")]
-        for (let i = 0; i < pits.length; i++){
-            let user = pits[i];
-
-            await credits.transaction(user.username, pitPayout, reason);
-        }
 
 
 
