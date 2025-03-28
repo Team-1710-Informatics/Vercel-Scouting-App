@@ -81,7 +81,7 @@ export const actions = {
         await tokens.transaction(
             user.username,
             -1,
-            "Scamble: Use token to place bet"
+            'Scamble: Use token to place bet'
         )
 
         const tickets = await getTickets(user.username)
@@ -160,7 +160,7 @@ async function punchTicket(t) {
         if (all[i].alliance === t.alliance) matching++
 
         // Add a bonus for payout calculation
-        let effective = all[i].amount + Math.sqrt(all[i].amount) * 20
+        let effective = all[i].amount + 200
 
         sums[all[i].alliance] += effective
         sums.total += effective //both total and alliance values accounting for match winnings
