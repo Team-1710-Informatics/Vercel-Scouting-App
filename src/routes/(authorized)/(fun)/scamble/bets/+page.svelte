@@ -34,6 +34,17 @@
 
         credits.set(await o.json())
     }
+
+    let tokens = tweened(0);
+    $: if (data.tokens || !data.tokens) loadTokens();
+
+    async function loadTokens() {
+        const o = await fetch(
+            `http${$page.url.hostname === 'localhost' ? '' : 's'}://${$page.url.host}/internal/tokens/${data.user}`
+        )
+
+        tokens.set(await o.json());
+    }
 </script>
 
 <middle class="py-10">
@@ -59,7 +70,7 @@
         <Credits class="text-3xl">{Math.trunc($credits)}</Credits>
         credits
         <br />
-        <Credits class="text-3xl">{data.tokens}</Credits>
+        <Credits class="text-3xl">{Math.trunc($tokens)}</Credits>
         tokens
     </div>
     <Matchup bind:match />
@@ -99,7 +110,7 @@
 
 
     </div>
-    {#if data.tokens < 1}
+    {#if tokens < 1}
         <p class="text-center w-3/4">You have 0 scamble tokens. Earn some more by scouting in order to bet on matches.</p>
     {/if}
     <br />

@@ -2,6 +2,7 @@ import { X_TBA_AUTHKEY } from '$env/static/private'
 import { pitdata2025, User } from '$lib/server/models/index.js'
 import credits from '$lib/server/user/credi.ts'
 import { redirect } from '@sveltejs/kit'
+import { tokens } from '$lib/server/user/tokens.ts'
 
 // fetches bluealliance data to load lists of events and matches for scouts to select form.
 export async function load({ locals, fetch, params }) {
@@ -87,6 +88,11 @@ export const actions = {
                 350,
                 `Pit: scouted ${final.team}`
             )
+            await tokens.transaction(
+                final.scout,
+                1,
+                `Pit: Token Payout for scouting ${final.team}`
+            )
             // if there is, then pay both
         } else if (final.otherScouts != 'none') {
             await credits.transaction(
@@ -98,6 +104,16 @@ export const actions = {
                 final.otherScouts,
                 350,
                 `Pit: co-scouted ${final.team}`
+            )
+            await tokens.transaction(
+                final.scout,
+                1,
+                `Pit: Token Payout for scouting ${final.team}`
+            )
+            await tokens.transaction(
+                final.otherScouts,
+                1,
+                `Pit: Token Payout for co-scouting ${final.team}`
             )
         }
 
