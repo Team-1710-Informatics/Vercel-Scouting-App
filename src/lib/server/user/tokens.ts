@@ -9,7 +9,7 @@ export default {
         //@ts-ignore
         let tokens = user.tokens + amount;
 
-        await User.updateOne({username: username}, {tokens: tokens})
+        await User.updateOne({username: username}, {$set: {tokens: tokens}})
 
         const log = new Transaction({
             user: username,
