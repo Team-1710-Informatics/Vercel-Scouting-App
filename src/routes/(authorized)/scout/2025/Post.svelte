@@ -154,7 +154,7 @@
 <!--                <QRcode data={qrdata} />-->
 <!--            {/if}-->
 <!--        </button>-->
-        <a href="/hub" class="rounded border-2 p-2 submit">Hub</a>
+        <a href="/hub" class="rounded border-2 p-2 submit mt-2">Hub</a>
     </div>
 </center>
 
