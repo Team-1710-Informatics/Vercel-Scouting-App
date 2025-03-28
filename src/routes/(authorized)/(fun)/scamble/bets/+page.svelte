@@ -59,7 +59,7 @@
         <Credits class="text-3xl">{Math.trunc($credits)}</Credits>
         credits
         <br />
-        <Credits class="text-3xl">{data.tokens}</Credits>
+        <Credits class="text-3xl">{Math.trunc($data.tokens)}</Credits>
         tokens
     </div>
     <Matchup bind:match />
