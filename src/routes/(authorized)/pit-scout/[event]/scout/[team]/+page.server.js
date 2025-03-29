@@ -2,7 +2,7 @@ import { X_TBA_AUTHKEY } from '$env/static/private'
 import { pitdata2025, User } from '$lib/server/models/index.js'
 import credits from '$lib/server/user/credi.ts'
 import { redirect } from '@sveltejs/kit'
-import { tokens } from '$lib/server/user/tokens.ts'
+import tokens from '$lib/server/user/tokens.ts'
 
 // fetches bluealliance data to load lists of events and matches for scouts to select form.
 export async function load({ locals, fetch, params }) {
