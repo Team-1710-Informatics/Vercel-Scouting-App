@@ -60,7 +60,6 @@
         <button on:click={addRole}>Add</button>
         {#each entries as p}
             <p>{p.role} - {p.amount} {p.currency}</p>
-
         {/each}
     </div>
 
