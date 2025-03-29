@@ -166,7 +166,7 @@ async function punchTicket(t) {
         sums.total += effective //both total and alliance values accounting for match winnings
     } //end loop
 
-    let effective = t.amount * 1.5 //user payout for calculation
+    let effective = t.amount * 1.2 //user payout for calculation
 
     let portion = effective / sums[t.alliance] //ratio user winnings to total bet alliance winnings
 
