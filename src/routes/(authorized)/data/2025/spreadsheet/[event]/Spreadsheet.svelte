@@ -28,13 +28,12 @@
 
     $: teams = teams.sort((a, b) => {
         if (first && last) {
-
-            return (
-                (+stats[sortFunction](b, data.entries.filter(matfil)) -
-                    +stats[sortFunction](a, data.entries.filter(matfil))) *
-                (ascending ? -1 : 1)
-            )
         }
+        return (
+            (+stats[sortFunction](b, data.entries.filter(matfil)) -
+                +stats[sortFunction](a, data.entries.filter(matfil))) *
+            (ascending ? -1 : 1)
+        )
     })
 
     let output
