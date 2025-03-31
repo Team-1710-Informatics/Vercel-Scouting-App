@@ -14,6 +14,12 @@
     $: showteams = show.split(' ')
 
     export let data
+    if (data) {
+        data.entries.forEach((e) => {
+            if (!teams.includes(e.team)) teams.push(e.team)
+        })
+        console.log(teams)
+    }
 
     let columns = ['TeamNumber', 'AverageScore']
     let sortFunction = 'AverageScoreNumeric'
@@ -22,12 +28,13 @@
 
     $: teams = teams.sort((a, b) => {
         if (first && last) {
+
+            return (
+                (+stats[sortFunction](b, data.entries.filter(matfil)) -
+                    +stats[sortFunction](a, data.entries.filter(matfil))) *
+                (ascending ? -1 : 1)
+            )
         }
-        return (
-            (+stats[sortFunction](b, data.entries.filter(matfil)) -
-                +stats[sortFunction](a, data.entries.filter(matfil))) *
-            (ascending ? -1 : 1)
-        )
     })
 
     let output

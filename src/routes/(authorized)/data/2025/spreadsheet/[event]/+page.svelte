@@ -16,10 +16,12 @@
     $: showteams = show.split(' ')
 
     export let data
-
-    console.log(data.entries)
-
-    let entries = data.entries;
+    if (data) {
+        data.data.entries.forEach((e) => {
+            if (!teams.includes(e.team)) teams.push(e.team)
+        })
+        console.log(teams)
+    }
 
     let columns = ['TeamNumber', 'AverageScore']
     let sortFunction = 'AverageScore'
@@ -28,8 +30,9 @@
 
     let output;
 
+    let entries;
     onMount(() => {
-        entries = data.entries;
+        entries = data.data;
         console.log(entries);
     })
 
@@ -49,7 +52,7 @@
         }
         csvdata = csvdata.join('\n')
 
-        downloadCSVFile(csvdata)
+        downloadCSVFile(csvdata);
     }
 
     function downloadCSVFile(csvdata) {
@@ -71,8 +74,8 @@
     $: teams = teams.sort((a, b) => {
         if (first && last) {
             return (
-                (+stats[sortFunction](b, data.entries.filter(matfil)) -
-                    +stats[sortFunction](a, data.entries.filter(matfil))) *
+                (+stats[sortFunction](b, data.data.entries.filter(matfil)) -
+                    +stats[sortFunction](a, data.data.entries.filter(matfil))) *
                 (ascending ? -1 : 1)
             )
         }
@@ -91,7 +94,7 @@
     {#each teams as team}
         <tr class="divide-x">
             {#each columns as col}
-                <td>{stats[col](team, data.entries)}</td>
+                <td>{stats[col](team, data.data.entries)}</td>
             {/each}
         </tr>
     {/each}
