@@ -1,6 +1,6 @@
 <script>
     import {flip} from 'svelte/animate'
-    import stats from '../spreadsheet/[event]/statistics.ts'
+    import stats from './statistics.ts'
 
     let teams = []
     let first = 1
@@ -14,12 +14,6 @@
     $: showteams = show.split(' ')
 
     export let data
-    if (data) {
-        data.entries.forEach((e) => {
-            if (!teams.includes(e.team)) teams.push(e.team)
-        })
-        console.log(teams)
-    }
 
     let columns = ['TeamNumber', 'AverageScore']
     let sortFunction = 'AverageScoreNumeric'

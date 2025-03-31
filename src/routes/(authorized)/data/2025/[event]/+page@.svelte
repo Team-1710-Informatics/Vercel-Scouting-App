@@ -8,7 +8,7 @@
     import MatchPredictor from '$lib/components/data/2025/MatchPredictor.svelte'
     import ServicePing from '../../../services/ServicePing.svelte'
     import {onMount} from 'svelte'
-    import Spreadsheet from './Spreadsheet.svelte'
+    import Spreadsheet from '../spreadsheet/[event]/Spreadsheet.svelte'
     import PitData from './PitData.svelte'
 
     let autoScoreValues = [3, 4, 6, 7]
