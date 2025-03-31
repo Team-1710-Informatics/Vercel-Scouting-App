@@ -2,6 +2,7 @@
     import {flip} from 'svelte/animate'
     import stats from './statistics.ts'
     import Spreadsheet from './Spreadsheet.svelte'
+    import { onMount } from 'svelte'
 
     let teams = []
     let first = 1
@@ -18,14 +19,19 @@
 
     console.log(data.entries)
 
-    const entries = data.entries;
+    let entries = data.entries;
 
     let columns = ['TeamNumber', 'AverageScore']
     let sortFunction = 'AverageScore'
     let ascending = false
     let positive = true
 
-    let output
+    let output;
+
+    onMount(() => {
+        entries = data.entries;
+        console.log(entries);
+    })
 
     function tableToCSV() {
         let csvdata = []

@@ -131,7 +131,7 @@
         document.getElementsByClassName("main-svg")[0].style.cssText = "background: rgba(0, 0, 0, 0);";
     }
 
-    let entries
+    let entries;
     onMount(() => {
         event = data.data.event
         entries = data.data
