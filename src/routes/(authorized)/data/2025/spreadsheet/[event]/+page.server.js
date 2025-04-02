@@ -9,5 +9,9 @@ export async function load({ params }) {
     //     delete e.postgame;
     // })
 
-    return { entries }
+    const data = {
+        entries: entries,
+    }
+
+    return { data }
 }
