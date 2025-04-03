@@ -1,4 +1,5 @@
 stages:
+  - test
   - sync
 
 deploy_to_github:
