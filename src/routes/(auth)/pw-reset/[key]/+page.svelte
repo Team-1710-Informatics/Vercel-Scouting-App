@@ -11,13 +11,12 @@
     <title>{title}</title>
 </svelte:head>
 
-<middle>
+<div class="middle">
     <Form
-        {title}
-        {data}
-        {form}
-        action="reset"
-        inputs={[
+            action="reset"
+            {data}
+            {form}
+            inputs={[
             {
                 label: 'Password',
                 placeholder: 'Password',
@@ -32,5 +31,6 @@
                 cols: 6,
             },
         ]}
+            {title}
     />
-</middle>
+</div>

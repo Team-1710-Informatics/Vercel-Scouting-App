@@ -299,7 +299,7 @@
     }
 </script>
 
-<middle>
+<div class="middle">
     <div class="bg-gray-800 flex flex-row gap-2 p-2 my-2 rounded-3xl">
         {#each scheduledays as day}
             {#if selected != day.id}
@@ -524,7 +524,7 @@
             Add Shift
         </button>
     </div>
-</middle>
+</div>
 
 <style>
     table {

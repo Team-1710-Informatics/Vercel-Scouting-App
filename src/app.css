@@ -38,7 +38,7 @@ textarea {
     padding-left: 2px;
 }
 
-middle {
+.middle {
     display: flex;
     flex: 0 auto;
     flex-direction: column;
@@ -86,20 +86,6 @@ button:disabled {
 
     box-shadow: 0px 0px 3px 1px white;
 }
-
-/* .box::before {
-	content:'';
-	position:absolute;
-	bottom:0px;
-	right:0px;
-	width:0px;
-	border-bottom: 80px solid rgb(18, 24, 33);
-	border-left: 80px solid transparent;
-
-	border-bottom-right-radius:0.5rem;
-
-	z-index:1;
-} */
 
 .header {
     background-color: rgb(15 23 42);
