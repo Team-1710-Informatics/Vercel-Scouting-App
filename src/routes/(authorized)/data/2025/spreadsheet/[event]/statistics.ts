@@ -293,6 +293,16 @@ export default {
                 ).length
         )
     },
+    DefenseStrategyPercentage(team: number, data: any[]) {
+        let strategies = data
+            .filter((e) => e.team === team)
+            .flatMap((matchData) => matchData.postgame.strategy)
+        let counts = strategies.reduce((acc: any, strat: string) => {
+            acc[strat] = (acc[strat] || 0) + 1
+            return acc
+        }, {})
+        return counts['defense'] / Object.keys(counts).length
+    },
     AverageL3Coral(team: number, data: any[]) {
         data = dropWorstScoringMatch(data, team)
         return calculateAverageByTeamAndMatch(
