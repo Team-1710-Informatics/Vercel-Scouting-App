@@ -11,8 +11,8 @@ import { DateTime } from 'luxon'
 import tba from '$lib/modules/tba'
 
 try {
-    if (!dev) await mongoose.connect(MONGODB_COMMUNITY)
-    else if (dev) await mongoose.connect(MONGODB_MAIN)
+    if (dev) await mongoose.connect(MONGODB_COMMUNITY)
+    else if (!dev) await mongoose.connect(MONGODB_MAIN)
     console.log('Connected to MongoDB')
 } catch (error) {
     console.log('Error connecting to MongoDB:', error)
