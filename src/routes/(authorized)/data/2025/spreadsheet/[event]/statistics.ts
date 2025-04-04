@@ -298,7 +298,8 @@ export default {
             acc[strat] = (acc[strat] || 0) + 1
             return acc
         }, {})
-        return counts['defense'] / Object.keys(counts).length
+        let percentage = counts['defense'] / Object.keys(counts).length
+        return isNaN(percentage) ? 0 : percentage
     },
     AverageL3Coral(team: number, data: any[]) {
         data = dropWorstScoringMatch(data, team)
