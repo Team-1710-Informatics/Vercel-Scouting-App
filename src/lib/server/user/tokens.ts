@@ -1,15 +1,17 @@
-import mongoose from 'mongoose';
-import {Transaction, User} from '../models';
+import { Transaction, User } from '../models'
 
 export default {
     transaction: async (username: string, amount: number, reason: string) => {
-        const user = await User.findOne({username: username});
-        if (!user?.username) return null;
+        const user = await User.findOne({ username: username })
+        if (!user?.username) return null
 
         //@ts-ignore
-        let tokens = user.tokens + amount;
+        let tokens = user.tokens + amount
 
-        await User.updateOne({username: username}, {$set: {tokens: tokens}})
+        await User.updateOne(
+            { username: username },
+            { $set: { tokens: tokens } }
+        )
 
         const log = new Transaction({
             user: username,
@@ -20,6 +22,5 @@ export default {
         })
 
         await log.save()
-
-    }
+    },
 }
