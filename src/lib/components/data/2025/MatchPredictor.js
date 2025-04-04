@@ -10,8 +10,8 @@ export const ApiService = {
     async event(event_key) {
         const response = await tba(`event/${event_key}/alliances`)
         const teams = []
-        for (let i = 0; i < response.length; i++) {
-            teams.push(response[i].picks)
+        for (const element of response) {
+            teams.push(element.picks)
         }
 
         return this.createPredictions(teams)
@@ -163,12 +163,10 @@ export const ApiService = {
                         }
                     }
                 }
+            } else if (prediction === 'red') {
+                matches[13].red = matches[i].red
             } else {
-                if (prediction === 'red') {
-                    matches[13].red = matches[i].red
-                } else {
-                    matches[13].blue = matches[i].blue
-                }
+                matches[13].blue = matches[i].blue
             }
         }
         return { matches: matches, teams: teams }
@@ -401,12 +399,10 @@ export const ApiService = {
                         }
                     }
                 }
+            } else if (prediction === 'red') {
+                matches[13].red = matches[i].red
             } else {
-                if (prediction === 'red') {
-                    matches[13].red = matches[i].red
-                } else {
-                    matches[13].blue = matches[i].blue
-                }
+                matches[13].blue = matches[i].blue
             }
         }
         return { matches: matches, teams: teams }
