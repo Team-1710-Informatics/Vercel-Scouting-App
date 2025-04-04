@@ -6,7 +6,7 @@
 
     let buttons: object = JSON.parse(data.currentButtons)
 
-    let previewLead: object = { name: '', start: '', end: '', day: '' }
+    let previewLead: object = {name: '', start: '', end: '', day: ''}
 
     if (data.previewLead != '') {
         previewLead = JSON.parse(data.previewLead)
@@ -15,7 +15,7 @@
     let previewScouts: object = JSON.parse(data.previewScouts)
     let previewBackups: object = JSON.parse(data.previewBackups)
 
-    let upcomingLead: object = { name: '', start: '', end: '', day: '' }
+    let upcomingLead: object = {name: '', start: '', end: '', day: ''}
     if (data.previewLead != '') {
         upcomingLead = JSON.parse(data.upcomingLead)
     }
@@ -64,34 +64,34 @@
     <title>Scouting</title>
 </svelte:head>
 
-<middle>
+<div class="middle">
     <div
-        class="rounded-lg px-5 py-4 my-5 bg-gradient-to-br from-slate-900 to-slate-800"
-        on:click={() => {
+            class="rounded-lg px-5 py-4 my-5 bg-gradient-to-br from-slate-900 to-slate-800"
+            on:click={() => {
             secret++
             if (secret >= 10) {
                 document.location.href = '/logofy'
             }
         }}
-        on:keypress={() => {}}
+            on:keypress={() => {}}
     >
         <CompetitionTracker
-            events={data.events}
-            user={data.user}
-            {users}
-            lead={previewLead}
-            scouts={previewScouts}
-            backups={previewBackups}
-            {upcomingLead}
-            {upcomingScouts}
-            {upcomingBackups}
+                backups={previewBackups}
+                events={data.events}
+                lead={previewLead}
+                scouts={previewScouts}
+                {upcomingBackups}
+                {upcomingLead}
+                {upcomingScouts}
+                user={data.user}
+                {users}
         />
     </div>
     {#if data.permissions.includes('investor')}
         <div
-            class="rounded-lg px-3 py-2 text-sm mb-3 bg-gradient-to-br from-slate-900 to-slate-800"
+                class="rounded-lg px-3 py-2 text-sm mb-3 bg-gradient-to-br from-slate-900 to-slate-800"
         >
-            Pleasure doing business with you,<br />{data.user.first}
+            Pleasure doing business with you,<br/>{data.user.first}
             {data.user.last}
         </div>
     {/if}
@@ -101,20 +101,24 @@
                 {#if isAdmin() == true}
                     {#if button.disabled == false}
                         <a
-                            href={button.link}
-                            class="border-rose-800 border-2 font-bold bg-gradient-to-br from-rose-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl"
-                            style="grid-column: span {button.width} / span {button.width}; grid-row: start {button.order}; margin-bottom: {button.bMargin}px;"
-                            ><button class={'w-full py-3'}>{button.name}</button
-                            ></a
+                                href={button.link}
+                                class="border-rose-800 border-2 font-bold bg-gradient-to-br from-rose-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl"
+                                style="grid-column: span {button.width} / span {button.width}; grid-row: start {button.order}; margin-bottom: {button.bMargin}px;"
+                        >
+                            <button class={'w-full py-3'}>{button.name}</button
+                            >
+                        </a
                         >
                     {:else}
                         <a
-                            href={button.link}
-                            class="border-rose-800 border-2 font-bold bg-gradient-to-br from-rose-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl"
-                            style="grid-column: span {button.width} / span {button.width}; grid-row: start {button.order}; margin-bottom: {button.bMargin}px;"
-                            ><button disabled class={'w-full py-3'}
-                                >{button.name}</button
-                            ></a
+                                href={button.link}
+                                class="border-rose-800 border-2 font-bold bg-gradient-to-br from-rose-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl"
+                                style="grid-column: span {button.width} / span {button.width}; grid-row: start {button.order}; margin-bottom: {button.bMargin}px;"
+                        >
+                            <button disabled class={'w-full py-3'}
+                            >{button.name}</button
+                            >
+                        </a
                         >
                     {/if}
                 {/if}
@@ -122,39 +126,47 @@
                 {#if data.team == 1710}
                     {#if button.disabled == false}
                         <a
-                            href={button.link}
-                            class="border-sky-800 border-2 font-bold bg-gradient-to-br from-sky-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl"
-                            style="grid-column: span {button.width} / span {button.width}; grid-row: start {button.order}; margin-bottom: {button.bMargin}px;"
-                            ><button class={'w-full py-3'}>{button.name}</button
-                            ></a
+                                href={button.link}
+                                class="border-sky-800 border-2 font-bold bg-gradient-to-br from-sky-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl"
+                                style="grid-column: span {button.width} / span {button.width}; grid-row: start {button.order}; margin-bottom: {button.bMargin}px;"
+                        >
+                            <button class={'w-full py-3'}>{button.name}</button
+                            >
+                        </a
                         >
                     {:else}
                         <a
-                            href={button.link}
-                            class="border-sky-800 border-2 font-bold bg-gradient-to-br from-sky-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl"
-                            style="grid-column: span {button.width} / span {button.width}; grid-row: start {button.order}; margin-bottom: {button.bMargin}px;"
-                            ><button disabled class={'w-full py-3'}
-                                >{button.name}</button
-                            ></a
+                                href={button.link}
+                                class="border-sky-800 border-2 font-bold bg-gradient-to-br from-sky-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl"
+                                style="grid-column: span {button.width} / span {button.width}; grid-row: start {button.order}; margin-bottom: {button.bMargin}px;"
+                        >
+                            <button disabled class={'w-full py-3'}
+                            >{button.name}</button
+                            >
+                        </a
                         >
                     {/if}
                 {/if}
             {:else if button.team == false}
                 {#if button.disabled == false}
                     <a
-                        href={button.link}
-                        class="border-sky-800 border-2 font-bold bg-gradient-to-br from-sky-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl"
-                        style="grid-column: span {button.width} / span {button.width}; grid-row: start {button.order}; margin-bottom: {button.bMargin}px;"
-                        ><button class={'w-full py-3'}>{button.name}</button></a
+                            href={button.link}
+                            class="border-sky-800 border-2 font-bold bg-gradient-to-br from-sky-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl"
+                            style="grid-column: span {button.width} / span {button.width}; grid-row: start {button.order}; margin-bottom: {button.bMargin}px;"
+                    >
+                        <button class={'w-full py-3'}>{button.name}</button>
+                    </a
                     >
                 {:else}
                     <a
-                        href={button.link}
-                        class="border-sky-800 border-2 font-bold bg-gradient-to-br from-sky-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl"
-                        style="grid-column: span {button.width} / span {button.width}; grid-row: start {button.order}; margin-bottom: {button.bMargin}px;"
-                        ><button disabled class={'w-full py-3'}
-                            >{button.name}</button
-                        ></a
+                            href={button.link}
+                            class="border-sky-800 border-2 font-bold bg-gradient-to-br from-sky-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl"
+                            style="grid-column: span {button.width} / span {button.width}; grid-row: start {button.order}; margin-bottom: {button.bMargin}px;"
+                    >
+                        <button disabled class={'w-full py-3'}
+                        >{button.name}</button
+                        >
+                    </a
                     >
                 {/if}
             {/if}
@@ -162,13 +174,14 @@
     </div>
 
     <!-- <PublicImageSlot path="hub/" name="hub.png" /> -->
-</middle>
+</div>
 
 <style>
     button {
         scale: 100%;
         transition: scale 0.5s;
     }
+
     button:hover {
         scale: 112.5%;
     }
