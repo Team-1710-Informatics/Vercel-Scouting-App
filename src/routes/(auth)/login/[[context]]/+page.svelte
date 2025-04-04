@@ -11,13 +11,12 @@
     <title>{title}</title>
 </svelte:head>
 
-<middle>
+<div class="middle">
     <Form
-        {title}
-        {data}
-        {form}
-        action="login"
-        inputs={[
+            action="login"
+            {data}
+            {form}
+            inputs={[
             {
                 label: 'Username or Email',
                 placeholder: 'Username',
@@ -33,7 +32,12 @@
                 cols: 6,
             },
         ]}
+            {title}
     />
-    <a class="my-2" href="signup"><button>Create an account</button></a>
-    <a class="my-2" href="forgot-password"><button>Forgot Password?</button></a>
-</middle>
+    <a class="my-2" href="signup">
+        <button>Create an account</button>
+    </a>
+    <a class="my-2" href="forgot-password">
+        <button>Forgot Password?</button>
+    </a>
+</div>

@@ -1,4 +1,3 @@
-import mongoose from 'mongoose'
 import { Transaction, User } from '$lib/server/models'
 
 export default {

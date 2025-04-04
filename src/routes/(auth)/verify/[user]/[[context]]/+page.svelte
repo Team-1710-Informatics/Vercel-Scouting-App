@@ -11,13 +11,12 @@
     <title>{title}</title>
 </svelte:head>
 
-<middle>
+<div class="middle">
     <Form
-        {title}
-        {data}
-        {form}
-        action="verify"
-        inputs={[
+            action="verify"
+            {data}
+            {form}
+            inputs={[
             {
                 label: 'Verification Code',
                 placeholder: '',
@@ -26,5 +25,6 @@
                 cols: 6,
             },
         ]}
+            {title}
     />
-</middle>
+</div>

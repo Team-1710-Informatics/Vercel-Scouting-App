@@ -48,9 +48,6 @@ export default {
     TeamNumber(team: number, data: any[]) {
         return team
     },
-    MatchesScouted(team: number, data: any[]) {
-        return data.filter((e) => e.team === team).length
-    },
     AverageScoreNumeric(team: number, data: any[]) {
         let count = 0
         let score = 0

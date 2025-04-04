@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { object_without_properties } from 'svelte/internal'
+    import {object_without_properties} from 'svelte/internal'
 
     export let data: any
 
@@ -27,6 +27,7 @@
     }
 
     const isNothing = (currentValue: string) => currentValue == ''
+
     function backupCheck() {
         let backup: any = []
         let lead: any = []
@@ -73,21 +74,21 @@
     $: reason = ''
 </script>
 
-<middle>
+<div class="middle">
     <div class="bg-gray-800 flex flex-row gap-2 p-2 my-2 rounded-3xl">
         {#each scheduledays as day}
             {#if selected != day.id && day.id != 0}
                 <button
-                    on:click={() => (selected = day.id)}
-                    class="bg-gray-700 rounded-2xl"
+                        on:click={() => (selected = day.id)}
+                        class="bg-gray-700 rounded-2xl"
                 >
                     {day.name}
                 </button>
             {/if}
             {#if selected == day.id && day.id != 0}
                 <button
-                    on:click={() => (selected = day.id)}
-                    class="bg-gray-800 rounded-2xl"
+                        on:click={() => (selected = day.id)}
+                        class="bg-gray-800 rounded-2xl"
                 >
                     {day.name}
                 </button>
@@ -95,8 +96,8 @@
         {/each}
         {#if JSON.parse(data.permissions).includes('admin')}
             <a
-                href="/scouting-schedule/edit"
-                class="bg-rose-700 rounded-2xl py-1 px-2"
+                    href="/scouting-schedule/edit"
+                    class="bg-rose-700 rounded-2xl py-1 px-2"
             >
                 Edit
             </a>
@@ -117,8 +118,8 @@
                 {#if lead.dayId == selected}
                     <tr>
                         <td>
-                            {formatTime(lead.start)}<br />
-                            to<br />
+                            {formatTime(lead.start)}<br/>
+                            to<br/>
                             {formatTime(lead.end)}
                         </td>
                         {#if lead.name == data.user}
@@ -135,14 +136,14 @@
                                                 {#if scout.releasing == false}
                                                     <td class="bg-slate-700">
                                                         <button
-                                                            on:click={() => {
+                                                                on:click={() => {
                                                                 ;(releasing = true),
                                                                     (infoScout =
                                                                         scout),
                                                                     (infoLead =
                                                                         lead)
                                                             }}
-                                                            class="bg-rose-700 rounded-2xl"
+                                                                class="bg-rose-700 rounded-2xl"
                                                         >
                                                             {findName(
                                                                 scout.name
@@ -157,12 +158,12 @@
                                             {:else if scout.releasing == true}
                                                 <td>
                                                     <button
-                                                        on:click={() => {
+                                                            on:click={() => {
                                                             ;(pickingUp = true),
                                                                 (infoScout =
                                                                     scout)
                                                         }}
-                                                        class="bg-green-700 rounded-2xl"
+                                                            class="bg-green-700 rounded-2xl"
                                                     >
                                                         {findName(scout.name)}
                                                     </button>
@@ -181,11 +182,11 @@
                                     {#if backup.leadId == lead.id}
                                         {#if backup.name == data.user}
                                             <td class="bg-slate-700"
-                                                >{findName(backup.name)}</td
+                                            >{findName(backup.name)}</td
                                             >
                                         {:else}
                                             <td>{findName(backup.name)}</td>
-                                        {/if}<br />
+                                        {/if}<br/>
                                     {/if}
                                 {/each}
                             </td>
@@ -200,54 +201,54 @@
         <div class="msg bg-gray-700 h-min py-4 rounded-2xl">
             <middle>
                 <button
-                    on:click={() => (
+                        on:click={() => (
                         (releasing = false),
                         (reason = ''),
                         (infoScout = {}),
                         (infoLead = {})
                     )}
-                    class="bg-rose-700 mb-2 rounded-2xl"
+                        class="bg-rose-700 mb-2 rounded-2xl"
                 >
                     Back
                 </button>
                 Reason for shift release?
-                <textarea bind:value={reason} class="w-40 h-20" />
+                <textarea bind:value={reason} class="w-40 h-20"/>
                 <form method="POST" action="?/release">
                     <input
-                        type="text"
-                        hidden
-                        name="reason"
-                        value={JSON.stringify(reason)}
+                            type="text"
+                            hidden
+                            name="reason"
+                            value={JSON.stringify(reason)}
                     />
                     <input
-                        type="text"
-                        hidden
-                        name="infoScout"
-                        value={JSON.stringify(infoScout)}
+                            type="text"
+                            hidden
+                            name="infoScout"
+                            value={JSON.stringify(infoScout)}
                     />
                     <input
-                        type="text"
-                        hidden
-                        name="infoLead"
-                        value={JSON.stringify(infoLead)}
+                            type="text"
+                            hidden
+                            name="infoLead"
+                            value={JSON.stringify(infoLead)}
                     />
                     {#if reason == ''}
                         <button
-                            disabled
-                            class="bg-green-700 mt-2 rounded-2xl submit"
-                            type="submit"
-                            value="Submit"
+                                disabled
+                                class="bg-green-700 mt-2 rounded-2xl submit"
+                                type="submit"
+                                value="Submit"
                         >
                             Submit
                         </button>
                     {:else}
                         <button
-                            on:click={() => {
+                                on:click={() => {
                                 location.reload()
                             }}
-                            class="bg-green-700 mt-2 rounded-2xl submit"
-                            type="submit"
-                            value="Submit"
+                                class="bg-green-700 mt-2 rounded-2xl submit"
+                                type="submit"
+                                value="Submit"
                         >
                             Submit
                         </button>
@@ -261,26 +262,26 @@
         <div class="msg bg-gray-700 h-min py-4 rounded-2xl">
             <middle>
                 <button
-                    on:click={() => ((pickingUp = false), (infoScout = {}))}
-                    class="bg-rose-700 mb-2 rounded-2xl"
+                        on:click={() => ((pickingUp = false), (infoScout = {}))}
+                        class="bg-rose-700 mb-2 rounded-2xl"
                 >
                     No... :(
                 </button>
                 Are you sure you want to pick up this shift?
                 <form method="POST" action="?/pickup">
                     <input
-                        type="text"
-                        hidden
-                        name="info"
-                        value={JSON.stringify(infoScout)}
+                            type="text"
+                            hidden
+                            name="info"
+                            value={JSON.stringify(infoScout)}
                     />
                     <button
-                        on:click={() => {
+                            on:click={() => {
                             location.reload()
                         }}
-                        class="bg-green-700 mt-2 rounded-2xl submit"
-                        type="submit"
-                        value="Submit"
+                            class="bg-green-700 mt-2 rounded-2xl submit"
+                            type="submit"
+                            value="Submit"
                     >
                         Credits!
                     </button>
@@ -288,7 +289,7 @@
             </middle>
         </div>
     {/if}
-</middle>
+</div>
 
 <style>
     table {
