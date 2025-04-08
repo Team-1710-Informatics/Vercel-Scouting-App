@@ -1,7 +1,7 @@
 <script type="text/javascript">
     import Dropdown from '$lib/components/ui/Dropdown.svelte'
 
-    const roles = [
+    const roleOptions = [
         "media",
         "admin",
         "drive",
@@ -10,26 +10,34 @@
     ]
 
     // selected amounts and roles
-    $: selected = [];
-    $: amount = [];
+    $: roles = [];
+    $: amounts = [];
+    $: currencies = [];
+
+    $: entries = [
+
+    ]
 
     // binded to inputs
-    let role = "";
+    let selectedRole = "";
     let selectedAmount = 2400;
+    let selectedCurrency = "credits";
 
     // add a role and amount to lists
     function addRole() {
-        selected.push(role);
-        selected = selected;
-        amount.push(selectedAmount);
-        amount = amount;
+        entries.push({
+            role: selectedRole,
+            amount: selectedAmount,
+            currency: selectedCurrency
+        })
+        entries = entries
         selectedAmount = 2400;
+        selectedCurrency = "credits";
     }
 
     // data to pass to backend
     $: data = {
-        amount,
-        selected
+        entries,
     }
 
     $: output = JSON.stringify(data);
@@ -39,15 +47,19 @@
 <middle>
 
     <div class="box">
-        <select bind:value={role}>
-            {#each roles as p}
+        <select bind:value={selectedRole}>
+            {#each roleOptions as p}
                 <option value={p}>{p}</option>
             {/each}
         </select>
-        <input type="number" defaultValue=2400 bind:value={selectedAmount} />
+        <input type="number" class="w-24" defaultValue=2400 bind:value={selectedAmount} />
+        <select bind:value={selectedCurrency}>
+            <option value="credits">Credits</option>
+            <option value="tokens">Tokens</option>
+        </select>
         <button on:click={addRole}>Add</button>
-        {#each selected as p}
-            <p>{p} - {amount[selected.indexOf(p)]}</p>
+        {#each entries as p}
+            <p>{p.role} - {p.amount} {p.currency}</p>
         {/each}
     </div>
 

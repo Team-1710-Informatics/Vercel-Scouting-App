@@ -1,4 +1,3 @@
-import mongoose from 'mongoose'
 import { Transaction, User } from '$lib/server/models'
 
 export default {
@@ -20,6 +19,7 @@ export default {
         const log = new Transaction({
             user: username,
             amount: amount,
+            currency: 'credits',
             reason: reason,
             time: Date.now(),
         })

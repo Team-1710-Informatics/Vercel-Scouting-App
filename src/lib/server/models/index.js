@@ -66,8 +66,9 @@ const scoutEntry2023 = new Schema(
 scoutEntry2023.methods.getIndividualScore = function () {
     let score = 0
     this.game.actions.forEach((action) => {
-        if (action.type == 'place') {
-            if ((action.time - this.game?.start ?? 0) < 18) {
+        if (action.type === 'place') {
+            let time = action.time - this.game.start
+            if ((time ?? 0) < 18) {
                 switch (action.node.y) {
                     case 0:
                         score += 6
@@ -179,6 +180,7 @@ export const ScoutData = mongoose.model('2025entry', scoutEntry2025)
 const transaction = new Schema({
     user: String,
     amount: Number,
+    currency: String,
     reason: String,
     time: Number,
 })

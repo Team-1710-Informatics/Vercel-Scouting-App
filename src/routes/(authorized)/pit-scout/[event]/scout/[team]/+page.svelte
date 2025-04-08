@@ -75,7 +75,8 @@
         "urcl",
         "doglog",
         "advantagekit",
-        "other"
+        "other",
+        "none"
     ]
 
     $: wpilog = false;
@@ -164,18 +165,7 @@
     let scrollElement;
 </script>
 
-<middle>
-    <!--    <div-->
-    <!--        class="rounded-lg px-5 py-4 my-5 bg-gradient-to-br from-slate-900 to-slate-800"-->
-    <!--    >-->
-    <!--        <p class="text-center text-lg">Rules</p>-->
-    <!--        <p>rules...</p>-->
-    <!--    </div>-->
-    <!--    <div-->
-    <!--        class="rounded-lg px-5 py-4 my-5 bg-gradient-to-br from-slate-900 to-slate-800"-->
-    <!--    >-->
-    <!--        selector-->
-    <!--    </div>-->
+<div class="middle">
     <div bind:this={scrollElement}></div>
     <div
             class="rounded-lg px-5 py-4 my-5 bg-gradient-to-b from-slate-900 to-slate-800 w-5/6"
@@ -202,7 +192,7 @@
                 <br>
                 <div class="grid grid-rows-1 grid-cols-2">
                     <div class="col-start-1 row-start-1">
-                        <label for="size">Robot Length and Width in <b>inches</b> (With bumpers)</label><br />
+                        <label for="size">Robot Length and Width in <b>inches</b> (With bumpers)</label><br/>
                     </div>
 
                     <div class="row-start-2 row-span-1 col-start-1 col-span-2 w-48">
@@ -234,7 +224,7 @@
                 <br/>
                 <div class="grid grid-cols-1 grid-rows-2">
                     <div class="col-start-1 row-start-1">
-                        <label for="weight">Weight in <b>lbs</b> (Just robot and bumper, no battery)</label><br />
+                        <label for="weight">Weight in <b>lbs</b> (Just robot and bumper, no battery)</label><br/>
                     </div>
                     <div class="col-start-1 row-start-2">
                         <input
@@ -465,14 +455,15 @@
                         value={false}
                 > No
             </div>
-            <hr class="mb-2 mt-4" />
+            <hr class="mb-2 mt-4"/>
             <label for="notes">Additional Notes</label>
             <br/>
             <textarea bind:value={index.notes} name="notes"></textarea>
             <hr class="mb-2 mt-4"/>
             <br/>
-            <p class="font-bold">IMPORTANT! Please submit pictures, it is one of the important metrics for our strategy!</p>
-            <br />
+            <p class="font-bold">IMPORTANT! Please submit pictures, it is one of the important metrics for our
+                strategy!</p>
+            <br/>
             <a href="https://forms.gle/qoLbnverWsphEkZHA" target="_blank" class="submit p-1 rounded-md">Submit
                 Pictures</a>
         {/if}
@@ -524,14 +515,15 @@
                                 value={JSON.stringify(index)}
                         />
                         <button
-                            class="border-sky-800 border-2 font-bold bg-gradient-to-br from-sky-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl"
-                            type="submit"
-                            value="Submit"
-                            >Submit</button
+                                class="border-sky-800 border-2 font-bold bg-gradient-to-br from-sky-800 to-slate-800 rounded-lg hover:bg-gradient-to-tl"
+                                type="submit"
+                                value="Submit"
+                        >Submit
+                        </button
                         >
                     </form>
                 </div>
             {/if}
         </div>
     </div>
-</middle>
+</div>

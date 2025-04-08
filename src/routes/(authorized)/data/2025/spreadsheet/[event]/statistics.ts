@@ -50,9 +50,6 @@ export default {
     TeamNumber(team: number, data: any[]) {
         return team
     },
-    MatchesScouted(team: number, data: any[]) {
-        return data.filter((e) => e.team === team).length
-    },
     AverageScoreNumeric(team: number, data: any[]) {
         let count = 0
         let score = 0
@@ -292,6 +289,17 @@ export default {
                         a.level === 2
                 ).length
         )
+    },
+    DefenseStrategyPercentage(team: number, data: any[]) {
+        let strategies = data
+            .filter((e) => e.team === team)
+            .flatMap((matchData) => matchData.postgame.strategy)
+        let counts = strategies.reduce((acc: any, strat: string) => {
+            acc[strat] = (acc[strat] || 0) + 1
+            return acc
+        }, {})
+        let percentage = counts['defense'] / Object.keys(counts).length
+        return isNaN(percentage) ? 0 : percentage
     },
     AverageL3Coral(team: number, data: any[]) {
         data = dropWorstScoringMatch(data, team)

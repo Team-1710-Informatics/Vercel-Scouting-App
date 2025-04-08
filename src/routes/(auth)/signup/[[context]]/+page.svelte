@@ -11,13 +11,12 @@
     <title>{title}</title>
 </svelte:head>
 
-<middle>
+<div class="middle">
     <Form
-        {title}
-        {data}
-        {form}
-        action="signup"
-        inputs={[
+            action="signup"
+            {data}
+            {form}
+            inputs={[
             {
                 label: 'Email',
                 placeholder: 'Enter Email',
@@ -75,6 +74,9 @@
                 cols: 4,
             },
         ]}
+            {title}
     />
-    <a class="my-2" href="login"><button>I already have an account</button></a>
-</middle>
+    <a class="my-2" href="login">
+        <button>I already have an account</button>
+    </a>
+</div>

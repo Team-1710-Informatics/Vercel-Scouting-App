@@ -1,422 +1,574 @@
+import tba from '$lib/modules/tba'
+
+function calculateAverageByTeamAndMatch(
+    data: any[],
+    team: number,
+    scoreFunction: (matchData: any) => number
+) {
+    let matchScores: { [key: string]: number[] } = {}
+    data.forEach((matchData) => {
+        if (matchData.team != team) return
+        let key = `${team}-${matchData.match}`
+        if (!matchScores[key]) {
+            matchScores[key] = []
+        }
+        matchScores[key].push(scoreFunction(matchData))
+    })
+
+    let totalScore = 0
+    let count = 0
+    Object.keys(matchScores).forEach((key) => {
+        let scores = matchScores[key]
+
+        scores.sort((a, b) => a - b)
+
+        // Remove the lowest score
+        if (scores.length > 1) {
+            if (Math.max(...scores) - Math.min(...scores) > 7) {
+                scores.shift()
+            } else {
+                // average all scores in scores variable
+                scores = [scores.reduce((a, b) => a + b, 0) / scores.length]
+            }
+        }
+
+        console.log(scores)
+
+        if (scores.length > 0) {
+            let avgScore = scores.reduce((a, b) => a + b, 0) / scores.length
+            totalScore += avgScore
+            count++
+        }
+    })
+
+    return count > 0 ? totalScore / count : 0
+}
+
 export default {
     TeamNumber(team: number, data: any[]) {
         return team
     },
-    AverageScore(team: number, data: any[]) {
+    AverageScoreNumeric(team: number, data: any[]) {
         let count = 0
         let score = 0
-        data.forEach((e) => {
-            if (e.team != team) return
-            score += teamScore(e)
+        data = dropWorstScoringMatch(data, team)
+
+        // Step 1: Create a map to store scores for each team and match number
+        let matchScores: { [key: string]: number[] } = {}
+
+        // Step 2: Populate the map with scores
+        data.forEach((matchData) => {
+            if (matchData.team != team) return
+            let key = `${team}-${matchData.match}`
+            if (!matchScores[key]) {
+                matchScores[key] = []
+            }
+            matchScores[key].push(teamScore(matchData))
+        })
+
+        // Step 3: Calculate the average score for each team and match number
+        Object.keys(matchScores).forEach((key) => {
+            let scores = matchScores[key]
+            let avgScore = scores.reduce((a, b) => a + b, 0) / scores.length
+            score += avgScore
             count++
         })
+
+        // Step 4: Return the overall average score
         return score / count
+    },
+    AverageScore(team: number, data: any[]) {
+        data = dropWorstScoringMatch(data, team)
+        return (
+            calculateAverageByTeamAndMatch(data, team, teamScore).toFixed(1) +
+            '±' +
+            stdDev(data.map((e) => teamScore(e))).toFixed(0)
+        )
+    },
+    AverageAutoCoral(team: number, data: any[]) {
+        data = dropWorstScoringMatch(data, team)
+        return calculateAverageByTeamAndMatch(data, team, (matchData) => {
+            let score = 0
+            matchData.actions.forEach((action: any) => {
+                if (
+                    action.phase == 'auto' &&
+                    action.action == 'score' &&
+                    action.location == 'reef'
+                ) {
+                    score++
+                }
+            })
+            return score
+        }).toFixed(1)
+    },
+    AverageCoral(team: number, data: any[]) {
+        data = dropWorstScoringMatch(data, team)
+        return calculateAverageByTeamAndMatch(data, team, (matchData) => {
+            let score = 0
+            matchData.actions.forEach((action: any) => {
+                if (
+                    action.action == 'score' &&
+                    action.location == 'reef' &&
+                    action.phase == 'teleOp'
+                ) {
+                    score++
+                }
+            })
+            return score
+        }).toFixed(1)
     },
     MaxScore(team: number, data: any[]) {
-        let max = 0
-        data.forEach((e) => {
-            if (e.team != team) return
-            let score = teamScore(e)
-            if (score > max) {
-                max = score
-            }
-        })
-        return max
+        data = dropWorstScoringMatch(data, team)
+        return Math.max(...data.filter((e) => e.team === team).map(teamScore))
     },
     AutoMobilityRate(team: number, data: any[]) {
-        let count = 0
-        let mobileCount = 0
-        data.forEach((e) => {
-            if (e.team != team) return
-            if (e.game.untimed.exitAuto) mobileCount++
-            count++
-        })
-        return mobileCount / count
+        data = dropWorstScoringMatch(data, team)
+        return calculateAverageByTeamAndMatch(data, team, (matchData) =>
+            matchData.untimed.exitAuto ? 1 : 0
+        )
     },
-    Average_Pieces_Scored(team: number, data: any[]) {
-        let matches = 0
-        let count = 0
-        data.forEach((e) => {
-            if (e.team != team) return
-            matches++
-            e.game.actions.forEach((a: any) => {
+    AveragePiecesScored(team: number, data: any[]) {
+        data = dropWorstScoringMatch(data, team)
+        return calculateAverageByTeamAndMatch(
+            data,
+            team,
+            (matchData) =>
+                matchData.actions.filter((a: any) => a.action === 'score')
+                    .length
+        ).toFixed(1)
+    },
+    AverageAutoPoints(team: number, data: any[]) {
+        data = dropWorstScoringMatch(data, team)
+        return calculateAverageByTeamAndMatch(data, team, exclusiveAutoScore)
+    },
+    AverageTeleopPoints(team: number, data: any[]) {
+        data = dropWorstScoringMatch(data, team)
+        return calculateAverageByTeamAndMatch(
+            data,
+            team,
+            (matchData) => teamScore(matchData) - exclusiveAutoScore(matchData)
+        )
+    },
+    AverageClimbRate(team: number, data: any[]) {
+        data = dropWorstScoringMatch(data, team)
+        return calculateAverageByTeamAndMatch(data, team, (matchData) =>
+            matchData.climb.type === 'shallow' ||
+            matchData.climb.type === 'deep'
+                ? 1
+                : 0
+        )
+    },
+    AverageAlgaeScored(team: number, data: any[]) {
+        data = dropWorstScoringMatch(data, team)
+        return calculateAverageByTeamAndMatch(
+            data,
+            team,
+            (matchData) =>
+                matchData.actions.filter(
+                    (a: any) =>
+                        a.action === 'score' &&
+                        (a.location === 'processor' || a.location === 'barge')
+                ).length
+        )
+    },
+    AverageClimbFailures(team: number, data: any[]) {
+        data = dropWorstScoringMatch(data, team)
+        return calculateAverageByTeamAndMatch(
+            data,
+            team,
+            (matchData) => matchData.climb.fails || 0
+        )
+    },
+    MostCommonClimb(team: number, data: any[]) {
+        data = dropWorstScoringMatch(data, team)
+        let climbTypes: Array<'shallow' | 'deep' | 'none'> = data
+            .filter((e) => e.team === team)
+            .map(
+                (matchData) =>
+                    matchData.climb.type as 'shallow' | 'deep' | 'none'
+            )
+        let counts: { shallow: number; deep: number; none: number } = {
+            shallow: 0,
+            deep: 0,
+            none: 0,
+        }
+        climbTypes.forEach((type) => counts[type]++)
+        return Object.keys(counts).reduce((a, b) =>
+            counts[a as 'shallow' | 'deep' | 'none'] >
+            counts[b as 'shallow' | 'deep' | 'none']
+                ? a
+                : b
+        )
+    },
+    AlgaeToCoralRatio(team: number, data: any[]) {
+        data = dropWorstScoringMatch(data, team)
+        return calculateAverageByTeamAndMatch(data, team, (matchData) => {
+            let algae = 0,
+                coral = 0
+            matchData.actions.forEach((a: any) => {
                 if (a.action === 'score') {
-                    count++
-                }
-            })
-        })
-        return count / matches
-    },
-    // AverageCycleTime(team:number, data:any[]){
-    //     let cycleTimes:any[]=[];
-    //     let result=0;
-    //     data.forEach(e=>{
-    //         let cycleEngaged=false;
-    //         if(e.team!=team)return;
-    //         let startTime=0;
-    //         let endTime=0;
-    //         let cycles=0;
-    //         e.game.actions.forEach((a:any)=>{
-    //             if(a.action=="intake"&&a.time>0&&cycleEngaged==false){
-    //                 cycleEngaged=true;
-    //                 startTime=a.time;
-    //             }
-
-    //             if(a.action=="place"&&cycleEngaged){
-    //                 cycleEngaged=false;
-    //                 endTime=a.time;
-    //                 cycleTimes.push(endTime-startTime);
-    //                 cycles++;
-    //             }
-    //         });
-    //         if(cycles==0) cycleTimes.push(153000);
-    //     });
-
-    //     cycleTimes.forEach(e=>{
-    //         result+=e;
-    //     });
-
-    //     return(result/(cycleTimes.length*1000));
-    // },
-    // AverageDeadTime(team:number, data:any[]){
-    //     let cycleTimes:any[]=[];
-    //     let result=0;
-    //     data.forEach(e=>{
-    //         let cycleEngaged=false;
-    //         if(e.team!=team)return;
-    //         let startTime=0;
-    //         let endTime=0;
-    //         let cycles=0;
-    //         e.game.actions.forEach((a:any)=>{
-    //             if(a.action=="place"&&a.time>0&&cycleEngaged==false){
-    //                 cycleEngaged=true;
-    //                 startTime=a.time;
-    //             }
-
-    //             if(a.action=="intake"&&cycleEngaged){
-    //                 cycleEngaged=false;
-    //                 endTime=a.time;
-    //                 cycleTimes.push(endTime-startTime);
-    //                 cycles++;
-    //             }
-    //         });
-    //         if(cycles==0) cycleTimes.push(153000);
-    //     });
-
-    //     cycleTimes.forEach(e=>{
-    //         result+=e;
-    //     });
-
-    //     return(result/(cycleTimes.length*1000));
-    // },
-    Average_auto_points_scored(team: number, data: any[]) {
-        let count = 0
-        let score = 0
-        data.forEach((e) => {
-            if (e.team != team) return
-            score += autoScore(e)
-            count++
-        })
-        return score / count
-    },
-    Average_tele_points_scored(team: number, data: any[]) {
-        let count = 0
-        let score = 0
-        data.forEach((e) => {
-            if (e.team != team) return
-            score += teamScore(e) - autoScore(e)
-            count++
-        })
-        return score / count
-    },
-    Average_stage_points_scored(team: number, data: any[]) {
-        let score = 0
-        let count = 0
-        data.forEach((e) => {
-            if (e.team != team) return
-            e.game.actions.forEach((a: any) => {
-                if (a.action === 'score') {
-                    if (a.location == 'trap') score += 5
-                }
-            })
-            if (e.game.untimed.harmony) score += e.game.untimed.harmony
-            if (e.game.untimed.parkMatch) score += 1
-            if (e.game.untimed.hangMatch)
-                switch (e.game.untimed.spotlight) {
-                    case true:
-                        score += 4
-                        break
-                    case false:
-                        score += 3
-                        break
-                }
-            count++
-        })
-        return score / count
-    },
-    Tele_speaker_score_rate(team: number, data: any[]) {
-        let speakerNum = 0
-        let count = 0
-        data.forEach((e) => {
-            if (e.team != team) return
-            e.game.actions.forEach((a: any) => {
-                if (a.phase == 'teleOp') {
-                    if (a.action === 'score') {
-                        if (a.location == 'speaker') speakerNum++
-                        count++
+                    if (a.location === 'reef') {
+                        coral++
+                    } else {
+                        algae++
                     }
                 }
             })
+            return coral === 0 ? 1 : algae / coral
         })
-        return speakerNum / count
     },
-    Tele_amp_score_rate(team: number, data: any[]) {
-        let ampNum = 0
-        let count = 0
-        data.forEach((e) => {
-            if (e.team != team) return
-            e.game.actions.forEach((a: any) => {
-                if (a.phase !== 'teleOp') return
-                if (a.action === 'score') {
-                    if (a.location == 'amp') ampNum++
-                    count++
+    MaxAutoPoints(team: number, data: any[]) {
+        data = dropWorstScoringMatch(data, team)
+        return Math.max(
+            ...data.filter((e) => e.team === team).map(exclusiveAutoScore)
+        )
+    },
+    BreakdownRate(team: number, data: any[]) {
+        data = dropWorstScoringMatch(data, team)
+        return calculateAverageByTeamAndMatch(data, team, (matchData) =>
+            matchData.postgame.strategy.includes('breakdown') ? 1 : 0
+        )
+    },
+    Strategy(team: number, data: any[]) {
+        data = dropWorstScoringMatch(data, team)
+        let strategies = data
+            .filter((e) => e.team === team)
+            .flatMap((matchData) => matchData.postgame.strategy)
+        let counts = strategies.reduce((acc: any, strat: string) => {
+            acc[strat] = (acc[strat] || 0) + 1
+            return acc
+        }, {})
+        return Object.keys(counts).reduce((a, b) =>
+            counts[a] > counts[b] ? a : b
+        )
+    },
+    AverageL1Coral(team: number, data: any[]) {
+        data = dropWorstScoringMatch(data, team)
+        return calculateAverageByTeamAndMatch(
+            data,
+            team,
+            (matchData) =>
+                matchData.actions.filter(
+                    (a: any) =>
+                        a.action === 'score' &&
+                        a.location === 'reef' &&
+                        a.level === 1
+                ).length
+        )
+    },
+    AverageL2Coral(team: number, data: any[]) {
+        data = dropWorstScoringMatch(data, team)
+        return calculateAverageByTeamAndMatch(
+            data,
+            team,
+            (matchData) =>
+                matchData.actions.filter(
+                    (a: any) =>
+                        a.action === 'score' &&
+                        a.location === 'reef' &&
+                        a.level === 2
+                ).length
+        )
+    },
+    AverageL3Coral(team: number, data: any[]) {
+        data = dropWorstScoringMatch(data, team)
+        return calculateAverageByTeamAndMatch(
+            data,
+            team,
+            (matchData) =>
+                matchData.actions.filter(
+                    (a: any) =>
+                        a.action === 'score' &&
+                        a.location === 'reef' &&
+                        a.level === 3
+                ).length
+        )
+    },
+    AverageL4Coral(team: number, data: any[]) {
+        data = dropWorstScoringMatch(data, team)
+        return calculateAverageByTeamAndMatch(
+            data,
+            team,
+            (matchData) =>
+                matchData.actions.filter(
+                    (a: any) =>
+                        a.action === 'score' &&
+                        a.location === 'reef' &&
+                        a.level === 4
+                ).length
+        )
+    },
+    MostCommonCoralLevel(team: number, data: any[]) {
+        data = dropWorstScoringMatch(data, team)
+        let levels = [0, 0, 0, 0]
+        data.filter((e) => e.team === team).forEach((matchData) => {
+            matchData.actions.forEach((a: any) => {
+                if (a.action === 'score' && a.location === 'reef') {
+                    levels[a.level - 1]++
                 }
             })
         })
-        return ampNum / count
+        return levels.indexOf(Math.max(...levels)) + 1
     },
-    Tele_trap_score_rate(team: number, data: any[]) {
-        let trapNum = 0
-        let count = 0
-        data.forEach((e) => {
-            if (e.team != team) return
-            e.game.actions.forEach((a: any) => {
-                if (a.phase !== 'teleOp') return
-                if (a.action === 'score') {
-                    if (a.location == 'trap') trapNum++
-                    count++
-                }
-            })
-        })
-        return trapNum / count
+    PercentageL4Coral(team: number, data: any[]) {
+        data = dropWorstScoringMatch(data, team)
+        return calculateAverageByTeamAndMatch(
+            data,
+            team,
+            (matchData) =>
+                matchData.actions.filter(
+                    (a: any) =>
+                        a.action === 'score' &&
+                        a.location === 'reef' &&
+                        a.level === 4
+                ).length
+        )
     },
-    Tele_Speaker_Avg_Score(team: number, data: any[]) {
-        let trapNum = 0
-        let count = 0
-        data.forEach((e) => {
-            if (e.team != team) return
-            e.game.actions.forEach((a: any) => {
-                if (a.phase !== 'teleOp') return
-                if (a.action === 'score') {
-                    if (a.location == 'speaker') {
-                        trapNum += 2
-                        // switch(a.amplified){
-                        //     case true:trapNum+=5;
-                        //     case false:trapNum+=2;
-                        // }
-                    }
-                }
-            })
-            count++
-        })
-        return trapNum / count
+    AverageProcessorScore(team: number, data: any[]) {
+        data = dropWorstScoringMatch(data, team)
+        return calculateAverageByTeamAndMatch(
+            data,
+            team,
+            (matchData) =>
+                matchData.actions.filter(
+                    (a: any) =>
+                        a.action === 'score' && a.location === 'processor'
+                ).length * 6
+        )
     },
-    Tele_Amp_Avg_Score(team: number, data: any[]) {
-        let ampNum = 0
-        let count = 0
-        data.forEach((e) => {
-            if (e.team != team) return
-            e.game.actions.forEach((a: any) => {
-                if (a.phase !== 'teleOp') return
-                if (a.action === 'score') {
-                    if (a.location == 'amp') ampNum += 1
-                }
-            })
-            count++
-        })
-        return ampNum / count
-    },
-    // Auto_speaker_score_rate(team:number, data:any[]){
-    //     let speakerNum = 0;
-    //     let count = 0;
-    //     data.forEach(e=>{
-    //         if(e.team != team) return;
-    //         e.game.actions.forEach((a:any)=>{
-    //             if(a.phase!=="auto")return;
-    //             if(a.action === 'score'){
-    //                 if(a.location=="speaker") speakerNum++;
-    //                 count++;
-    //             }
-    //         });
-    //     });
-    //     let final:any = speakerNum/count;
-    //     if(!final)final="no score";
-    //     return(final);
-    // },
-    // Auto_amp_score_rate(team:number, data:any[]){
-    //     let ampNum = 0;
-    //     let count = 0;
-    //     data.forEach(e=>{
-    //         if(e.team != team) return;
-    //         e.game.actions.forEach((a:any)=>{
-    //             if(a.phase!=="auto")return;
-    //             if(a.action === 'score'){
-    //                 if(a.location=="amp") ampNum++;
-    //                 count++;
-    //             }
-    //         });
-    //     });
-    //     let final:any = ampNum/count;
-    //     if(!final)final="no score";
-    //     return(final);
-    // },
-    SourceIntakeRate(team: number, data: any[]) {
-        let loadZone = 0
-        let total = 0
-        data.forEach((e) => {
-            if (e.team != team) return
-            e.game.actions.forEach((a: any) => {
-                if (a.action == 'intake') {
-                    if (a.location == 'source') loadZone++
-                    total++
-                }
-            })
-        })
-        return loadZone / total
-    },
-    StandardScoreDeviation(team: number, data: any[]) {
-        let scores: any[] = []
-        data.forEach((e) => {
-            if (e.team != team) return
-            let score = teamScore(e)
-            scores.push(score)
-        })
-
-        return stdDev(scores)
-    },
-    MatchesScouted(team: number, data: any[]) {
-        let scouted = 0
-        data.forEach((e) => {
-            if (e.team != team) return
-            scouted++
-        })
-        return scouted
+    AverageNetScore(team: number, data: any[]) {
+        data = dropWorstScoringMatch(data, team)
+        return calculateAverageByTeamAndMatch(
+            data,
+            team,
+            (matchData) =>
+                matchData.actions.filter(
+                    (a: any) => a.action === 'score' && a.location === 'barge'
+                ).length * 4
+        )
     },
 }
 
-function teamScore(e: any) {
+let autoScoreValues = [3, 4, 6, 7]
+
+let teleopScoreValues = [2, 3, 4, 5]
+
+function teamScore(matchData: any) {
     let count = 0
-    e.game.actions.forEach((a: any) => {
-        if (a.phase == 'auto') return
-        if (a.action === 'score') {
-            switch (a.location) {
-                case 'amp':
-                    count += 1
-                    break
-                case 'trap':
-                    count += 5
-                    break
-                case 'speaker':
-                    switch (a.amplified) {
-                        case true:
-                            count += 5
-                            break
-                        case false:
-                            count += 2
-                            break
+
+    matchData.actions.forEach((action: any) => {
+        if (action.phase == 'auto') {
+            if (action.action == 'score') {
+                if (action.location == 'reef') {
+                    count += autoScoreValues[action.level - 1]
+                } else {
+                    if (action.location == 'barge') {
+                        count += 4
+                    } else if (action.location == 'processor') {
+                        count += 6
                     }
-                    break
+                }
+            }
+        } else if (action.phase == 'teleOp') {
+            if (action.action == 'score') {
+                if (action.location == 'reef') {
+                    count += teleopScoreValues[action.level - 1]
+                } else {
+                    if (action.location == 'barge') {
+                        count += 4
+                    } else if (action.location == 'processor') {
+                        count += 6
+                    }
+                }
             }
         }
     })
-    count += e.game.untimed.harmony
-    if (e.game.untimed.parkMatch) {
-        count += 1
-    }
-    if (e.game.untimed.hangMatch) {
-        switch (e.game.untimed.spotlight) {
-            case true:
-                count += 4
-                break
-            case false:
-                count += 3
-                break
+
+    if (matchData.climb != null) {
+        if (matchData.climb === 'deep') {
+            count += 12
+        } else if (matchData.climb === 'shallow') {
+            count += 6
         }
     }
 
-    count += autoScore(e)
+    try {
+        if (matchData.untimed.parkMatch === true) {
+            count += 2
+        }
+    } catch (e) {}
+
+    try {
+        if (matchData.untimed.exitAuto === true) {
+            count += 3
+        }
+    } catch (e) {}
 
     return count
 }
 
-function autoScore(e: any) {
+function exclusiveAutoScore(matchData: any) {
     let count = 0
-    e.game.actions.forEach((a: any) => {
-        if (a.phase !== 'auto') return
-        if (a.action === 'score') {
-            switch (a.location) {
-                case 'amp':
-                    count += 2
-                    break
-                case 'speaker':
-                    count += 5
-                    break
+
+    matchData.actions.forEach((action: any) => {
+        if (action.phase == 'auto') {
+            if (action.action == 'score') {
+                if (action.location == 'reef') {
+                    count += autoScoreValues[action.level - 1]
+                } else {
+                    if (action.location == 'barge') {
+                        count += 4
+                    } else if (action.location == 'processor') {
+                        count += 6
+                    }
+                }
             }
         }
     })
-    if (e.game.untimed.exitAuto) {
-        count += 2
-    }
+
+    try {
+        if (matchData.untimed.exitAuto === true) {
+            count += 3
+        }
+    } catch (e) {}
 
     return count
 }
 
-// export function gridLayout(e:any){
-//     let out = [Array(9),Array(9),Array(9),Array(9)]
-//     e.game.actions.forEach((a:any)=>{
-//         if(a.action === "place"){
-//             if(out[a.node.y] && !out[a.node.y][a.node.x]) out[a.node.y][a.node.x] = {
-//                 auto: (a.time - e.game.start <= 18000),
-//                 type:a.type,
-//                 supercharged:"none",
-//             };
-//             else if(out[a.node.y] && out[a.node.y][a.node.x] && out[a.node.y][a.node.x]) out[a.node.y][a.node.x].supercharged = a.type;
-//         }
-//         if(a.action === "intake" && typeof a.location == "object" && out[a.location.y][a.location.x]?.supercharged=="none"){ //if taken from grid and not supercharged
-//             out[a.location.y][a.location.x]=undefined;
-//         }
-//         if(a.action === "intake" && typeof a.location == "object" && out[a.location.y][a.location.x]?.supercharged!="none" && out[a.location.y][a.location.x]){ //if taken from grid and supercharged
-//             out[a.location.y][a.location.x].supercharged="none";
-//         }
-//     });
+function normalizeQualitativeDataByScout(data: any[]) {
+    console.log(data[0].postgame.rating)
+    let scouts = Array.from(new Set(data.map((match) => match.scout)))
 
-//     return out;
-// }
+    let i = 0
+    console.log(data[0].postgame.rating)
+    scouts.forEach((scout) => {
+        let scoutData = data.filter((match) => match.scout === scout)
+        if (i === 0) console.log(scoutData)
+        i++
 
-// function findMode(array:any[]){
-//     let object:any = {};
-//     for(let i=0; i<array.length; i++){
-//         if(object[array[i]]){
-//             object[array[i]] += 1;
-//         } else {
-//             object[array[i]] = 1;
-//         }
-//     }
-//     let biggestValue = -1;
-//     let biggestValuesKey = -1;
+        let ratingSum = 0,
+            driverSkillSum = 0,
+            speedSum = 0
+        scoutData.forEach((match) => {
+            // Check for null or undefined values and set them to 5
+            if (match.postgame.rating == 0) match.postgame.rating = 1
+            if (match.postgame.driverSkill == 0) match.postgame.driverSkill = 1
+            if (match.postgame.speed == 0) match.postgame.speed = 1
 
-//     Object.keys(object).forEach((key:any)=>{
-//         let value = object[key];
-//         if(value > biggestValue) {
-//             biggestValue = value;
-//             biggestValuesKey = key;
-//         }
+            ratingSum += match.postgame.rating
+            driverSkillSum += match.postgame.driverSkill
+            speedSum += match.postgame.speed
+        })
 
-//     });
-//     return biggestValuesKey;
-// }
+        let ratingMean = ratingSum / scoutData.length
+        let driverSkillMean = driverSkillSum / scoutData.length
+        let speedMean = speedSum / scoutData.length
 
-export function stdDev(arr: any) {
+        let ratingStdDev = Math.sqrt(
+            scoutData.reduce(
+                (acc, match) =>
+                    acc +
+                    Math.pow((match.postgame.rating || 0) - ratingMean, 2),
+                0
+            ) / scoutData.length
+        )
+        let driverSkillStdDev = Math.sqrt(
+            scoutData.reduce(
+                (acc, match) =>
+                    acc +
+                    Math.pow(
+                        (match.postgame.driverSkill || 0) - driverSkillMean,
+                        2
+                    ),
+                0
+            ) / scoutData.length
+        )
+        let speedStdDev = Math.sqrt(
+            scoutData.reduce(
+                (acc, match) =>
+                    acc + Math.pow((match.postgame.speed || 0) - speedMean, 2),
+                0
+            ) / scoutData.length
+        )
+
+        scoutData.forEach((match) => {
+            match.postgame.rating2 =
+                (match.postgame.rating - ratingMean) / ratingStdDev
+            match.postgame.driverSkill2 =
+                (match.postgame.driverSkill - driverSkillMean) /
+                driverSkillStdDev
+            match.postgame.speed2 =
+                (match.postgame.speed - speedMean) / speedStdDev
+        })
+    })
+
+    let allValues = data.flatMap((match) => [
+        match.postgame.rating2,
+        match.postgame.driverSkill2,
+        match.postgame.speed2,
+    ])
+
+    console.log('YES', allValues)
+
+    let min = Math.min(...allValues.filter((num) => !Number.isNaN(num)))
+    let max = Math.max(...allValues.filter((num) => !Number.isNaN(num)))
+
+    data.forEach((match) => {
+        match.postgame.rating2 = scaleToRange(
+            match.postgame.rating2,
+            min,
+            max,
+            0,
+            10
+        )
+        match.postgame.driverSkill2 = scaleToRange(
+            match.postgame.driverSkill2,
+            min,
+            max,
+            0,
+            10
+        )
+        match.postgame.speed2 = scaleToRange(
+            match.postgame.speed2,
+            min,
+            max,
+            0,
+            10
+        )
+    })
+    return data
+}
+
+function scaleToRange(
+    value: number,
+    min: number,
+    max: number,
+    newMin: number,
+    newMax: number
+) {
+    return ((value - min) / (max - min)) * (newMax - newMin) + newMin
+}
+
+function dropWorstScoringMatch(matchData: any[], team: number) {
+    let teamMatches = matchData.filter((match) => match.team === team)
+
+    if (teamMatches.length <= 3) {
+        return teamMatches
+    }
+
+    let scores = teamMatches.map((match) => ({
+        match,
+        score: teamScore(match),
+    }))
+
+    let minScoreMatch = scores.reduce((min, current) =>
+        current.score < min.score ? current : min
+    )
+
+    return teamMatches.filter((match) => match !== minScoreMatch.match)
+}
+
+function stdDev(arr: any) {
     let mean =
         arr.reduce((acc: any, curr: any) => {
             return acc + curr

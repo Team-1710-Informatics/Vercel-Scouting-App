@@ -18,9 +18,6 @@ try {
     console.log('Error connecting to MongoDB:', error)
 }
 
-// if(dev) await mongoose.connect(MONGODB_COMMUNITY);
-// else if(!dev) await mongoose.connect(MONGODB_MAIN);
-
 export const handle = async function ({ event, resolve }) {
     const token = event.cookies.get('session')
 
@@ -37,7 +34,7 @@ export const handle = async function ({ event, resolve }) {
     let res = await tba(
         `team/frc${user.team}/events/${new Date().getFullYear()}`
     )
-    // let res = {}
+
     let c, n
     if (!dev) {
         c = currComp(res)
@@ -71,12 +68,7 @@ function nextComp(res: any) {
     let now = Date.now()
     res.forEach((e: any) => {
         if (timestamp(e.start_date, e.timezone) > now) {
-            if (next == null) next = e
-            else if (
-                timestamp(next.start_date, e.timezone) >
-                timestamp(e.start_date, e.timezone)
-            )
-                next = e
+            next = e
         }
     })
 
