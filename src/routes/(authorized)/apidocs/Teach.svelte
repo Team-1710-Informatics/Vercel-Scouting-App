@@ -20,7 +20,7 @@
 </button>
 {#if schema?.checked}
     <pre
-        class="bg-black border-4 max-w-screen-sm text-xs text-left"
+        class="bg-black border-4 w-fit text-xs text-left"
         transition:slide>
     {schema.ex}
 </pre>
