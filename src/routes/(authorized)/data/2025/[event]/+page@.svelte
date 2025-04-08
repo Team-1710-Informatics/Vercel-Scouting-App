@@ -138,7 +138,7 @@
         console.log("entries", entries)
     })
 
-    $: if (selectedAlliance && selectedAlliance.length === 3) {
+    $: if (selectedAlliance && selectedAlliance.length >= 2) {
         robotCompatibility.fetch()
     }
 
