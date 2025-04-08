@@ -37,11 +37,10 @@
         border-color: rgb(255 255 255);
         color: white;
         border-radius: 0.5rem;
-        border-width: 1px;
+        border-width: 4px;
         padding: 0.75rem;
         margin: 0.5rem;
-        width: 55vw;
-
-        box-shadow: 0px 0px 3px 1px white;
+        width: 50vw;
+        box-shadow: 10px 5px 5px rgb(39, 43, 48);
     }
 </style>
