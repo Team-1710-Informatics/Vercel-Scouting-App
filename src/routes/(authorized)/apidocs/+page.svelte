@@ -24,14 +24,14 @@
         <span style="font-size:xx-large;"
             ><u><strong>Scouting API</strong></u></span
         >
-        <p style="" class="box max-w-screen-md box-extension">
-            The team 1710 scouting API is a web-based API that allows access to
+        <p style="width: 50vw" class="box box-extension">
+            The Team 1710 scouting API is a web-based API that allows access to
             viewing of scouting data. You can integrate scouting information
             into your own applications via HTTP request.
         </p>
         <br />
         <h1>Parameters</h1>
-        <p style="" class="box max-w-screen-md box-extension">
+        <p style="width: 50vw" class="box box-extension">
             With each HTTP request for scouting data, the parameters and result
             is explained below. Each parameter is shown/explained in curly
             brackets.
@@ -39,7 +39,7 @@
         <br />
         <Teach {arrow} newBox="newBox" />
         <h1 style="font-size:larger;">Server:</h1>
-        <strong style="color:beige;">www.team1710scouting.vercel.app/api</strong
+        <strong style="color:beige;">www.scouting.team1710.com/api</strong
         >
 
         <h1 style="font-size:x-large;">Event</h1>

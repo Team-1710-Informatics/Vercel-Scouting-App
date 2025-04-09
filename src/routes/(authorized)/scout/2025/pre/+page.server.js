@@ -136,18 +136,18 @@ export const actions = {
                             }
                         }
                         console.log('femboys', extra)
-                        let boykisser = 0
+                        let highest_epa = 0
                         for (let i = 0; i < extra.length; i++) {
                             if (i === 0) {
-                                boykisser = extra[i]
-                            } else if (extra[i].epa > boykisser.epa) {
-                                boykisser = extra[i]
+                                highest_epa = extra[i]
+                            } else if (extra[i].epa > highest_epa.epa) {
+                                highest_epa = extra[i]
                             }
                         }
-                        let femboy = 0
+                        let highest_epa_available = 0
                         for (let i = 0; i < search.teams.length; i++) {
-                            if (search.teams[i].team === boykisser.team) {
-                                femboy = i
+                            if (search.teams[i].team === highest_epa.team) {
+                                highest_epa_available = i
                                 break
                             }
                         }
@@ -155,8 +155,8 @@ export const actions = {
                             { match: match },
                             {
                                 $set: {
-                                    [`teams.${femboy}.scout`]: [
-                                        ...search.teams[femboy].scout,
+                                    [`teams.${highest_epa_available}.scout`]: [
+                                        ...search.teams[highest_epa_available].scout,
                                         scout,
                                     ],
                                 },
