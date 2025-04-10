@@ -21,6 +21,8 @@
         console.log(teams)
     }
 
+
+
     let columns = ['TeamNumber', 'AverageScore']
     let sortFunction = 'AverageScoreNumeric'
     let ascending = false

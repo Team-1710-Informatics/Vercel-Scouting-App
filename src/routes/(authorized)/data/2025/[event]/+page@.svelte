@@ -130,7 +130,6 @@
         });
         document.getElementsByClassName("main-svg")[0].style.cssText = "background: rgba(0, 0, 0, 0);";
     }
-
     let entries;
     onMount(() => {
         event = data.data.event
@@ -193,9 +192,9 @@
                             bind:this={robotCompatibility}
                     />
                 </div>
-                <ServicePing name="Blue All." url="thebluealliance.com"/>
-                <ServicePing name="Robot Compat" url="micro.apisb.me"/>
-                <ServicePing name="Match Prediction" url="match.apisb.me"/>
+<!--                <ServicePing name="Blue All." url="thebluealliance.com"/>-->
+<!--                <ServicePing name="Robot Compat" url="micro.apisb.me"/>-->
+<!--                <ServicePing name="Match Prediction" url="match.apisb.me"/>-->
             </div>
         </div>
         <MatchPredictor bind:allianceSelection bind:this={matchPredictor} event={data.data.event}/>

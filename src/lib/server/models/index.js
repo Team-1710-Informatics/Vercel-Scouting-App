@@ -417,3 +417,10 @@ const teamSelections = new Schema({
 })
 
 export const TeamSelections = mongoose.model('teamSelections', teamSelections)
+
+const doNotPickTeam = new Schema({
+    team: Number,
+    event: String,
+})
+
+export const DoNotPickTeam = mongoose.model('doNotPickTeam', doNotPickTeam);
