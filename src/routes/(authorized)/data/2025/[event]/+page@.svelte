@@ -10,6 +10,7 @@
     import {onMount} from 'svelte'
     import Spreadsheet from '../spreadsheet/[event]/Spreadsheet.svelte'
     import PitData from './PitData.svelte'
+    import PickList from './PickList.svelte'
 
     let autoScoreValues = [3, 4, 6, 7]
 
@@ -130,11 +131,14 @@
         });
         document.getElementsByClassName("main-svg")[0].style.cssText = "background: rgba(0, 0, 0, 0);";
     }
-    let entries;
+    let spreadsheetData = {
+        entries: data.data,
+        rankings: data.rankings,
+    };
     onMount(() => {
         event = data.data.event
-        entries = data.data
-        console.log("entries", entries)
+        spreadsheetData.entries = data.data
+        console.log("entries", spreadsheetData.entries)
     })
 
     $: if (selectedAlliance && selectedAlliance.length >= 2) {
@@ -159,8 +163,16 @@
 
     <div class="basis-2/4 temporary_box my-4 rounded-lg overflow-x-scroll overflow-y-scroll"
          style="max-height: calc(100vh - 2rem); max-width:50%">
-        {#if entries}
-            <Spreadsheet data={entries}/>
+        {#if spreadsheetData.entries}
+            <div class="">
+
+                <Spreadsheet data={spreadsheetData} />
+            </div>
+        {/if}
+        {#if data.rankings}
+            {#each data.rankings as entry}
+                {entry.team} - {entry.rank}
+            {/each}
         {/if}
     </div>
     <div class="basis-2/4 flex flex-col max-h-screen m-4">
@@ -169,6 +181,8 @@
                 {#if data && selectedTeam}
                     <PitData data={data} team={selectedTeam}/>
                     Score over Time
+                {:else}
+                    <PickList data={data}/>
                 {/if}
                 <div bind:this={plotDiv} class="plot-container mb-4"
                      style="height:40%; width: 90%"></div>

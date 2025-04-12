@@ -12,15 +12,15 @@ export async function load({ params }) {
         JSON.stringify(await pitdata2025.find({ event: params.event }))
     )
 
-    console.log(pitData)
-
-    console.log(seedPredictor(params.event));
+    const rankings = await seedPredictor(params.event);
 
     let data = {
         event: params.event,
+        rankings: rankings,
         entries: entries,
         pitData: pitData,
     }
 
     return { data }
 }
+
