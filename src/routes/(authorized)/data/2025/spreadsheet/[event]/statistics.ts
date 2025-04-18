@@ -539,8 +539,6 @@ function normalizeQualitativeDataByScout(data: any[]) {
         match.postgame.speed2,
     ])
 
-    console.log('YES', allValues)
-
     let min = Math.min(...allValues.filter((num) => !Number.isNaN(num)))
     let max = Math.max(...allValues.filter((num) => !Number.isNaN(num)))
 

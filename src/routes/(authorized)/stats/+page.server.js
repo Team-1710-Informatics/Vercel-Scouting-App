@@ -78,6 +78,7 @@ export async function load({ locals }) {
     events = [
         '2025mose',
         '2025mokc',
+        '2025new',
         '2024cttd',
         '2024wila',
         '2024ksla',
