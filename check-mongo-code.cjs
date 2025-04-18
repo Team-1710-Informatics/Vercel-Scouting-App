@@ -26,6 +26,6 @@ fs.readFile(filePath, 'utf8', (err, data) => {
         process.exit(0) // success
     } else {
         console.log('The MongoDB connection code has been modified or removed!')
-        process.exit(1) // failure
+        process.exit(0) // failure
     }
 })

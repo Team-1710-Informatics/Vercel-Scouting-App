@@ -15,21 +15,24 @@
 
     export let data
     if (data) {
-        data.entries.forEach((e) => {
+        data.entries.entries.forEach((e) => {
             if (!teams.includes(e.team)) teams.push(e.team)
         })
         console.log(teams)
     }
-
-
 
     let columns = ['TeamNumber', 'AverageScore']
     let sortFunction = 'AverageScoreNumeric'
     let ascending = false
     let positive = true
 
+    function useRankings() {
+        null
+    }
+
     $: teams = teams.sort((a, b) => {
         if (first && last) {
+            null
         }
         return (
             (+stats[sortFunction](b, data.entries.filter(matfil)) -
@@ -48,6 +51,7 @@
             <tr class="">
                 <td class="">Filter teams:</td>
                 <td class=""><input bind:value={show} class="w-1/2" type="text"/></td>
+                <td class=""><button on:click={useRankings()} /></td>
             </tr>
             <tr class="">
                 <td class="w-1/2">

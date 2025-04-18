@@ -1,4 +1,4 @@
-import { MONGODB_MAIN, MONGODB_COMMUNITY } from '$env/static/private'
+import { MONGODB_MAIN, MONGODB_COMMUNITY, PUBLIC_HOST } from '$env/static/private'
 
 import mongoose from 'mongoose'
 import { User } from '$lib/server/models'
@@ -58,7 +58,7 @@ export const handle = async function ({ event, resolve }) {
     let response = await resolve(event)
     response.headers.append(
         'Access-Control-Allow-Origin',
-        `https://team1710.com`
+        PUBLIC_HOST
     )
     return response
 } satisfies Handle
