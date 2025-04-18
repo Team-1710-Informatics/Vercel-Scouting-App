@@ -118,7 +118,7 @@
         {/if}
         <div class="flex flex-col pt-2">
             <h6>Final Thoughts</h6>
-            <textarea class="h-20" bind:value={thoughts} />
+            <textarea class="h-16" bind:value={thoughts} />
         </div>
         <form
             method="POST"
@@ -141,7 +141,7 @@
                 on:click={() => {
                     console.log(final)
                 }}
-                class="mt-2 submit">{loading ? 'Loading...' : 'Submit'}</button
+                class="mb-10 mt-2 submit">{loading ? 'Loading...' : 'Submit'}</button
             >
         </form>
 <!--        <button-->
@@ -154,7 +154,7 @@
 <!--                <QRcode data={qrdata} />-->
 <!--            {/if}-->
 <!--        </button>-->
-        <a href="/hub" class="rounded border-2 p-2 submit mt-2">Hub</a>
+        <a href="/hub" class="rounded border-2 p-2 error mt-8">Hub</a>
     </div>
 </center>
 
