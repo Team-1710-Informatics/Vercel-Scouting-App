@@ -1,4 +1,4 @@
-<div class="w-full h-full flex items-center justify-center flex-col">
+<div class="w-full h-full flex items-center justify-center flex-col text-left m-10 gap-2">
     <div>
         RIP Charlie Bergdall (Founder of Informatics) (2021-2022);
     </div>
